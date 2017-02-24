@@ -1,0 +1,29 @@
+
+import React from 'react'
+
+import Labs from './Labs'
+import Lab from './Lab'
+import User from './User'
+import Users from './Users'
+import NewUser from './NewUser'
+import Samples from './Samples'
+import SideMenu from './SideMenu'
+import PrivateRoute from './Auth'
+
+const App = () => (
+    <div className="columns">
+        <div className="one-fifth column">
+            <PrivateRoute path="/app" component={SideMenu} />
+        </div>
+        <div className="four-fifths column">
+            <PrivateRoute exact path="/app/labs" component={Labs} />
+            <PrivateRoute exact path="/app/labs/:id(\\d+)" component={Lab} />
+            <PrivateRoute exact path="/app/users" component={Users} />
+            <PrivateRoute exact path="/app/users/new" component={NewUser} />
+            <PrivateRoute path="/app/users/:id(\\d+)" component={User} />
+            <PrivateRoute exact path="/app/samples" component={Samples} />
+        </div>
+    </div>
+)
+
+export default App

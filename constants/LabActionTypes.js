@@ -1,0 +1,3 @@
+
+export const RECEIVE_LAB = 'LABS/RECEIVE_LAB'
+export const RECEIVE_LABS = 'LABS/RECEIVE_LABS'
