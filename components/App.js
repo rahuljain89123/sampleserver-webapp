@@ -3,6 +3,7 @@ import React from 'react'
 
 import Labs from './Labs'
 import Lab from './Lab'
+import LabUsers from './LabUsers'
 import User from './User'
 import Users from './Users'
 import NewUser from './NewUser'
@@ -18,6 +19,7 @@ const App = () => (
         <div className="four-fifths column">
             <PrivateRoute exact path="/app/labs" component={Labs} />
             <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
+            <PrivateRoute path="/app/labs/:id(\\d+)/users" component={LabUsers} />
             <PrivateRoute exact path="/app/users" component={Users} />
             <PrivateRoute exact path="/app/users/new" component={NewUser} />
             <PrivateRoute path="/app/users/:id(\\d+)" component={User} />

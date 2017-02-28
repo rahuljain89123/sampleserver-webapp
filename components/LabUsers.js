@@ -22,7 +22,7 @@ const tabStyle = {
     cursor: 'pointer',
 }
 
-class ManageUsers extends React.Component {
+class LabUsers extends React.Component {
     constructor (props) {
         super(props)
 
@@ -223,4 +223,4 @@ const mapDispatchToProps = dispatch => ({
     fetchUsers: () => dispatch(fetchUsers()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManageUsers)
+export default connect(mapStateToProps, mapDispatchToProps)(LabUsers)
