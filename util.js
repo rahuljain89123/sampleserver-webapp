@@ -1,4 +1,6 @@
 
+import Hashids from 'hashids'
+
 export const omit = (object, paths) => Object.keys(object).reduce((result, key) => {
     if (!paths.includes(key)) {
         result[key] = object[key] // eslint-disable-line no-param-reassign
@@ -24,3 +26,5 @@ export const msgFromError = error => {
 
     return 'Something went wrong.'
 }
+
+export const hashids = new Hashids('SampleServe', 8, 'abcdefghijklmnopqrstuvwxyz')

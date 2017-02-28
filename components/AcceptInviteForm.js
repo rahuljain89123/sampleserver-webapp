@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {
-    fetchUsers,
+    fetchUser,
     acceptInvite,
     clearAcceptInviteError,
 } from '../actions/users'
@@ -18,12 +18,19 @@ import {
     TextField,
 } from '../basecoat/Form'
 
+import { hashids } from '../util'
+
 
 class AcceptInviteForm extends React.Component {
     constructor (props) {
         super(props)
+
+        const userId = hashids.decode(this.props.code)[0]
+        const user = this.props.users.get(userId)
+
         this.state = {
-            user: this.props.users.get(1),
+            userId,
+            user,
             password: '',
         }
     }
@@ -35,13 +42,13 @@ class AcceptInviteForm extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers()
+        this.props.fetchUser(this.state.userId)
     }
 
     componentWillReceiveProps (nextProps) {
-        if (!this.state.user && nextProps.users.size) {
+        if (!this.state.user) {
             this.setState({
-                user: nextProps.users.get(1), // get user from active: false, email: code
+                user: nextProps.users.get(this.state.userId),
             })
         }
     }
@@ -59,7 +66,7 @@ class AcceptInviteForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
 
-        this.props.acceptInvite(this.state.user.get('id'), this.state.password)
+        this.props.acceptInvite(this.state.userId, this.state.password)
             .then(() => this.props.push('/signin'))
     }
 
@@ -105,7 +112,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUser: id => dispatch(fetchUser(id)),
     acceptInvite: (email, password) => dispatch(acceptInvite(email, password)),
     clearAcceptInviteError: () => dispatch(clearAcceptInviteError()),
 })
