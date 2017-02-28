@@ -1,6 +1,6 @@
 /* global fetch */
 
-const API_BASE = 'http://127.0.0.1:5000/api/v1'
+const API_BASE = 'http://test.sampleserve.dev/api/v1'
 
 const API = {}
 
@@ -20,7 +20,7 @@ API.get = url =>
 
 API.post = (url, body) =>
     fetch(`${API_BASE}${url}`, {
-        method: 'post',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -39,7 +39,7 @@ API.post = (url, body) =>
 
 API.patch = (url, body) =>
     fetch(`${API_BASE}${url}`, {
-        method: 'patch',
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -58,7 +58,7 @@ API.patch = (url, body) =>
 
 API.delete = url =>
     fetch(`${API_BASE}${url}`, {
-        method: 'delete',
+        method: 'DELETE',
         credentials: 'include',
     })
     .then(response => {

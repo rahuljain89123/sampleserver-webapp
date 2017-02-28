@@ -38,7 +38,7 @@ class Users extends React.Component {
                 </div>
                 <FilterList
                     items={users}
-                    title={user => user.get('username') || '-'}
+                    title={user => user.get('email') || '-'}
                     href={user => `/app/users/${user.get('id')}`}
                 />
                 {users && users.size === PER_PAGE && <Pagination />}

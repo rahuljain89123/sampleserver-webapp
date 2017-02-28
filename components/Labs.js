@@ -32,7 +32,7 @@ class Labs extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    labs: store.get('labs').sort((a, b) => b.laboratory_id - a.laboratory_id),
+    labs: store.get('labs').filter(lab => lab.get('title') !== ''),
 })
 
 const mapDispatchToProps = dispatch => ({

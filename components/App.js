@@ -17,7 +17,7 @@ const App = () => (
         </div>
         <div className="four-fifths column">
             <PrivateRoute exact path="/app/labs" component={Labs} />
-            <PrivateRoute exact path="/app/labs/:id(\\d+)" component={Lab} />
+            <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
             <PrivateRoute exact path="/app/users" component={Users} />
             <PrivateRoute exact path="/app/users/new" component={NewUser} />
             <PrivateRoute path="/app/users/:id(\\d+)" component={User} />

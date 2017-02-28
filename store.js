@@ -20,7 +20,12 @@ import {
     signinError,
     signinProcessing,
 } from './reducers/users'
-import { labs } from './reducers/labs'
+import {
+    labs,
+    editingLab,
+    editingLabError,
+} from './reducers/labs'
+import { roles } from './reducers/roles'
 import { samples } from './reducers/samples'
 
 
@@ -30,13 +35,16 @@ const initialState = Immutable.Map({
 
 const rootReducer = combineReducers({
     users,
-    labs,
-    samples,
     currentUser,
     creatingUser,
     creatingUserError,
     signinError,
     signinProcessing,
+    labs,
+    editingLab,
+    editingLabError,
+    roles,
+    samples,
 })
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk))

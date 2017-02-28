@@ -19,7 +19,7 @@ class SigninForm extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            username: '',
+            email: '',
             password: '',
         }
     }
@@ -42,7 +42,8 @@ class SigninForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.signin(this.state.username, this.state.password)
+        this.props.signin(this.state.email, this.state.password)
+            .then(() => this.props.push(this.props.from.pathname))
     }
 
     render () {
@@ -50,9 +51,9 @@ class SigninForm extends React.Component {
             <Form onSubmit={e => this.onSubmit(e)}>
                 <FormGroup error={this.props.signinError}>
                     <TextField
-                        label="Username"
-                        name="username"
-                        value={this.state.username}
+                        label="Email"
+                        name="email"
+                        value={this.state.email}
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>
@@ -63,7 +64,7 @@ class SigninForm extends React.Component {
                         name="password"
                         value={this.state.password}
                         onChange={e => this.onChange(e)}
-                        error={this.props.signinError ? 'Invalid username or password' : null}
+                        error={this.props.signinError ? 'Invalid email or password' : null}
                     />
                 </FormGroup>
                 <div className="form-actions">
@@ -79,12 +80,13 @@ class SigninForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
+    currentUser: store.get('currentUser'),
     signinError: store.get('signinError'),
     signinProcessing: store.get('signinProcessing'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    signin: (username, password) => dispatch(signin(username, password)),
+    signin: (email, password) => dispatch(signin(email, password)),
     clearSigninError: () => dispatch(clearSigninError()),
 })
 

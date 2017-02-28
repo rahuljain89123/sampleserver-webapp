@@ -5,18 +5,16 @@ import { Route, Switch } from 'react-router-dom'
 
 import { Button } from '../basecoat/Button'
 
+import EditUserForm from './EditUserForm'
+import { fetchLabs } from '../actions/labs'
+import { fetchRoles } from '../actions/roles'
 import { fetchUser, fetchUsers } from '../actions/users'
 
 const UserInfo = props => (
     <div>
-        <h3>{props.user.get('username')}</h3>
-        <strong>Email: </strong><span>{props.user.get('email')}</span>
-    </div>
-)
-
-const EditUser = props => (
-    <div>
-        <h3>Edit User {props.user.get('username')}</h3>
+        <strong>Email: </strong><span>{props.user.get('email')}</span><br />
+        <strong>Lab: </strong><span>{props.lab || '-'}</span><br />
+        <strong>Role: </strong><span>{props.role || '-'}</span><br />
     </div>
 )
 
@@ -27,6 +25,9 @@ class User extends React.Component {
         } else {
             this.props.fetchUsers()
         }
+
+        this.props.fetchRoles()
+        this.props.fetchLabs()
     }
 
     render () {
@@ -36,6 +37,12 @@ class User extends React.Component {
             return null
         }
 
+        const lab = this.props.labs.get(user.get('lab_id'))
+        const labTitle = lab ? lab.get('title') : '-'
+
+        const role = this.props.roles.get(user.get('role_id'))
+        const roleTitle = role ? role.get('name') : '-'
+
         return (
             <Switch>
                 <Route
@@ -44,6 +51,7 @@ class User extends React.Component {
                     render={() => (
                         <div>
                             <div className="clearfix">
+                                <h3 className="float-left">User: {user.get('email')}</h3>
                                 <Button
                                     primary
                                     link
@@ -51,7 +59,7 @@ class User extends React.Component {
                                     className="float-right"
                                 >Edit User</Button>
                             </div>
-                            <UserInfo user={user} />
+                            <UserInfo user={user} role={roleTitle} lab={labTitle} />
                         </div>
                     )}
                 />
@@ -61,13 +69,14 @@ class User extends React.Component {
                     render={() => (
                         <div>
                             <div className="clearfix">
+                                <h3 className="float-left">Edit user: {user.get('email')}</h3>
                                 <Button
                                     link
                                     href={`/app/users/${this.props.match.params.id}`}
                                     className="float-right"
                                 >Back</Button>
                             </div>
-                            <EditUser user={user} />
+                            <EditUserForm user={user} />
                         </div>
                     )}
                 />
@@ -78,11 +87,15 @@ class User extends React.Component {
 
 const mapStateToProps = store => ({
     users: store.get('users'),
+    roles: store.get('roles'),
+    labs: store.get('labs'),
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchUser: id => dispatch(fetchUser(id)),
     fetchUsers: () => dispatch(fetchUsers()),
+    fetchRoles: () => dispatch(fetchRoles()),
+    fetchLabs: () => dispatch(fetchLabs()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(User)

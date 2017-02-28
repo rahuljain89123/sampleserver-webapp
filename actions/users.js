@@ -9,6 +9,12 @@ import {
     SET_SIGNIN_PROCESSING,
     SET_SIGNIN_ERROR,
     CLEAR_SIGNIN_ERROR,
+    SET_EDITING_USER,
+    SET_EDITING_USER_ERROR,
+    CLEAR_EDITING_USER_ERROR,
+    SET_ACCEPTING_INVITE,
+    SET_ACCEPT_INVITE_ERROR,
+    CLEAR_ACCEPT_INVITE_ERROR,
 } from '../constants/UserActionTypes'
 import API from '../API'
 
@@ -54,6 +60,34 @@ export const clearCreatingUserError = () => ({
     type: CLEAR_CREATING_USER_ERROR,
 })
 
+export const setEditingUser = editing => ({
+    type: SET_EDITING_USER,
+    editing,
+})
+
+export const setEditingUserError = error => ({
+    type: SET_EDITING_USER_ERROR,
+    error,
+})
+
+export const clearEditingUserError = () => ({
+    type: CLEAR_EDITING_USER_ERROR,
+})
+
+export const setAcceptingInvite = accepting => ({
+    type: SET_ACCEPTING_INVITE,
+    accepting,
+})
+
+export const setAcceptInviteError = error => ({
+    type: SET_ACCEPT_INVITE_ERROR,
+    error,
+})
+
+export const clearAcceptInviteError = () => ({
+    type: CLEAR_ACCEPT_INVITE_ERROR,
+})
+
 export const fetchCurrentUser = () =>
     dispatch =>
         API.get('/user')
@@ -81,13 +115,13 @@ export const createUser = user =>
     dispatch => {
         dispatch(setCreatingUser(true))
 
-        API.post('/users/', user)
+        return API.post('/users/', user)
         .then(json => {
             dispatch(setCreatingUser(false))
             dispatch(receiveUser(json))
+            return Promise.resolve(json.id)
         })
         .catch(e => {
-            console.log(e)
             dispatch(setCreatingUser(false))
 
             e.response.json().then(json => {
@@ -99,29 +133,53 @@ export const createUser = user =>
                     msg: 'Unable to create user.',
                 }))
             })
+            return Promise.reject()
         })
     }
 
-export const signin = (username, password) =>
+export const editUser = (id, user) =>
+    dispatch => {
+        dispatch(setEditingUser(true))
+
+        return API.patch(`/users/${id}`, user)
+        .then(json => {
+            dispatch(setEditingUser(false))
+            dispatch(receiveUser(json))
+        })
+        .catch(e => {
+            dispatch(setEditingUser(false))
+
+            e.response.json().then(json => {
+                if (json.errors && json.errors.length) {
+                    return dispatch(setEditingUserError(json.errors[0]))
+                }
+
+                return dispatch(setEditingUserError({
+                    msg: 'Unable to update user.',
+                }))
+            })
+        })
+    }
+
+export const signin = (email, password) =>
     dispatch => {
         dispatch(setSigninProcessing(true))
 
-        API.post('/auth/signin', {
-            username,
+        return API.post('/auth/signin', {
+            email,
             password,
         })
         .then(json => {
             if (json.success) {
                 dispatch(setSigninProcessing(false))
-                dispatch(fetchCurrentUser())
-            } else {
-                dispatch(setSigninProcessing(false))
-                dispatch(setSigninError())
+                return dispatch(fetchCurrentUser())
             }
+            return Promise.reject()
         })
         .catch(() => {
             dispatch(setSigninProcessing(false))
             dispatch(setSigninError())
+            return Promise.reject()
         })
     }
 
@@ -134,3 +192,29 @@ export const signout = () =>
                 dispatch(setCurrentUser(null))
             }
         })
+
+export const acceptInvite = (id, password) =>
+    dispatch => {
+        dispatch(setAcceptingInvite(true))
+
+        return API.patch(`/users/${id}`, {
+            password,
+        })
+        .then(json => {
+            dispatch(setAcceptingInvite(false))
+            return dispatch(receiveUser(json))
+        })
+        .catch(e => {
+            dispatch(setAcceptingInvite(false))
+
+            e.response.json().then(json => {
+                if (json.errors && json.errors.length) {
+                    return dispatch(setAcceptInviteError(json.errors[0]))
+                }
+
+                return dispatch(setAcceptInviteError({
+                    msg: 'Unable to update user.',
+                }))
+            })
+        })
+    }

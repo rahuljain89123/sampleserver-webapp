@@ -21,7 +21,6 @@ class NewUserForm extends React.Component {
         super(props)
 
         this.state = {
-            username: '',
             email: '',
             password: '',
         }
@@ -30,16 +29,6 @@ class NewUserForm extends React.Component {
     componentWillMount () {
         if (this.props.creatingUserError) {
             this.props.clearCreatingUserError()
-        }
-    }
-
-    componentWillReceiveProps (nextProps) {
-        if (nextProps.users.size > this.props.users.size) {
-            const newUser = nextProps.users.find(user => user.get('username') === this.state.username)
-
-            if (newUser) {
-                this.props.push(`/app/users/${newUser.get('id')}`)
-            }
         }
     }
 
@@ -56,10 +45,10 @@ class NewUserForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
         this.props.createUser({
-            username: this.state.username,
             email: this.state.email,
             password: this.state.password,
         })
+        .then(id => this.props.push(`/app/users/${id}`))
     }
 
     render () {
@@ -71,15 +60,6 @@ class NewUserForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Username"
-                        name="username"
-                        value={this.state.username}
-                        onChange={e => this.onChange(e)}
-                        error={errors.username}
-                    />
-                </FormGroup>
                 <FormGroup error={generalError}>
                     <TextField
                         label="Email"
