@@ -145,6 +145,7 @@ export const editUser = (id, user) =>
         .then(json => {
             dispatch(setEditingUser(false))
             dispatch(receiveUser(json))
+            return Promise.resolve(json.id)
         })
         .catch(e => {
             dispatch(setEditingUser(false))
@@ -158,6 +159,7 @@ export const editUser = (id, user) =>
                     msg: 'Unable to update user.',
                 }))
             })
+            return Promise.reject()
         })
     }
 

@@ -8,30 +8,59 @@ import { Button } from '../basecoat/Button'
 import EditUserForm from './EditUserForm'
 import { fetchLabs } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
-import { fetchUser, fetchUsers } from '../actions/users'
+import { fetchUser, fetchUsers, editUser } from '../actions/users'
 
 const UserInfo = props => (
     <div>
         <strong>Email: </strong><span>{props.user.get('email')}</span><br />
         <strong>Lab: </strong><span>{props.lab || '-'}</span><br />
         <strong>Role: </strong><span>{props.role || '-'}</span><br />
+        <strong>Active: </strong><span>{props.user.get('active') ? 'Yes' : 'No'}</span><br />
     </div>
 )
 
 class User extends React.Component {
+    constructor (props) {
+        super(props)
+
+        const userId = parseInt(props.match.params.id, 10)
+        const user = props.users.get(userId)
+
+        this.state = {
+            userId,
+            user,
+        }
+    }
+
     componentDidMount () {
-        if (this.props.match.params.id && !this.props.users.get(this.props.match.params.id)) {
-            this.props.fetchUser(this.props.match.params.id)
-        } else {
-            this.props.fetchUsers()
+        if (!this.state.user) {
+            this.props.fetchUser(this.state.userId)
         }
 
         this.props.fetchRoles()
         this.props.fetchLabs()
     }
 
+    componentWillReceiveProps (nextProps) {
+        this.setState({
+            user: nextProps.users.get(this.state.userId),
+        })
+    }
+
+    deactivate () {
+        this.props.editUser(this.state.userId, {
+            active: false,
+        })
+    }
+
+    activate () {
+        this.props.editUser(this.state.userId, {
+            active: true,
+        })
+    }
+
     render () {
-        const user = this.props.users.get(parseInt(this.props.match.params.id, 10))
+        const user = this.state.user
 
         if (!user) {
             return null
@@ -58,6 +87,20 @@ class User extends React.Component {
                                     href={`/app/users/${this.props.match.params.id}/edit`}
                                     className="float-right"
                                 >Edit User</Button>
+                                {user.get('active') ? (
+                                    <Button
+                                        onClick={e => this.deactivate(e)}
+                                        className="float-right"
+                                        style={{ marginRight: 15 }}
+                                    >Deactivate User
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        onClick={e => this.activate(e)}
+                                        className="float-right"
+                                        style={{ marginRight: 15 }}
+                                    >Activate User</Button>
+                                )}
                             </div>
                             <UserInfo user={user} role={roleTitle} lab={labTitle} />
                         </div>
@@ -96,6 +139,7 @@ const mapDispatchToProps = dispatch => ({
     fetchUsers: () => dispatch(fetchUsers()),
     fetchRoles: () => dispatch(fetchRoles()),
     fetchLabs: () => dispatch(fetchLabs()),
+    editUser: (id, user) => dispatch(editUser(id, user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(User)
