@@ -1,11 +1,16 @@
 /* global fetch */
 
-const API_BASE = 'http://test.sampleserve.dev/api/v1'
+import store from './store'
+
+const PROTOCOL = 'http://'
+const API_BASE = '.sampleserve.dev/api/v1'
 
 const API = {}
 
-API.get = url =>
-    fetch(`${API_BASE}${url}`, {
+API.get = url => {
+    const subdomain = store.getState().get('currentLabUrl')
+
+    return fetch(`${PROTOCOL}${subdomain}${API_BASE}${url}`, {
         credentials: 'include',
     })
     .then(response => {
@@ -17,9 +22,12 @@ API.get = url =>
         error.response = response
         throw error
     })
+}
 
-API.post = (url, body) =>
-    fetch(`${API_BASE}${url}`, {
+API.post = (url, body) => {
+    const subdomain = store.getState().get('currentLabUrl')
+
+    return fetch(`${PROTOCOL}${subdomain}${API_BASE}${url}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -36,9 +44,12 @@ API.post = (url, body) =>
         error.response = response
         throw error
     })
+}
 
-API.patch = (url, body) =>
-    fetch(`${API_BASE}${url}`, {
+API.patch = (url, body) => {
+    const subdomain = store.getState().get('currentLabUrl')
+
+    return fetch(`${PROTOCOL}${subdomain}${API_BASE}${url}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
@@ -55,9 +66,12 @@ API.patch = (url, body) =>
         error.response = response
         throw error
     })
+}
 
-API.delete = url =>
-    fetch(`${API_BASE}${url}`, {
+API.delete = url => {
+    const subdomain = store.getState().get('currentLabUrl')
+
+    return fetch(`${PROTOCOL}${subdomain}${API_BASE}${url}`, {
         method: 'DELETE',
         credentials: 'include',
     })
@@ -70,5 +84,6 @@ API.delete = url =>
         error.response = response
         throw error
     })
+}
 
 export default API

@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import {
     RECEIVE_LAB,
     RECEIVE_LABS,
+    SET_CURRENT_LAB_URL,
     SET_EDITING_LAB,
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
@@ -19,6 +20,15 @@ export const labs = (state = Immutable.Map(), action) => {
             tempState = tempState.set(lab.laboratory_id, Immutable.Map(lab))
         })
         return tempState
+    default:
+        return state
+    }
+}
+
+export const currentLabUrl = (state = null, action) => {
+    switch (action.type) {
+    case SET_CURRENT_LAB_URL:
+        return action.url
     default:
         return state
     }

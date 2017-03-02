@@ -7,6 +7,8 @@ import LabUsers from './LabUsers'
 import User from './User'
 import Users from './Users'
 import NewUser from './NewUser'
+import Sites from './Sites'
+import Site from './Site'
 import Samples from './Samples'
 import SideMenu from './SideMenu'
 import PrivateRoute from './Auth'
@@ -23,6 +25,8 @@ const App = () => (
             <PrivateRoute exact path="/app/users" component={Users} />
             <PrivateRoute exact path="/app/users/new" component={NewUser} />
             <PrivateRoute path="/app/users/:id(\\d+)" component={User} />
+            <PrivateRoute exact path="/app/sites" component={Sites} />
+            <PrivateRoute path="/app/sites/:id(\\d+)" component={Site} />
             <PrivateRoute exact path="/app/samples" component={Samples} />
         </div>
     </div>

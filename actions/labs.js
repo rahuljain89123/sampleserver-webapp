@@ -2,6 +2,7 @@
 import {
     RECEIVE_LAB,
     RECEIVE_LABS,
+    SET_CURRENT_LAB_URL,
     SET_EDITING_LAB,
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
@@ -19,6 +20,11 @@ export const receiveLabs = labs => ({
     labs,
 })
 
+export const setCurrentLabUrl = id => ({
+    type: SET_CURRENT_LAB_URL,
+    id,
+})
+
 export const fetchLab = id =>
     dispatch =>
         API.get(`/labs/${id}`)
@@ -28,7 +34,7 @@ export const fetchLab = id =>
 
 export const fetchLabs = () =>
     dispatch =>
-        API.get('/labs')
+        API.get('/labs/')
         .then(labs => {
             dispatch(receiveLabs(labs))
         })

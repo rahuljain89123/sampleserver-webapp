@@ -22,15 +22,22 @@ import {
 } from './reducers/users'
 import {
     labs,
+    currentLabUrl,
     editingLab,
     editingLabError,
 } from './reducers/labs'
+import {
+    sites,
+    editingSite,
+    editingSiteError,
+} from './reducers/sites'
 import { roles } from './reducers/roles'
 import { samples } from './reducers/samples'
 
 
 const initialState = Immutable.Map({
     currentUser: JSON.parse(window.localStorage.getItem('currentUser')),
+    currentLabUrl: window.LAB_URL,
 })
 
 const rootReducer = combineReducers({
@@ -38,11 +45,19 @@ const rootReducer = combineReducers({
     currentUser,
     creatingUser,
     creatingUserError,
+
     signinError,
     signinProcessing,
+
     labs,
+    currentLabUrl,
     editingLab,
     editingLabError,
+
+    sites,
+    editingSite,
+    editingSiteError,
+
     roles,
     samples,
 })

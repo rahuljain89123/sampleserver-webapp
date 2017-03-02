@@ -27,14 +27,32 @@ const LabInfo = props => (
 )
 
 class Lab extends React.Component {
-    componentDidMount () {
-        if (!this.props.labs.get(this.props.match.params.id)) {
-            this.props.fetchLab(this.props.match.params.id)
+    constructor (props) {
+        super(props)
+
+        const labId = parseInt(props.match.params.id, 10)
+        const lab = props.labs.get(labId)
+
+        this.state = {
+            labId,
+            lab,
         }
     }
 
+    componentDidMount () {
+        if (!this.state.lab) {
+            this.props.fetchLab(this.state.labId)
+        }
+    }
+
+    componentWillReceiveProps (nextProps) {
+        this.setState({
+            lab: nextProps.labs.get(this.state.labId),
+        })
+    }
+
     render () {
-        const lab = this.props.labs.get(parseInt(this.props.match.params.id, 10))
+        const lab = this.state.lab
 
         if (!lab) {
             return null

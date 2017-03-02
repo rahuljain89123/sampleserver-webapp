@@ -108,7 +108,7 @@ export const fetchUser = id =>
 
 export const fetchUsers = () =>
     dispatch =>
-        API.get('/users')
+        API.get('/users/')
         .then(users => dispatch(receiveUsers(users)))
 
 export const createUser = user =>

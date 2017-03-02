@@ -25,7 +25,7 @@ export const fetchSample = id =>
 
 export const fetchSamples = () =>
     dispatch =>
-        API.get('/samples')
+        API.get('/samples/')
         .then(samples => {
             dispatch(receiveSamples(samples))
         })

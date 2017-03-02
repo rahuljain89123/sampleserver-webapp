@@ -25,7 +25,7 @@ export const fetchRole = id =>
 
 export const fetchRoles = () =>
     dispatch =>
-        API.get('/roles')
+        API.get('/roles/')
         .then(roles => {
             dispatch(receiveRoles(roles))
         })
