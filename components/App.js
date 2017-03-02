@@ -22,7 +22,7 @@ const App = () => (
             <PrivateRoute exact path="/app/labs" component={Labs} />
             <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
             <PrivateRoute path="/app/labs/:id(\\d+)/users" component={LabUsers} />
-            <PrivateRoute exact path="/app/users" component={Users} />
+            <PrivateRoute exact path="/app/users" component={Users} authorized={['Admin']} />
             <PrivateRoute exact path="/app/users/new" component={NewUser} />
             <PrivateRoute path="/app/users/:id(\\d+)" component={User} />
             <PrivateRoute exact path="/app/sites" component={Sites} />

@@ -39,6 +39,13 @@ export const fetchLabs = () =>
             dispatch(receiveLabs(labs))
         })
 
+export const fetchCurrentLab = () =>
+    dispatch =>
+        API.get('/lab')
+        .then(lab => {
+            dispatch(receiveLab(lab))
+        })
+
 export const setEditingLab = editing => ({
     type: SET_EDITING_LAB,
     editing,

@@ -78,31 +78,37 @@ class User extends React.Component {
                     exact
                     path="/app/users/:id(\\d+)"
                     render={() => (
-                        <div>
-                            <div className="clearfix">
-                                <h3 className="float-left">User: {user.get('email')}</h3>
-                                <Button
-                                    primary
-                                    link
-                                    href={`/app/users/${this.props.match.params.id}/edit`}
-                                    className="float-right"
-                                >Edit User</Button>
+                        <div className="Box Box--condensed">
+                            <div className="Box-header d-flex flex-items-center">
+                                <h3 className="Box-title overflow-hidden flex-auto">
+                                    User: {user.get('email')}
+                                </h3>
                                 {user.get('active') ? (
                                     <Button
+                                        sm
                                         onClick={e => this.deactivate(e)}
                                         className="float-right"
-                                        style={{ marginRight: 15 }}
+                                        style={{ marginRight: 10 }}
                                     >Deactivate User
                                     </Button>
                                 ) : (
                                     <Button
+                                        sm
                                         onClick={e => this.activate(e)}
                                         className="float-right"
-                                        style={{ marginRight: 15 }}
+                                        style={{ marginRight: 10 }}
                                     >Activate User</Button>
                                 )}
+                                <Button
+                                    primary
+                                    sm
+                                    link
+                                    href={`/app/users/${this.props.match.params.id}/edit`}
+                                >Edit User</Button>
                             </div>
-                            <UserInfo user={user} role={roleTitle} lab={labTitle} />
+                            <div className="Box-body">
+                                <UserInfo user={user} role={roleTitle} lab={labTitle} />
+                            </div>
                         </div>
                     )}
                 />
