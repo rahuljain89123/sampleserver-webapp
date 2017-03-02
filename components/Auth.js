@@ -12,7 +12,11 @@ const PrivateRoute = props => {
         props.currentUser &&
         props.users.size &&
         props.roles.size
-    ) ? props.roles.get(props.users.get(props.currentUser).get('role_id')) : null
+    ) ? (
+        props.roles.get(
+            props.users.get(props.currentUser).get('role_id'),
+        ).get('name')
+    ) : null
 
     return (
         <Route
