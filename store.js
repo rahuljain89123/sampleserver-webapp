@@ -37,7 +37,7 @@ import { samples } from './reducers/samples'
 
 const initialState = Immutable.Map({
     currentUser: JSON.parse(window.localStorage.getItem('currentUser')),
-    currentLabUrl: window.LAB_URL,
+    currentLabUrl: window.location.hostname.split('.').shift(),
 })
 
 const rootReducer = combineReducers({
