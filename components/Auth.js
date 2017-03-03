@@ -14,15 +14,19 @@ const PrivateRoute = props => {
         props.roles.size
     ) ? (
         props.roles.get(
-            props.users.get(props.currentUser).get('role_id'),
+            props.users.get(props.currentUser).get('role_id')
         ).get('name')
-    ) : null
+    ) : 'Unknown'
 
     return (
         <Route
             {...omit(props, ['component'])}
             render={routeProps => {
                 if (props.authorized && props.authorized.indexOf(currentRole) === -1) {
+                    if (currentRole === 'Unknown') {
+                        return null
+                    }
+
                     return (
                         <Blankslate>
                             <h3>Access not allowed</h3>
