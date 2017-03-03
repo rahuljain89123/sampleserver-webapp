@@ -12,15 +12,15 @@ import Signin from './components/Signin'
 import AcceptInvite from './components/AcceptInvite'
 import App from './components/App'
 import PrivateRoute from './components/Auth'
+import Homepage from './components/Homepage'
 
-const Blank = () => <div />
 
 ReactDOM.render((
     <Provider store={store}>
         <Router>
             <div className="container">
                 <Route component={Header} />
-                <Route exact path="/" component={Blank} />
+                <Route exact path="/" component={Homepage} />
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/accept-invite" component={AcceptInvite} />
                 <PrivateRoute path="/app" component={App} />
