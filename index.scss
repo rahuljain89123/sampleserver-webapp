@@ -1,0 +1,12 @@
+
+@import "./basecoat/deprecated/primer-support/index.scss";
+
+@import "primer-support/lib/variables/colors.scss";
+@import "primer-base/index.scss";
+@import "primer-layout/index.scss";
+@import "primer-box/index.scss";
+@import "primer-utilities/index.scss";
+@import "primer-blankslate/index.scss";
+@import "./basecoat/button.scss";
+@import "./basecoat/form.scss";
+@import "./basecoat/navigation.scss";

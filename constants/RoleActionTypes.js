@@ -1,0 +1,3 @@
+
+export const RECEIVE_ROLE = 'ROLES/RECEIVE_ROLE'
+export const RECEIVE_ROLES = 'ROLES/RECEIVE_ROLES'
