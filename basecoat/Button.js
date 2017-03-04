@@ -34,7 +34,12 @@ export const Button = (props, context) => {
         'className',
     ])
 
-    const onClick = (props.href && context.router && context.router.push) ? e => {
+    const onClick = (
+        props.href &&
+        context &&
+        context.router &&
+        context.router.push
+    ) ? e => {
         e.preventDefault()
         context.router.push(props.href)
     } : null

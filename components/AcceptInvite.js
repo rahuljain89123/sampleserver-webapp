@@ -13,7 +13,7 @@ const AcceptInvite = props => {
                 style={{ marginTop: 200 }}
             >
                 <h2 className="text-center">Accept Invite to SampleServe</h2>
-                <AcceptInviteForm code={query.code} push={props.history.push} />
+                <AcceptInviteForm code={query.code} push={props.push} />
             </div>
         </div>
     )

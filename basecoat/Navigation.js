@@ -59,7 +59,11 @@ export const MenuItem = (props, context) => {
         'className',
     ])
 
-    const onClick = (props.href && context.router && context.router.push) ? e => {
+    const onClick = (
+        props.href &&
+        context.router &&
+        context.router.push
+    ) ? e => {
         e.preventDefault()
         context.router.push(props.href)
     } : null
@@ -154,7 +158,11 @@ export const FilterItem = (props, context) => {
         'className',
     ])
 
-    const onClick = (props.href && context.router && context.router.push) ? e => {
+    const onClick = (
+        props.href &&
+        context.router &&
+        context.router.push
+    ) ? e => {
         e.preventDefault()
         context.router.push(props.href)
     } : null
