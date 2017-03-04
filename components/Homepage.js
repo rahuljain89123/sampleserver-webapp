@@ -2,10 +2,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { Button } from '../basecoat/Button'
+import { Button } from 'reactstrap';
 
 
 class Homepage extends React.Component {
+    constructor (props) {
+        super(props)
+    }
     render () {
         return (
             <div className="homepage">
@@ -47,6 +50,7 @@ class Homepage extends React.Component {
                     <div className="container">
                         <h3>Are you interested?</h3>
                         <p><a href="mailto:schindler@sampleserve.com">Contact us for more info</a>.</p>
+                        <p><Button color="success">Contact Us</Button></p>
                     </div>
                 </section>
 
