@@ -1,10 +1,4 @@
 
-@import "semantic-css-helpers/helpers.less";
-@import "colors.less";
-
-@grey: #F0F0F0;
-@background: #E9E9E9;
-
 html, body {
     height: 100%;
     font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
@@ -34,7 +28,7 @@ h1, h2, h3, h4 {
 }
 
 body {
-	min-height: 800px;
+    min-height: 800px;
 }
 
 .flash {
@@ -121,7 +115,6 @@ body {
 
 .security {
     min-height: 100%;
-    // background: @background;
     h1 {
         margin: 0;
         padding: 0 0 20px;
@@ -146,7 +139,6 @@ body {
         }
     }
     .login-form {
-        // background: @grey;
         padding: 20px;
         border-radius: 5px;
         border-width: 1px 1px 3px 1px;

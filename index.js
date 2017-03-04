@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import './index.scss'
+// import './index.scss'
 
 import store from './store'
 import Header from './components/Header'
@@ -14,6 +14,8 @@ import App from './components/App'
 import PrivateRoute from './components/Auth'
 import Homepage from './components/Homepage'
 
+import './static/css/bootstrap.scss'
+import './static/css/styles.scss'
 
 
 ReactDOM.render((
