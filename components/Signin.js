@@ -13,7 +13,7 @@ const Signin = props => {
                 style={{ marginTop: 200 }}
             >
                 <h2 className="text-center">SampleServe</h2>
-                <SigninForm push={props.push} from={from} />
+                <SigninForm push={props.history.push} from={from} />
             </div>
         </div>
     )

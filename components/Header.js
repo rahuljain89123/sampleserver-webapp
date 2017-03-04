@@ -17,7 +17,7 @@ class Header extends React.Component {
 
     onSignout () {
         this.props.signout()
-        this.props.push('/')
+        this.props.history.push('/')
     }
 
     render () {
