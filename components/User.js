@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { Button } from 'reactstrap'
+import { Row, Col, Button } from 'reactstrap'
 
 import LinkButton from './LinkButton'
 import EditUserForm from './EditUserForm'
@@ -80,26 +80,26 @@ class User extends React.Component {
                     render={() => (
                         <div className="card">
                           <div className="card-block">
-                            <h4 className="card-title">User: {user.get('email')}</h4>
-                            <p className="card-text">
-                                <UserInfo user={user} role={roleTitle} lab={labTitle} />
-                            </p>
-                            <LinkButton
-                                color="primary"
-                                href={`/app/users/${this.props.match.params.id}/edit`}
-                            >Edit User</LinkButton>
-                            {user.get('active') ? (
-                                <Button
-                                    onClick={e => this.deactivate(e)}
-                                    style={{ marginLeft: 10 }}
-                                >Deactivate User
-                                </Button>
-                            ) : (
-                                <Button
-                                    onClick={e => this.activate(e)}
-                                    style={{ marginLeft: 10 }}
-                                >Activate User</Button>
-                            )}
+                            <div className="card-title d-flex flex-row">
+                                <h4>User: {user.get('email')}</h4>
+                                <span className="ml-auto">
+                                    {user.get('active') ? (
+                                        <Button onClick={e => this.deactivate(e)}>
+                                            Deactivate User
+                                        </Button>
+                                    ) : (
+                                        <Button onClick={e => this.activate(e)}>
+                                            Activate User
+                                        </Button>
+                                    )}
+                                    <LinkButton
+                                        color="primary"
+                                        href={`/app/users/${this.props.match.params.id}/edit`}
+                                        style={{ marginLeft: 10 }}
+                                    >Edit User</LinkButton>
+                                </span>
+                            </div>
+                            <UserInfo user={user} role={roleTitle} lab={labTitle} />
                           </div>
                         </div>
                     )}
@@ -108,15 +108,21 @@ class User extends React.Component {
                     exact
                     path="/app/users/:id(\\d+)/edit"
                     render={() => (
-                        <div>
-                            <div className="clearfix">
-                                <h3 className="float-left">Edit user: {user.get('email')}</h3>
+                        <div className="card">
+                          <div className="card-block">
+                            <div className="card-title d-flex flex-row">
+                                <h4>Edit user: {user.get('email')}</h4>
                                 <LinkButton
                                     href={`/app/users/${this.props.match.params.id}`}
-                                    className="float-right"
+                                    className="ml-auto"
                                 >Back</LinkButton>
                             </div>
-                            <EditUserForm user={user} />
+                            <Row>
+                                <Col sm={6}>
+                                    <EditUserForm user={user} />
+                                </Col>
+                            </Row>
+                          </div>
                         </div>
                     )}
                 />

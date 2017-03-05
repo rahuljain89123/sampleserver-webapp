@@ -1,18 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-
-import {
-    Button,
-} from '../basecoat/Button'
-
-import {
-    Form,
-    FormGroup,
-    TextField,
-    Select,
-    Option,
-} from '../basecoat/Form'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
 import { fetchLabs } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
@@ -73,44 +62,49 @@ class EditUserForm extends React.Component {
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
                 <FormGroup error={generalError}>
-                    <TextField
-                        label="Email"
+                    <Label for="email">Email</Label>
+                    <Input
+                        type="email"
                         name="email"
+                        id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
                         error={errors.email || generalError}
                     />
                 </FormGroup>
                 <FormGroup error={generalError}>
-                    <Select
-                        label="Lab"
+                    <Label for="lab">Lab</Label>
+                    <Input
+                        type="select"
                         name="lab_id"
+                        id="lab"
                         value={this.state.lab_id}
                         onChange={e => this.onChange(e)}
                     >
-                        <Option>Choose a lab...</Option>
+                        <option>Choose a lab...</option>
                         {labs.map(([id, item]) => (
-                            <Option key={id} value={item.get('laboratory_id')}>{item.get('title')}</Option>
+                            <option key={id} value={item.get('laboratory_id')}>{item.get('title')}</option>
                         ))}
-                    </Select>
+                    </Input>
                 </FormGroup>
                 <FormGroup error={generalError}>
-                    <Select
-                        label="Role"
+                    <Label for="role">Role</Label>
+                    <Input
+                        type="select"
                         name="role_id"
+                        id="role"
                         value={this.state.role_id}
                         onChange={e => this.onChange(e)}
                     >
-                        <Option>Choose a role...</Option>
+                        <option>Choose a role...</option>
                         {roles.map(([id, item]) => (
-                            <Option key={id} value={item.get('id')}>{item.get('name')}</Option>
+                            <option key={id} value={item.get('id')}>{item.get('name')}</option>
                         ))}
-                    </Select>
+                    </Input>
                 </FormGroup>
                 <Button
-                    primary
+                    color="primary"
                     disabled={this.props.creatingUser}
-                    type="submit"
                 >Save</Button>
             </Form>
         )
