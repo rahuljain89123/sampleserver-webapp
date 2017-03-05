@@ -1,19 +1,30 @@
 
 import React from 'react'
-import {
-    Filter,
-    FilterItem,
-} from '../basecoat/Navigation'
+import { ListGroup, ListGroupItem } from 'reactstrap'
 
 
-const FilterList = props => (
-    <Filter>
+const FilterList = (props, context) => (
+    <ListGroup>
         {props.items.map(([id, item]) => (
-            <FilterItem key={id} href={props.href(item)}>
-                {props.title(item)}
-            </FilterItem>
+            <ListGroupItem key={id} href={props.href(item)}>
+                <a
+                    href={props.href(item)}
+                    onClick={e => {
+                        e.preventDefault()
+                        context.router.push(e.target.getAttribute('href'))
+                    }}
+                >
+                    {props.title(item)}
+                </a>
+            </ListGroupItem>
         ))}
-    </Filter>
+    </ListGroup>
 )
+
+FilterList.contextTypes = {
+    router: React.PropTypes.shape({
+        push: React.PropTypes.func,
+    }),
+}
 
 export default FilterList

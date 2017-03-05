@@ -32,7 +32,7 @@ const links = [{
 }]
 
 const SideMenu = props => (
-    <nav class="nav flex-column">
+    <nav className="nav flex-column">
         {links.map(route => (
             <a
                 className="nav-link"

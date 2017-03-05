@@ -1,8 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-
-import { TextField } from '../basecoat/Form'
+import { Input } from 'reactstrap'
 
 import { fetchUsers } from '../actions/users'
 import LinkButton from './LinkButton'
@@ -39,19 +38,18 @@ class Users extends React.Component {
 
         return (
             <div>
-                <div className="clearfix" style={{ marginBottom: 10 }}>
-                    <TextField
+                <div className="d-flex" style={{ marginBottom: 15 }}>
+                    <Input
                         value={this.state.filter}
                         name="filter"
                         placeholder="Filter..."
-                        className="float-left"
-                        style={{ width: 500 }}
                         onChange={e => this.onChange(e)}
+                        style={{ marginRight: 15 }}
                     />
                     <LinkButton
                         color="primary"
                         href="/app/users/new"
-                        className="float-right"
+                        className="ml-auto"
                     >New User</LinkButton>
                 </div>
                 <FilterList

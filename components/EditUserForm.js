@@ -61,7 +61,7 @@ class EditUserForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup error={generalError}>
+                <FormGroup>
                     <Label for="email">Email</Label>
                     <Input
                         type="email"
@@ -69,10 +69,9 @@ class EditUserForm extends React.Component {
                         id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
-                        error={errors.email || generalError}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
+                <FormGroup>
                     <Label for="lab">Lab</Label>
                     <Input
                         type="select"
@@ -87,7 +86,7 @@ class EditUserForm extends React.Component {
                         ))}
                     </Input>
                 </FormGroup>
-                <FormGroup error={generalError}>
+                <FormGroup>
                     <Label for="role">Role</Label>
                     <Input
                         type="select"
