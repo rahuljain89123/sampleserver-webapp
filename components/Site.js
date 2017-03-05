@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 
-import { Button } from '../basecoat/Button'
+import LinkButton from './LinkButton'
 
 import EditSiteForm from './EditSiteForm'
 import { fetchSite } from '../actions/sites'
@@ -52,17 +52,17 @@ class Site extends React.Component {
                     exact
                     path="/app/sites/:id(\\d+)"
                     render={() => (
-                        <div>
-                            <div className="clearfix">
-                                <h3 className="float-left">Site: {site.get('title')}</h3>
-                                <Button
-                                    primary
-                                    link
-                                    href={`/app/sites/${site.get('site_id')}/edit`}
-                                    className="float-right"
-                                >Edit Site</Button>
-                            </div>
-                            <SiteInfo site={site} />
+                        <div className="card">
+                          <div className="card-block">
+                            <h4 className="card-title">Site: {site.get('title')}</h4>
+                            <p className="card-text">
+                                <SiteInfo site={site} />
+                            </p>
+                            <LinkButton
+                                color="primary"
+                                href={`/app/sites/${site.get('site_id')}/edit`}
+                            >Edit Site</LinkButton>
+                          </div>
                         </div>
                     )}
                 />
@@ -73,11 +73,10 @@ class Site extends React.Component {
                         <div style={{ marginBottom: 50 }}>
                             <div className="clearfix">
                                 <h3 className="float-left">Edit site: {site.get('title')}</h3>
-                                <Button
-                                    link
+                                <LinkButton
                                     href={`/app/sites/${site.get('site_id')}`}
                                     className="float-right"
-                                >Back</Button>
+                                >Back</LinkButton>
                             </div>
                             <EditSiteForm site={site} />
                         </div>

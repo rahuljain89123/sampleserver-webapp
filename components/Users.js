@@ -3,9 +3,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { TextField } from '../basecoat/Form'
-import { Button } from '../basecoat/Button'
 
 import { fetchUsers } from '../actions/users'
+import LinkButton from './LinkButton'
 import FilterList from './FilterList'
 import Pagination from './Pagination'
 
@@ -48,12 +48,11 @@ class Users extends React.Component {
                         style={{ width: 500 }}
                         onChange={e => this.onChange(e)}
                     />
-                    <Button
-                        primary
-                        link
+                    <LinkButton
+                        color="primary"
                         href="/app/users/new"
                         className="float-right"
-                    >New User</Button>
+                    >New User</LinkButton>
                 </div>
                 <FilterList
                     items={users}

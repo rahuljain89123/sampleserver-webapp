@@ -1,9 +1,6 @@
 
 import React from 'react'
-import {
-    Menu,
-    MenuItem,
-} from '../basecoat/Navigation'
+import { ListGroup, ListGroupItem } from 'reactstrap'
 
 const links = [{
     path: '/app/users',
@@ -35,17 +32,21 @@ const links = [{
 }]
 
 const SideMenu = props => (
-    <Menu>
+    <nav class="nav flex-column">
         {links.map(route => (
-            <MenuItem
-                href={route.path}
+            <a
+                className="nav-link"
                 key={route.path}
-                selected={props.match.path === route.path}
+                href={route.path}
+                onClick={e => {
+                    e.preventDefault()
+                    props.push(e.target.getAttribute('href'))
+                }}
             >
                 {route.title}
-            </MenuItem>
+            </a>
         ))}
-    </Menu>
+    </nav>
 )
 
 export default SideMenu

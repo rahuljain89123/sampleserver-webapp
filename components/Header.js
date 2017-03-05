@@ -1,8 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-
-import { Button } from '../basecoat/Button'
+import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
 
 import { fetchCurrentUser, signout } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
@@ -22,25 +21,30 @@ class Header extends React.Component {
 
     render () {
         return (
-            <div className="columns clearfix" style={{ marginTop: 20, marginBottom: 20 }}>
-                <div className="single-column">
-                    <h3 className="float-left">SampleServe</h3>
+            <Navbar
+                color="faded"
+                light
+                className="flex-row"
+                style={{ marginBottom: 20 }}
+            >
+                <NavbarBrand>SampleServe</NavbarBrand>
+                <Nav className="ml-auto" navbar>
                     { this.props.currentUser ? (
-                        <Button
-                            outline
-                            className="float-right"
-                            onClick={() => this.onSignout()}
-                        >Sign Out</Button>
+                        <NavItem>
+                            <NavLink
+                                href="/signout"
+                                onClick={() => this.onSignout()}
+                            >Sign Out</NavLink>
+                        </NavItem>
                     ) : (
-                        <Button
-                            outline
-                            link
-                            href="/signin"
-                            className="float-right"
-                        >Sign In</Button>
+                        <NavItem>
+                            <NavLink
+                                href="/signin"
+                            >Sign In</NavLink>
+                        </NavItem>
                     )}
-                </div>
-            </div>
+                </Nav>
+            </Navbar>
         )
     }
 }

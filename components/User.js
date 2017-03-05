@@ -2,9 +2,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+import { Button } from 'reactstrap'
 
-import { Button } from '../basecoat/Button'
-
+import LinkButton from './LinkButton'
 import EditUserForm from './EditUserForm'
 import { fetchLabs } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
@@ -78,37 +78,29 @@ class User extends React.Component {
                     exact
                     path="/app/users/:id(\\d+)"
                     render={() => (
-                        <div className="Box Box--condensed">
-                            <div className="Box-header d-flex flex-items-center">
-                                <h3 className="Box-title overflow-hidden flex-auto">
-                                    User: {user.get('email')}
-                                </h3>
-                                {user.get('active') ? (
-                                    <Button
-                                        sm
-                                        onClick={e => this.deactivate(e)}
-                                        className="float-right"
-                                        style={{ marginRight: 10 }}
-                                    >Deactivate User
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        sm
-                                        onClick={e => this.activate(e)}
-                                        className="float-right"
-                                        style={{ marginRight: 10 }}
-                                    >Activate User</Button>
-                                )}
-                                <Button
-                                    primary
-                                    sm
-                                    link
-                                    href={`/app/users/${this.props.match.params.id}/edit`}
-                                >Edit User</Button>
-                            </div>
-                            <div className="Box-body">
+                        <div className="card">
+                          <div className="card-block">
+                            <h4 className="card-title">User: {user.get('email')}</h4>
+                            <p className="card-text">
                                 <UserInfo user={user} role={roleTitle} lab={labTitle} />
-                            </div>
+                            </p>
+                            <LinkButton
+                                color="primary"
+                                href={`/app/users/${this.props.match.params.id}/edit`}
+                            >Edit User</LinkButton>
+                            {user.get('active') ? (
+                                <Button
+                                    onClick={e => this.deactivate(e)}
+                                    style={{ marginLeft: 10 }}
+                                >Deactivate User
+                                </Button>
+                            ) : (
+                                <Button
+                                    onClick={e => this.activate(e)}
+                                    style={{ marginLeft: 10 }}
+                                >Activate User</Button>
+                            )}
+                          </div>
                         </div>
                     )}
                 />
@@ -119,11 +111,10 @@ class User extends React.Component {
                         <div>
                             <div className="clearfix">
                                 <h3 className="float-left">Edit user: {user.get('email')}</h3>
-                                <Button
-                                    link
+                                <LinkButton
                                     href={`/app/users/${this.props.match.params.id}`}
                                     className="float-right"
-                                >Back</Button>
+                                >Back</LinkButton>
                             </div>
                             <EditUserForm user={user} />
                         </div>

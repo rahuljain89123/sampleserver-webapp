@@ -1,5 +1,6 @@
 
 import React from 'react'
+import { Row, Col } from 'reactstrap'
 
 import Labs from './Labs'
 import Lab from './Lab'
@@ -14,11 +15,11 @@ import SideMenu from './SideMenu'
 import PrivateRoute from './Auth'
 
 const App = () => (
-    <div className="columns">
-        <div className="one-fifth column">
+    <Row>
+        <Col xs="2">
             <PrivateRoute path="/app" component={SideMenu} />
-        </div>
-        <div className="four-fifths column">
+        </Col>
+        <Col xs="10">
             <PrivateRoute exact path="/app/labs" component={Labs} />
             <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
             <PrivateRoute path="/app/labs/:id(\\d+)/users" component={LabUsers} />
@@ -28,8 +29,8 @@ const App = () => (
             <PrivateRoute exact path="/app/sites" component={Sites} />
             <PrivateRoute path="/app/sites/:id(\\d+)" component={Site} />
             <PrivateRoute exact path="/app/samples" component={Samples} />
-        </div>
-    </div>
+        </Col>
+    </Row>
 )
 
 export default App
