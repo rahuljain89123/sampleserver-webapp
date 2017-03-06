@@ -14,7 +14,13 @@ class Header extends React.Component {
         this.props.fetchRoles()
     }
 
-    onSignout () {
+    onSignin (e) {
+        e.preventDefault()
+        this.props.push('/signin')
+    }
+
+    onSignout (e) {
+        e.preventDefault()
         this.props.signout()
         this.props.push('/')
     }
@@ -33,13 +39,14 @@ class Header extends React.Component {
                         <NavItem>
                             <NavLink
                                 href="/signout"
-                                onClick={() => this.onSignout()}
+                                onClick={e => this.onSignout(e)}
                             >Sign Out</NavLink>
                         </NavItem>
                     ) : (
                         <NavItem>
                             <NavLink
                                 href="/signin"
+                                onClick={e => this.onSignin(e)}
                             >Sign In</NavLink>
                         </NavItem>
                     )}
