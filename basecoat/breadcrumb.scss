@@ -1,8 +1,0 @@
-
-@import "primer-breadcrumb/index.scss";
-
-// React does not maintain space between HTML elements, which Primer offsets
-// with a -4px margin-left.
-ol .breadcrumb-item {
-    margin-left: 0;
-}
