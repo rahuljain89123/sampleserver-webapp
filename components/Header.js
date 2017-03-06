@@ -11,7 +11,12 @@ class Header extends React.Component {
     componentDidMount () {
         this.props.fetchCurrentLab()
         this.props.fetchCurrentUser()
-        this.props.fetchRoles()
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (!this.props.roles.size && nextProps.currentUser) {
+            this.props.fetchRoles()
+        }
     }
 
     onSignin (e) {

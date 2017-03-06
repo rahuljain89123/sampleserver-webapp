@@ -16,6 +16,7 @@ import {
     Input,
     InputGroup,
     InputGroupButton,
+    Badge
 } from 'reactstrap'
 
 
@@ -225,9 +226,13 @@ class LabUsers extends React.Component {
                     <tbody>
                       {users.map(([id, user]) => (
                           <tr key={id}>
-                            <td scope="row"></td>
+                            <td scope="row">{user.get('name') || '-'}</td>
                             <td>{user.get('email')}</td>
-                            <td>{user.get('active')}</td>
+                            <td>{user.get('active') ? (
+                                <Badge color="success">Active</Badge>
+                            ) : (
+                                <Badge>Pending</Badge>
+                            )}</td>
                           </tr>
                       ))}
                     </tbody>

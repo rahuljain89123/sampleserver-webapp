@@ -12,7 +12,9 @@ import { fetchUser, fetchUsers, editUser } from '../actions/users'
 
 const UserInfo = props => (
     <div>
+        <strong>Full name: </strong><span>{props.user.get('name') || '-'}</span><br />
         <strong>Email: </strong><span>{props.user.get('email')}</span><br />
+        <strong>Phone number: </strong><span>{props.user.get('phone') || '-'}</span><br />
         <strong>Lab: </strong><span>{props.lab || '-'}</span><br />
         <strong>Role: </strong><span>{props.role || '-'}</span><br />
         <strong>Active: </strong><span>{props.user.get('active') ? 'Yes' : 'No'}</span><br />

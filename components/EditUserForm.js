@@ -15,6 +15,8 @@ class EditUserForm extends React.Component {
 
         this.state = {
             email: props.user.get('email'),
+            name: props.user.get('name'),
+            phone: props.user.get('phone'),
             role_id: props.user.get('role_id'),
             lab_id: props.user.get('lab_id'),
         }
@@ -45,6 +47,8 @@ class EditUserForm extends React.Component {
         e.preventDefault()
         this.props.editUser(this.props.user.get('id'), {
             email: this.state.email,
+            name: this.state.name,
+            phone: this.state.phone,
             role_id: this.state.role_id,
             lab_id: this.state.lab_id,
         })
@@ -68,6 +72,24 @@ class EditUserForm extends React.Component {
                         name="email"
                         id="email"
                         value={this.state.email}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="name">Full name</Label>
+                    <Input
+                        name="name"
+                        id="name"
+                        value={this.state.name}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="phone">Phone number</Label>
+                    <Input
+                        name="phone"
+                        id="phone"
+                        value={this.state.phone}
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>

@@ -95,10 +95,12 @@ export const fetchCurrentUser = () =>
             dispatch(receiveUser(user))
             dispatch(setCurrentUser(user.id))
             window.localStorage.setItem('currentUser', JSON.stringify(user.id))
+            return Promise.resolve(user.id)
         })
         .catch(() => {
             dispatch(setCurrentUser(null))
             window.localStorage.setItem('currentUser', JSON.stringify(null))
+            return Promise.reject()
         })
 
 export const fetchUser = id =>

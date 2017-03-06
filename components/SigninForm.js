@@ -34,7 +34,15 @@ class SigninForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
         this.props.signin(this.state.email, this.state.password)
-            .then(() => this.props.push(this.props.from.pathname))
+            .then(id => {
+                if (!this.props.users.get(id).get('name') ||
+                    !this.props.users.get(id).get('phone')
+                ) {
+                    this.props.push('/complete-profile')
+                } else {
+                    this.props.push(this.props.from.pathname)
+                }
+            })
     }
 
     render () {
@@ -69,6 +77,7 @@ class SigninForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
+    users: store.get('users'),
     currentUser: store.get('currentUser'),
     signinError: store.get('signinError'),
     signinProcessing: store.get('signinProcessing'),

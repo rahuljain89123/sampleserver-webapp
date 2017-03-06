@@ -12,11 +12,15 @@ class CompleteProfileForm extends React.Component {
         super(props)
 
         const user = props.users.get(props.currentUser)
-        const email = user ? user.get('email') : ''
+        const email = user && user.get('email') ? user.get('email') : ''
+        const name = user && user.get('name') ? user.get('name') : ''
+        const phone = user && user.get('phone') ? user.get('phone') : ''
 
         this.state = {
             user,
             email,
+            name,
+            phone,
         }
     }
 
@@ -29,11 +33,15 @@ class CompleteProfileForm extends React.Component {
     componentWillReceiveProps (nextProps) {
         if (!this.state.user) {
             const user = nextProps.users.get(nextProps.currentUser)
-            const email = user ? user.get('email') : ''
+            const email = user && user.get('email') ? user.get('email') : ''
+            const name = user && user.get('name') ? user.get('name') : ''
+            const phone = user && user.get('phone') ? user.get('phone') : ''
 
             this.setState({
                 user,
                 email,
+                name,
+                phone,
             })
         }
     }
@@ -52,6 +60,11 @@ class CompleteProfileForm extends React.Component {
         e.preventDefault()
         this.props.editUser(this.state.user.get('id'), {
             email: this.state.email,
+            name: this.state.name,
+            phone: this.state.phone,
+        })
+        .then(() => {
+            this.props.push('/app')
         })
     }
 
@@ -71,6 +84,24 @@ class CompleteProfileForm extends React.Component {
                         name="email"
                         id="email"
                         value={this.state.email}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="name">Full name</Label>
+                    <Input
+                        name="name"
+                        id="name"
+                        value={this.state.name}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="phone">Phone number</Label>
+                    <Input
+                        name="phone"
+                        id="phone"
+                        value={this.state.phone}
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>

@@ -6,6 +6,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import {
     fetchUser,
     acceptInvite,
+    signin,
     clearAcceptInviteError,
 } from '../actions/users'
 import { hashids } from '../util'
@@ -57,7 +58,18 @@ class AcceptInviteForm extends React.Component {
         e.preventDefault()
 
         this.props.acceptInvite(this.state.userId, this.state.password)
-            .then(() => this.props.push('/signin'))
+            .then(() => {
+                this.props.signin(this.state.user.get('email'), this.state.password)
+                    .then(id => {
+                        if (!this.props.users.get(id).get('name') ||
+                            !this.props.users.get(id).get('phone')
+                        ) {
+                            this.props.push('/complete-profile')
+                        } else {
+                            this.props.push(this.props.from.pathname)
+                        }
+                    })
+            })
     }
 
     render () {
@@ -103,6 +115,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     fetchUser: id => dispatch(fetchUser(id)),
     acceptInvite: (email, password) => dispatch(acceptInvite(email, password)),
+    signin: (email, password) => dispatch(signin(email, password)),
     clearAcceptInviteError: () => dispatch(clearAcceptInviteError()),
 })
 
