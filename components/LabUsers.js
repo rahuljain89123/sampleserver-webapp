@@ -2,29 +2,57 @@
 import React from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap'
+import {
+    Table,
+    TabContent,
+    TabPane,
+    Nav,
+    NavItem,
+    NavLink,
+    Row,
+    Col,
+    Button,
+    Form,
+    Input,
+    InputGroup,
+    InputGroupButton,
+} from 'reactstrap'
 
 
-import { fetchUsers } from '../actions/users'
+import { createUser, fetchUsers } from '../actions/users'
 
-const tabStyle = {
-    cursor: 'pointer',
-}
 
 class LabUsers extends React.Component {
     constructor (props) {
         super(props)
 
-        this.state = {
-            activeTab: '1'
-        }
-    }
+        const labId = parseInt(props.match.params.id, 10)
+        const currentUserRole = (
+            props.currentUser &&
+            props.users.size
+        ) ? (
+            props.users.get(props.currentUser).get('role_id')
+        ) : 100
 
-    onToggle (tab) {
-        if (this.state.activeTab !== tab) {
-            this.setState({
-                activeTab: tab,
-            })
+        const roles = props.roles
+            .filter(role => role.get('id') > currentUserRole)
+            .sort((a, b) => a.get('id') - b.get('id'))
+
+        const activeRole = roles.size ? roles.first().get('id') : 100
+        const currentRole = roles.size ? roles.get(activeRole) : null
+        const users = props.users.filter(
+            user =>
+                user.get('lab_id') === labId &&
+                user.get('role_id') === activeRole
+        ).sort((a, b) => a.get('id') - b.get('id'))
+
+        this.state = {
+            labId,
+            users,
+            roles,
+            currentRole,
+            activeRole,
+            email: '',
         }
     }
 
@@ -32,53 +60,93 @@ class LabUsers extends React.Component {
         this.props.fetchUsers()
     }
 
+    componentWillReceiveProps (nextProps) {
+        const currentUserRole = (
+            nextProps.currentUser &&
+            nextProps.users.size
+        ) ? (
+            nextProps.users.get(nextProps.currentUser).get('role_id')
+        ) : 100
+
+        const roles = nextProps.roles
+            .filter(role => role.get('id') > currentUserRole)
+            .sort((a, b) => a.get('id') - b.get('id'))
+
+        const currentRole = roles.size ? roles.get(this.state.activeRole) : null
+        const activeRole = (this.state.activeRole === 100 && roles.size) ? roles.first().get('id') : this.state.activeRole
+
+        const users = nextProps.users.filter(
+            user =>
+                user.get('lab_id') === this.state.labId &&
+                user.get('role_id') === activeRole
+        ).sort((a, b) => a.get('id') - b.get('id'))
+
+        this.setState({
+            users,
+            roles,
+            currentRole,
+            activeRole,
+        })
+    }
+
+    onToggle (tab) {
+        if (this.state.activeRole !== tab) {
+            const users = this.props.users.filter(
+                user =>
+                    user.get('lab_id') === this.state.labId &&
+                    user.get('role_id') === tab
+            ).sort((a, b) => a.get('id') - b.get('id'))
+            const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
+
+            this.setState({
+                users,
+                currentRole,
+                activeRole: tab,
+            })
+        }
+    }
+
+    onChange (e) {
+        this.setState({
+            [e.target.name]: e.target.value,
+        })
+    }
+
+    onSubmit (e) {
+        e.preventDefault()
+
+        this.props.createUser({
+            email: this.state.email,
+            lab_id: this.state.labId,
+            role_id: this.state.activeRole,
+        })
+
+        this.setState({
+            email: '',
+        })
+    }
+
     render () {
+        const users = this.state.users.entrySeq()
+        const roles = this.state.roles.entrySeq()
+        const currentRole = this.state.currentRole
+
         return (
             <div>
                 <Nav tabs>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '1' })}
-                      onClick={() => this.onToggle('1')}
-                    >
-                      Lab Admins
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '2' })}
-                      onClick={() => this.onToggle('2')}
-                    >
-                      Lab Associates
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '3' })}
-                      onClick={() => this.onToggle('3')}
-                    >
-                      Company Admins
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '4' })}
-                      onClick={() => this.onToggle('4')}
-                    >
-                      Company Associates
-                    </NavLink>
-                  </NavItem>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({ active: this.state.activeTab === '5' })}
-                      onClick={() => this.onToggle('5')}
-                    >
-                      Project Managers
-                    </NavLink>
-                  </NavItem>
+                  {roles.map(([id, role]) => (
+                      <NavItem key={role.get('id')}>
+                        <NavLink
+                          className={classnames({ active: this.state.activeRole === role.get('id') })}
+                          onClick={() => this.onToggle(role.get('id'))}
+                        >
+                          {`${role.get('description')}s`}
+                        </NavLink>
+                      </NavItem>
+                  ))}
                 </Nav>
-                <TabContent activeTab={this.state.activeTab} style={{ marginTop: 20 }}>
-                  <TabPane tabId="1">
+                <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
+                  <TabPane tabId={2}>
                     <Row>
                       <Col sm="12">
                         <p>
@@ -88,7 +156,7 @@ class LabUsers extends React.Component {
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="2">
+                  <TabPane tabId={3}>
                     <Row>
                       <Col sm="12">
                         <p>
@@ -99,7 +167,7 @@ class LabUsers extends React.Component {
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="3">
+                  <TabPane tabId={4}>
                     <Row>
                       <Col sm="12">
                         <p>
@@ -112,7 +180,7 @@ class LabUsers extends React.Component {
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="4">
+                  <TabPane tabId={5}>
                     <Row>
                       <Col sm="12">
                         <p>
@@ -123,7 +191,7 @@ class LabUsers extends React.Component {
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId="5">
+                  <TabPane tabId={6}>
                     <Row>
                       <Col sm="12">
                         <p>
@@ -134,18 +202,71 @@ class LabUsers extends React.Component {
                       </Col>
                     </Row>
                   </TabPane>
+                  <TabPane tabId={7}>
+                    <Row>
+                      <Col sm="12">
+                        <p>
+                            Can view/edit sites only for data input purposes<br />
+                            Cannot create a new site<br /><br />
+                        </p>
+                      </Col>
+                    </Row>
+                  </TabPane>
               </TabContent>
+              {!!users.size && (
+                  <Table size="sm" style={{ marginBottom: 60 }}>
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users.map(([id, user]) => (
+                          <tr key={id}>
+                            <td scope="row"></td>
+                            <td>{user.get('email')}</td>
+                            <td>{user.get('active')}</td>
+                          </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+              )}
+              <Row>
+                  {!!currentRole && (
+                    <Col sm="6">
+                    <h6>Add {currentRole.get('description')}</h6>
+                    <Form onSubmit={e => this.onSubmit(e)}>
+                        <InputGroup>
+                            <Input
+                                name="email"
+                                placeholder="name@example.com"
+                                value={this.state.email}
+                                onChange={e => this.onChange(e)}
+                            />
+                            <InputGroupButton>
+                                <Button color="primary">Invite</Button>
+                            </InputGroupButton>
+                        </InputGroup>
+                    </Form>
+                    </Col>
+                  )}
+              </Row>
             </div>
         )
     }
 }
 
 const mapStateToProps = store => ({
+    currentUser: store.get('currentUser'),
     users: store.get('users'),
+    roles: store.get('roles'),
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchUsers: () => dispatch(fetchUsers()),
+    createUser: user => dispatch(createUser(user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabUsers)

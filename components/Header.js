@@ -26,6 +26,20 @@ class Header extends React.Component {
     }
 
     render () {
+        const user = (
+            this.props.currentUser &&
+            this.props.users.size
+        ) ? (
+            this.props.users.get(this.props.currentUser)
+        ) : null
+
+        const role = (
+            user &&
+            this.props.roles.size
+        ) ? (
+            this.props.roles.get(user.get('role_id'))
+        ) : null
+
         return (
             <Navbar
                 color="faded"
@@ -34,29 +48,39 @@ class Header extends React.Component {
                 style={{ marginBottom: 20 }}
             >
                 <NavbarBrand>SampleServe</NavbarBrand>
-                <Nav className="ml-auto" navbar>
-                    { this.props.currentUser ? (
+                { this.props.currentUser ? (
+                    <Nav className="ml-auto flex-row" navbar>
+                        {!!user && !!role && (
+                            <NavItem>
+                                <NavLink style={{ marginRight: 15 }}>
+                                    {`${user.get('email')} (${role.get('description')})`}
+                                </NavLink>
+                            </NavItem>
+                        )}
                         <NavItem>
                             <NavLink
                                 href="/signout"
                                 onClick={e => this.onSignout(e)}
                             >Sign Out</NavLink>
                         </NavItem>
-                    ) : (
+                    </Nav>
+                ) : (
+                    <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink
                                 href="/signin"
                                 onClick={e => this.onSignin(e)}
                             >Sign In</NavLink>
                         </NavItem>
-                    )}
-                </Nav>
+                    </Nav>
+                )}
             </Navbar>
         )
     }
 }
 
 const mapStateToProps = store => ({
+    users: store.get('users'),
     roles: store.get('roles'),
     currentLab: store.get('currentLab'),
     currentUser: store.get('currentUser'),
