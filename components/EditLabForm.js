@@ -1,17 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-
-import {
-    Button,
-} from '../basecoat/Button'
-
-import {
-    Form,
-    FormGroup,
-    TextField,
-    TextArea,
-} from '../basecoat/Form'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
 import { editLab, clearEditingLabError } from '../actions/labs'
 import { msgFromError } from '../util'
@@ -84,135 +74,135 @@ class EditLabForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Title"
+                <FormGroup>
+                    <Label for="title">Title</Label>
+                    <Input
                         name="title"
+                        id="title"
                         value={this.state.title}
                         onChange={e => this.onChange(e)}
-                        error={errors.title}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Address"
+                <FormGroup>
+                    <Label for="address">Address</Label>
+                    <Input
                         name="address"
+                        id="address"
                         value={this.state.address}
                         onChange={e => this.onChange(e)}
-                        error={errors.address}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="City"
+                <FormGroup>
+                    <Label for="city">City</Label>
+                    <Input
                         name="city"
+                        id="city"
                         value={this.state.city}
                         onChange={e => this.onChange(e)}
-                        error={errors.city}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="State"
+                <FormGroup>
+                    <Label for="state">State</Label>
+                    <Input
                         name="state"
+                        id="state"
                         value={this.state.state}
                         onChange={e => this.onChange(e)}
-                        error={errors.state}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Zip"
+                <FormGroup>
+                    <Label for="zip">Zip</Label>
+                    <Input
                         name="zip"
+                        id="zip"
                         value={this.state.zip}
                         onChange={e => this.onChange(e)}
-                        error={errors.zip}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Phone"
+                <FormGroup>
+                    <Label for="phone">Phone</Label>
+                    <Input
                         name="phone"
+                        id="phone"
                         value={this.state.phone}
                         onChange={e => this.onChange(e)}
-                        error={errors.phone}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Contact"
+                <FormGroup>
+                    <Label for="contact">Contact</Label>
+                    <Input
                         name="contact"
+                        id="contact"
                         value={this.state.contact}
                         onChange={e => this.onChange(e)}
-                        error={errors.contact}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Cell"
+                <FormGroup>
+                    <Label for="cell">Cell</Label>
+                    <Input
                         name="cell"
+                        id="cell"
                         value={this.state.cell}
                         onChange={e => this.onChange(e)}
-                        error={errors.cell}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Fax"
+                <FormGroup>
+                    <Label for="fax">Fax</Label>
+                    <Input
                         name="fax"
+                        id="fax"
                         value={this.state.fax}
                         onChange={e => this.onChange(e)}
-                        error={errors.fax}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Email"
+                <FormGroup>
+                    <Label for="email">Email</Label>
+                    <Input
                         name="email"
+                        id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
-                        error={errors.email}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Notes"
+                <FormGroup>
+                    <Label for="notes">Notes</Label>
+                    <Input
                         name="notes"
+                        id="notes"
                         value={this.state.notes}
                         onChange={e => this.onChange(e)}
-                        error={errors.notes}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Shipping Company"
+                <FormGroup>
+                    <Label for="shipping_company">Shipping Company</Label>
+                    <Input
                         name="shipping_company"
+                        id="shipping_company"
                         value={this.state.shipping_company}
                         onChange={e => this.onChange(e)}
-                        error={errors.shipping_company}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Shipping Account"
+                <FormGroup>
+                    <Label for="shipping_account">Shipping Account</Label>
+                    <Input
                         name="shipping_account"
+                        id="shipping_account"
                         value={this.state.shipping_account}
                         onChange={e => this.onChange(e)}
-                        error={errors.shipping_account}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextArea
-                        label="Shipping Notes"
+                <FormGroup>
+                    <Label for="shipping_notes">Shipping Notes</Label>
+                    <Input
+                        type="textarea"
                         name="shipping_notes"
                         value={this.state.shipping_notes}
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>
                 <Button
-                    primary
+                    color="primary"
                     disabled={this.props.editingLab}
-                    type="submit"
                 >Save</Button>
             </Form>
         )

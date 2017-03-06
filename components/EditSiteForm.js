@@ -1,16 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-
-import {
-    Button,
-} from '../basecoat/Button'
-
-import {
-    Form,
-    FormGroup,
-    TextField,
-} from '../basecoat/Form'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
 import { editSite, clearEditingSiteError } from '../actions/sites'
 import { msgFromError } from '../util'
@@ -57,19 +48,18 @@ class EditLabForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Title"
+                <FormGroup>
+                    <Label for="title">Title</Label>
+                    <Input
                         name="title"
+                        id="title"
                         value={this.state.title}
                         onChange={e => this.onChange(e)}
-                        error={errors.title}
                     />
                 </FormGroup>
                 <Button
-                    primary
+                    color="primary"
                     disabled={this.props.editingLab}
-                    type="submit"
                 >Save</Button>
             </Form>
         )

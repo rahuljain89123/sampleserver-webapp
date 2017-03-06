@@ -1,16 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-
-import {
-    Button,
-} from '../basecoat/Button'
-
-import {
-    Form,
-    FormGroup,
-    TextField,
-} from '../basecoat/Form'
+import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
 import { createUser, clearCreatingUserError } from '../actions/users'
 import { msgFromError } from '../util'
@@ -60,29 +51,29 @@ class NewUserForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Email"
+                <FormGroup>
+                    <Label for="email">Email</Label>
+                    <Input
+                        type="email"
                         name="email"
+                        id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
-                        error={errors.email}
                     />
                 </FormGroup>
-                <FormGroup error={generalError}>
-                    <TextField
-                        label="Password"
+                <FormGroup>
+                    <Label for="password">Password</Label>
+                    <Input
                         type="password"
                         name="password"
+                        id="password"
                         value={this.state.password}
                         onChange={e => this.onChange(e)}
-                        error={errors.password || generalError}
                     />
                 </FormGroup>
                 <Button
-                    primary
+                    color="primary"
                     disabled={this.props.creatingUser}
-                    type="submit"
                 >Save</Button>
             </Form>
         )
