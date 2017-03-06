@@ -33,7 +33,7 @@ class Users extends React.Component {
 
     render () {
         const users = this.props.users.filter(
-            user => user.get('email').indexOf(this.state.filter) !== -1
+            user => user.get('email').toUpperCase().indexOf(this.state.filter.toUpperCase()) !== -1
         ).entrySeq()
 
         return (

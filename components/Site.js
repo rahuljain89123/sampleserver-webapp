@@ -2,9 +2,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+import { Row, Col, Button } from 'reactstrap'
 
 import LinkButton from './LinkButton'
-
 import EditSiteForm from './EditSiteForm'
 import { fetchSite } from '../actions/sites'
 
@@ -54,14 +54,16 @@ class Site extends React.Component {
                     render={() => (
                         <div className="card">
                           <div className="card-block">
-                            <h4 className="card-title">Site: {site.get('title')}</h4>
-                            <p className="card-text">
-                                <SiteInfo site={site} />
-                            </p>
-                            <LinkButton
-                                color="primary"
-                                href={`/app/sites/${site.get('site_id')}/edit`}
-                            >Edit Site</LinkButton>
+                            <div className="card-title d-flex flex-row">
+                                <h4>Site: {site.get('title')}</h4>
+                                <span className="ml-auto">
+                                    <LinkButton
+                                        color="primary"
+                                        href={`/app/sites/${site.get('site_id')}/edit`}
+                                    >Edit Site</LinkButton>
+                                </span>
+                            </div>
+                            <SiteInfo site={site} />
                           </div>
                         </div>
                     )}
@@ -70,15 +72,21 @@ class Site extends React.Component {
                     exact
                     path="/app/sites/:id(\\d+)/edit"
                     render={() => (
-                        <div style={{ marginBottom: 50 }}>
-                            <div className="clearfix">
-                                <h3 className="float-left">Edit site: {site.get('title')}</h3>
+                        <div className="card">
+                          <div className="card-block">
+                            <div className="card-title d-flex flex-row">
+                                <h4>Edit site: {site.get('title')}</h4>
                                 <LinkButton
                                     href={`/app/sites/${site.get('site_id')}`}
-                                    className="float-right"
+                                    className="ml-auto"
                                 >Back</LinkButton>
                             </div>
-                            <EditSiteForm site={site} />
+                            <Row>
+                                <Col sm={6}>
+                                    <EditSiteForm site={site} />
+                                </Col>
+                            </Row>
+                          </div>
                         </div>
                     )}
                 />

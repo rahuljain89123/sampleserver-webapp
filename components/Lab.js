@@ -2,9 +2,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
+import { Row, Col } from 'reactstrap'
 
-import { Button } from '../basecoat/Button'
-
+import LinkButton from './LinkButton'
 import EditLabForm from './EditLabForm'
 import { fetchLab } from '../actions/labs'
 
@@ -64,17 +64,19 @@ class Lab extends React.Component {
                     exact
                     path="/app/labs/:id(\\d+)"
                     render={() => (
-                        <div>
-                            <div className="clearfix">
-                                <h3 className="float-left">Lab: {lab.get('title')}</h3>
-                                <Button
-                                    primary
-                                    link
-                                    href={`/app/labs/${this.props.match.params.id}/edit`}
-                                    className="float-right"
-                                >Edit Lab</Button>
+                        <div className="card">
+                          <div className="card-block">
+                            <div className="card-title d-flex flex-row">
+                                <h4>Lab: {lab.get('title')}</h4>
+                                <span className="ml-auto">
+                                    <LinkButton
+                                        color="primary"
+                                        href={`/app/labs/${this.props.match.params.id}/edit`}
+                                    >Edit Lab</LinkButton>
+                                </span>
                             </div>
                             <LabInfo lab={lab} />
+                          </div>
                         </div>
                     )}
                 />
@@ -82,16 +84,22 @@ class Lab extends React.Component {
                     exact
                     path="/app/labs/:id(\\d+)/edit"
                     render={() => (
-                        <div style={{ marginBottom: 50 }}>
-                            <div className="clearfix">
-                                <h3 className="float-left">Edit lab: {lab.get('title')}</h3>
-                                <Button
-                                    link
+
+                        <div className="card">
+                          <div className="card-block">
+                            <div className="card-title d-flex flex-row">
+                                <h4>Edit lab: {lab.get('title')}</h4>
+                                <LinkButton
                                     href={`/app/labs/${this.props.match.params.id}`}
-                                    className="float-right"
-                                >Back</Button>
+                                    className="ml-auto"
+                                >Back</LinkButton>
                             </div>
-                            <EditLabForm lab={lab} />
+                            <Row>
+                                <Col sm={6}>
+                                    <EditLabForm lab={lab} />
+                                </Col>
+                            </Row>
+                          </div>
                         </div>
                     )}
                 />
