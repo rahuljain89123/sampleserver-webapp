@@ -70,8 +70,12 @@ class Lab extends React.Component {
                                 <h4>Lab: {lab.get('title')}</h4>
                                 <span className="ml-auto">
                                     <LinkButton
+                                        href={`/app/labs/${lab.get('laboratory_id')}/users`}
+                                    >Manage Users</LinkButton>
+                                    <LinkButton
                                         color="primary"
-                                        href={`/app/labs/${this.props.match.params.id}/edit`}
+                                        href={`/app/labs/${lab.get('laboratory_id')}/edit`}
+                                        style={{ marginLeft: 10 }}
                                     >Edit Lab</LinkButton>
                                 </span>
                             </div>

@@ -4,7 +4,7 @@ import { Row, Col } from 'reactstrap'
 
 import Labs from './Labs'
 import Lab from './Lab'
-// import LabUsers from './LabUsers'
+import LabUsers from './LabUsers'
 import User from './User'
 import Users from './Users'
 import NewUser from './NewUser'
@@ -22,6 +22,7 @@ const App = () => (
         <Col xs="10">
             <PrivateRoute exact path="/app/labs" component={Labs} />
             <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
+            <PrivateRoute path="/app/labs/:id(\\d+)/users" component={LabUsers} />
             <PrivateRoute exact path="/app/users" component={Users} authorized={['Admin']} />
             <PrivateRoute exact path="/app/users/new" component={NewUser} />
             <PrivateRoute path="/app/users/:id(\\d+)" component={User} />

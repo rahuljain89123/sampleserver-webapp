@@ -11,6 +11,7 @@ import store from './store'
 import Header from './components/Header'
 import Signin from './components/Signin'
 import AcceptInvite from './components/AcceptInvite'
+import CompleteProfile from './components/CompleteProfile'
 import App from './components/App'
 import PrivateRoute from './components/Auth'
 import Homepage from './components/Homepage'
@@ -24,6 +25,7 @@ ReactDOM.render((
                 <Route exact path="/" component={Homepage} />
                 <Route exact path="/signin" component={Signin} />
                 <Route exact path="/accept-invite" component={AcceptInvite} />
+                <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
                 <PrivateRoute path="/app" component={App} />
             </Container>
         </Router>
