@@ -3,8 +3,6 @@ import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { Blankslate } from '../basecoat/Blankslate'
-
 import { omit } from '../util'
 
 const PrivateRoute = props => {
@@ -28,10 +26,12 @@ const PrivateRoute = props => {
                     }
 
                     return (
-                        <Blankslate>
-                            <h3>Access not allowed</h3>
-                            <p>Contact your admin if you believe you are seeing this message by mistake.</p>
-                        </Blankslate>
+                        <div class="card text-center">
+                          <div class="card-block">
+                            <h4 class="card-title">Access not allowed</h4>
+                            <p class="card-text">Contact your admin if you believe you are seeing this message by mistake.</p>
+                          </div>
+                        </div>
                     )
                 }
 

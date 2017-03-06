@@ -4,10 +4,6 @@ import { connect } from 'react-redux'
 
 import { fetchSamples } from '../actions/samples'
 import FilterList from './FilterList'
-import Pagination from './Pagination'
-
-const PAGE = 1
-const PER_PAGE = 10
 
 
 class Samples extends React.Component {
@@ -16,7 +12,7 @@ class Samples extends React.Component {
     }
 
     render () {
-        const samples = this.props.samples.slice(((PAGE - 1) * PER_PAGE), PER_PAGE).entrySeq()
+        const samples = this.props.samples.entrySeq()
 
         return (
             <div>
@@ -25,7 +21,6 @@ class Samples extends React.Component {
                     title={sample => sample.get('sample_id') || '-'}
                     href={sample => `/app/samples/${sample.get('sample_id')}`}
                 />
-                {samples && samples.size === PER_PAGE && <Pagination />}
             </div>
         )
     }

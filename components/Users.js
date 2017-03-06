@@ -6,10 +6,6 @@ import { Input } from 'reactstrap'
 import { fetchUsers } from '../actions/users'
 import LinkButton from './LinkButton'
 import FilterList from './FilterList'
-import Pagination from './Pagination'
-
-const PAGE = 1
-const PER_PAGE = 10
 
 
 class Users extends React.Component {
