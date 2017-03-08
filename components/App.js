@@ -11,6 +11,7 @@ import NewUser from './NewUser'
 import Sites from './Sites'
 import Site from './Site'
 import Samples from './Samples'
+import Sample from './Sample'
 import SideMenu from './SideMenu'
 import PrivateRoute from './Auth'
 
@@ -29,6 +30,7 @@ const App = () => (
             <PrivateRoute exact path="/app/sites" component={Sites} />
             <PrivateRoute path="/app/sites/:id(\\d+)" component={Site} />
             <PrivateRoute exact path="/app/samples" component={Samples} />
+            <PrivateRoute path="/app/samples/:id(\\d+)" component={Sample} />
         </Col>
     </Row>
 )

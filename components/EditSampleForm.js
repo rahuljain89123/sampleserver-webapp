@@ -3,28 +3,28 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { editSite, clearEditingSiteError } from '../actions/sites'
+import { editSample, setEditingSample, clearEditingSampleError } from '../actions/samples'
 import { msgFromError } from '../util'
 
 
-class EditSiteForm extends React.Component {
+class EditSampleForm extends React.Component {
     constructor (props) {
         super(props)
 
         this.state = {
-            title: props.site.get('title'),
+            sample_id: props.sample.get('sample_id'),
         }
     }
 
     componentWillMount () {
-        if (this.props.editingSiteError) {
-            this.props.clearEditingSiteError()
+        if (this.props.editingSampleError) {
+            this.props.clearEditingSampleError()
         }
     }
 
     onChange (e) {
-        if (this.props.editingSiteError) {
-            this.props.clearEditingSiteError()
+        if (this.props.editingSampleError) {
+            this.props.clearEditingSampleError()
         }
 
         this.setState({
@@ -34,13 +34,13 @@ class EditSiteForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editSite(this.props.site.get('site_id'), {
-            title: this.state.title,
+        this.props.editSample(this.props.sample.get('sample_id'), {
+            sample_id: this.state.sample_id,
         })
     }
 
     render () {
-        const error = this.props.editingSiteError
+        const error = this.props.editingSampleError
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
             [error.key]: msgFromError(error),
@@ -49,17 +49,17 @@ class EditSiteForm extends React.Component {
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
                 <FormGroup>
-                    <Label for="title">Title</Label>
+                    <Label for="sample_id">ID</Label>
                     <Input
-                        name="title"
-                        id="title"
-                        value={this.state.title}
+                        name="sample_id"
+                        id="sample_id"
+                        value={this.state.sample_id}
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>
                 <Button
                     color="primary"
-                    disabled={this.props.editingSite}
+                    disabled={this.props.editingSample}
                 >Save</Button>
             </Form>
         )
@@ -67,13 +67,13 @@ class EditSiteForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    editingSiteError: store.get('editingSiteError'),
-    editingSite: store.get('editingSite'),
+    editingSampleError: store.get('editingSampleError'),
+    editingSample: store.get('editingSample'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    editSite: (id, site) => dispatch(editSite(id, site)),
-    clearEditingSiteError: () => dispatch(clearEditingSiteError()),
+    editSample: (id, sample) => dispatch(editSample(id, sample)),
+    clearEditingSampleError: () => dispatch(clearEditingSampleError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditSiteForm)
+export default connect(mapStateToProps, mapDispatchToProps)(EditSampleForm)

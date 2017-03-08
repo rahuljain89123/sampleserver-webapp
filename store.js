@@ -32,7 +32,11 @@ import {
     editingSiteError,
 } from './reducers/sites'
 import { roles } from './reducers/roles'
-import { samples } from './reducers/samples'
+import {
+    samples,
+    editingSample,
+    editingSampleError,
+} from './reducers/samples'
 
 
 const initialState = Immutable.Map({
@@ -59,7 +63,10 @@ const rootReducer = combineReducers({
     editingSiteError,
 
     roles,
+
     samples,
+    editingSample,
+    editingSampleError,
 })
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk))

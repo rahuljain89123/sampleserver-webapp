@@ -55,6 +55,7 @@ export const editSite = (id, site) =>
         .then(json => {
             dispatch(setEditingSite(false))
             dispatch(receiveSite(json))
+            return Promise.resolve(json.site_id)
         })
         .catch(e => {
             dispatch(setEditingSite(false))
@@ -68,5 +69,6 @@ export const editSite = (id, site) =>
                     msg: 'Unable to update site.',
                 }))
             })
+            return Promise.reject()
         })
     }

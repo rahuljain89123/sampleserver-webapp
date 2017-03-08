@@ -7,9 +7,6 @@ import { fetchLabs } from '../actions/labs'
 import LinkButton from './LinkButton'
 import FilterList from './FilterList'
 
-const PAGE = 1
-const PER_PAGE = 10
-
 
 class Labs extends React.Component {
     constructor (props) {
