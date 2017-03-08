@@ -50,7 +50,7 @@ export const editSample = (id, sample) =>
     dispatch => {
         dispatch(setEditingSample(true))
 
-        API.patch(`/samples/${id}`, sample)
+        return API.patch(`/samples/${id}`, sample)
         .then(json => {
             dispatch(setEditingSample(false))
             dispatch(receiveSample(json))

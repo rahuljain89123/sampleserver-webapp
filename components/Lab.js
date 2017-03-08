@@ -100,7 +100,7 @@ class Lab extends React.Component {
                             </div>
                             <Row>
                                 <Col sm={6}>
-                                    <EditLabForm lab={lab} />
+                                    <EditLabForm lab={lab} push={this.props.push} />
                                 </Col>
                             </Row>
                           </div>

@@ -64,10 +64,11 @@ export const editLab = (id, lab) =>
     dispatch => {
         dispatch(setEditingLab(true))
 
-        API.patch(`/labs/${id}`, lab)
+        return API.patch(`/labs/${id}`, lab)
         .then(json => {
             dispatch(setEditingLab(false))
             dispatch(receiveLab(json))
+            return Promise.resolve(json.laboratory_id)
         })
         .catch(e => {
             dispatch(setEditingLab(false))
@@ -81,5 +82,6 @@ export const editLab = (id, lab) =>
                     msg: 'Unable to update lab.',
                 }))
             })
+            return Promise.reject()
         })
     }

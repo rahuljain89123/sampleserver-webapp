@@ -52,6 +52,7 @@ class EditUserForm extends React.Component {
             role_id: this.state.role_id,
             lab_id: this.state.lab_id,
         })
+        .then(id => this.props.push(`/app/users/${id}`))
     }
 
     render () {
@@ -125,7 +126,7 @@ class EditUserForm extends React.Component {
                 </FormGroup>
                 <Button
                     color="primary"
-                    disabled={this.props.creatingUser}
+                    disabled={this.props.editingUser}
                 >Save</Button>
             </Form>
         )

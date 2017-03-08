@@ -63,6 +63,7 @@ class EditLabForm extends React.Component {
             shipping_account: this.state.shipping_account,
             shipping_notes: this.state.shipping_notes,
         })
+        .then(id => this.props.push(`/app/labs/${id}`))
     }
 
     render () {

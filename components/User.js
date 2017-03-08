@@ -121,7 +121,7 @@ class User extends React.Component {
                             </div>
                             <Row>
                                 <Col sm={6}>
-                                    <EditUserForm user={user} />
+                                    <EditUserForm user={user} push={this.props.push} />
                                 </Col>
                             </Row>
                           </div>

@@ -12,7 +12,9 @@ class EditSampleForm extends React.Component {
         super(props)
 
         this.state = {
-            sample_id: props.sample.get('sample_id'),
+            date_collected: props.sample.get('date_collected'),
+            date_extracted: props.sample.get('date_extracted'),
+            date_analyzed: props.sample.get('date_analyzed'),
         }
     }
 
@@ -35,8 +37,11 @@ class EditSampleForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
         this.props.editSample(this.props.sample.get('sample_id'), {
-            sample_id: this.state.sample_id,
+            date_collected: this.state.date_collected,
+            date_extracted: this.state.date_extracted,
+            date_analyzed: this.state.date_analyzed,
         })
+        .then(id => this.props.push(`/app/samples/${id}`))
     }
 
     render () {
@@ -49,11 +54,29 @@ class EditSampleForm extends React.Component {
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
                 <FormGroup>
-                    <Label for="sample_id">ID</Label>
+                    <Label for="date_collected">Date collected</Label>
                     <Input
-                        name="sample_id"
-                        id="sample_id"
-                        value={this.state.sample_id}
+                        name="date_collected"
+                        id="date_collected"
+                        value={this.state.date_collected}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="date_extracted">Date extracted</Label>
+                    <Input
+                        name="date_extracted"
+                        id="date_extracted"
+                        value={this.state.date_extracted}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="date_analyzed">Date analyzed</Label>
+                    <Input
+                        name="date_analyzed"
+                        id="date_analyzed"
+                        value={this.state.date_analyzed}
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>

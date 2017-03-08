@@ -86,7 +86,7 @@ class Sample extends React.Component {
                             </div>
                             <Row>
                                 <Col sm={6}>
-                                    <EditSampleForm sample={sample} />
+                                    <EditSampleForm sample={sample} push={this.props.push} />
                                 </Col>
                             </Row>
                           </div>
