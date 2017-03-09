@@ -5,6 +5,9 @@ import {
     RECEIVE_LAB,
     RECEIVE_LABS,
     SET_CURRENT_LAB_URL,
+    SET_CREATING_LAB,
+    SET_CREATING_LAB_ERROR,
+    CLEAR_CREATING_LAB_ERROR,
     SET_EDITING_LAB,
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
@@ -29,6 +32,26 @@ export const currentLabUrl = (state = null, action) => {
     switch (action.type) {
     case SET_CURRENT_LAB_URL:
         return action.url
+    default:
+        return state
+    }
+}
+
+export const creatingLab = (state = false, action) => {
+    switch (action.type) {
+    case SET_CREATING_LAB:
+        return action.creating
+    default:
+        return state
+    }
+}
+
+export const creatingLabError = (state = null, action) => {
+    switch (action.type) {
+    case SET_CREATING_LAB_ERROR:
+        return action.error
+    case CLEAR_CREATING_LAB_ERROR:
+        return null
     default:
         return state
     }

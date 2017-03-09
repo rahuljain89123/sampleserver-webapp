@@ -23,6 +23,8 @@ import {
 import {
     labs,
     currentLabUrl,
+    creatingLab,
+    creatingLabError,
     editingLab,
     editingLabError,
 } from './reducers/labs'
@@ -56,6 +58,8 @@ const rootReducer = combineReducers({
 
     labs,
     currentLabUrl,
+    creatingLab,
+    creatingLabError,
     editingLab,
     editingLabError,
 

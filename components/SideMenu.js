@@ -9,26 +9,17 @@ const links = [{
     path: '/app/labs',
     title: 'Labs',
 }, {
-    path: '/app/reports',
-    title: 'Reports',
+    path: '/app/companies',
+    title: 'Companies',
 }, {
-    path: '/app/samples',
-    title: 'Samples',
-}, {
-    path: '/app/sitemaps',
-    title: 'Sitemaps',
+    path: '/app/projects',
+    title: 'Projects',
 }, {
     path: '/app/sites',
     title: 'Sites',
 }, {
-    path: '/app/substances',
-    title: 'Substances',
-}, {
-    path: '/app/tests',
-    title: 'Tests',
-}, {
-    path: '/app/wells',
-    title: 'Wells',
+    path: '/app/samples',
+    title: 'Samples',
 }]
 
 const SideMenu = props => (

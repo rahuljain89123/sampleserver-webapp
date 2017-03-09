@@ -2,7 +2,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { Row, Col } from 'reactstrap'
+import {
+    Row,
+    Col,
+    Breadcrumb,
+    BreadcrumbItem,
+} from 'reactstrap'
 
 import LinkButton from './LinkButton'
 import EditLabForm from './EditLabForm'
@@ -51,6 +56,11 @@ class Lab extends React.Component {
         })
     }
 
+    onClick (e) {
+        e.preventDefault()
+        this.props.push(e.target.getAttribute('href'))
+    }
+
     render () {
         const lab = this.state.lab
 
@@ -64,10 +74,15 @@ class Lab extends React.Component {
                     exact
                     path="/app/labs/:id(\\d+)"
                     render={() => (
+                        <div>
+                        <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                            <BreadcrumbItem tag="a" href="/app/labs" onClick={e => this.onClick(e)}>Labs</BreadcrumbItem>
+                            <BreadcrumbItem className="active">{lab.get('title')}</BreadcrumbItem>
+                        </Breadcrumb>
                         <div className="card">
                           <div className="card-block">
                             <div className="card-title d-flex flex-row">
-                                <h4>Lab: {lab.get('title')}</h4>
+                                <h4>{lab.get('title')}</h4>
                                 <span className="ml-auto">
                                     <LinkButton
                                         href={`/app/labs/${lab.get('laboratory_id')}/users`}
@@ -82,19 +97,25 @@ class Lab extends React.Component {
                             <LabInfo lab={lab} />
                           </div>
                         </div>
+                        </div>
                     )}
                 />
                 <Route
                     exact
                     path="/app/labs/:id(\\d+)/edit"
                     render={() => (
-
+                        <div>
+                        <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                            <BreadcrumbItem tag="a" href="/app/labs" onClick={e => this.onClick(e)}>Labs</BreadcrumbItem>
+                            <BreadcrumbItem tag="a" href={`/app/labs/${lab.get('laboratory_id')}`} onClick={e => this.onClick(e)}>{lab.get('title')}</BreadcrumbItem>
+                            <BreadcrumbItem className="active">Edit Lab</BreadcrumbItem>
+                        </Breadcrumb>
                         <div className="card">
                           <div className="card-block">
                             <div className="card-title d-flex flex-row">
-                                <h4>Edit lab: {lab.get('title')}</h4>
+                                <h4>{lab.get('title')}</h4>
                                 <LinkButton
-                                    href={`/app/labs/${this.props.match.params.id}`}
+                                    href={`/app/labs/${lab.get('laboratory_id')}`}
                                     className="ml-auto"
                                 >Back</LinkButton>
                             </div>
@@ -104,6 +125,7 @@ class Lab extends React.Component {
                                 </Col>
                             </Row>
                           </div>
+                        </div>
                         </div>
                     )}
                 />

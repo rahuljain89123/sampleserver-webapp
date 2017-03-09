@@ -3,12 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchUsers } from '../actions/users'
+import { fetchCompanies } from '../actions/companies'
 import LinkButton from './LinkButton'
 import FilterList from './FilterList'
 
 
-class Users extends React.Component {
+class Companies extends React.Component {
     constructor (props) {
         super(props)
 
@@ -24,12 +24,12 @@ class Users extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers()
+        this.props.fetchCompanies()
     }
 
     render () {
-        const users = this.props.users.filter(
-            user => user.get('email').toUpperCase().indexOf(this.state.filter.toUpperCase()) !== -1
+        const companies = this.props.companies.filter(
+            company => company.get('title').toUpperCase().indexOf(this.state.filter.toUpperCase()) !== -1
         ).entrySeq()
 
         return (
@@ -40,12 +40,18 @@ class Users extends React.Component {
                         name="filter"
                         placeholder="Filter..."
                         onChange={e => this.onChange(e)}
+                        style={{ marginRight: 15 }}
                     />
+                    <LinkButton
+                        color="primary"
+                        href="/app/companies/new"
+                        className="ml-auto"
+                    >New Company</LinkButton>
                 </div>
                 <FilterList
-                    items={users}
-                    title={user => user.get('email') || '-'}
-                    href={user => `/app/users/${user.get('id')}`}
+                    items={companies}
+                    title={company => company.get('title') || '-'}
+                    href={company => `/app/companies/${company.get('id')}`}
                 />
             </div>
         )
@@ -53,11 +59,11 @@ class Users extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    users: store.get('users'),
+    companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchCompanies: () => dispatch(fetchCompanies()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Users)
+export default connect(mapStateToProps, mapDispatchToProps)(Companies)

@@ -2,7 +2,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { Row, Col, Button } from 'reactstrap'
+import {
+    Row,
+    Col,
+    Button,
+    Breadcrumb,
+    BreadcrumbItem,
+} from 'reactstrap'
 
 import LinkButton from './LinkButton'
 import EditUserForm from './EditUserForm'
@@ -49,6 +55,11 @@ class User extends React.Component {
         })
     }
 
+    onClick (e) {
+        e.preventDefault()
+        this.props.push(e.target.getAttribute('href'))
+    }
+
     deactivate () {
         this.props.editUser(this.state.userId, {
             active: false,
@@ -80,10 +91,15 @@ class User extends React.Component {
                     exact
                     path="/app/users/:id(\\d+)"
                     render={() => (
+                        <div>
+                        <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                            <BreadcrumbItem tag="a" href="/app/users" onClick={e => this.onClick(e)}>Users</BreadcrumbItem>
+                            <BreadcrumbItem className="active">{user.get('email')}</BreadcrumbItem>
+                        </Breadcrumb>
                         <div className="card">
                           <div className="card-block">
                             <div className="card-title d-flex flex-row">
-                                <h4>User: {user.get('email')}</h4>
+                                <h4>{user.get('email')}</h4>
                                 <span className="ml-auto">
                                     {user.get('active') ? (
                                         <Button onClick={e => this.deactivate(e)}>
@@ -104,16 +120,23 @@ class User extends React.Component {
                             <UserInfo user={user} role={roleTitle} lab={labTitle} />
                           </div>
                         </div>
+                        </div>
                     )}
                 />
                 <Route
                     exact
                     path="/app/users/:id(\\d+)/edit"
                     render={() => (
+                        <div>
+                        <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                            <BreadcrumbItem tag="a" href="/app/users" onClick={e => this.onClick(e)}>Users</BreadcrumbItem>
+                            <BreadcrumbItem tag="a" href={`/app/users/${user.get('id')}`} onClick={e => this.onClick(e)}>{user.get('email')}</BreadcrumbItem>
+                            <BreadcrumbItem className="active">Edit User</BreadcrumbItem>
+                        </Breadcrumb>
                         <div className="card">
                           <div className="card-block">
                             <div className="card-title d-flex flex-row">
-                                <h4>Edit user: {user.get('email')}</h4>
+                                <h4>{user.get('email')}</h4>
                                 <LinkButton
                                     href={`/app/users/${this.props.match.params.id}`}
                                     className="ml-auto"
@@ -125,6 +148,7 @@ class User extends React.Component {
                                 </Col>
                             </Row>
                           </div>
+                        </div>
                         </div>
                     )}
                 />

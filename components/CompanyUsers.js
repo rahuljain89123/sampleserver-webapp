@@ -22,16 +22,17 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import { fetchLab } from '../actions/labs'
+
+import { fetchCompany } from '../actions/companies'
 import { createUser, fetchUsers } from '../actions/users'
 
 
-class LabUsers extends React.Component {
+class CompanyUsers extends React.Component {
     constructor (props) {
         super(props)
 
-        const labId = parseInt(props.match.params.id, 10)
-        const lab = props.labs.get(labId)
+        const companyId = parseInt(props.match.params.id, 10)
+        const company = props.companies.get(companyId)
         const currentUserRole = (
             props.currentUser &&
             props.users.size
@@ -40,7 +41,7 @@ class LabUsers extends React.Component {
         ) : 100
 
         const roles = props.roles
-            .filter(role => role.get('id') === 2 || role.get('id') === 3)
+            .filter(role => role.get('id') === 4 || role.get('id') === 5)
             .filter(role => role.get('id') > currentUserRole)
             .sort((a, b) => a.get('id') - b.get('id'))
 
@@ -48,13 +49,12 @@ class LabUsers extends React.Component {
         const currentRole = roles.size ? roles.get(activeRole) : null
         const users = props.users.filter(
             user =>
-                user.get('lab_id') === labId &&
                 user.get('role_id') === activeRole
         ).sort((a, b) => a.get('id') - b.get('id'))
 
         this.state = {
-            labId,
-            lab,
+            companyId,
+            company,
             users,
             roles,
             currentRole,
@@ -66,8 +66,8 @@ class LabUsers extends React.Component {
     componentDidMount () {
         this.props.fetchUsers()
 
-        if (!this.state.lab) {
-            this.props.fetchLab(this.state.labId)
+        if (!this.state.company) {
+            this.props.fetchCompany(this.state.companyId)
         }
     }
 
@@ -80,7 +80,7 @@ class LabUsers extends React.Component {
         ) : 100
 
         const roles = nextProps.roles
-            .filter(role => role.get('id') === 2 || role.get('id') === 3)
+            .filter(role => role.get('id') === 4 || role.get('id') === 5)
             .filter(role => role.get('id') > currentUserRole)
             .sort((a, b) => a.get('id') - b.get('id'))
 
@@ -89,12 +89,11 @@ class LabUsers extends React.Component {
 
         const users = nextProps.users.filter(
             user =>
-                user.get('lab_id') === this.state.labId &&
                 user.get('role_id') === activeRole
         ).sort((a, b) => a.get('id') - b.get('id'))
 
         this.setState({
-            lab: nextProps.labs.get(this.state.labId),
+            company: nextProps.companies.get(this.state.companyId),
             users,
             roles,
             currentRole,
@@ -106,7 +105,6 @@ class LabUsers extends React.Component {
         if (this.state.activeRole !== tab) {
             const users = this.props.users.filter(
                 user =>
-                    user.get('lab_id') === this.state.labId &&
                     user.get('role_id') === tab
             ).sort((a, b) => a.get('id') - b.get('id'))
             const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
@@ -133,13 +131,15 @@ class LabUsers extends React.Component {
     onSubmit (e) {
         e.preventDefault()
 
-        const user = {
+        this.props.createUser({
             email: this.state.email,
             lab_id: this.state.labId,
             role_id: this.state.activeRole,
-        }
-
-        this.props.createUser(user)
+            companies: {
+                add: [this.state.companyId],
+                remove: [],
+            }
+        })
 
         this.setState({
             email: '',
@@ -147,9 +147,9 @@ class LabUsers extends React.Component {
     }
 
     render () {
-        const lab = this.state.lab
+        const company = this.state.company
 
-        if (!lab) {
+        if (!company) {
             return null
         }
 
@@ -160,8 +160,8 @@ class LabUsers extends React.Component {
         return (
             <div>
                 <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                    <BreadcrumbItem tag="a" href="/app/labs" onClick={e => this.onClick(e)}>Labs</BreadcrumbItem>
-                    <BreadcrumbItem tag="a" href={`/app/labs/${lab.get('laboratory_id')}`} onClick={e => this.onClick(e)}>{lab.get('title')}</BreadcrumbItem>
+                    <BreadcrumbItem tag="a" href="/app/companies" onClick={e => this.onClick(e)}>Companies</BreadcrumbItem>
+                    <BreadcrumbItem tag="a" href={`/app/companies/${company.get('id')}`} onClick={e => this.onClick(e)}>{company.get('title')}</BreadcrumbItem>
                     <BreadcrumbItem className="active">Manage Users</BreadcrumbItem>
                 </Breadcrumb>
                 <Nav tabs>
@@ -177,23 +177,26 @@ class LabUsers extends React.Component {
                   ))}
                 </Nav>
                 <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
-                  <TabPane tabId={2}>
+                  <TabPane tabId={4}>
                     <Row>
                       <Col sm="12">
                         <p>
-                            Can view/edit all sites created and managed under this Lab.<br />
-                            Can create and disable Lab Associates.<br /><br />
+                            Can create additional CompanyAdmin Users.<br />
+                            CompanyAdmin users can disable other CompanyAdmin users.<br />
+                            CompanyAdmin cannot disable himself.<br />
+                            All CompanyAdmins receive notification the invoice, and all have the ability to pay.<br />
+                            Also have CompanyAssociate permissions.<br /><br />
                         </p>
                       </Col>
                     </Row>
                   </TabPane>
-                  <TabPane tabId={3}>
+                  <TabPane tabId={5}>
                     <Row>
                       <Col sm="12">
                         <p>
-                            Can receive samples.<br />
-                            Can create new sites and enter data.<br />
-                            Cant delete sites/accounts or access billing info.<br /><br />
+                            Can create/edit/view all sites within the company.<br />
+                            Can create site groups.<br />
+                            Can add project managers and technicians to each site group.<br /><br />
                         </p>
                       </Col>
                     </Row>
@@ -254,13 +257,13 @@ const mapStateToProps = store => ({
     currentUser: store.get('currentUser'),
     users: store.get('users'),
     roles: store.get('roles'),
-    labs: store.get('labs'),
+    companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchLab: id => dispatch(fetchLab(id)),
+    fetchCompany: () => dispatch(fetchCompany()),
     fetchUsers: () => dispatch(fetchUsers()),
     createUser: user => dispatch(createUser(user)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LabUsers)
+export default connect(mapStateToProps, mapDispatchToProps)(CompanyUsers)

@@ -3,6 +3,9 @@ import {
     RECEIVE_LAB,
     RECEIVE_LABS,
     SET_CURRENT_LAB_URL,
+    SET_CREATING_LAB,
+    SET_CREATING_LAB_ERROR,
+    CLEAR_CREATING_LAB_ERROR,
     SET_EDITING_LAB,
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
@@ -45,6 +48,46 @@ export const fetchCurrentLab = () =>
         .then(lab => {
             dispatch(receiveLab(lab))
         })
+
+export const setCreatingLab = creating => ({
+    type: SET_CREATING_LAB,
+    editing,
+})
+
+export const setCreatingLabError = error => ({
+    type: SET_CREATING_LAB_ERROR,
+    error,
+})
+
+export const clearCreatingLabError = () => ({
+    type: CLEAR_CREATING_LAB_ERROR,
+})
+
+export const createLab = lab =>
+    dispatch => {
+        dispatch(setCreatingLab(true))
+
+        return API.post('/labs/', user)
+        .then(json => {
+            dispatch(setCreatingLab(false))
+            dispatch(receiveLab(json))
+            return Promise.resolve(json.laboratory_id)
+        })
+        .catch(e => {
+            dispatch(setCreatingLab(false))
+
+            e.response.json().then(json => {
+                if (json.errors && json.errors.length) {
+                    return dispatch(setCreatingLabError(json.errors[0]))
+                }
+
+                return dispatch(setCreatingLabError({
+                    msg: 'Unable to create lab.',
+                }))
+            })
+            return Promise.reject()
+        })
+    }
 
 export const setEditingLab = editing => ({
     type: SET_EDITING_LAB,
