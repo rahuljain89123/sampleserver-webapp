@@ -13,6 +13,7 @@ import {
     Col,
     Button,
     Form,
+    FormGroup,
     Input,
     InputGroup,
     InputGroupButton,
@@ -20,6 +21,7 @@ import {
 } from 'reactstrap'
 
 
+import { fetchCompanies } from '../actions/companies'
 import { createUser, fetchUsers } from '../actions/users'
 
 
@@ -54,11 +56,13 @@ class LabUsers extends React.Component {
             currentRole,
             activeRole,
             email: '',
+            companyId: '',
         }
     }
 
     componentDidMount () {
         this.props.fetchUsers()
+        this.props.fetchCompanies()
     }
 
     componentWillReceiveProps (nextProps) {
@@ -116,11 +120,22 @@ class LabUsers extends React.Component {
     onSubmit (e) {
         e.preventDefault()
 
-        this.props.createUser({
+        const user = {
             email: this.state.email,
             lab_id: this.state.labId,
             role_id: this.state.activeRole,
-        })
+        }
+
+        if ((this.state.activeRole === 4 ||
+            this.state.activeRole === 5) &&
+            this.state.companyId)  {
+            user['companies'] = {
+                add: [parseInt(this.state.companyId, 10)],
+                remove: [],
+            }
+        }
+
+        this.props.createUser(user)
 
         this.setState({
             email: '',
@@ -128,6 +143,7 @@ class LabUsers extends React.Component {
     }
 
     render () {
+        const companies = this.props.companies.entrySeq()
         const users = this.state.users.entrySeq()
         const roles = this.state.roles.entrySeq()
         const currentRole = this.state.currentRole
@@ -243,17 +259,34 @@ class LabUsers extends React.Component {
                     <Col sm="6">
                     <h6>Add {currentRole.get('description')}</h6>
                     <Form onSubmit={e => this.onSubmit(e)}>
-                        <InputGroup>
+                        {(this.state.activeRole === 4 || this.state.activeRole === 5) && (
+                        <FormGroup>
                             <Input
-                                name="email"
-                                placeholder="name@example.com"
-                                value={this.state.email}
+                                type="select"
+                                name="companyId"
+                                value={this.state.companyId}
                                 onChange={e => this.onChange(e)}
-                            />
-                            <InputGroupButton>
-                                <Button color="primary">Invite</Button>
-                            </InputGroupButton>
-                        </InputGroup>
+                            >
+                                <option>Choose a company...</option>
+                                {companies.map(([id, company]) => (
+                                    <option key={id} value={company.get('id')}>{company.get('title')}</option>
+                                ))}
+                            </Input>
+                        </FormGroup>
+                        )}
+                        <FormGroup>
+                            <InputGroup>
+                                <Input
+                                    name="email"
+                                    placeholder="name@example.com"
+                                    value={this.state.email}
+                                    onChange={e => this.onChange(e)}
+                                />
+                                <InputGroupButton>
+                                    <Button color="primary">Invite</Button>
+                                </InputGroupButton>
+                            </InputGroup>
+                        </FormGroup>
                     </Form>
                     </Col>
                   )}
@@ -267,9 +300,11 @@ const mapStateToProps = store => ({
     currentUser: store.get('currentUser'),
     users: store.get('users'),
     roles: store.get('roles'),
+    companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchCompanies: () => dispatch(fetchCompanies()),
     fetchUsers: () => dispatch(fetchUsers()),
     createUser: user => dispatch(createUser(user)),
 })

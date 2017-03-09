@@ -37,6 +37,7 @@ import {
     editingSample,
     editingSampleError,
 } from './reducers/samples'
+import { companies } from './reducers/companies'
 
 
 const initialState = Immutable.Map({
@@ -67,6 +68,8 @@ const rootReducer = combineReducers({
     samples,
     editingSample,
     editingSampleError,
+
+    companies,
 })
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk))
