@@ -23,7 +23,6 @@ ReactDOM.render((
             <Container>
                 <Route component={Header} />
                 <Route exact path="/" component={Signin} />
-                <Route exact path="/signin" component={Signin} />
                 <Route exact path="/accept-invite" component={AcceptInvite} />
                 <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
                 <PrivateRoute path="/app" component={App} />

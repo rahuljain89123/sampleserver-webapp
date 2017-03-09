@@ -21,7 +21,7 @@ class Header extends React.Component {
 
     onSignin (e) {
         e.preventDefault()
-        this.props.push('/signin')
+        this.props.push('/')
     }
 
     onSignout (e) {
@@ -73,7 +73,7 @@ class Header extends React.Component {
                     <Nav className="ml-auto" navbar>
                         <NavItem>
                             <NavLink
-                                href="/signin"
+                                href="/"
                                 onClick={e => this.onSignin(e)}
                             >Sign In</NavLink>
                         </NavItem>
