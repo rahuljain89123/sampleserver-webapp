@@ -51,7 +51,7 @@ export const editSite = (id, site) =>
     dispatch => {
         dispatch(setEditingSite(true))
 
-        API.patch(`/sites/${id}`, site)
+        return API.patch(`/sites/${id}`, site)
         .then(json => {
             dispatch(setEditingSite(false))
             dispatch(receiveSite(json))
