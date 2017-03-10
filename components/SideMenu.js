@@ -12,9 +12,6 @@ const links = [{
     path: '/app/companies',
     title: 'Companies',
 }, {
-    path: '/app/projects',
-    title: 'Projects',
-}, {
     path: '/app/sites',
     title: 'Sites',
 }]
