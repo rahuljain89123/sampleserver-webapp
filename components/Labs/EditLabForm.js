@@ -3,38 +3,41 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { createCompany, clearCreatingCompanyError } from '../actions/companies'
-import { msgFromError } from '../util'
+import { editLab, clearEditingLabError } from '../../actions/labs'
+import { msgFromError } from '../../util'
 
 
-class NewCompanyForm extends React.Component {
+class EditLabForm extends React.Component {
     constructor (props) {
         super(props)
 
         this.state = {
-            title: '',
-            address: '',
-            city: '',
-            state: '',
-            zip: '',
-            phone: '',
-            contact: '',
-            cell: '',
-            fax: '',
-            email: '',
-            notes: '',
+            title: props.lab.get('title'),
+            address: props.lab.get('address'),
+            city: props.lab.get('city'),
+            state: props.lab.get('state'),
+            zip: props.lab.get('zip'),
+            phone: props.lab.get('phone'),
+            contact: props.lab.get('contact'),
+            cell: props.lab.get('cell'),
+            fax: props.lab.get('fax'),
+            email: props.lab.get('email'),
+            notes: props.lab.get('notes'),
+            shipping_company: props.lab.get('shipping_company'),
+            shipping_account: props.lab.get('shipping_account'),
+            shipping_notes: props.lab.get('shipping_notes'),
         }
     }
 
     componentWillMount () {
-        if (this.props.creatingCompanyError) {
-            this.props.clearCreatingCompanyError()
+        if (this.props.editingLabError) {
+            this.props.clearEditingLabError()
         }
     }
 
     onChange (e) {
-        if (this.props.creatingCompanyError) {
-            this.props.clearCreatingCompanyError()
+        if (this.props.editingLabError) {
+            this.props.clearEditingLabError()
         }
 
         this.setState({
@@ -44,7 +47,7 @@ class NewCompanyForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.createCompany({
+        this.props.editLab(this.props.lab.get('laboratory_id'), {
             title: this.state.title,
             address: this.state.address,
             city: this.state.city,
@@ -56,8 +59,11 @@ class NewCompanyForm extends React.Component {
             fax: this.state.fax,
             email: this.state.email,
             notes: this.state.notes,
+            shipping_company: this.state.shipping_company,
+            shipping_account: this.state.shipping_account,
+            shipping_notes: this.state.shipping_notes,
         })
-        .then(id => this.props.push(`/app/companies/${id}`))
+        .then(id => this.props.push(`/app/labs/${id}`))
     }
 
     render () {
@@ -168,9 +174,36 @@ class NewCompanyForm extends React.Component {
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>
+                <FormGroup>
+                    <Label for="shipping_company">Shipping Company</Label>
+                    <Input
+                        name="shipping_company"
+                        id="shipping_company"
+                        value={this.state.shipping_company}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="shipping_account">Shipping Account</Label>
+                    <Input
+                        name="shipping_account"
+                        id="shipping_account"
+                        value={this.state.shipping_account}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <Label for="shipping_notes">Shipping Notes</Label>
+                    <Input
+                        type="textarea"
+                        name="shipping_notes"
+                        value={this.state.shipping_notes}
+                        onChange={e => this.onChange(e)}
+                    />
+                </FormGroup>
                 <Button
                     color="primary"
-                    disabled={this.props.creatingCompany}
+                    disabled={this.props.editingLab}
                 >Save</Button>
             </Form>
         )
@@ -178,13 +211,13 @@ class NewCompanyForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    creatingCompanyError: store.get('creatingCompanyError'),
-    creatingCompany: store.get('creatingCompany'),
+    editingLabError: store.get('editingLabError'),
+    editingLab: store.get('editingLab'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    createCompany: company => dispatch(createCompany(company)),
-    clearCreatingCompanyError: () => dispatch(clearCreatingCompanyError()),
+    editLab: (id, lab) => dispatch(editLab(id, lab)),
+    clearEditingLabError: () => dispatch(clearEditingLabError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewCompanyForm)
+export default connect(mapStateToProps, mapDispatchToProps)(EditLabForm)

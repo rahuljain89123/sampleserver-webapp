@@ -3,12 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchSites } from '../actions/sites'
-import LinkButton from './LinkButton'
-import FilterList from './FilterList'
+import { fetchLabs } from '../../actions/labs'
+import LinkButton from '../LinkButton'
+import FilterList from '../FilterList'
 
 
-class Sites extends React.Component {
+class Labs extends React.Component {
     constructor (props) {
         super(props)
 
@@ -24,15 +24,12 @@ class Sites extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchSites()
+        this.props.fetchLabs()
     }
 
     render () {
-        const sites = this.props.sites.filter(
-            site =>
-                site.get('title')
-                    .toUpperCase()
-                    .indexOf(this.state.filter.toUpperCase()) !== -1
+        const labs = this.props.labs.filter(
+            lab => lab.get('title').toUpperCase().indexOf(this.state.filter.toUpperCase()) !== -1
         ).entrySeq()
 
         return (
@@ -47,14 +44,14 @@ class Sites extends React.Component {
                     />
                     <LinkButton
                         color="primary"
-                        href="/app/sites/new"
+                        href="/app/labs/new"
                         className="ml-auto"
-                    >New Site</LinkButton>
+                    >New Lab</LinkButton>
                 </div>
                 <FilterList
-                    items={sites}
-                    title={site => site.get('title') || '-'}
-                    href={site => `/app/sites/${site.get('site_id')}`}
+                    items={labs}
+                    title={lab => lab.get('title') || '-'}
+                    href={lab => `/app/labs/${lab.get('laboratory_id')}`}
                 />
             </div>
         )
@@ -62,11 +59,11 @@ class Sites extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    sites: store.get('sites').filter(site => site.get('title') !== ''),
+    labs: store.get('labs').filter(lab => lab.get('title') !== ''),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchSites: () => dispatch(fetchSites()),
+    fetchLabs: () => dispatch(fetchLabs()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sites)
+export default connect(mapStateToProps, mapDispatchToProps)(Labs)

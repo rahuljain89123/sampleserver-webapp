@@ -3,8 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { editSample, clearEditingSampleError } from '../actions/samples'
-import { msgFromError } from '../util'
+import { editSample, clearEditingSampleError } from '../../actions/samples'
+import { msgFromError } from '../../util'
 
 
 class EditSampleForm extends React.Component {

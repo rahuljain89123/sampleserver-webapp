@@ -9,9 +9,9 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import LinkButton from './LinkButton'
+import LinkButton from '../LinkButton'
+import { fetchSite } from '../../actions/sites'
 import EditSiteForm from './EditSiteForm'
-import { fetchSite } from '../actions/sites'
 
 const SiteInfo = props => (
     <div>

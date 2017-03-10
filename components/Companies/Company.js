@@ -9,9 +9,9 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import LinkButton from './LinkButton'
+import LinkButton from '../LinkButton'
+import { fetchCompany } from '../../actions/companies'
 import EditCompanyForm from './EditCompanyForm'
-import { fetchCompany } from '../actions/companies'
 
 const CompanyInfo = props => (
     <div>

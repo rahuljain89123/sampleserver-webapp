@@ -9,9 +9,9 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import LinkButton from './LinkButton'
+import LinkButton from '../LinkButton'
+import { fetchLab } from '../../actions/labs'
 import EditLabForm from './EditLabForm'
-import { fetchLab } from '../actions/labs'
 
 const LabInfo = props => (
     <div>

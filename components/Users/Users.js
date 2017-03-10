@@ -3,8 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchUsers } from '../actions/users'
-import FilterList from './FilterList'
+import { fetchUsers } from '../../actions/users'
+import FilterList from '../FilterList'
 
 
 class Users extends React.Component {

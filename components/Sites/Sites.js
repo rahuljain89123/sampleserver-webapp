@@ -3,12 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchSamples } from '../actions/samples'
-import LinkButton from './LinkButton'
-import FilterList from './FilterList'
+import { fetchSites } from '../../actions/sites'
+import LinkButton from '../LinkButton'
+import FilterList from '../FilterList'
 
 
-class Samples extends React.Component {
+class Sites extends React.Component {
     constructor (props) {
         super(props)
 
@@ -24,15 +24,15 @@ class Samples extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchSamples()
+        this.props.fetchSites()
     }
 
     render () {
-        const samples = this.props.samples.filter(
-            sample => sample.get('sample_id')
-                            .toString()
-                            .toUpperCase()
-                            .indexOf(this.state.filter.toUpperCase()) !== -1
+        const sites = this.props.sites.filter(
+            site =>
+                site.get('title')
+                    .toUpperCase()
+                    .indexOf(this.state.filter.toUpperCase()) !== -1
         ).entrySeq()
 
         return (
@@ -47,14 +47,14 @@ class Samples extends React.Component {
                     />
                     <LinkButton
                         color="primary"
-                        href="/app/samples/new"
+                        href="/app/sites/new"
                         className="ml-auto"
-                    >New Sample</LinkButton>
+                    >New Site</LinkButton>
                 </div>
                 <FilterList
-                    items={samples}
-                    title={sample => sample.get('sample_id') || '-'}
-                    href={sample => `/app/samples/${sample.get('sample_id')}`}
+                    items={sites}
+                    title={site => site.get('title') || '-'}
+                    href={site => `/app/sites/${site.get('site_id')}`}
                 />
             </div>
         )
@@ -62,11 +62,11 @@ class Samples extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    samples: store.get('samples').sort((a, b) => b.sample_id - a.sample_id),
+    sites: store.get('sites').filter(site => site.get('title') !== ''),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchSamples: () => dispatch(fetchSamples()),
+    fetchSites: () => dispatch(fetchSites()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Samples)
+export default connect(mapStateToProps, mapDispatchToProps)(Sites)

@@ -9,12 +9,11 @@ import './index.scss'
 
 import store from './store'
 import Header from './components/Header'
-import Signin from './components/Signin'
-import AcceptInvite from './components/AcceptInvite'
-import CompleteProfile from './components/CompleteProfile'
+import Signin from './components/Users/Signin'
+import AcceptInvite from './components/Users/AcceptInvite'
+import CompleteProfile from './components/Users/CompleteProfile'
 import App from './components/App'
 import PrivateRoute from './components/Auth'
-import Homepage from './components/Homepage'
 
 
 ReactDOM.render((

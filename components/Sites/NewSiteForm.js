@@ -3,8 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { createSite, clearCreatingSiteError } from '../actions/sites'
-import { msgFromError } from '../util'
+import { createSite, clearCreatingSiteError } from '../../actions/sites'
+import { msgFromError } from '../../util'
 
 
 class NewSiteForm extends React.Component {

@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { signin, clearSigninError } from '../actions/users'
+import { signin, clearSigninError } from '../../actions/users'
 
 
 class SigninForm extends React.Component {

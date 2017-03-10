@@ -3,11 +3,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { createLab, clearCreatingLabError } from '../actions/labs'
-import { msgFromError } from '../util'
+import { createCompany, clearCreatingCompanyError } from '../../actions/companies'
+import { msgFromError } from '../../util'
 
 
-class NewLabForm extends React.Component {
+class NewCompanyForm extends React.Component {
     constructor (props) {
         super(props)
 
@@ -23,21 +23,18 @@ class NewLabForm extends React.Component {
             fax: '',
             email: '',
             notes: '',
-            shipping_company: '',
-            shipping_account: '',
-            shipping_notes: '',
         }
     }
 
     componentWillMount () {
-        if (this.props.creatingLabError) {
-            this.props.clearCreatingLabError()
+        if (this.props.creatingCompanyError) {
+            this.props.clearCreatingCompanyError()
         }
     }
 
     onChange (e) {
-        if (this.props.creatingLabError) {
-            this.props.clearCreatingLabError()
+        if (this.props.creatingCompanyError) {
+            this.props.clearCreatingCompanyError()
         }
 
         this.setState({
@@ -47,7 +44,7 @@ class NewLabForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.createLab({
+        this.props.createCompany({
             title: this.state.title,
             address: this.state.address,
             city: this.state.city,
@@ -59,11 +56,8 @@ class NewLabForm extends React.Component {
             fax: this.state.fax,
             email: this.state.email,
             notes: this.state.notes,
-            shipping_company: this.state.shipping_company,
-            shipping_account: this.state.shipping_account,
-            shipping_notes: this.state.shipping_notes,
         })
-        .then(id => this.props.push(`/app/labs/${id}`))
+        .then(id => this.props.push(`/app/companies/${id}`))
     }
 
     render () {
@@ -174,36 +168,9 @@ class NewLabForm extends React.Component {
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <Label for="shipping_company">Shipping Company</Label>
-                    <Input
-                        name="shipping_company"
-                        id="shipping_company"
-                        value={this.state.shipping_company}
-                        onChange={e => this.onChange(e)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="shipping_account">Shipping Account</Label>
-                    <Input
-                        name="shipping_account"
-                        id="shipping_account"
-                        value={this.state.shipping_account}
-                        onChange={e => this.onChange(e)}
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="shipping_notes">Shipping Notes</Label>
-                    <Input
-                        type="textarea"
-                        name="shipping_notes"
-                        value={this.state.shipping_notes}
-                        onChange={e => this.onChange(e)}
-                    />
-                </FormGroup>
                 <Button
                     color="primary"
-                    disabled={this.props.creatingLab}
+                    disabled={this.props.creatingCompany}
                 >Save</Button>
             </Form>
         )
@@ -211,13 +178,13 @@ class NewLabForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    creatingLabError: store.get('creatingLabError'),
-    creatingLab: store.get('creatingLab'),
+    creatingCompanyError: store.get('creatingCompanyError'),
+    creatingCompany: store.get('creatingCompany'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    createLab: lab => dispatch(createLab(lab)),
-    clearCreatingLabError: () => dispatch(clearCreatingLabError()),
+    createCompany: company => dispatch(createCompany(company)),
+    clearCreatingCompanyError: () => dispatch(clearCreatingCompanyError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewLabForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewCompanyForm)

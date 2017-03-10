@@ -3,41 +3,41 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { editLab, clearEditingLabError } from '../actions/labs'
-import { msgFromError } from '../util'
+import { createLab, clearCreatingLabError } from '../../actions/labs'
+import { msgFromError } from '../../util'
 
 
-class EditLabForm extends React.Component {
+class NewLabForm extends React.Component {
     constructor (props) {
         super(props)
 
         this.state = {
-            title: props.lab.get('title'),
-            address: props.lab.get('address'),
-            city: props.lab.get('city'),
-            state: props.lab.get('state'),
-            zip: props.lab.get('zip'),
-            phone: props.lab.get('phone'),
-            contact: props.lab.get('contact'),
-            cell: props.lab.get('cell'),
-            fax: props.lab.get('fax'),
-            email: props.lab.get('email'),
-            notes: props.lab.get('notes'),
-            shipping_company: props.lab.get('shipping_company'),
-            shipping_account: props.lab.get('shipping_account'),
-            shipping_notes: props.lab.get('shipping_notes'),
+            title: '',
+            address: '',
+            city: '',
+            state: '',
+            zip: '',
+            phone: '',
+            contact: '',
+            cell: '',
+            fax: '',
+            email: '',
+            notes: '',
+            shipping_company: '',
+            shipping_account: '',
+            shipping_notes: '',
         }
     }
 
     componentWillMount () {
-        if (this.props.editingLabError) {
-            this.props.clearEditingLabError()
+        if (this.props.creatingLabError) {
+            this.props.clearCreatingLabError()
         }
     }
 
     onChange (e) {
-        if (this.props.editingLabError) {
-            this.props.clearEditingLabError()
+        if (this.props.creatingLabError) {
+            this.props.clearCreatingLabError()
         }
 
         this.setState({
@@ -47,7 +47,7 @@ class EditLabForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editLab(this.props.lab.get('laboratory_id'), {
+        this.props.createLab({
             title: this.state.title,
             address: this.state.address,
             city: this.state.city,
@@ -203,7 +203,7 @@ class EditLabForm extends React.Component {
                 </FormGroup>
                 <Button
                     color="primary"
-                    disabled={this.props.editingLab}
+                    disabled={this.props.creatingLab}
                 >Save</Button>
             </Form>
         )
@@ -211,13 +211,13 @@ class EditLabForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    editingLabError: store.get('editingLabError'),
-    editingLab: store.get('editingLab'),
+    creatingLabError: store.get('creatingLabError'),
+    creatingLab: store.get('creatingLab'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    editLab: (id, lab) => dispatch(editLab(id, lab)),
-    clearEditingLabError: () => dispatch(clearEditingLabError()),
+    createLab: lab => dispatch(createLab(lab)),
+    clearCreatingLabError: () => dispatch(clearCreatingLabError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditLabForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewLabForm)

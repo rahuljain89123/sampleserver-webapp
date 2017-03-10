@@ -3,9 +3,9 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchCompanies } from '../actions/companies'
-import LinkButton from './LinkButton'
-import FilterList from './FilterList'
+import { fetchCompanies } from '../../actions/companies'
+import LinkButton from '../LinkButton'
+import FilterList from '../FilterList'
 
 
 class Companies extends React.Component {

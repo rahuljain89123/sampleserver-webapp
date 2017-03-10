@@ -8,8 +8,8 @@ import {
     acceptInvite,
     signin,
     clearAcceptInviteError,
-} from '../actions/users'
-import { hashids } from '../util'
+} from '../../actions/users'
+import { hashids } from '../../util'
 
 
 class AcceptInviteForm extends React.Component {

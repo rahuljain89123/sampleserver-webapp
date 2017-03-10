@@ -3,12 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchLabs } from '../actions/labs'
-import LinkButton from './LinkButton'
-import FilterList from './FilterList'
+import { fetchSamples } from '../../actions/samples'
+import LinkButton from '../LinkButton'
+import FilterList from '../FilterList'
 
 
-class Labs extends React.Component {
+class Samples extends React.Component {
     constructor (props) {
         super(props)
 
@@ -24,12 +24,15 @@ class Labs extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchLabs()
+        this.props.fetchSamples()
     }
 
     render () {
-        const labs = this.props.labs.filter(
-            lab => lab.get('title').toUpperCase().indexOf(this.state.filter.toUpperCase()) !== -1
+        const samples = this.props.samples.filter(
+            sample => sample.get('sample_id')
+                            .toString()
+                            .toUpperCase()
+                            .indexOf(this.state.filter.toUpperCase()) !== -1
         ).entrySeq()
 
         return (
@@ -44,14 +47,14 @@ class Labs extends React.Component {
                     />
                     <LinkButton
                         color="primary"
-                        href="/app/labs/new"
+                        href="/app/samples/new"
                         className="ml-auto"
-                    >New Lab</LinkButton>
+                    >New Sample</LinkButton>
                 </div>
                 <FilterList
-                    items={labs}
-                    title={lab => lab.get('title') || '-'}
-                    href={lab => `/app/labs/${lab.get('laboratory_id')}`}
+                    items={samples}
+                    title={sample => sample.get('sample_id') || '-'}
+                    href={sample => `/app/samples/${sample.get('sample_id')}`}
                 />
             </div>
         )
@@ -59,11 +62,11 @@ class Labs extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    labs: store.get('labs').filter(lab => lab.get('title') !== ''),
+    samples: store.get('samples').sort((a, b) => b.sample_id - a.sample_id),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchLabs: () => dispatch(fetchLabs()),
+    fetchSamples: () => dispatch(fetchSamples()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Labs)
+export default connect(mapStateToProps, mapDispatchToProps)(Samples)

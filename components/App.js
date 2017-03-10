@@ -5,25 +5,25 @@ import { Row, Col } from 'reactstrap'
 import SideMenu from './SideMenu'
 import PrivateRoute from './Auth'
 
-import User from './User'
-import Users from './Users'
+import Users from './Users/Users'
+import User from './Users/User'
 
-import Labs from './Labs'
-import Lab from './Lab'
-import NewLab from './NewLab'
-import LabUsers from './LabUsers'
+import Labs from './Labs/Labs'
+import Lab from './Labs/Lab'
+import NewLab from './Labs/NewLab'
+import LabUsers from './Labs/LabUsers'
 
-import Companies from './Companies'
-import Company from './Company'
-import NewCompany from './NewCompany'
-import CompanyUsers from './CompanyUsers'
+import Companies from './Companies/Companies'
+import Company from './Companies/Company'
+import NewCompany from './Companies/NewCompany'
+import CompanyUsers from './Companies/CompanyUsers'
 
-import Sites from './Sites'
-import Site from './Site'
-import NewSite from './NewSite'
+import Sites from './Sites/Sites'
+import Site from './Sites/Site'
+import NewSite from './Sites/NewSite'
 
-import Samples from './Samples'
-import Sample from './Sample'
+import Samples from './Samples/Samples'
+import Sample from './Samples/Sample'
 
 const App = () => (
     <Row>

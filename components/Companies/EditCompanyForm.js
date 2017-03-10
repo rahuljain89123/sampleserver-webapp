@@ -3,8 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { editCompany, clearEditingCompanyError } from '../actions/companies'
-import { msgFromError } from '../util'
+import { editCompany, clearEditingCompanyError } from '../../actions/companies'
+import { msgFromError } from '../../util'
 
 
 class EditCompanyForm extends React.Component {

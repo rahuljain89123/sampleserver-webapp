@@ -10,11 +10,11 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import LinkButton from './LinkButton'
+import LinkButton from '../LinkButton'
+import { fetchLabs } from '../../actions/labs'
+import { fetchRoles } from '../../actions/roles'
+import { fetchUser, fetchUsers, editUser } from '../../actions/users'
 import EditUserForm from './EditUserForm'
-import { fetchLabs } from '../actions/labs'
-import { fetchRoles } from '../actions/roles'
-import { fetchUser, fetchUsers, editUser } from '../actions/users'
 
 const UserInfo = props => (
     <div>
