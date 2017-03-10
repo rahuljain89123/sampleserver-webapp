@@ -30,10 +30,13 @@ class Labs extends React.Component {
     render () {
         const labs = this.props.labs
             .filter(
-                lab =>
+                lab => (
+                    lab ?
                     lab.get('title')
                        .toUpperCase()
                        .indexOf(this.state.filter.toUpperCase()) !== -1
+                    : false
+                )
             )
             .sort((a, b) => a.get('laboratory_id') - b.get('laboratory_id'))
             .entrySeq()

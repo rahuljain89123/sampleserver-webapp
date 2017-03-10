@@ -29,10 +29,13 @@ class Users extends React.Component {
     render () {
         const users = this.props.users
             .filter(
-                user =>
+                user => (
+                    user ?
                     user.get('email')
                         .toUpperCase()
                         .indexOf(this.state.filter.toUpperCase()) !== -1
+                    : false
+                )
             )
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()

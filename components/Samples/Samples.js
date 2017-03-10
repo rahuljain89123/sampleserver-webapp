@@ -28,12 +28,19 @@ class Samples extends React.Component {
     }
 
     render () {
-        const samples = this.props.samples.filter(
-            sample => sample.get('sample_id')
-                            .toString()
-                            .toUpperCase()
-                            .indexOf(this.state.filter.toUpperCase()) !== -1
-        ).entrySeq()
+        const samples = this.props.samples
+            .filter(
+                sample => (
+                    sample ?
+                    sample.get('sample_id')
+                          .toString()
+                          .toUpperCase()
+                          .indexOf(this.state.filter.toUpperCase()) !== -1
+                    : false
+                )
+            )
+            .sort((a, b) => a.get('sample_id') - b.get('sample_id'))
+            .entrySeq()
 
         return (
             <div>

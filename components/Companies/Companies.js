@@ -30,10 +30,13 @@ class Companies extends React.Component {
     render () {
         const companies = this.props.companies
             .filter(
-                company =>
+                company => (
+                    company ?
                     company.get('title')
                            .toUpperCase()
                            .indexOf(this.state.filter.toUpperCase()) !== -1
+                    : false
+                )
             )
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
