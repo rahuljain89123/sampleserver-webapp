@@ -28,9 +28,9 @@ const SiteInfo = props => (
         <strong>Latitude: </strong><span>{props.site.get('latitude')}</span><br />
         <strong>Longitude: </strong><span>{props.site.get('longitude')}</span><br />
         <strong>Start sampling on: </strong><span>{props.site.get('start_sampling_on')}</span><br />
-        <strong>History: </strong><span>{props.site.get('history')}</span><br />
-        <strong>Background: </strong><span>{props.site.get('background')}</span><br />
-        <strong>Summary: </strong><span>{props.site.get('summary')}</span><br />
+        <strong>History: </strong><span dangerouslySetInnerHTML={{ __html: props.site.get('history') }} /><br />
+        <strong>Background: </strong><span dangerouslySetInnerHTML={{ __html: props.site.get('background') }} /><br />
+        <strong>Summary: </strong><span dangerouslySetInnerHTML={{ __html: props.site.get('summary') }} /><br />
     </div>
 )
 
