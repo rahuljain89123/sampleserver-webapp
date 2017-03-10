@@ -1,5 +1,6 @@
 
 import React from 'react'
+import Immutable from 'immutable'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import {
@@ -47,7 +48,15 @@ class CompanyUsers extends React.Component {
 
         const activeRole = roles.size ? roles.first().get('id') : 100
         const currentRole = roles.size ? roles.get(activeRole) : null
-        const users = props.users.filter(
+
+        const users = company ? (
+            Immutable.List(
+                company.get('user_ids')
+                       .map(id => props.users.get(id))
+            )
+        ) : Immutable.List()
+
+        const filteredUsers = users.filter(
             user =>
                 user.get('role_id') === activeRole
         ).sort((a, b) => a.get('id') - b.get('id'))
@@ -55,7 +64,7 @@ class CompanyUsers extends React.Component {
         this.state = {
             companyId,
             company,
-            users,
+            users: filteredUsers,
             roles,
             currentRole,
             activeRole,
@@ -72,6 +81,7 @@ class CompanyUsers extends React.Component {
     }
 
     componentWillReceiveProps (nextProps) {
+        const company = nextProps.companies.get(this.state.companyId)
         const currentUserRole = (
             nextProps.currentUser &&
             nextProps.users.size
@@ -87,14 +97,21 @@ class CompanyUsers extends React.Component {
         const currentRole = roles.size ? roles.get(this.state.activeRole) : null
         const activeRole = (this.state.activeRole === 100 && roles.size) ? roles.first().get('id') : this.state.activeRole
 
-        const users = nextProps.users.filter(
+        const users = company ? (
+            Immutable.List(
+                company.get('user_ids')
+                       .map(id => nextProps.users.get(id))
+            )
+        ) : Immutable.List()
+
+        const filteredUsers = users.filter(
             user =>
                 user.get('role_id') === activeRole
         ).sort((a, b) => a.get('id') - b.get('id'))
 
         this.setState({
             company: nextProps.companies.get(this.state.companyId),
-            users,
+            users: filteredUsers,
             roles,
             currentRole,
             activeRole,
@@ -103,14 +120,22 @@ class CompanyUsers extends React.Component {
 
     onToggle (tab) {
         if (this.state.activeRole !== tab) {
-            const users = this.props.users.filter(
+            const users = this.state.company ? (
+                Immutable.List(
+                    this.state.company.get('user_ids')
+                                      .map(id => this.props.users.get(id))
+                )
+            ) : Immutable.List()
+
+            const filteredUsers = users.filter(
                 user =>
                     user.get('role_id') === tab
             ).sort((a, b) => a.get('id') - b.get('id'))
+
             const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
 
             this.setState({
-                users,
+                users: filteredUsers,
                 currentRole,
                 activeRole: tab,
             })
@@ -284,7 +309,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchCompany: () => dispatch(fetchCompany()),
+    fetchCompany: id => dispatch(fetchCompany(id)),
     fetchUsers: () => dispatch(fetchUsers()),
     createUser: user => dispatch(createUser(user)),
 })
