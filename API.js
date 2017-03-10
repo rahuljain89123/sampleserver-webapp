@@ -2,8 +2,10 @@
 
 import store from './store'
 
-const PROTOCOL = 'http://'
-const API_BASE = '.sampleserve.dev/api/v1'
+const IS_DEV = window.location.hostname.indexOf('sampleserve-webapp.dev') > 0
+
+const PROTOCOL = `${window.location.protocol}//`
+const API_BASE = IS_DEV ? '.sampleserve.dev/api/v1' : '.sampleserve.net/api/v1'
 
 const API = {}
 
