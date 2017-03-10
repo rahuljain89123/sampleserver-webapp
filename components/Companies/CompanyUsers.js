@@ -57,8 +57,9 @@ class CompanyUsers extends React.Component {
         ) : Immutable.List()
 
         const filteredUsers = users.filter(
-            user =>
-                user.get('role_id') === activeRole
+            user => (
+                user ? (user.get('role_id') === activeRole) : false
+            )
         ).sort((a, b) => a.get('id') - b.get('id'))
 
         this.state = {
@@ -105,8 +106,9 @@ class CompanyUsers extends React.Component {
         ) : Immutable.List()
 
         const filteredUsers = users.filter(
-            user =>
-                user.get('role_id') === activeRole
+            user => (
+                user ? (user.get('role_id') === activeRole) : false
+            )
         ).sort((a, b) => a.get('id') - b.get('id'))
 
         this.setState({
@@ -128,8 +130,9 @@ class CompanyUsers extends React.Component {
             ) : Immutable.List()
 
             const filteredUsers = users.filter(
-                user =>
-                    user.get('role_id') === tab
+                user => (
+                    user ? (user.get('role_id') === tab) : false
+                )
             ).sort((a, b) => a.get('id') - b.get('id'))
 
             const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null

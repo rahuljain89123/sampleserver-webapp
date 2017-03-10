@@ -28,12 +28,15 @@ class Sites extends React.Component {
     }
 
     render () {
-        const sites = this.props.sites.filter(
-            site =>
-                site.get('title')
-                    .toUpperCase()
-                    .indexOf(this.state.filter.toUpperCase()) !== -1
-        ).entrySeq()
+        const sites = this.props.sites
+            .filter(
+                site =>
+                    site.get('title')
+                        .toUpperCase()
+                        .indexOf(this.state.filter.toUpperCase()) !== -1
+            )
+            .sort((a, b) => a.get('site_id') - b.get('site_id'))
+            .entrySeq()
 
         return (
             <div>
