@@ -23,11 +23,11 @@ const SideMenu = props => (
     <nav className="nav nav-pills flex-column">
         {links.map(route => (
             <Route
+                key={route.path}
                 path={route.path}
                 children={routeProps => (
                     <a
                         className={routeProps.match ? 'nav-link active' : 'nav-link'}
-                        key={route.path}
                         href={route.path}
                         onClick={e => {
                             e.preventDefault()

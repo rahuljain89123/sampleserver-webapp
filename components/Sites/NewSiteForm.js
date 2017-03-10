@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import { createSite, clearCreatingSiteError } from '../../actions/sites'
 import { msgFromError } from '../../util'
@@ -79,153 +86,185 @@ class NewSiteForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
+                <FormGroup color={errors.title ? 'danger' : ''}>
                     <Label for="title">Title</Label>
                     <Input
+                        state={errors.title ? 'danger' : ''}
                         name="title"
                         id="title"
                         value={this.state.title}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.title}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.contact ? 'danger' : ''}>
                     <Label for="contact">Contact</Label>
                     <Input
+                        state={errors.contact ? 'danger' : ''}
                         name="contact"
                         id="contact"
                         value={this.state.contact}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.contact}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.contact_phone ? 'danger' : ''}>
                     <Label for="contact_phone">Contact phone</Label>
                     <Input
+                        state={errors.contact_phone ? 'danger' : ''}
                         name="contact_phone"
                         id="contact_phone"
                         value={this.state.contact_phone}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.contact_phone}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.contact_email ? 'danger' : ''}>
                     <Label for="contact_email">Contact email</Label>
                     <Input
+                        state={errors.contact_email ? 'danger' : ''}
                         name="contact_email"
                         id="contact_email"
                         value={this.state.contact_email}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.contact_email}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.notes ? 'danger' : ''}>
                     <Label for="notes">Notes</Label>
                     <Input
+                        state={errors.notes ? 'danger' : ''}
                         type="textarea"
                         name="notes"
                         id="notes"
                         value={this.state.notes}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.notes}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.address ? 'danger' : ''}>
                     <Label for="address">Address</Label>
                     <Input
+                        state={errors.address ? 'danger' : ''}
                         name="address"
                         id="address"
                         value={this.state.address}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.address}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.city ? 'danger' : ''}>
                     <Label for="city">City</Label>
                     <Input
+                        state={errors.city ? 'danger' : ''}
                         name="city"
                         id="city"
                         value={this.state.city}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.city}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.state ? 'danger' : ''}>
                     <Label for="state">State</Label>
                     <Input
+                        state={errors.state ? 'danger' : ''}
                         name="state"
                         id="state"
                         value={this.state.state}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.state}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.zip ? 'danger' : ''}>
                     <Label for="zip">Zip</Label>
                     <Input
+                        state={errors.zip ? 'danger' : ''}
                         name="zip"
                         id="zip"
                         value={this.state.zip}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.zip}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.county ? 'danger' : ''}>
                     <Label for="county">County</Label>
                     <Input
+                        state={errors.county ? 'danger' : ''}
                         name="county"
                         id="county"
                         value={this.state.county}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.county}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.latitude ? 'danger' : ''}>
                     <Label for="latitude">Latitude</Label>
                     <Input
+                        state={errors.latitude ? 'danger' : ''}
                         name="latitude"
                         id="latitude"
                         value={this.state.latitude}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.latitude}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.longitude ? 'danger' : ''}>
                     <Label for="longitude">Longitude</Label>
                     <Input
+                        state={errors.longitude ? 'danger' : ''}
                         name="longitude"
                         id="longitude"
                         value={this.state.longitude}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.longitude}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.start_sampling_on ? 'danger' : ''}>
                     <Label for="start_sampling_on">Start sampling on</Label>
                     <Input
+                        state={errors.start_sampling_on ? 'danger' : ''}
                         name="start_sampling_on"
                         id="start_sampling_on"
                         value={this.state.start_sampling_on}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.start_sampling_on}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.history ? 'danger' : ''}>
                     <Label for="history">History</Label>
                     <Input
+                        state={errors.history ? 'danger' : ''}
                         type="textarea"
                         name="history"
                         id="history"
                         value={this.state.history}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.history}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.background ? 'danger' : ''}>
                     <Label for="background">Background</Label>
                     <Input
+                        state={errors.background ? 'danger' : ''}
                         type="textarea"
                         name="background"
                         id="background"
                         value={this.state.background}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.background}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.summary ? 'danger' : ''}>
                     <Label for="summary">Summary</Label>
                     <Input
+                        state={errors.summary ? 'danger' : ''}
                         type="textarea"
                         name="summary"
                         id="summary"
                         value={this.state.summary}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.summary}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"

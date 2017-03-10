@@ -17,6 +17,8 @@ import {
     currentUser,
     creatingUser,
     creatingUserError,
+    editingUser,
+    editingUserError,
     signinError,
     signinProcessing,
 } from './reducers/users'
@@ -54,6 +56,8 @@ const rootReducer = combineReducers({
     currentUser,
     creatingUser,
     creatingUserError,
+    editingUser,
+    editingUserError,
 
     signinError,
     signinProcessing,

@@ -111,7 +111,7 @@ class Site extends React.Component {
                     exact
                     path="/app/sites/:id(\\d+)/edit"
                     render={() => (
-                        <div className="card">
+                        <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
                                 <BreadcrumbItem
                                     tag="a"
@@ -131,19 +131,21 @@ class Site extends React.Component {
                                     Edit Site
                                 </BreadcrumbItem>
                             </Breadcrumb>
-                            <div className="card-block">
-                                <div className="card-title d-flex flex-row">
-                                    <h4>{site.get('title')}</h4>
-                                    <LinkButton
-                                        href={`/app/sites/${site.get('site_id')}`}
-                                        className="ml-auto"
-                                    >Back</LinkButton>
+                            <div className="card">
+                                <div className="card-block">
+                                    <div className="card-title d-flex flex-row">
+                                        <h4>{site.get('title')}</h4>
+                                        <LinkButton
+                                            href={`/app/sites/${site.get('site_id')}`}
+                                            className="ml-auto"
+                                        >Back</LinkButton>
+                                    </div>
+                                    <Row>
+                                        <Col sm={6}>
+                                            <EditSiteForm site={site} push={this.props.push} />
+                                        </Col>
+                                    </Row>
                                 </div>
-                                <Row>
-                                    <Col sm={6}>
-                                        <EditSiteForm site={site} push={this.props.push} />
-                                    </Col>
-                                </Row>
                             </div>
                         </div>
                     )}

@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import { editSample, clearEditingSampleError } from '../../actions/samples'
 import { msgFromError } from '../../util'
@@ -53,32 +60,38 @@ class EditSampleForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
+                <FormGroup color={errors.date_collected ? 'danger' : ''}>
                     <Label for="date_collected">Date collected</Label>
                     <Input
+                        state={errors.date_collected ? 'danger' : ''}
                         name="date_collected"
                         id="date_collected"
                         value={this.state.date_collected}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.date_collected}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.date_extracted ? 'danger' : ''}>
                     <Label for="date_extracted">Date extracted</Label>
                     <Input
+                        state={errors.date_extracted ? 'danger' : ''}
                         name="date_extracted"
                         id="date_extracted"
                         value={this.state.date_extracted}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.date_extracted}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.date_analyzed ? 'danger' : ''}>
                     <Label for="date_analyzed">Date analyzed</Label>
                     <Input
+                        state={errors.date_analyzed ? 'danger' : ''}
                         name="date_analyzed"
                         id="date_analyzed"
                         value={this.state.date_analyzed}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.date_analyzed}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"

@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import { createLab, clearCreatingLabError } from '../../actions/labs'
 import { msgFromError } from '../../util'
@@ -75,131 +82,159 @@ class NewLabForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
+                <FormGroup color={errors.title ? 'danger' : ''}>
                     <Label for="title">Title</Label>
                     <Input
+                        state={errors.title ? 'danger' : ''}
                         name="title"
                         id="title"
                         value={this.state.title}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.title}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.address ? 'danger' : ''}>
                     <Label for="address">Address</Label>
                     <Input
+                        state={errors.address ? 'danger' : ''}
                         name="address"
                         id="address"
                         value={this.state.address}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.address}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.city ? 'danger' : ''}>
                     <Label for="city">City</Label>
                     <Input
+                        state={errors.city ? 'danger' : ''}
                         name="city"
                         id="city"
                         value={this.state.city}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.city}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.state ? 'danger' : ''}>
                     <Label for="state">State</Label>
                     <Input
+                        state={errors.state ? 'danger' : ''}
                         name="state"
                         id="state"
                         value={this.state.state}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.state}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.zip ? 'danger' : ''}>
                     <Label for="zip">Zip</Label>
                     <Input
+                        state={errors.zip ? 'danger' : ''}
                         name="zip"
                         id="zip"
                         value={this.state.zip}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.zip}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.phone ? 'danger' : ''}>
                     <Label for="phone">Phone</Label>
                     <Input
+                        state={errors.phone ? 'danger' : ''}
                         name="phone"
                         id="phone"
                         value={this.state.phone}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.phone}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.contact ? 'danger' : ''}>
                     <Label for="contact">Contact</Label>
                     <Input
+                        state={errors.contact ? 'danger' : ''}
                         name="contact"
                         id="contact"
                         value={this.state.contact}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.contact}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.cell ? 'danger' : ''}>
                     <Label for="cell">Cell</Label>
                     <Input
+                        state={errors.cell ? 'danger' : ''}
                         name="cell"
                         id="cell"
                         value={this.state.cell}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.cell}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.fax ? 'danger' : ''}>
                     <Label for="fax">Fax</Label>
                     <Input
+                        state={errors.fax ? 'danger' : ''}
                         name="fax"
                         id="fax"
                         value={this.state.fax}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.fax}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
+                        state={errors.email ? 'danger' : ''}
                         name="email"
                         id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.email}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.notes ? 'danger' : ''}>
                     <Label for="notes">Notes</Label>
                     <Input
+                        state={errors.notes ? 'danger' : ''}
                         name="notes"
                         id="notes"
                         value={this.state.notes}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.notes}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.shipping_company ? 'danger' : ''}>
                     <Label for="shipping_company">Shipping Company</Label>
                     <Input
+                        state={errors.shipping_company ? 'danger' : ''}
                         name="shipping_company"
                         id="shipping_company"
                         value={this.state.shipping_company}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.shipping_company}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.shipping_account ? 'danger' : ''}>
                     <Label for="shipping_account">Shipping Account</Label>
                     <Input
+                        state={errors.shipping_account ? 'danger' : ''}
                         name="shipping_account"
                         id="shipping_account"
                         value={this.state.shipping_account}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.shipping_account}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.shipping_notes ? 'danger' : ''}>
                     <Label for="shipping_notes">Shipping Notes</Label>
                     <Input
+                        state={errors.shipping_notes ? 'danger' : ''}
                         type="textarea"
                         name="shipping_notes"
                         value={this.state.shipping_notes}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.shipping_notes}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"

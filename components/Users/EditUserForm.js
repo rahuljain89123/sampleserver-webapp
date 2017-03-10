@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import { fetchLabs } from '../../actions/labs'
 import { fetchRoles } from '../../actions/roles'
@@ -59,6 +66,7 @@ class EditUserForm extends React.Component {
         const roles = this.props.roles.entrySeq()
         const labs = this.props.labs.entrySeq()
         const error = this.props.editingUserError
+
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
             [error.key]: msgFromError(error),
@@ -66,40 +74,47 @@ class EditUserForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
+                <FormGroup color={errors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
+                        state={errors.email ? 'danger' : ''}
                         type="email"
                         name="email"
                         id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.email}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.name ? 'danger' : ''}>
                     <Label for="name">Full name</Label>
                     <Input
+                        state={errors.name ? 'danger' : ''}
                         name="name"
                         id="name"
                         value={this.state.name}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.name}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.phone ? 'danger' : ''}>
                     <Label for="phone">Phone number</Label>
                     <Input
+                        state={errors.phone ? 'danger' : ''}
                         name="phone"
                         id="phone"
                         value={this.state.phone}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.phone}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
-                    <Label for="lab">Lab</Label>
+                <FormGroup color={errors.lab_id ? 'danger' : ''}>
+                    <Label for="lab_id">Lab</Label>
                     <Input
+                        state={errors.lab_id ? 'danger' : ''}
                         type="select"
                         name="lab_id"
-                        id="lab"
+                        id="lab_id"
                         value={this.state.lab_id}
                         onChange={e => this.onChange(e)}
                     >
@@ -108,13 +123,15 @@ class EditUserForm extends React.Component {
                             <option key={id} value={item.get('laboratory_id')}>{item.get('title')}</option>
                         ))}
                     </Input>
+                    <FormFeedback>{errors.lab_id}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
-                    <Label for="role">Role</Label>
+                <FormGroup color={errors.role_id ? 'danger' : ''}>
+                    <Label for="role_id">Role</Label>
                     <Input
+                        state={errors.role_id ? 'danger' : ''}
                         type="select"
                         name="role_id"
-                        id="role"
+                        id="role_id"
                         value={this.state.role_id}
                         onChange={e => this.onChange(e)}
                     >
@@ -123,6 +140,7 @@ class EditUserForm extends React.Component {
                             <option key={id} value={item.get('id')}>{item.get('name')}</option>
                         ))}
                     </Input>
+                    <FormFeedback>{errors.role_id}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"
