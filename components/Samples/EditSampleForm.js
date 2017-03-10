@@ -19,9 +19,9 @@ class EditSampleForm extends React.Component {
         super(props)
 
         this.state = {
-            date_collected: props.sample.get('date_collected'),
-            date_extracted: props.sample.get('date_extracted'),
-            date_analyzed: props.sample.get('date_analyzed'),
+            date_collected: props.sample.get('date_collected') || '',
+            date_extracted: props.sample.get('date_extracted') || '',
+            date_analyzed: props.sample.get('date_analyzed') || '',
         }
     }
 

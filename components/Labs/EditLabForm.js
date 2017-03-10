@@ -19,20 +19,20 @@ class EditLabForm extends React.Component {
         super(props)
 
         this.state = {
-            title: props.lab.get('title'),
-            address: props.lab.get('address'),
-            city: props.lab.get('city'),
-            state: props.lab.get('state'),
-            zip: props.lab.get('zip'),
-            phone: props.lab.get('phone'),
-            contact: props.lab.get('contact'),
-            cell: props.lab.get('cell'),
-            fax: props.lab.get('fax'),
-            email: props.lab.get('email'),
-            notes: props.lab.get('notes'),
-            shipping_company: props.lab.get('shipping_company'),
-            shipping_account: props.lab.get('shipping_account'),
-            shipping_notes: props.lab.get('shipping_notes'),
+            title: props.lab.get('title') || '',
+            address: props.lab.get('address') || '',
+            city: props.lab.get('city') || '',
+            state: props.lab.get('state') || '',
+            zip: props.lab.get('zip') || '',
+            phone: props.lab.get('phone') || '',
+            contact: props.lab.get('contact') || '',
+            cell: props.lab.get('cell') || '',
+            fax: props.lab.get('fax') || '',
+            email: props.lab.get('email') || '',
+            notes: props.lab.get('notes') || '',
+            shipping_company: props.lab.get('shipping_company') || '',
+            shipping_account: props.lab.get('shipping_account') || '',
+            shipping_notes: props.lab.get('shipping_notes') || '',
         }
     }
 

@@ -21,11 +21,11 @@ class EditUserForm extends React.Component {
         super(props)
 
         this.state = {
-            email: props.user.get('email'),
-            name: props.user.get('name'),
-            phone: props.user.get('phone'),
-            role_id: props.user.get('role_id'),
-            lab_id: props.user.get('lab_id'),
+            email: props.user.get('email') || '',
+            name: props.user.get('name') || '',
+            phone: props.user.get('phone') || '',
+            role_id: props.user.get('role_id') || '',
+            lab_id: props.user.get('lab_id') || '',
         }
     }
 

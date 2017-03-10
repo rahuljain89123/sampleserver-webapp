@@ -19,17 +19,17 @@ class EditCompanyForm extends React.Component {
         super(props)
 
         this.state = {
-            title: props.company.get('title'),
-            address: props.company.get('address'),
-            city: props.company.get('city'),
-            state: props.company.get('state'),
-            zip: props.company.get('zip'),
-            phone: props.company.get('phone'),
-            contact: props.company.get('contact'),
-            cell: props.company.get('cell'),
-            fax: props.company.get('fax'),
-            email: props.company.get('email'),
-            notes: props.company.get('notes'),
+            title: props.company.get('title') || '',
+            address: props.company.get('address') || '',
+            city: props.company.get('city') || '',
+            state: props.company.get('state') || '',
+            zip: props.company.get('zip') || '',
+            phone: props.company.get('phone') || '',
+            contact: props.company.get('contact') || '',
+            cell: props.company.get('cell') || '',
+            fax: props.company.get('fax') || '',
+            email: props.company.get('email') || '',
+            notes: props.company.get('notes') || '',
         }
     }
 
