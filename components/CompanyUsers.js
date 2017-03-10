@@ -138,7 +138,7 @@ class CompanyUsers extends React.Component {
             companies: {
                 add: [this.state.companyId],
                 remove: [],
-            }
+            },
         })
 
         this.setState({
@@ -160,94 +160,117 @@ class CompanyUsers extends React.Component {
         return (
             <div>
                 <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                    <BreadcrumbItem tag="a" href="/app/companies" onClick={e => this.onClick(e)}>Companies</BreadcrumbItem>
-                    <BreadcrumbItem tag="a" href={`/app/companies/${company.get('id')}`} onClick={e => this.onClick(e)}>{company.get('title')}</BreadcrumbItem>
-                    <BreadcrumbItem className="active">Manage Users</BreadcrumbItem>
+                    <BreadcrumbItem
+                        tag="a"
+                        href="/app/companies"
+                        onClick={e => this.onClick(e)}
+                    >
+                        Companies
+                    </BreadcrumbItem>
+                    <BreadcrumbItem
+                        tag="a"
+                        href={`/app/companies/${company.get('id')}`}
+                        onClick={e => this.onClick(e)}
+                    >
+                        {company.get('title')}
+                    </BreadcrumbItem>
+                    <BreadcrumbItem className="active">
+                        Manage Users
+                    </BreadcrumbItem>
                 </Breadcrumb>
                 <Nav tabs>
-                  {roles.map(([id, role]) => (
-                      <NavItem key={role.get('id')}>
-                        <NavLink
-                          className={classnames({ active: this.state.activeRole === role.get('id') })}
-                          onClick={() => this.onToggle(role.get('id'))}
-                        >
-                          {`${role.get('description')}s`}
-                        </NavLink>
-                      </NavItem>
-                  ))}
+                    {roles.map(([id, role]) => (
+                        <NavItem key={role.get('id')}>
+                            <NavLink
+                                className={classnames({ active: this.state.activeRole === role.get('id') })}
+                                onClick={() => this.onToggle(role.get('id'))}
+                            >
+                                {`${role.get('description')}s`}
+                            </NavLink>
+                        </NavItem>
+                    ))}
                 </Nav>
                 <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
-                  <TabPane tabId={4}>
-                    <Row>
-                      <Col sm="12">
-                        <p>
-                            Can create additional CompanyAdmin Users.<br />
-                            CompanyAdmin users can disable other CompanyAdmin users.<br />
-                            CompanyAdmin cannot disable himself.<br />
-                            All CompanyAdmins receive notification the invoice, and all have the ability to pay.<br />
-                            Also have CompanyAssociate permissions.<br /><br />
-                        </p>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId={5}>
-                    <Row>
-                      <Col sm="12">
-                        <p>
-                            Can create/edit/view all sites within the company.<br />
-                            Can create site groups.<br />
-                            Can add project managers and technicians to each site group.<br /><br />
-                        </p>
-                      </Col>
-                    </Row>
-                  </TabPane>
-              </TabContent>
-              {!!users.size && (
-                  <Table size="sm" style={{ marginBottom: 60 }}>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map(([id, user]) => (
-                          <tr key={id}>
-                            <td scope="row">{user.get('name') || '-'}</td>
-                            <td>{user.get('email')}</td>
-                            <td>{user.get('active') ? (
-                                <Badge color="success">Active</Badge>
-                            ) : (
-                                <Badge>Pending</Badge>
-                            )}</td>
-                          </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-              )}
-              <Row>
-                  {!!currentRole && (
+                    <TabPane tabId={4}>
+                        <Row>
+                            <Col sm="12">
+                                <p>
+                                Can create additional CompanyAdmin Users.
+                                <br />
+                                CompanyAdmin users can disable other CompanyAdmin users.
+                                <br />
+                                CompanyAdmin cannot disable himself.
+                                <br />
+                                All CompanyAdmins receive notification the invoice,
+                                and all have the ability to pay.
+                                <br />
+                                Also have CompanyAssociate permissions.
+                                <br /><br />
+                                </p>
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId={5}>
+                        <Row>
+                            <Col sm="12">
+                                <p>
+                                Can create/edit/view all sites within the company.
+                                <br />
+                                Can create site groups.
+                                <br />
+                                Can add project managers and technicians to each site group.
+                                <br /><br />
+                                </p>
+                            </Col>
+                        </Row>
+                    </TabPane>
+                </TabContent>
+                {!!users.size && (
+                    <Table size="sm" style={{ marginBottom: 60 }}>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map(([id, user]) => (
+                                <tr key={id}>
+                                    <td>{user.get('name') || '-'}</td>
+                                    <td>{user.get('email')}</td>
+                                    <td>{user.get('active') ? (
+                                        <Badge color="success">Active</Badge>
+                                    ) : (
+                                        <Badge>Pending</Badge>
+                                    )}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                )}
+                <Row>
+                    {!!currentRole && (
                     <Col sm="6">
-                    <h6>Add {currentRole.get('description')}</h6>
-                    <Form onSubmit={e => this.onSubmit(e)}>
-                        <FormGroup>
-                            <InputGroup>
-                                <Input
-                                    name="email"
-                                    placeholder="name@example.com"
-                                    value={this.state.email}
-                                    onChange={e => this.onChange(e)}
-                                />
-                                <InputGroupButton>
-                                    <Button color="primary">Invite</Button>
-                                </InputGroupButton>
-                            </InputGroup>
-                        </FormGroup>
-                    </Form>
+                        <h6>Add {currentRole.get('description')}</h6>
+                        <Form onSubmit={e => this.onSubmit(e)}>
+                            <FormGroup>
+                                <InputGroup>
+                                    <Input
+                                        name="email"
+                                        placeholder="name@example.com"
+                                        value={this.state.email}
+                                        onChange={e => this.onChange(e)}
+                                    />
+                                    <InputGroupButton>
+                                        <Button color="primary">Invite</Button>
+                                    </InputGroupButton>
+                                </InputGroup>
+                            </FormGroup>
+                        </Form>
                     </Col>
-                  )}
-              </Row>
+                    )}
+                </Row>
             </div>
         )
     }

@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
 import { fetchUsers } from '../actions/users'
-import LinkButton from './LinkButton'
 import FilterList from './FilterList'
 
 
@@ -29,7 +28,10 @@ class Users extends React.Component {
 
     render () {
         const users = this.props.users.filter(
-            user => user.get('email').toUpperCase().indexOf(this.state.filter.toUpperCase()) !== -1
+            user =>
+                user.get('email')
+                    .toUpperCase()
+                    .indexOf(this.state.filter.toUpperCase()) !== -1
         ).entrySeq()
 
         return (

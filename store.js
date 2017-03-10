@@ -30,6 +30,8 @@ import {
 } from './reducers/labs'
 import {
     sites,
+    creatingSite,
+    creatingSiteError,
     editingSite,
     editingSiteError,
 } from './reducers/sites'
@@ -64,6 +66,8 @@ const rootReducer = combineReducers({
     editingLabError,
 
     sites,
+    creatingSite,
+    creatingSiteError,
     editingSite,
     editingSiteError,
 

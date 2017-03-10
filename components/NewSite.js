@@ -7,32 +7,32 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import NewLabForm from './NewLabForm'
+import NewSiteForm from './NewSiteForm'
 
-const NewLab = props => (
+const NewSite = props => (
     <div>
         <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
             <BreadcrumbItem
                 tag="a"
-                href="/app/labs"
+                href="/app/sites"
                 onClick={e => {
                     e.preventDefault()
                     props.push(e.target.getAttribute('href'))
                 }}
             >
-                Labs
+                Sites
             </BreadcrumbItem>
             <BreadcrumbItem className="active">
-                New Lab
+                New Site
             </BreadcrumbItem>
         </Breadcrumb>
-        <h4>New Lab</h4>
+        <h4>New Site</h4>
         <Row>
             <Col sm={6}>
-                <NewLabForm push={props.push} />
+                <NewSiteForm push={props.push} />
             </Col>
         </Row>
     </div>
 )
 
-export default NewLab
+export default NewSite

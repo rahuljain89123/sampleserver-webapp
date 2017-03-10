@@ -51,7 +51,7 @@ export const fetchCurrentLab = () =>
 
 export const setCreatingLab = creating => ({
     type: SET_CREATING_LAB,
-    editing,
+    creating,
 })
 
 export const setCreatingLabError = error => ({
@@ -67,7 +67,7 @@ export const createLab = lab =>
     dispatch => {
         dispatch(setCreatingLab(true))
 
-        return API.post('/labs/', user)
+        return API.post('/labs/', lab)
         .then(json => {
             dispatch(setCreatingLab(false))
             dispatch(receiveLab(json))

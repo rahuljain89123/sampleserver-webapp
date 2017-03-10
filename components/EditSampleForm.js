@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 
-import { editSample, setEditingSample, clearEditingSampleError } from '../actions/samples'
+import { editSample, clearEditingSampleError } from '../actions/samples'
 import { msgFromError } from '../util'
 
 

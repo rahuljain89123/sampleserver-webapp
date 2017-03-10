@@ -2,7 +2,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
-import { Row, Col, Button } from 'reactstrap'
+import {
+    Row,
+    Col,
+    Breadcrumb,
+    BreadcrumbItem,
+} from 'reactstrap'
 
 import LinkButton from './LinkButton'
 import EditSiteForm from './EditSiteForm'
@@ -54,6 +59,11 @@ class Site extends React.Component {
         })
     }
 
+    onClick (e) {
+        e.preventDefault()
+        this.props.push(e.target.getAttribute('href'))
+    }
+
     render () {
         const site = this.state.site
 
@@ -67,19 +77,33 @@ class Site extends React.Component {
                     exact
                     path="/app/sites/:id(\\d+)"
                     render={() => (
-                        <div className="card">
-                          <div className="card-block">
-                            <div className="card-title d-flex flex-row">
-                                <h4>Site: {site.get('title')}</h4>
-                                <span className="ml-auto">
-                                    <LinkButton
-                                        color="primary"
-                                        href={`/app/sites/${site.get('site_id')}/edit`}
-                                    >Edit Site</LinkButton>
-                                </span>
+                        <div>
+                            <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                                <BreadcrumbItem
+                                    tag="a"
+                                    href="/app/sites"
+                                    onClick={e => this.onClick(e)}
+                                >
+                                    Sites
+                                </BreadcrumbItem>
+                                <BreadcrumbItem className="active">
+                                    {site.get('title')}
+                                </BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="card">
+                                <div className="card-block">
+                                    <div className="card-title d-flex flex-row">
+                                        <h4>{site.get('title')}</h4>
+                                        <span className="ml-auto">
+                                            <LinkButton
+                                                color="primary"
+                                                href={`/app/sites/${site.get('site_id')}/edit`}
+                                            >Edit Site</LinkButton>
+                                        </span>
+                                    </div>
+                                    <SiteInfo site={site} />
+                                </div>
                             </div>
-                            <SiteInfo site={site} />
-                          </div>
                         </div>
                     )}
                 />
@@ -88,20 +112,39 @@ class Site extends React.Component {
                     path="/app/sites/:id(\\d+)/edit"
                     render={() => (
                         <div className="card">
-                          <div className="card-block">
-                            <div className="card-title d-flex flex-row">
-                                <h4>Edit site: {site.get('title')}</h4>
-                                <LinkButton
+                            <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                                <BreadcrumbItem
+                                    tag="a"
+                                    href="/app/sites"
+                                    onClick={e => this.onClick(e)}
+                                >
+                                    Sites
+                                </BreadcrumbItem>
+                                <BreadcrumbItem
+                                    tag="a"
                                     href={`/app/sites/${site.get('site_id')}`}
-                                    className="ml-auto"
-                                >Back</LinkButton>
+                                    onClick={e => this.onClick(e)}
+                                >
+                                    {site.get('title')}
+                                </BreadcrumbItem>
+                                <BreadcrumbItem className="active">
+                                    Edit Site
+                                </BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="card-block">
+                                <div className="card-title d-flex flex-row">
+                                    <h4>{site.get('title')}</h4>
+                                    <LinkButton
+                                        href={`/app/sites/${site.get('site_id')}`}
+                                        className="ml-auto"
+                                    >Back</LinkButton>
+                                </div>
+                                <Row>
+                                    <Col sm={6}>
+                                        <EditSiteForm site={site} push={this.props.push} />
+                                    </Col>
+                                </Row>
                             </div>
-                            <Row>
-                                <Col sm={6}>
-                                    <EditSiteForm site={site} push={this.props.push} />
-                                </Col>
-                            </Row>
-                          </div>
                         </div>
                     )}
                 />

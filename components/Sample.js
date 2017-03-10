@@ -56,18 +56,18 @@ class Sample extends React.Component {
                     path="/app/samples/:id(\\d+)"
                     render={() => (
                         <div className="card">
-                          <div className="card-block">
-                            <div className="card-title d-flex flex-row">
-                                <h4>Sample: {sample.get('sample_id')}</h4>
-                                <span className="ml-auto">
-                                    <LinkButton
-                                        color="primary"
-                                        href={`/app/samples/${sample.get('sample_id')}/edit`}
-                                    >Edit Sample</LinkButton>
-                                </span>
+                            <div className="card-block">
+                                <div className="card-title d-flex flex-row">
+                                    <h4>Sample: {sample.get('sample_id')}</h4>
+                                    <span className="ml-auto">
+                                        <LinkButton
+                                            color="primary"
+                                            href={`/app/samples/${sample.get('sample_id')}/edit`}
+                                        >Edit Sample</LinkButton>
+                                    </span>
+                                </div>
+                                <SampleInfo sample={sample} />
                             </div>
-                            <SampleInfo sample={sample} />
-                          </div>
                         </div>
                     )}
                 />
@@ -76,20 +76,20 @@ class Sample extends React.Component {
                     path="/app/samples/:id(\\d+)/edit"
                     render={() => (
                         <div className="card">
-                          <div className="card-block">
-                            <div className="card-title d-flex flex-row">
-                                <h4>Edit sample: {sample.get('sample_id')}</h4>
-                                <LinkButton
-                                    href={`/app/samples/${sample.get('sample_id')}`}
-                                    className="ml-auto"
-                                >Back</LinkButton>
+                            <div className="card-block">
+                                <div className="card-title d-flex flex-row">
+                                    <h4>Edit sample: {sample.get('sample_id')}</h4>
+                                    <LinkButton
+                                        href={`/app/samples/${sample.get('sample_id')}`}
+                                        className="ml-auto"
+                                    >Back</LinkButton>
+                                </div>
+                                <Row>
+                                    <Col sm={6}>
+                                        <EditSampleForm sample={sample} push={this.props.push} />
+                                    </Col>
+                                </Row>
                             </div>
-                            <Row>
-                                <Col sm={6}>
-                                    <EditSampleForm sample={sample} push={this.props.push} />
-                                </Col>
-                            </Row>
-                          </div>
                         </div>
                     )}
                 />

@@ -4,6 +4,9 @@ import Immutable from 'immutable'
 import {
     RECEIVE_SITE,
     RECEIVE_SITES,
+    SET_CREATING_SITE,
+    SET_CREATING_SITE_ERROR,
+    CLEAR_CREATING_SITE_ERROR,
     SET_EDITING_SITE,
     SET_EDITING_SITE_ERROR,
     CLEAR_EDITING_SITE_ERROR,
@@ -19,6 +22,26 @@ export const sites = (state = Immutable.Map(), action) => {
             tempState = tempState.set(site.site_id, Immutable.Map(site))
         })
         return tempState
+    default:
+        return state
+    }
+}
+
+export const creatingSite = (state = false, action) => {
+    switch (action.type) {
+    case SET_CREATING_SITE:
+        return action.creating
+    default:
+        return state
+    }
+}
+
+export const creatingSiteError = (state = null, action) => {
+    switch (action.type) {
+    case SET_CREATING_SITE_ERROR:
+        return action.error
+    case CLEAR_CREATING_SITE_ERROR:
+        return null
     default:
         return state
     }

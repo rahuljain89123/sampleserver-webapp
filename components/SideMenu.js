@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { ListGroup, ListGroupItem } from 'reactstrap'
+import { Route } from 'react-router-dom'
 
 const links = [{
     path: '/app/users',
@@ -17,25 +17,27 @@ const links = [{
 }, {
     path: '/app/sites',
     title: 'Sites',
-}, {
-    path: '/app/samples',
-    title: 'Samples',
 }]
 
 const SideMenu = props => (
-    <nav className="nav flex-column">
+    <nav className="nav nav-pills flex-column">
         {links.map(route => (
-            <a
-                className="nav-link"
-                key={route.path}
-                href={route.path}
-                onClick={e => {
-                    e.preventDefault()
-                    props.push(e.target.getAttribute('href'))
-                }}
-            >
-                {route.title}
-            </a>
+            <Route
+                path={route.path}
+                children={routeProps => (
+                    <a
+                        className={routeProps.match ? 'nav-link active' : 'nav-link'}
+                        key={route.path}
+                        href={route.path}
+                        onClick={e => {
+                            e.preventDefault()
+                            props.push(e.target.getAttribute('href'))
+                        }}
+                    >
+                        {route.title}
+                    </a>
+                )}
+            />
         ))}
     </nav>
 )

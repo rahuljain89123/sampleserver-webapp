@@ -2,6 +2,9 @@
 import {
     RECEIVE_COMPANY,
     RECEIVE_COMPANIES,
+    SET_CREATING_COMPANY,
+    SET_CREATING_COMPANY_ERROR,
+    CLEAR_CREATING_COMPANY_ERROR,
     SET_EDITING_COMPANY,
     SET_EDITING_COMPANY_ERROR,
     CLEAR_EDITING_COMPANY_ERROR,
@@ -32,6 +35,46 @@ export const fetchCompanies = () =>
         .then(companies => {
             dispatch(receiveCompanies(companies))
         })
+
+export const setCreatingCompany = creating => ({
+    type: SET_CREATING_COMPANY,
+    creating,
+})
+
+export const setCreatingCompanyError = error => ({
+    type: SET_CREATING_COMPANY_ERROR,
+    error,
+})
+
+export const clearCreatingCompanyError = () => ({
+    type: CLEAR_CREATING_COMPANY_ERROR,
+})
+
+export const createCompany = company =>
+    dispatch => {
+        dispatch(setCreatingCompany(true))
+
+        return API.post('/companies/', company)
+        .then(json => {
+            dispatch(setCreatingCompany(false))
+            dispatch(receiveCompany(json))
+            return Promise.resolve(json.id)
+        })
+        .catch(e => {
+            dispatch(setCreatingCompany(false))
+
+            e.response.json().then(json => {
+                if (json.errors && json.errors.length) {
+                    return dispatch(setCreatingCompanyError(json.errors[0]))
+                }
+
+                return dispatch(setCreatingCompanyError({
+                    msg: 'Unable to create company.',
+                }))
+            })
+            return Promise.reject()
+        })
+    }
 
 export const setEditingCompany = editing => ({
     type: SET_EDITING_COMPANY,

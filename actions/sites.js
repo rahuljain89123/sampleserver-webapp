@@ -2,6 +2,9 @@
 import {
     RECEIVE_SITE,
     RECEIVE_SITES,
+    SET_CREATING_SITE,
+    SET_CREATING_SITE_ERROR,
+    CLEAR_CREATING_SITE_ERROR,
     SET_EDITING_SITE,
     SET_EDITING_SITE_ERROR,
     CLEAR_EDITING_SITE_ERROR,
@@ -32,6 +35,46 @@ export const fetchSites = () =>
         .then(sites => {
             dispatch(receiveSites(sites))
         })
+
+export const setCreatingSite = creating => ({
+    type: SET_CREATING_SITE,
+    creating,
+})
+
+export const setCreatingSiteError = error => ({
+    type: SET_CREATING_SITE_ERROR,
+    error,
+})
+
+export const clearCreatingSiteError = () => ({
+    type: CLEAR_CREATING_SITE_ERROR,
+})
+
+export const createSite = site =>
+    dispatch => {
+        dispatch(setCreatingSite(true))
+
+        return API.post('/sites/', site)
+        .then(json => {
+            dispatch(setCreatingSite(false))
+            dispatch(receiveSite(json))
+            return Promise.resolve(json.site_id)
+        })
+        .catch(e => {
+            dispatch(setCreatingSite(false))
+
+            e.response.json().then(json => {
+                if (json.errors && json.errors.length) {
+                    return dispatch(setCreatingSiteError(json.errors[0]))
+                }
+
+                return dispatch(setCreatingSiteError({
+                    msg: 'Unable to create site.',
+                }))
+            })
+            return Promise.reject()
+        })
+    }
 
 export const setEditingSite = editing => ({
     type: SET_EDITING_SITE,

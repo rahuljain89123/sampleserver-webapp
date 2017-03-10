@@ -15,10 +15,12 @@ import LabUsers from './LabUsers'
 
 import Companies from './Companies'
 import Company from './Company'
+import NewCompany from './NewCompany'
 import CompanyUsers from './CompanyUsers'
 
 import Sites from './Sites'
 import Site from './Site'
+import NewSite from './NewSite'
 
 import Samples from './Samples'
 import Sample from './Sample'
@@ -39,10 +41,12 @@ const App = () => (
 
             <PrivateRoute exact path="/app/companies" component={Companies} />
             <PrivateRoute path="/app/companies/:id(\\d+)" component={Company} />
+            <PrivateRoute exact path="/app/companies/new" component={NewCompany} />
             <PrivateRoute path="/app/companies/:id(\\d+)/users" component={CompanyUsers} />
 
             <PrivateRoute exact path="/app/sites" component={Sites} />
             <PrivateRoute path="/app/sites/:id(\\d+)" component={Site} />
+            <PrivateRoute exact path="/app/sites/new" component={NewSite} />
 
             <PrivateRoute exact path="/app/samples" component={Samples} />
             <PrivateRoute path="/app/samples/:id(\\d+)" component={Sample} />

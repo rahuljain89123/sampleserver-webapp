@@ -75,28 +75,36 @@ class Lab extends React.Component {
                     path="/app/labs/:id(\\d+)"
                     render={() => (
                         <div>
-                        <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                            <BreadcrumbItem tag="a" href="/app/labs" onClick={e => this.onClick(e)}>Labs</BreadcrumbItem>
-                            <BreadcrumbItem className="active">{lab.get('title')}</BreadcrumbItem>
-                        </Breadcrumb>
-                        <div className="card">
-                          <div className="card-block">
-                            <div className="card-title d-flex flex-row">
-                                <h4>{lab.get('title')}</h4>
-                                <span className="ml-auto">
-                                    <LinkButton
-                                        href={`/app/labs/${lab.get('laboratory_id')}/users`}
-                                    >Manage Users</LinkButton>
-                                    <LinkButton
-                                        color="primary"
-                                        href={`/app/labs/${lab.get('laboratory_id')}/edit`}
-                                        style={{ marginLeft: 10 }}
-                                    >Edit Lab</LinkButton>
-                                </span>
+                            <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                                <BreadcrumbItem
+                                    tag="a"
+                                    href="/app/labs"
+                                    onClick={e => this.onClick(e)}
+                                >
+                                    Labs
+                                </BreadcrumbItem>
+                                <BreadcrumbItem className="active">
+                                    {lab.get('title')}
+                                </BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="card">
+                                <div className="card-block">
+                                    <div className="card-title d-flex flex-row">
+                                        <h4>{lab.get('title')}</h4>
+                                        <span className="ml-auto">
+                                            <LinkButton
+                                                href={`/app/labs/${lab.get('laboratory_id')}/users`}
+                                            >Manage Users</LinkButton>
+                                            <LinkButton
+                                                color="primary"
+                                                href={`/app/labs/${lab.get('laboratory_id')}/edit`}
+                                                style={{ marginLeft: 10 }}
+                                            >Edit Lab</LinkButton>
+                                        </span>
+                                    </div>
+                                    <LabInfo lab={lab} />
+                                </div>
                             </div>
-                            <LabInfo lab={lab} />
-                          </div>
-                        </div>
                         </div>
                     )}
                 />
@@ -105,27 +113,41 @@ class Lab extends React.Component {
                     path="/app/labs/:id(\\d+)/edit"
                     render={() => (
                         <div>
-                        <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                            <BreadcrumbItem tag="a" href="/app/labs" onClick={e => this.onClick(e)}>Labs</BreadcrumbItem>
-                            <BreadcrumbItem tag="a" href={`/app/labs/${lab.get('laboratory_id')}`} onClick={e => this.onClick(e)}>{lab.get('title')}</BreadcrumbItem>
-                            <BreadcrumbItem className="active">Edit Lab</BreadcrumbItem>
-                        </Breadcrumb>
-                        <div className="card">
-                          <div className="card-block">
-                            <div className="card-title d-flex flex-row">
-                                <h4>{lab.get('title')}</h4>
-                                <LinkButton
+                            <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
+                                <BreadcrumbItem
+                                    tag="a"
+                                    href="/app/labs"
+                                    onClick={e => this.onClick(e)}
+                                >
+                                    Labs
+                                </BreadcrumbItem>
+                                <BreadcrumbItem
+                                    tag="a"
                                     href={`/app/labs/${lab.get('laboratory_id')}`}
-                                    className="ml-auto"
-                                >Back</LinkButton>
+                                    onClick={e => this.onClick(e)}
+                                >
+                                    {lab.get('title')}
+                                </BreadcrumbItem>
+                                <BreadcrumbItem className="active">
+                                    Edit Lab
+                                </BreadcrumbItem>
+                            </Breadcrumb>
+                            <div className="card">
+                                <div className="card-block">
+                                    <div className="card-title d-flex flex-row">
+                                        <h4>{lab.get('title')}</h4>
+                                        <LinkButton
+                                            href={`/app/labs/${lab.get('laboratory_id')}`}
+                                            className="ml-auto"
+                                        >Back</LinkButton>
+                                    </div>
+                                    <Row>
+                                        <Col sm={6}>
+                                            <EditLabForm lab={lab} push={this.props.push} />
+                                        </Col>
+                                    </Row>
+                                </div>
                             </div>
-                            <Row>
-                                <Col sm={6}>
-                                    <EditLabForm lab={lab} push={this.props.push} />
-                                </Col>
-                            </Row>
-                          </div>
-                        </div>
                         </div>
                     )}
                 />

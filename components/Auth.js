@@ -26,11 +26,16 @@ const PrivateRoute = props => {
                     }
 
                     return (
-                        <div class="card text-center">
-                          <div class="card-block">
-                            <h4 class="card-title">Access not allowed</h4>
-                            <p class="card-text">Contact your admin if you believe you are seeing this message by mistake.</p>
-                          </div>
+                        <div className="card text-center">
+                            <div className="card-block">
+                                <h4 className="card-title">
+                                    Access not allowed
+                                </h4>
+                                <p className="card-text">
+                                    Contact your admin if you believe you are
+                                    seeing this message by mistake.
+                                </p>
+                            </div>
                         </div>
                     )
                 }

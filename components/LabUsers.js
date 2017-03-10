@@ -160,91 +160,105 @@ class LabUsers extends React.Component {
         return (
             <div>
                 <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                    <BreadcrumbItem tag="a" href="/app/labs" onClick={e => this.onClick(e)}>Labs</BreadcrumbItem>
-                    <BreadcrumbItem tag="a" href={`/app/labs/${lab.get('laboratory_id')}`} onClick={e => this.onClick(e)}>{lab.get('title')}</BreadcrumbItem>
-                    <BreadcrumbItem className="active">Manage Users</BreadcrumbItem>
+                    <BreadcrumbItem
+                        tag="a"
+                        href="/app/labs"
+                        onClick={e => this.onClick(e)}
+                    >
+                        Labs
+                    </BreadcrumbItem>
+                    <BreadcrumbItem
+                        tag="a"
+                        href={`/app/labs/${lab.get('laboratory_id')}`}
+                        onClick={e => this.onClick(e)}
+                    >
+                        {lab.get('title')}
+                    </BreadcrumbItem>
+                    <BreadcrumbItem className="active">
+                        Manage Users
+                    </BreadcrumbItem>
                 </Breadcrumb>
                 <Nav tabs>
-                  {roles.map(([id, role]) => (
-                      <NavItem key={role.get('id')}>
-                        <NavLink
-                          className={classnames({ active: this.state.activeRole === role.get('id') })}
-                          onClick={() => this.onToggle(role.get('id'))}
-                        >
-                          {`${role.get('description')}s`}
-                        </NavLink>
-                      </NavItem>
-                  ))}
+                    {roles.map(([id, role]) => (
+                        <NavItem key={role.get('id')}>
+                            <NavLink
+                                className={classnames({ active: this.state.activeRole === role.get('id') })}
+                                onClick={() => this.onToggle(role.get('id'))}
+                            >
+                                {`${role.get('description')}s`}
+                            </NavLink>
+                        </NavItem>
+                    ))}
                 </Nav>
                 <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
-                  <TabPane tabId={2}>
-                    <Row>
-                      <Col sm="12">
-                        <p>
-                            Can view/edit all sites created and managed under this Lab.<br />
-                            Can create and disable Lab Associates.<br /><br />
-                        </p>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                  <TabPane tabId={3}>
-                    <Row>
-                      <Col sm="12">
-                        <p>
-                            Can receive samples.<br />
-                            Can create new sites and enter data.<br />
-                            Cant delete sites/accounts or access billing info.<br /><br />
-                        </p>
-                      </Col>
-                    </Row>
-                  </TabPane>
-              </TabContent>
-              {!!users.size && (
-                  <Table size="sm" style={{ marginBottom: 60 }}>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Status</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map(([id, user]) => (
-                          <tr key={id}>
-                            <td scope="row">{user.get('name') || '-'}</td>
-                            <td>{user.get('email')}</td>
-                            <td>{user.get('active') ? (
-                                <Badge color="success">Active</Badge>
-                            ) : (
-                                <Badge>Pending</Badge>
-                            )}</td>
-                          </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-              )}
-              <Row>
-                  {!!currentRole && (
-                    <Col sm="6">
-                    <h6>Add {currentRole.get('description')}</h6>
-                    <Form onSubmit={e => this.onSubmit(e)}>
-                        <FormGroup>
-                            <InputGroup>
-                                <Input
-                                    name="email"
-                                    placeholder="name@example.com"
-                                    value={this.state.email}
-                                    onChange={e => this.onChange(e)}
-                                />
-                                <InputGroupButton>
-                                    <Button color="primary">Invite</Button>
-                                </InputGroupButton>
-                            </InputGroup>
-                        </FormGroup>
-                    </Form>
-                    </Col>
-                  )}
-              </Row>
+                    <TabPane tabId={2}>
+                        <Row>
+                            <Col sm="12">
+                                <p>
+                                Can view/edit all sites created and managed under this Lab.<br />
+                                Can create and disable Lab Associates.<br /><br />
+                                </p>
+                            </Col>
+                        </Row>
+                    </TabPane>
+                    <TabPane tabId={3}>
+                        <Row>
+                            <Col sm="12">
+                                <p>
+                                    Can receive samples.<br />
+                                    Can create new sites and enter data.<br />
+                                    Cant delete sites/accounts or access billing info.<br /><br />
+                                </p>
+                            </Col>
+                        </Row>
+                    </TabPane>
+                </TabContent>
+                {!!users.size && (
+                    <Table size="sm" style={{ marginBottom: 60 }}>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map(([id, user]) => (
+                                <tr key={id}>
+                                    <td>{user.get('name') || '-'}</td>
+                                    <td>{user.get('email')}</td>
+                                    <td>{user.get('active') ? (
+                                        <Badge color="success">Active</Badge>
+                                    ) : (
+                                        <Badge>Pending</Badge>
+                                    )}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                )}
+                <Row>
+                    {!!currentRole && (
+                        <Col sm="6">
+                            <h6>Add {currentRole.get('description')}</h6>
+                            <Form onSubmit={e => this.onSubmit(e)}>
+                                <FormGroup>
+                                    <InputGroup>
+                                        <Input
+                                            name="email"
+                                            placeholder="name@example.com"
+                                            value={this.state.email}
+                                            onChange={e => this.onChange(e)}
+                                        />
+                                        <InputGroupButton>
+                                            <Button color="primary">Invite</Button>
+                                        </InputGroupButton>
+                                    </InputGroup>
+                                </FormGroup>
+                            </Form>
+                        </Col>
+                    )}
+                </Row>
             </div>
         )
     }
