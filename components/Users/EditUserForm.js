@@ -56,8 +56,8 @@ class EditUserForm extends React.Component {
             email: this.state.email,
             name: this.state.name,
             phone: this.state.phone,
-            role_id: this.state.role_id,
-            lab_id: this.state.lab_id,
+            role_id: parseInt(this.state.role_id, 10),
+            lab_id: parseInt(this.state.lab_id, 10),
         })
         .then(id => this.props.push(`/app/users/${id}`))
     }
