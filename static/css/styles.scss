@@ -43,6 +43,9 @@ body {
 
 .navbar {
     margin-bottom: 0;
+    .navbar-brand {
+        display: inline;
+    }
 }
 .lab-logos {
     text-align: center;
