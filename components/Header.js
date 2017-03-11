@@ -1,13 +1,38 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
+import {
+    Navbar,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    Dropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem
+} from 'reactstrap'
 
 import { fetchCurrentUser, signout } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
 
 class Header extends React.Component {
+    constructor (props) {
+        super(props)
+
+        this.toggle = this.toggle.bind(this)
+        this.state = {
+            dropdownOpen: false,
+        }
+    }
+
+    toggle () {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+        })
+    }
+
     componentDidMount () {
         this.props.fetchCurrentLab()
         this.props.fetchCurrentUser()
@@ -49,26 +74,24 @@ class Header extends React.Component {
             <Navbar
                 color="faded"
                 light
-                className="flex-row"
+                className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <NavbarBrand>SampleServe</NavbarBrand>
+                <NavbarBrand className="mr-auto">SampleServe</NavbarBrand>
                 { this.props.currentUser ? (
-                    <Nav className="ml-auto flex-row" navbar>
-                        {!!user && !!role && (
-                            <NavItem>
-                                <NavLink style={{ marginRight: 15 }}>
-                                    {`${user.get('email')} (${role.get('description')})`}
-                                </NavLink>
-                            </NavItem>
-                        )}
-                        <NavItem>
-                            <NavLink
-                                href="/signout"
-                                onClick={e => this.onSignout(e)}
-                            >Sign Out</NavLink>
-                        </NavItem>
-                    </Nav>
+                        <Nav className="">
+                            {!!user && !!role && (
+                                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                                    <DropdownToggle caret>
+                                        {`${user.get('email')}`}
+                                    </DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem header>{role.get('description')}</DropdownItem>
+                                        <DropdownItem><a href="/signout" onClick={e => this.onSignout(e)}>Log Out</a></DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            )}
+                        </Nav>
                 ) : (
                     <Nav className="ml-auto" navbar>
                         <NavItem>

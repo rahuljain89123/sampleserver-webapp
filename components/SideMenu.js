@@ -1,41 +1,29 @@
 
 import React from 'react'
-import { Route } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
-const links = [{
-    path: '/app/users',
-    title: 'Users',
-}, {
-    path: '/app/labs',
-    title: 'Labs',
-}, {
-    path: '/app/companies',
-    title: 'Companies',
-}, {
-    path: '/app/sites',
-    title: 'Sites',
-}]
-
-const SideMenu = props => (
+const SideMenu = () => (
     <nav className="nav nav-pills flex-column">
-        {links.map(route => (
-            <Route
-                key={route.path}
-                path={route.path}
-                children={routeProps => (
-                    <a
-                        className={routeProps.match ? 'nav-link active' : 'nav-link'}
-                        href={route.path}
-                        onClick={e => {
-                            e.preventDefault()
-                            props.push(e.target.getAttribute('href'))
-                        }}
-                    >
-                        {route.title}
-                    </a>
-                )}
-            />
-        ))}
+        <NavLink
+            to="/app/users"
+            className="nav-link"
+            activeClassName="active"
+        >Users</NavLink>
+        <NavLink
+            to="/app/labs"
+            className="nav-link"
+            activeClassName="active"
+        >Labs</NavLink>
+        <NavLink
+            to="/app/companies"
+            className="nav-link"
+            activeClassName="active"
+        >Companies</NavLink>
+        <NavLink
+            to="/app/sites"
+            className="nav-link"
+            activeClassName="active"
+        >Sites</NavLink>
     </nav>
 )
 

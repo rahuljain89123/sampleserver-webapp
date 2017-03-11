@@ -32,6 +32,8 @@ body {
     width: 970px; } }
 .navbar {
   margin-bottom: 0; }
+  .navbar .navbar-brand {
+    display: inline-block; }
 
 .lab-logos {
   text-align: center; }

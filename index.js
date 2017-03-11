@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { Container } from 'reactstrap'
 
+import './static/css/styles.scss'
 import './index.scss'
 
 import store from './store'
@@ -19,13 +20,15 @@ import PrivateRoute from './components/Auth'
 ReactDOM.render((
     <Provider store={store}>
         <Router>
-            <Container>
+            <div className="wrapper">
                 <Route component={Header} />
-                <Route exact path="/" component={Signin} />
-                <Route exact path="/accept-invite" component={AcceptInvite} />
-                <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
-                <PrivateRoute path="/app" component={App} />
-            </Container>
+                <Container>
+                    <Route exact path="/" component={Signin} />
+                    <Route exact path="/accept-invite" component={AcceptInvite} />
+                    <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
+                    <PrivateRoute path="/app" component={App} />
+                </Container>
+            </div>
         </Router>
     </Provider>
 ), window.document.querySelector('#root'))
