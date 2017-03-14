@@ -1,8 +1,9 @@
-# Sampleserve
+# Sampleserve Webapp (*.sampleserve.net)
 
-## Installation
+## Installation & Running
 
 ```
-$ npm install
-$ rollup -cw
+npm install
+rollup -cw
+npm run serve
 ```
