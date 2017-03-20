@@ -19,22 +19,22 @@ class EditSiteForm extends React.Component {
         super(props)
 
         this.state = {
-            title: props.site.get('title') || '',
-            contact: props.site.get('contact') || '',
-            contact_phone: props.site.get('contact_phone') || '',
-            contact_email: props.site.get('contact_email') || '',
-            notes: props.site.get('notes') || '',
-            address: props.site.get('address') || '',
-            city: props.site.get('city') || '',
-            state: props.site.get('state') || '',
-            zip: props.site.get('zip') || '',
-            county: props.site.get('county') || '',
-            latitude: props.site.get('latitude') || '',
-            longitude: props.site.get('longitude') || '',
-            start_sampling_on: props.site.get('start_sampling_on') || '',
-            history: props.site.get('history') || '',
-            background: props.site.get('background') || '',
-            summary: props.site.get('summary') || '',
+            title: props.site.get('title', ''),
+            contact: props.site.get('contact', ''),
+            contact_phone: props.site.get('contact_phone', ''),
+            contact_email: props.site.get('contact_email', ''),
+            notes: props.site.get('notes', ''),
+            address: props.site.get('address', ''),
+            city: props.site.get('city', ''),
+            state: props.site.get('state', ''),
+            zip: props.site.get('zip', ''),
+            county: props.site.get('county', ''),
+            latitude: props.site.get('latitude', ''),
+            longitude: props.site.get('longitude', ''),
+            start_sampling_on: props.site.get('start_sampling_on', ''),
+            history: props.site.get('history', ''),
+            background: props.site.get('background', ''),
+            summary: props.site.get('summary', ''),
         }
     }
 
