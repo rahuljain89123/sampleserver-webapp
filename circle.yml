@@ -8,4 +8,4 @@ deployment:
       - npm run build
       - aws s3 sync ./dist/ s3://app.sampleserve.net/dist/ --delete --acl public-read --region us-east-2
       - cat ./dist/manifest.json | ./node_modules/.bin/mustache - index.mustache > index.html
-      - scp index.html nick@159.203.74.70:/home/nick/static/index.html
+      - scp -P 2206 index.html nick@159.203.74.70:/home/nick/static/index.html
