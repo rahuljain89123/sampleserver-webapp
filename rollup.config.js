@@ -37,7 +37,7 @@ const plugins = [
     }),
 ]
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.CI) {
     plugins.push(
     hash({
         replace: true,
