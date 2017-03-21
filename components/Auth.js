@@ -21,23 +21,7 @@ const PrivateRoute = props => {
             {...omit(props, ['component'])}
             render={routeProps => {
                 if (props.authorized && props.authorized.indexOf(currentRole) === -1) {
-                    if (currentRole === 'Unknown') {
-                        return null
-                    }
-
-                    return (
-                        <div className="card text-center">
-                            <div className="card-block">
-                                <h4 className="card-title">
-                                    Access not allowed
-                                </h4>
-                                <p className="card-text">
-                                    Contact your admin if you believe you are
-                                    seeing this message by mistake.
-                                </p>
-                            </div>
-                        </div>
-                    )
+                    return null
                 }
 
                 return (

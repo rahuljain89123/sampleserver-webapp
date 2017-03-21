@@ -21,7 +21,6 @@ class Header extends React.Component {
     constructor (props) {
         super(props)
 
-        this.toggle = this.toggle.bind(this)
         this.state = {
             dropdownOpen: false,
         }
@@ -79,19 +78,21 @@ class Header extends React.Component {
             >
                 <NavbarBrand className="mr-auto">SampleServe</NavbarBrand>
                 { this.props.currentUser ? (
-                        <Nav className="">
-                            {!!user && !!role && (
-                                <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                    <DropdownToggle caret>
-                                        {`${user.get('email')}`}
-                                    </DropdownToggle>
-                                    <DropdownMenu>
-                                        <DropdownItem header>{role.get('description')}</DropdownItem>
-                                        <DropdownItem><a href="/signout" onClick={e => this.onSignout(e)}>Log Out</a></DropdownItem>
-                                    </DropdownMenu>
-                                </Dropdown>
-                            )}
-                        </Nav>
+                    <Nav className="">
+                        {!!user && !!role && (
+                            <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
+                                <DropdownToggle caret>
+                                    {`${user.get('email')}`}
+                                </DropdownToggle>
+                                <DropdownMenu right>
+                                    <DropdownItem header>{role.get('description')}</DropdownItem>
+                                    <DropdownItem onClick={e => this.onSignout(e)}>
+                                        Sign Out
+                                    </DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        )}
+                    </Nav>
                 ) : (
                     <Nav className="ml-auto" navbar>
                         <NavItem>
