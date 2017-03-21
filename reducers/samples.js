@@ -12,11 +12,11 @@ import {
 export const samples = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_SAMPLE:
-        return state.set(action.sample.sample_id, Immutable.Map(action.sample))
+        return state.set(action.sample.id, Immutable.Map(action.sample))
     case RECEIVE_SAMPLES:
         let tempState = state
         action.samples.forEach(sample => {
-            tempState = tempState.set(sample.sample_id, Immutable.Map(sample))
+            tempState = tempState.set(sample.id, Immutable.Map(sample))
         })
         return tempState
     default:

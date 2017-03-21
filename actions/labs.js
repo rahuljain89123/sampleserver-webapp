@@ -71,7 +71,7 @@ export const createLab = lab =>
         .then(json => {
             dispatch(setCreatingLab(false))
             dispatch(receiveLab(json))
-            return Promise.resolve(json.laboratory_id)
+            return Promise.resolve(json.id)
         })
         .catch(e => {
             dispatch(setCreatingLab(false))
@@ -111,7 +111,7 @@ export const editLab = (id, lab) =>
         .then(json => {
             dispatch(setEditingLab(false))
             dispatch(receiveLab(json))
-            return Promise.resolve(json.laboratory_id)
+            return Promise.resolve(json.id)
         })
         .catch(e => {
             dispatch(setEditingLab(false))

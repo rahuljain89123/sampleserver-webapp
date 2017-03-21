@@ -58,7 +58,7 @@ export const createSite = site =>
         .then(json => {
             dispatch(setCreatingSite(false))
             dispatch(receiveSite(json))
-            return Promise.resolve(json.site_id)
+            return Promise.resolve(json.id)
         })
         .catch(e => {
             dispatch(setCreatingSite(false))
@@ -98,7 +98,7 @@ export const editSite = (id, site) =>
         .then(json => {
             dispatch(setEditingSite(false))
             dispatch(receiveSite(json))
-            return Promise.resolve(json.site_id)
+            return Promise.resolve(json.id)
         })
         .catch(e => {
             dispatch(setEditingSite(false))

@@ -54,7 +54,7 @@ export const editSample = (id, sample) =>
         .then(json => {
             dispatch(setEditingSample(false))
             dispatch(receiveSample(json))
-            return Promise.resolve(json.sample_id)
+            return Promise.resolve(json.id)
         })
         .catch(e => {
             dispatch(setEditingSample(false))
