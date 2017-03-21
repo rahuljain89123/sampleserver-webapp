@@ -38,7 +38,7 @@ class Labs extends React.Component {
                     : false
                 )
             )
-            .sort((a, b) => a.get('laboratory_id') - b.get('laboratory_id'))
+            .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
         return (
@@ -60,7 +60,7 @@ class Labs extends React.Component {
                 <FilterList
                     items={labs}
                     title={lab => lab.get('title') || '-'}
-                    href={lab => `/app/labs/${lab.get('laboratory_id')}`}
+                    href={lab => `/app/labs/${lab.get('id')}`}
                 />
             </div>
         )

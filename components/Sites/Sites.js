@@ -38,7 +38,7 @@ class Sites extends React.Component {
                     : false
                 )
             )
-            .sort((a, b) => a.get('site_id') - b.get('site_id'))
+            .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
         return (
@@ -60,7 +60,7 @@ class Sites extends React.Component {
                 <FilterList
                     items={sites}
                     title={site => site.get('title') || '-'}
-                    href={site => `/app/sites/${site.get('site_id')}`}
+                    href={site => `/app/sites/${site.get('id')}`}
                 />
             </div>
         )

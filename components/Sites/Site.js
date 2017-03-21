@@ -97,7 +97,7 @@ class Site extends React.Component {
                                         <span className="ml-auto">
                                             <LinkButton
                                                 color="primary"
-                                                href={`/app/sites/${site.get('site_id')}/edit`}
+                                                href={`/app/sites/${site.get('id')}/edit`}
                                             >Edit Site</LinkButton>
                                         </span>
                                     </div>
@@ -122,7 +122,7 @@ class Site extends React.Component {
                                 </BreadcrumbItem>
                                 <BreadcrumbItem
                                     tag="a"
-                                    href={`/app/sites/${site.get('site_id')}`}
+                                    href={`/app/sites/${site.get('id')}`}
                                     onClick={e => this.onClick(e)}
                                 >
                                     {site.get('title')}
@@ -136,7 +136,7 @@ class Site extends React.Component {
                                     <div className="card-title d-flex flex-row">
                                         <h4>{site.get('title')}</h4>
                                         <LinkButton
-                                            href={`/app/sites/${site.get('site_id')}`}
+                                            href={`/app/sites/${site.get('id')}`}
                                             className="ml-auto"
                                         >Back</LinkButton>
                                     </div>

@@ -56,7 +56,7 @@ class EditSiteForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editSite(this.props.site.get('site_id'), {
+        this.props.editSite(this.props.site.get('id'), {
             title: this.state.title,
             contact: this.state.contact,
             contact_phone: this.state.contact_phone,

@@ -120,7 +120,7 @@ class EditUserForm extends React.Component {
                     >
                         <option>Choose a lab...</option>
                         {labs.map(([id, item]) => (
-                            <option key={id} value={item.get('laboratory_id')}>{item.get('title')}</option>
+                            <option key={id} value={item.get('id')}>{item.get('title')}</option>
                         ))}
                     </Input>
                     <FormFeedback>{errors.lab_id}</FormFeedback>

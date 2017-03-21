@@ -43,7 +43,7 @@ class EditSampleForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editSample(this.props.sample.get('sample_id'), {
+        this.props.editSample(this.props.sample.get('id'), {
             date_collected: this.state.date_collected,
             date_extracted: this.state.date_extracted,
             date_analyzed: this.state.date_analyzed,

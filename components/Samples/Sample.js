@@ -10,7 +10,7 @@ import EditSampleForm from './EditSampleForm'
 
 const SampleInfo = props => (
     <div>
-        <strong>Site: </strong><span>{props.sample.get('site_id')}</span><br />
+        <strong>Site: </strong><span>{props.sample.get('id')}</span><br />
         <strong>Date collected: </strong><span>{props.sample.get('date_collected')}</span><br />
         <strong>Date extracted: </strong><span>{props.sample.get('date_extracted')}</span><br />
         <strong>Date analyzed: </strong><span>{props.sample.get('date_analyzed')}</span><br />
@@ -58,11 +58,11 @@ class Sample extends React.Component {
                         <div className="card">
                             <div className="card-block">
                                 <div className="card-title d-flex flex-row">
-                                    <h4>Sample: {sample.get('sample_id')}</h4>
+                                    <h4>Sample: {sample.get('id')}</h4>
                                     <span className="ml-auto">
                                         <LinkButton
                                             color="primary"
-                                            href={`/app/samples/${sample.get('sample_id')}/edit`}
+                                            href={`/app/samples/${sample.get('id')}/edit`}
                                         >Edit Sample</LinkButton>
                                     </span>
                                 </div>
@@ -78,9 +78,9 @@ class Sample extends React.Component {
                         <div className="card">
                             <div className="card-block">
                                 <div className="card-title d-flex flex-row">
-                                    <h4>Edit sample: {sample.get('sample_id')}</h4>
+                                    <h4>Edit sample: {sample.get('id')}</h4>
                                     <LinkButton
-                                        href={`/app/samples/${sample.get('sample_id')}`}
+                                        href={`/app/samples/${sample.get('id')}`}
                                         className="ml-auto"
                                     >Back</LinkButton>
                                 </div>

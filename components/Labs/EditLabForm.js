@@ -54,7 +54,7 @@ class EditLabForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editLab(this.props.lab.get('laboratory_id'), {
+        this.props.editLab(this.props.lab.get('id'), {
             title: this.state.title,
             address: this.state.address,
             city: this.state.city,

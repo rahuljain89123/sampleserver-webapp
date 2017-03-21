@@ -32,14 +32,14 @@ class Samples extends React.Component {
             .filter(
                 sample => (
                     sample ?
-                    sample.get('sample_id')
+                    sample.get('id')
                           .toString()
                           .toUpperCase()
                           .indexOf(this.state.filter.toUpperCase()) !== -1
                     : false
                 )
             )
-            .sort((a, b) => a.get('sample_id') - b.get('sample_id'))
+            .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
         return (
@@ -60,8 +60,8 @@ class Samples extends React.Component {
                 </div>
                 <FilterList
                     items={samples}
-                    title={sample => sample.get('sample_id') || '-'}
-                    href={sample => `/app/samples/${sample.get('sample_id')}`}
+                    title={sample => sample.get('id') || '-'}
+                    href={sample => `/app/samples/${sample.get('id')}`}
                 />
             </div>
         )
@@ -69,7 +69,7 @@ class Samples extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    samples: store.get('samples').sort((a, b) => b.sample_id - a.sample_id),
+    samples: store.get('samples').sort((a, b) => b.get('id') - a.get('id')),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -169,7 +169,7 @@ class LabUsers extends React.Component {
                     </BreadcrumbItem>
                     <BreadcrumbItem
                         tag="a"
-                        href={`/app/labs/${lab.get('laboratory_id')}`}
+                        href={`/app/labs/${lab.get('id')}`}
                         onClick={e => this.onClick(e)}
                     >
                         {lab.get('title')}

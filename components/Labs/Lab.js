@@ -93,11 +93,11 @@ class Lab extends React.Component {
                                         <h4>{lab.get('title')}</h4>
                                         <span className="ml-auto">
                                             <LinkButton
-                                                href={`/app/labs/${lab.get('laboratory_id')}/users`}
+                                                href={`/app/labs/${lab.get('id')}/users`}
                                             >Manage Users</LinkButton>
                                             <LinkButton
                                                 color="primary"
-                                                href={`/app/labs/${lab.get('laboratory_id')}/edit`}
+                                                href={`/app/labs/${lab.get('id')}/edit`}
                                                 style={{ marginLeft: 10 }}
                                             >Edit Lab</LinkButton>
                                         </span>
@@ -123,7 +123,7 @@ class Lab extends React.Component {
                                 </BreadcrumbItem>
                                 <BreadcrumbItem
                                     tag="a"
-                                    href={`/app/labs/${lab.get('laboratory_id')}`}
+                                    href={`/app/labs/${lab.get('id')}`}
                                     onClick={e => this.onClick(e)}
                                 >
                                     {lab.get('title')}
@@ -137,7 +137,7 @@ class Lab extends React.Component {
                                     <div className="card-title d-flex flex-row">
                                         <h4>{lab.get('title')}</h4>
                                         <LinkButton
-                                            href={`/app/labs/${lab.get('laboratory_id')}`}
+                                            href={`/app/labs/${lab.get('id')}`}
                                             className="ml-auto"
                                         >Back</LinkButton>
                                     </div>
