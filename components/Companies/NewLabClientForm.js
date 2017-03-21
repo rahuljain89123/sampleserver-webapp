@@ -51,6 +51,7 @@ class NewLabClientForm extends React.Component {
 
         this.props.createCompany({
             title: this.state.title,
+            lab_id: lab.get('id'),
         })
         .then(id => {
             this.props.createUser({
