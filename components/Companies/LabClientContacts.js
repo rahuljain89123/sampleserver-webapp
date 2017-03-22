@@ -33,7 +33,7 @@ class LabClientContacts extends React.Component {
     render () {
         return (
 
-            <Table size="sm" style={{ marginBottom: 60 }}>
+            <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                 <thead>
                     <tr>
                         <th>Name</th>

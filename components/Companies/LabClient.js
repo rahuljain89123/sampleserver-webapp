@@ -3,14 +3,15 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink } from 'react-router-dom'
 import {
-    Button,
     Breadcrumb,
     BreadcrumbItem,
     Nav,
 } from 'reactstrap'
 
+
 import { fetchCompany } from '../../actions/companies'
 
+import CompanyUploads from './CompanyUploads'
 import LabClientContacts from './LabClientContacts'
 
 
@@ -66,7 +67,7 @@ class LabClient extends React.Component {
                     </BreadcrumbItem>
                 </Breadcrumb>
 
-                <Nav pills style={{ marginBottom: 20 }}>
+                <Nav pills style={{ marginBottom: 50 }}>
                     <NavLink
                         exact
                         to={`/app/clients/${company.get('id')}`}
@@ -86,7 +87,7 @@ class LabClient extends React.Component {
                         exact
                         path="/app/clients/:id(\\d+)"
                         render={() => (
-                            <div style={{ marginTop: 30 }}>
+                            <div>
                                 <h4>Contacts</h4>
                                 <LabClientContacts company={company} />
                             </div>
@@ -96,17 +97,7 @@ class LabClient extends React.Component {
                         exact
                         path="/app/clients/:id(\\d+)/uploads"
                         render={() => (
-                            <div className="card">
-                                <div className="card-block">
-                                    <div className="card-title d-flex flex-row">
-                                        <h4>Uploads</h4>
-                                        <Button className="ml-auto">New Upload</Button>
-                                    </div>
-                                    <div>
-                                        Uploads Component Here
-                                    </div>
-                                </div>
-                            </div>
+                            <CompanyUploads company={company} />
                         )}
                     />
                 </Switch>

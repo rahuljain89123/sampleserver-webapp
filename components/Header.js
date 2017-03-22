@@ -10,9 +10,8 @@ import {
     Dropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem
+    DropdownItem,
 } from 'reactstrap'
-import ReactFilepicker from 'react-filestack'
 
 import { fetchCurrentUser, signout } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
@@ -70,15 +69,6 @@ class Header extends React.Component {
             this.props.roles.get(user.get('role_id'))
         ) : null
 
-        const options = {
-            accept: 'image/*',
-            fromSources: ['local_file_system', 'dropbox'],
-        }
-
-        function filepickerCallback (obj) {
-            console.log(obj)
-        }
-
         return (
             <Navbar
                 color="faded"
@@ -89,9 +79,6 @@ class Header extends React.Component {
                 <NavbarBrand className="mr-auto">SampleServe</NavbarBrand>
                 { this.props.currentUser ? (
                     <Nav className="">
-                        <NavItem>
-                            <ReactFilepicker apikey={'ATg3pguKNRI2jg6wRHiydz'} buttonText="Upload Files" buttonClass="btn btn-primary" options={options} onSuccess={filepickerCallback} />
-                        </NavItem>
                         {!!user && !!role && (
                             <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
                                 <DropdownToggle caret>
