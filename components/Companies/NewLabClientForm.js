@@ -69,51 +69,56 @@ class NewLabClientForm extends React.Component {
     }
 
     render () {
-        const error = this.props.editingLabError
-        const generalError = error && error.msg ? error.msg : null
-        const errors = error && error.key ? {
-            [error.key]: msgFromError(error),
+        const companyError = this.props.creatingCompanyError
+        const userError = this.props.creatingUserError
+        const generalCompanyError = companyError && companyError.msg ? companyError.msg : null
+        const generalUserError = userError && userError.msg ? userError.msg : null
+        const companyErrors = companyError && companyError.key ? {
+            [companyError.key]: msgFromError(companyError),
+        } : {}
+        const userErrors = userError && userError.key ? {
+            [userError.key]: msgFromError(userError),
         } : {}
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup color={errors.title ? 'danger' : ''}>
+                <FormGroup color={companyErrors.title ? 'danger' : ''}>
                     <Label for="title">Company Name</Label>
                     <Input
-                        state={errors.title ? 'danger' : ''}
+                        state={companyErrors.title ? 'danger' : ''}
                         name="title"
                         id="title"
                         value={this.state.title}
                         onChange={e => this.onChange(e)}
                     />
-                    <FormFeedback>{errors.title}</FormFeedback>
+                    <FormFeedback>{companyErrors.title}</FormFeedback>
                 </FormGroup>
                 <h5 style={{ marginTop: 30, marginBottom: 20 }}>Primary Contact</h5>
-                <FormGroup color={errors.name ? 'danger' : ''}>
+                <FormGroup color={userErrors.name ? 'danger' : ''}>
                     <Label for="name">Full Name</Label>
                     <Input
-                        state={errors.name ? 'danger' : ''}
+                        state={userErrors.name ? 'danger' : ''}
                         name="name"
                         id="name"
                         value={this.state.name}
                         onChange={e => this.onChange(e)}
                     />
-                    <FormFeedback>{errors.name}</FormFeedback>
+                    <FormFeedback>{userErrors.name}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={errors.email ? 'danger' : ''}>
+                <FormGroup color={userErrors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
-                        state={errors.email ? 'danger' : ''}
+                        state={userErrors.email ? 'danger' : ''}
                         name="email"
                         id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
                     />
-                    <FormFeedback>{errors.email}</FormFeedback>
+                    <FormFeedback>{userErrors.email}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"
-                    disabled={this.props.creatingCompany}
+                    disabled={this.props.creatingCompany || this.props.creatingUser}
                 >Create Client</Button>
             </Form>
         )
@@ -125,6 +130,8 @@ const mapStateToProps = store => ({
     currentLabUrl: store.get('currentLabUrl'),
     creatingCompanyError: store.get('creatingCompanyError'),
     creatingCompany: store.get('creatingCompany'),
+    creatingUserError: store.get('creatingUserError'),
+    creatingUser: store.get('creatingUser'),
 })
 
 const mapDispatchToProps = dispatch => ({
