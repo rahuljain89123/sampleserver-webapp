@@ -69,6 +69,8 @@ class Header extends React.Component {
             this.props.roles.get(user.get('role_id'))
         ) : null
 
+        const lab = this.props.labs.filter(fLab => fLab.get('url') === this.props.currentLabUrl).first()
+
         return (
             <Navbar
                 color="faded"
@@ -76,7 +78,7 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <NavbarBrand className="mr-auto">SampleServe</NavbarBrand>
+                <NavbarBrand className="mr-auto">{lab ? lab.get('title') : 'SampleServe'}</NavbarBrand>
                 { this.props.currentUser ? (
                     <Nav className="">
                         {!!user && !!role && (
@@ -111,7 +113,8 @@ class Header extends React.Component {
 const mapStateToProps = store => ({
     users: store.get('users'),
     roles: store.get('roles'),
-    currentLab: store.get('currentLab'),
+    labs: store.get('labs'),
+    currentLabUrl: store.get('currentLabUrl'),
     currentUser: store.get('currentUser'),
 })
 
