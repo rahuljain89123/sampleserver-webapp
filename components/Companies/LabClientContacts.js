@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Table, Badge } from 'reactstrap'
 
 import { fetchUsers } from '../../actions/users'
-
+import { fetchCompany } from '../../actions/companies'
 
 class LabClientContacts extends React.Component {
     constructor (props) {
@@ -19,6 +19,7 @@ class LabClientContacts extends React.Component {
     }
 
     componentDidMount () {
+        this.props.fetchCompany(this.props.company.get('id'))
         this.props.fetchUsers()
     }
 
@@ -67,6 +68,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchUsers: () => dispatch(fetchUsers()),
+    fetchCompany: id => dispatch(fetchCompany(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabClientContacts)
