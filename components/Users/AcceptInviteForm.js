@@ -114,7 +114,7 @@ class AcceptInviteForm extends React.Component {
                 <Button
                     role="button"
                     color="primary"
-                    disabled={this.props.acceptInviteProcessing}
+                    disabled={this.props.acceptingInvite}
                 >Accept Invite</Button>
             </Form>
         )
