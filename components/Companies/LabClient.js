@@ -11,6 +11,8 @@ import {
 
 import { fetchCompany } from '../../actions/companies'
 
+import LabClientContacts from './LabClientContacts'
+
 
 class LabClient extends React.Component {
     constructor (props) {
@@ -84,15 +86,9 @@ class LabClient extends React.Component {
                         exact
                         path="/app/clients/:id(\\d+)"
                         render={() => (
-                            <div className="card">
-                                <div className="card-block">
-                                    <div className="card-title d-flex flex-row">
-                                        <h4>Contacts</h4>
-                                    </div>
-                                    <div>
-                                        Contact Component Here
-                                    </div>
-                                </div>
+                            <div style={{ marginTop: 30 }}>
+                                <h4>Contacts</h4>
+                                <LabClientContacts company={company} />
                             </div>
                         )}
                     />
