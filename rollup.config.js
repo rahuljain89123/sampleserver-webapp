@@ -10,10 +10,15 @@ import postcss from 'postcss'
 import hash from 'rollup-plugin-hash'
 import uglify from 'rollup-plugin-uglify'
 
+const NODE_ENV = process.env.CI ? 'production' : 'dev'
+
 const plugins = [
     buble({
         exclude: '**/*.scss',
         objectAssign: 'Object.assign',
+    }),
+    replace({
+        'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
     }),
     commonjs({
         include: 'node_modules/**',
@@ -23,9 +28,6 @@ const plugins = [
     }),
     nodeResolve({
         browser: true,
-    }),
-    replace({
-        'process.env.NODE_ENV': JSON.stringify('dev'),
     }),
     sass({
         output: true,

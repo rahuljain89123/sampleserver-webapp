@@ -251,7 +251,9 @@ class LabUsers extends React.Component {
                                             onChange={e => this.onChange(e)}
                                         />
                                         <InputGroupButton>
-                                            <Button color="primary">Invite</Button>
+                                            <Button color="primary" className="pointer">
+                                                Invite
+                                            </Button>
                                         </InputGroupButton>
                                     </InputGroup>
                                 </FormGroup>
