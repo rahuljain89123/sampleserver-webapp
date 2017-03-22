@@ -143,6 +143,7 @@ class EditUserForm extends React.Component {
                     <FormFeedback>{errors.role_id}</FormFeedback>
                 </FormGroup>
                 <Button
+                    role="button"
                     color="primary"
                     disabled={this.props.editingUser}
                 >Save</Button>

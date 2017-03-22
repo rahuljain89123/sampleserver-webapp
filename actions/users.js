@@ -206,7 +206,7 @@ export const acceptInvite = (id, password) =>
         })
         .then(json => {
             dispatch(setAcceptingInvite(false))
-            return dispatch(receiveUser(json))
+            return dispatch(receiveUser(json.id))
         })
         .catch(e => {
             dispatch(setAcceptingInvite(false))

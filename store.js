@@ -15,12 +15,18 @@ import thunk from 'redux-thunk'
 import {
     users,
     currentUser,
+
     creatingUser,
     creatingUserError,
+
     editingUser,
     editingUserError,
+
     signinError,
     signinProcessing,
+
+    acceptingInvite,
+    acceptInviteError,
 } from './reducers/users'
 import {
     labs,
@@ -55,13 +61,18 @@ const initialState = Immutable.Map({
 const rootReducer = combineReducers({
     users,
     currentUser,
+
     creatingUser,
     creatingUserError,
+
     editingUser,
     editingUserError,
 
     signinError,
     signinProcessing,
+
+    acceptingInvite,
+    acceptInviteError,
 
     labs,
     currentLabUrl,

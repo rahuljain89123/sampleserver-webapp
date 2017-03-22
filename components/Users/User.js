@@ -110,11 +110,11 @@ class User extends React.Component {
                                         <h4>{user.get('email')}</h4>
                                         <span className="ml-auto">
                                             {user.get('active') ? (
-                                                <Button onClick={e => this.deactivate(e)}>
+                                                <Button role="button" onClick={e => this.deactivate(e)}>
                                                     Deactivate User
                                                 </Button>
                                             ) : (
-                                                <Button onClick={e => this.activate(e)}>
+                                                <Button role="button" onClick={e => this.activate(e)}>
                                                     Activate User
                                                 </Button>
                                             )}

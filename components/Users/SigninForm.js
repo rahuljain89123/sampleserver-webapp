@@ -80,6 +80,7 @@ class SigninForm extends React.Component {
                     <FormFeedback>{signinError ? 'Invalid email or password.' : ''}</FormFeedback>
                 </FormGroup>
                 <Button
+                    role="button"
                     color="primary"
                     disabled={this.props.signinProcessing}
                 >Sign In</Button>

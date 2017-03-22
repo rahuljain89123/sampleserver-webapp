@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import { editUser, clearEditingUserError } from '../../actions/users'
 import { msgFromError } from '../../util'
@@ -77,35 +84,42 @@ class CompleteProfileForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
+                <FormGroup color={errors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
+                        state={errors.email ? 'danger' : ''}
                         type="email"
                         name="email"
                         id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.email}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.name ? 'danger' : ''}>
                     <Label for="name">Full name</Label>
                     <Input
+                        state={errors.name ? 'danger' : ''}
                         name="name"
                         id="name"
                         value={this.state.name}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.name}</FormFeedback>
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.phone ? 'danger' : ''}>
                     <Label for="phone">Phone number</Label>
                     <Input
+                        state={errors.phone ? 'danger' : ''}
                         name="phone"
                         id="phone"
                         value={this.state.phone}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.phone}</FormFeedback>
                 </FormGroup>
                 <Button
+                    role="button"
                     color="primary"
                     disabled={this.props.editingUser}
                 >Save</Button>

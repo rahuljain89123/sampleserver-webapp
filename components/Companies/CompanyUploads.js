@@ -45,7 +45,7 @@ class CompanyUploads extends React.Component {
                     <ReactFilepicker
                         apikey={'ATg3pguKNRI2jg6wRHiydz'}
                         buttonText="New Upload"
-                        buttonClass="btn btn-secondary ml-auto"
+                        buttonClass="btn btn-secondary ml-auto pointer"
                         options={FILESTACK_OPTIONS}
                         onSuccess={res => this.onUpload(res)}
                     />

@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import {
     fetchUser,
@@ -9,7 +16,7 @@ import {
     signin,
     clearAcceptInviteError,
 } from '../../actions/users'
-import { hashids } from '../../util'
+import { msgFromError, hashids } from '../../util'
 
 
 class AcceptInviteForm extends React.Component {
@@ -74,6 +81,11 @@ class AcceptInviteForm extends React.Component {
 
     render () {
         const email = this.state.user ? this.state.user.get('email') : ''
+        const error = this.props.acceptInviteError
+        const generalError = error && error.msg ? error.msg : null
+        const errors = error && error.key ? {
+            [error.key]: msgFromError(error),
+        } : {}
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
@@ -87,17 +99,20 @@ class AcceptInviteForm extends React.Component {
                         disabled
                     />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={errors.password ? 'danger' : ''}>
                     <Label for="password">Password</Label>
                     <Input
+                        state={errors.password ? 'danger' : ''}
                         type="password"
                         name="password"
                         id="password"
                         value={this.state.password}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{errors.password}</FormFeedback>
                 </FormGroup>
                 <Button
+                    role="button"
                     color="primary"
                     disabled={this.props.acceptInviteProcessing}
                 >Accept Invite</Button>
