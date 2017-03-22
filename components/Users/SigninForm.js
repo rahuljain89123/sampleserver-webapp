@@ -1,7 +1,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import {
+    Button,
+    Form,
+    FormGroup,
+    FormFeedback,
+    Label,
+    Input,
+} from 'reactstrap'
 
 import { signin, clearSigninError } from '../../actions/users'
 
@@ -46,11 +53,14 @@ class SigninForm extends React.Component {
     }
 
     render () {
+        const signinError = this.props.signinError
+
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
+                <FormGroup color={signinError ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
+                        state={signinError ? 'danger' : ''}
                         type="email"
                         name="email"
                         id="email"
@@ -58,14 +68,16 @@ class SigninForm extends React.Component {
                         onChange={e => this.onChange(e)}
                     />
                 </FormGroup>
-                <FormGroup>
+                <FormGroup color={signinError ? 'danger' : ''}>
                     <Label for="password">Password</Label>
                     <Input
+                        state={signinError ? 'danger' : ''}
                         type="password"
                         name="password"
                         value={this.state.password}
                         onChange={e => this.onChange(e)}
                     />
+                    <FormFeedback>{signinError ? 'Invalid email or password.' : ''}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"

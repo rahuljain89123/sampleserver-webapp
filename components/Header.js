@@ -81,12 +81,12 @@ class Header extends React.Component {
                     <Nav className="">
                         {!!user && !!role && (
                             <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
-                                <DropdownToggle caret>
+                                <DropdownToggle caret className="pointer">
                                     {`${user.get('email')}`}
                                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem header>{role.get('description')}</DropdownItem>
-                                    <DropdownItem onClick={e => this.onSignout(e)}>
+                                    <DropdownItem onClick={e => this.onSignout(e)} className="pointer">
                                         Sign Out
                                     </DropdownItem>
                                 </DropdownMenu>
