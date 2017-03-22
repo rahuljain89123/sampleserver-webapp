@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'reactstrap'
+import { Button, Table } from 'reactstrap'
 import timeago from 'timeago.js'
 
 import { fetchCompanies } from '../../actions/companies'
@@ -36,6 +36,7 @@ class CompanyDownloads extends React.Component {
                         <tr>
                             <th>Filename</th>
                             <th>Uploaded</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +48,17 @@ class CompanyDownloads extends React.Component {
                                     </a>
                                 </td>
                                 <td>{new timeago().format(new Date(upload.get('created_at')))}</td>
+                                <td>
+                                    <Button
+                                        color="secondary"
+                                        size="sm"
+                                        href={upload.get('url')}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Download
+                                    </Button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

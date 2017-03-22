@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Table } from 'reactstrap'
+import { Button, Table } from 'reactstrap'
 import ReactFilepicker from 'react-filestack'
 import timeago from 'timeago.js'
 
@@ -9,11 +9,19 @@ import { fetchUploads, createUpload } from '../../actions/uploads'
 
 
 const FILESTACK_OPTIONS = {
-    accept: 'image/*',
+    accept: ['.csv', '.xls'],
     fromSources: ['local_file_system', 'dropbox'],
 }
 
 class CompanyUploads extends React.Component {
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            sent: false,
+        }
+    }
+
     componentDidMount () {
         this.props.fetchUploads()
     }
@@ -30,6 +38,12 @@ class CompanyUploads extends React.Component {
                 lab_id: lab.get('id'),
                 company_id: this.props.company.get('id'),
             }))
+    }
+
+    onSend () {
+        this.setState({
+            sent: true,
+        })
     }
 
     render () {
@@ -56,18 +70,22 @@ class CompanyUploads extends React.Component {
                             <th>Filename</th>
                             <th>Uploaded</th>
                             <th>Status</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         {uploads.map(([id, upload]) => (
                             <tr key={id}>
-                                <td>
-                                    <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
-                                        {upload.get('filename')}
-                                    </a>
-                                </td>
+                                <td>{upload.get('filename')}</td>
                                 <td>{new timeago().format(new Date(upload.get('created_at')))}</td>
-                                <td>{upload.get('sent') ? 'Sent' : 'New'}</td>
+                                <td>{this.state.sent ? 'Sent' : 'New'}</td>
+                                <td>
+                                    {this.state.sent ? (
+                                        <Button color="secondary" size="sm">Resend</Button>
+                                    ) : (
+                                        <Button color="primary" size="sm" onClick={() => this.onSend()}>Send</Button>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
