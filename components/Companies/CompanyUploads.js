@@ -76,7 +76,11 @@ class CompanyUploads extends React.Component {
                     <tbody>
                         {uploads.map(([id, upload]) => (
                             <tr key={id}>
-                                <td>{upload.get('filename')}</td>
+                                <td>
+                                    <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
+                                        {upload.get('filename')}
+                                    </a>
+                                </td>
                                 <td>{new timeago().format(new Date(upload.get('created_at')))}</td>
                                 <td>{this.state.sent ? 'Sent' : 'New'}</td>
                                 <td>
