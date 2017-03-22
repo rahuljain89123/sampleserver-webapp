@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { createCompany, clearCreatingCompanyError } from '../../actions/companies'
-import { createUser } from '../../actions/users'
+import { createUser, clearCreatingUserError } from '../../actions/users'
 import { msgFromError } from '../../util'
 
 
@@ -30,11 +30,19 @@ class NewLabClientForm extends React.Component {
         if (this.props.creatingCompanyError) {
             this.props.clearCreatingCompanyError()
         }
+
+        if (this.props.creatingUserError) {
+            this.props.clearCreatingUserError()
+        }
     }
 
     onChange (e) {
         if (this.props.creatingCompanyError) {
             this.props.clearCreatingCompanyError()
+        }
+
+        if (this.props.creatingUserError) {
+            this.props.clearCreatingUserError()
         }
 
         this.setState({
@@ -138,6 +146,7 @@ const mapDispatchToProps = dispatch => ({
     createCompany: company => dispatch(createCompany(company)),
     createUser: user => dispatch(createUser(user)),
     clearCreatingCompanyError: () => dispatch(clearCreatingCompanyError()),
+    clearCreatingUserError: () => dispatch(clearCreatingUserError()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewLabClientForm)
