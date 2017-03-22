@@ -8,6 +8,7 @@ import replace from 'rollup-plugin-replace'
 import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
 import hash from 'rollup-plugin-hash'
+import uglify from 'rollup-plugin-uglify'
 
 const plugins = [
     buble({
@@ -39,12 +40,13 @@ const plugins = [
 
 if (process.env.CI) {
     plugins.push(
-    hash({
-        replace: true,
-        dest: 'dist/bundle.[hash].js',
-        manifest: 'dist/manifest.json',
-        manifestKey: 'bundle',
-    }))
+        uglify(),
+        hash({
+            replace: true,
+            dest: 'dist/bundle.[hash].js',
+            manifest: 'dist/manifest.json',
+            manifestKey: 'bundle',
+        }))
 }
 
 export default {

@@ -6,6 +6,6 @@ deployment:
     branch: master
     commands:
       - npm run build
-      - aws s3 sync ./dist/ s3://app.sampleserve.net/dist/ --delete --acl public-read --region us-east-2
+      - aws s3 sync ./dist/ s3://app.sampleserve.net/dist/ --delete --acl public-read --region us-east-2 --metadata-directive REPLACE --cache-control max-age=2592000,public --expires 2034-01-01T00:00:00Z
       - cat ./dist/manifest.json | ./node_modules/.bin/mustache - index.mustache > index.html
       - scp -P 2206 index.html nick@159.203.74.70:/home/nick/static/index.html
