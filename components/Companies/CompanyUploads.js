@@ -5,7 +5,7 @@ import { Button, Table } from 'reactstrap'
 import ReactFilepicker from 'react-filestack'
 import timeago from 'timeago.js'
 
-import { fetchUploads, createUpload } from '../../actions/uploads'
+import { fetchUploads, createUpload, sendUpload } from '../../actions/uploads'
 
 
 const FILESTACK_OPTIONS = {
@@ -40,10 +40,8 @@ class CompanyUploads extends React.Component {
             }))
     }
 
-    onSend () {
-        this.setState({
-            sent: true,
-        })
+    onSend (upload) {
+        this.props.sendUpload(upload.get('id'), { sent: true })
     }
 
     render () {
@@ -82,12 +80,12 @@ class CompanyUploads extends React.Component {
                                     </a>
                                 </td>
                                 <td>{new timeago().format(new Date(upload.get('created_at')))}</td>
-                                <td>{this.state.sent ? 'Sent' : 'New'}</td>
+                                <td>{upload.get('sent') ? 'Sent' : 'New'}</td>
                                 <td>
-                                    {this.state.sent ? (
-                                        <Button color="secondary" size="sm">Resend</Button>
+                                    {upload.get('sent') ? (
+                                        <Button color="secondary" size="sm" onClick={() => this.onSend(upload)}>Resend</Button>
                                     ) : (
-                                        <Button color="primary" size="sm" onClick={() => this.onSend()}>Send</Button>
+                                        <Button color="primary" size="sm" onClick={() => this.onSend(upload)}>Send</Button>
                                     )}
                                 </td>
                             </tr>
@@ -108,6 +106,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     fetchUploads: () => dispatch(fetchUploads()),
     createUpload: upload => dispatch(createUpload(upload)),
+    sendUpload: (id, upload) => dispatch(sendUpload(id, upload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUploads)

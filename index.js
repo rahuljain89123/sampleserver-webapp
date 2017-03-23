@@ -22,12 +22,12 @@ ReactDOM.render((
         <Router>
             <div className="wrapper">
                 <Route component={Header} />
-                <Container>
+                <div className="container-fluid">
                     <Route exact path="/" component={Signin} />
                     <Route exact path="/accept-invite" component={AcceptInvite} />
                     <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
                     <PrivateRoute path="/app" component={App} />
-                </Container>
+                </div>
             </div>
         </Router>
     </Provider>
