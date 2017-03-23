@@ -27,3 +27,14 @@ export const createUpload = upload =>
             return Promise.resolve(json.id)
         })
         .catch(e => Promise.reject())
+
+
+export const sendUpload = (id, upload) =>
+    dispatch => {
+        API.patch(`/uploads/${id}`, upload)
+        .then(json => {
+            dispatch(receiveUpload(json))
+            return Promise.resolve(json.id)
+        })
+        .catch(e => Promise.reject())
+    }
