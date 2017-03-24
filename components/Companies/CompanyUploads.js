@@ -5,7 +5,7 @@ import { Button, Table } from 'reactstrap'
 import ReactFilepicker from 'react-filestack'
 import timeago from 'timeago.js'
 
-import { fetchUploads, createUpload, sendUpload } from '../../actions/uploads'
+import { fetchUploads, createUpload, patchUpload } from '../../actions/uploads'
 
 
 const FILESTACK_OPTIONS = {
@@ -41,7 +41,7 @@ class CompanyUploads extends React.Component {
     }
 
     onSend (upload) {
-        this.props.sendUpload(upload.get('id'), { sent: true })
+        this.props.patchUpload(upload.get('id'), { sent: true })
     }
 
     render () {
@@ -106,7 +106,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     fetchUploads: () => dispatch(fetchUploads()),
     createUpload: upload => dispatch(createUpload(upload)),
-    sendUpload: (id, upload) => dispatch(sendUpload(id, upload)),
+    patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUploads)
