@@ -5,7 +5,7 @@ import { Button, Table } from 'reactstrap'
 import ReactFilepicker from 'react-filestack'
 import timeago from 'timeago.js'
 
-import { fetchUploads, createUpload, patchUpload } from '../../actions/uploads'
+import { fetchUploads, createUpload, patchUpload, deleteUpload } from '../../actions/uploads'
 
 
 const FILESTACK_OPTIONS = {
@@ -44,6 +44,10 @@ class CompanyUploads extends React.Component {
         this.props.patchUpload(upload.get('id'), { sent: true })
     }
 
+    removeItem (upload) {
+        this.props.deleteUpload(upload.get('id'))
+    }
+
     render () {
         const uploads = this.props.uploads
             .filter(upload => upload.get('company_id') === this.props.company.get('id'))
@@ -69,6 +73,7 @@ class CompanyUploads extends React.Component {
                             <th>Uploaded</th>
                             <th>Status</th>
                             <th>Action</th>
+                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +92,10 @@ class CompanyUploads extends React.Component {
                                     ) : (
                                         <Button color="primary" size="sm" onClick={() => this.onSend(upload)}>Send</Button>
                                     )}
+                                </td>
+                                <td>
+                                    <i className="ion ion-ios-trash" onClick={() => this.removeItem(upload)} />
+                                    <Button color="danger" size="sm" onClick={() => this.removeItem(upload)}>Delete</Button>
                                 </td>
                             </tr>
                         ))}
@@ -107,6 +116,7 @@ const mapDispatchToProps = dispatch => ({
     fetchUploads: () => dispatch(fetchUploads()),
     createUpload: upload => dispatch(createUpload(upload)),
     patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
+    deleteUpload: id => dispatch(deleteUpload(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUploads)

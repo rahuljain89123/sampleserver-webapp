@@ -1,5 +1,5 @@
 
-import { RECEIVE_UPLOAD, RECEIVE_UPLOADS } from '../constants/UploadActionTypes'
+import { RECEIVE_UPLOAD, RECEIVE_UPLOADS, REMOVE_UPLOAD } from '../constants/UploadActionTypes'
 import API from '../API'
 
 export const receiveUpload = upload => ({
@@ -11,6 +11,13 @@ export const receiveUploads = uploads => ({
     type: RECEIVE_UPLOADS,
     uploads,
 })
+
+
+export const removeUpload = id => ({
+    type: REMOVE_UPLOAD,
+    id,
+})
+
 
 export const fetchUploads = () =>
     dispatch =>
@@ -37,4 +44,11 @@ export const patchUpload = (id, upload) =>
             return Promise.resolve(json.id)
         })
         .catch(e => Promise.reject())
+    }
+
+
+export const deleteUpload = id =>
+    dispatch => {
+        API.delete(`/uploads/${id}`)
+        .then(() => dispatch(removeUpload(id)))
     }

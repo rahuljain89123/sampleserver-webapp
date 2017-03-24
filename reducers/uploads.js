@@ -1,7 +1,7 @@
 
 import Immutable from 'immutable'
 
-import { RECEIVE_UPLOAD, RECEIVE_UPLOADS } from '../constants/UploadActionTypes'
+import { RECEIVE_UPLOAD, RECEIVE_UPLOADS, REMOVE_UPLOAD } from '../constants/UploadActionTypes'
 
 export const uploads = (state = Immutable.Map(), action) => {
     switch (action.type) {
@@ -13,6 +13,8 @@ export const uploads = (state = Immutable.Map(), action) => {
             tempState = tempState.set(upload.id, Immutable.Map(upload))
         })
         return tempState
+    case REMOVE_UPLOAD:
+        return state.delete(action.id)
     default:
         return state
     }
