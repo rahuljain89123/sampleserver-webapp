@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
 import ReactFilepicker from 'react-filestack'
 import timeago from 'timeago.js'
+import * as Io from 'react-icons/lib/io'
 
 import { fetchUploads, createUpload, patchUpload, deleteUpload } from '../../actions/uploads'
 
@@ -55,7 +56,7 @@ class CompanyUploads extends React.Component {
             .entrySeq()
 
         return (
-            <div>
+            <div className="lab-uploads">
                 <div className="d-flex flex-row">
                     <h4>Uploads</h4>
                     <ReactFilepicker
@@ -94,8 +95,11 @@ class CompanyUploads extends React.Component {
                                     )}
                                 </td>
                                 <td>
-                                    <i className="ion ion-ios-trash" onClick={() => this.removeItem(upload)} />
-                                    <Button color="danger" size="sm" onClick={() => this.removeItem(upload)}>Delete</Button>
+                                    {upload.get('sent') ? (
+                                        <div>&nbsp;</div>
+                                    ) : (
+                                        <Io.IoCloseRound onClick={() => this.removeItem(upload)} style={{ cursor: 'pointer' }} />
+                                    )}
                                 </td>
                             </tr>
                         ))}
