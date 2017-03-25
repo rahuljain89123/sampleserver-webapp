@@ -44,7 +44,10 @@ body {
 .navbar {
     margin-bottom: 0;
     .navbar-brand {
-
+        a {
+            color: #333;
+            text-decoration: none;
+        }
     }
 }
 .lab-logos {

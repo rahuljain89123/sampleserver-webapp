@@ -3,7 +3,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import {
     Navbar,
-    NavbarBrand,
     Nav,
     NavItem,
     NavLink,
@@ -12,6 +11,7 @@ import {
     DropdownMenu,
     DropdownItem,
 } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 import { fetchCurrentUser, signout } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
@@ -78,7 +78,7 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <NavbarBrand className="mr-auto">{lab ? lab.get('title') : 'SampleServe'}</NavbarBrand>
+                <Link to="/app" className="mr-auto navbar-brand">{lab ? lab.get('title') : 'SampleServe'}</Link>
                 { this.props.currentUser ? (
                     <Nav className="">
                         {!!user && !!role && (

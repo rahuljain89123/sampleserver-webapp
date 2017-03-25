@@ -95,11 +95,7 @@ class CompanyUploads extends React.Component {
                                     )}
                                 </td>
                                 <td>
-                                    {upload.get('sent') ? (
-                                        <div>&nbsp;</div>
-                                    ) : (
-                                        <Io.IoCloseRound onClick={() => this.removeItem(upload)} style={{ cursor: 'pointer' }} />
-                                    )}
+                                    {!upload.get('sent') ? (<Io.IoCloseRound onClick={() => this.removeItem(upload)} style={{ cursor: 'pointer' }} />) : null}
                                 </td>
                             </tr>
                         ))}
