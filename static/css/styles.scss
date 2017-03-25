@@ -204,7 +204,12 @@ section {
     }
 }
 
-
+.message {
+    &.success {
+        color: #3c763d;
+        margin-top: 15px;
+    }
+}
 
 
 
