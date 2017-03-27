@@ -16,6 +16,10 @@ export const omit = (object, paths) => Object.keys(object).reduce((result, key) 
  * @return {String}
  */
 export const msgFromError = error => {
+    if (error.message) {
+        return error.message
+    }
+
     if (error.validator === 'unique_constraint') {
         return `That ${error.key} is already taken. Try another.`
     } else if (error.validator === 'minLength') {
