@@ -64,7 +64,6 @@ class LabContactForm extends React.Component {
                 this.setState({ showSuccessMessage: false })
             }, 3500)
         })
-        .then(() => this.props.push(`/app/clients/${id}`))
     }
 
     render () {
