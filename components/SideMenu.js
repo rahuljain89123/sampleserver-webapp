@@ -20,6 +20,11 @@ const SideMenu = () => (
             activeClassName="active"
         >Companies</NavLink>
         <NavLink
+            to="/app/projects"
+            className="nav-link"
+            activeClassName="active"
+        >Projects</NavLink>
+        <NavLink
             to="/app/sites"
             className="nav-link"
             activeClassName="active"

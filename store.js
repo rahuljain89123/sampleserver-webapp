@@ -43,6 +43,13 @@ import {
     editingSite,
     editingSiteError,
 } from './reducers/sites'
+import {
+    projects,
+    creatingProject,
+    creatingProjectError,
+    editingProject,
+    editingProjectError,
+} from './reducers/projects'
 import { roles } from './reducers/roles'
 import {
     samples,
@@ -86,6 +93,12 @@ const rootReducer = combineReducers({
     creatingSiteError,
     editingSite,
     editingSiteError,
+
+    projects,
+    creatingProject,
+    creatingProjectError,
+    editingProject,
+    editingProjectError,
 
     roles,
 
