@@ -10,7 +10,7 @@ import {
     Input,
 } from 'reactstrap'
 
-import { editUser, clearEditingUserError } from '../../actions/users'
+import { editUser, clearEditingUserError, deleteUser, createUser } from '../../actions/users'
 import { msgFromError } from '../../util'
 import { FormSuccessMessage } from './FormMessages'
 
@@ -20,6 +20,7 @@ class LabContactForm extends React.Component {
         super(props)
 
         this.state = {
+            id: props.user.get('id')
             name: props.user.get('name'),
             email: props.user.get('email'),
         }
@@ -43,15 +44,27 @@ class LabContactForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editUser(this.props.user.get('id'), {
-            email: this.state.email,
-            name: this.state.name,
-        }).then(() => {
+        // const lab_id = this.props.user.get('lab_id')
+        // const role_id = this.props.user.get('role_id')
+        this.props.deleteUser(this.state.id)).then(() =>
+            this.props.createUser({
+                email: this.state.email,
+                name: this.state.name,
+                lab_id: this.props.user.get('lab_id'),
+                role_id: this.props.user.get('role_id'),
+                companies: {
+                    add: [this.props.companyId],
+                    remove: [],
+                },
+            })
+        )
+        .then(() => {
             this.setState({ showSuccessMessage: true })
             setTimeout(() => {
                 this.setState({ showSuccessMessage: false })
             }, 3500)
         })
+        .then(() => this.props.push(`/app/clients/${id}`))
     }
 
     render () {
@@ -106,6 +119,8 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     editUser: (id, user) => dispatch(editUser(id, user)),
+    createUser: user => dispatch(createUser(user)),
+    deleteUser: id => dispatch(deleteUser(id)),
     clearEditingUserError: () => dispatch(clearEditingUserError()),
 })
 

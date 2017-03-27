@@ -2,6 +2,7 @@
 import {
     RECEIVE_USER,
     RECEIVE_USERS,
+    REMOVE_USER,
     SET_CREATING_USER,
     SET_CREATING_USER_ERROR,
     CLEAR_CREATING_USER_ERROR,
@@ -26,6 +27,11 @@ export const receiveUser = user => ({
 export const receiveUsers = users => ({
     type: RECEIVE_USERS,
     users,
+})
+
+export const removeUser = id => ({
+    type: REMOVE_USER,
+    id,
 })
 
 export const setCurrentUser = id => ({
@@ -162,6 +168,15 @@ export const editUser = (id, user) =>
                 }))
             })
             return Promise.reject()
+        })
+    }
+
+export const deleteUser = id =>
+    dispatch => {
+        return API.delete(`/users/${id}`)
+        .then(() => {
+            dispatch(removeUser(id))
+            return Promise.resolve(id)
         })
     }
 
