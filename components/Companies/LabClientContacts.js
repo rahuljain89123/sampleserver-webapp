@@ -14,7 +14,7 @@ class LabClientContacts extends React.Component {
         super(props)
 
         const users = Immutable.List(props.company.get('user_ids').map(id => props.users.get(id)))
-        let primaryUser = users.first()
+        const primaryUser = users.first()
 
         this.state = {
             users,
