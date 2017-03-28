@@ -19,14 +19,43 @@ class EditProjectForm extends React.Component {
     constructor (props) {
         super(props)
 
+        const user = (
+            props.currentUser &&
+            props.users.size
+        ) ? (
+            props.users.get(props.currentUser)
+        ) : null
+
         this.state = {
             name: props.project.get('name', ''),
             company_id: props.project.get('company_id', ''),
+            user,
         }
     }
 
     componentDidMount () {
-        this.props.fetchCompanies()
+        if (this.state.user) {
+            this.props.fetchCompanies(this.state.user.get('lab_id'))
+        }
+    }
+
+    componentWillReceiveProps (nextProps) {
+        if (!this.state.user) {
+            const user = (
+                nextProps.currentUser &&
+                nextProps.users.size
+            ) ? (
+                nextProps.users.get(nextProps.currentUser)
+            ) : null
+
+            this.setState({
+                user,
+            })
+
+            if (user) {
+                this.props.fetchCompanies(user.get('lab_id'))
+            }
+        }
     }
 
     componentWillMount () {
@@ -103,13 +132,15 @@ class EditProjectForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
+    currentUser: store.get('currentUser'),
+    users: store.get('users'),
     editingProjectError: store.get('editingProjectError'),
     editingProject: store.get('editingProject'),
     companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchCompanies: () => dispatch(fetchCompanies()),
+    fetchCompanies: labId => dispatch(fetchCompanies({ lab_id: labId })),
     editProject: (id, project) => dispatch(editProject(id, project)),
     clearEditingProjectError: () => dispatch(clearEditingProjectError()),
 })

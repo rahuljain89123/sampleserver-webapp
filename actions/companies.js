@@ -1,4 +1,6 @@
 
+import qs from 'qs'
+
 import {
     RECEIVE_COMPANY,
     RECEIVE_COMPANIES,
@@ -29,9 +31,9 @@ export const fetchCompany = id =>
             dispatch(receiveCompany(company))
         })
 
-export const fetchCompanies = () =>
+export const fetchCompanies = (filters = {}) =>
     dispatch =>
-        API.get('/companies/')
+        API.get(`/companies/?${qs.stringify(filters)}`)
         .then(companies => {
             dispatch(receiveCompanies(companies))
         })
