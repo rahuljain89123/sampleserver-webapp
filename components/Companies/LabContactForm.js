@@ -10,7 +10,7 @@ import {
     Input,
 } from 'reactstrap'
 
-import { editUser, clearEditingUserError, deleteUser, createUser } from '../../actions/users'
+import { clearEditingUserError, deleteUser, createUser } from '../../actions/users'
 import { msgFromError } from '../../util'
 import { FormSuccessMessage } from './FormMessages'
 import { fetchCompany } from '../../actions/companies'
@@ -44,8 +44,6 @@ class LabContactForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        // const lab_id = this.props.user.get('lab_id')
-        // const role_id = this.props.user.get('role_id')
         this.props.deleteUser(this.props.user.get('id')).then(() =>
             this.props.createUser({
                 email: this.state.email,
@@ -117,7 +115,6 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    editUser: (id, user) => dispatch(editUser(id, user)),
     createUser: user => dispatch(createUser(user)),
     deleteUser: id => dispatch(deleteUser(id)),
     clearEditingUserError: () => dispatch(clearEditingUserError()),
