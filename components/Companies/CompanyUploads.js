@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
-import IoCloseRound from 'react-icons/io/close-round'
 
 import { fetchUploads, createUpload, patchUpload, deleteUpload } from '../../actions/uploads'
 
@@ -101,7 +100,12 @@ class CompanyUploads extends React.Component {
                                     )}
                                 </td>
                                 <td>
-                                    {!upload.get('sent') ? (<IoCloseRound onClick={() => this.removeItem(upload)} style={{ cursor: 'pointer' }} />) : null}
+                                    {!upload.get('sent') ? (
+                                        <i
+                                            className="fa fa-times pointer"
+                                            onClick={() => this.removeItem(upload)}
+                                        />
+                                    ) : null}
                                 </td>
                             </tr>
                         ))}

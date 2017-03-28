@@ -11,6 +11,9 @@ import hash from 'rollup-plugin-hash'
 import uglify from 'rollup-plugin-uglify'
 
 const NODE_ENV = process.env.CI ? 'production' : 'dev'
+const FONT_AWESOME_PATH = process.env.CI ?
+    '//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts' :
+    '/node_modules/font-awesome/fonts'
 
 const external = process.env.CI ? [] : [
     'react',
@@ -45,6 +48,7 @@ const plugins = [
     }),
     replace({
         'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+        'process.env.FONT_AWESOME_PATH': JSON.stringify(FONT_AWESOME_PATH),
     }),
     commonjs({
         include: 'node_modules/**',
