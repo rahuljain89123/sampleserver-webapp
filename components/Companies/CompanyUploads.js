@@ -2,13 +2,13 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
-import ReactFilepicker from 'react-filestack'
+import filestack from 'filestack-js'
 import timeago from 'timeago.js'
-import * as Io from 'react-icons/lib/io'
+import IoCloseRound from 'react-icons/io/close-round'
 
 import { fetchUploads, createUpload, patchUpload, deleteUpload } from '../../actions/uploads'
 
-
+const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
 const FILESTACK_OPTIONS = {
     accept: ['.csv', '.xls'],
     fromSources: ['local_file_system', 'dropbox'],
@@ -18,6 +18,7 @@ class CompanyUploads extends React.Component {
     constructor (props) {
         super(props)
 
+        this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
             sent: false,
         }
@@ -27,12 +28,18 @@ class CompanyUploads extends React.Component {
         this.props.fetchUploads()
     }
 
-    onUpload (obj) {
+    onNewUpload () {
+        this.client
+            .pick(FILESTACK_OPTIONS)
+            .then(res => this.onUpload(res))
+    }
+
+    onUpload (res) {
         const lab = this.props.labs
             .filter(fLab => fLab.get('url') === this.props.currentLabUrl)
             .first()
 
-        obj.filesUploaded.map(file =>
+        res.filesUploaded.map(file =>
             this.props.createUpload({
                 filename: file.name,
                 url: file.url,
@@ -59,13 +66,12 @@ class CompanyUploads extends React.Component {
             <div className="lab-uploads">
                 <div className="d-flex flex-row">
                     <h4>Uploads</h4>
-                    <ReactFilepicker
-                        apikey={'ATg3pguKNRI2jg6wRHiydz'}
-                        buttonText="New Upload"
-                        buttonClass="btn btn-secondary ml-auto pointer"
-                        options={FILESTACK_OPTIONS}
-                        onSuccess={res => this.onUpload(res)}
-                    />
+                    <Button
+                        color="secondary"
+                        role="button"
+                        className="ml-auto"
+                        onClick={() => this.onNewUpload()}
+                    >New Upload</Button>
                 </div>
                 <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                     <thead>
@@ -95,7 +101,7 @@ class CompanyUploads extends React.Component {
                                     )}
                                 </td>
                                 <td>
-                                    {!upload.get('sent') ? (<Io.IoCloseRound onClick={() => this.removeItem(upload)} style={{ cursor: 'pointer' }} />) : null}
+                                    {!upload.get('sent') ? (<IoCloseRound onClick={() => this.removeItem(upload)} style={{ cursor: 'pointer' }} />) : null}
                                 </td>
                             </tr>
                         ))}

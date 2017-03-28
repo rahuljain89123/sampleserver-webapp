@@ -10,6 +10,7 @@ import {
     Input,
 } from 'reactstrap'
 
+import { fetchCompanies } from '../../actions/companies'
 import { editProject, clearEditingProjectError } from '../../actions/projects'
 import { msgFromError } from '../../util'
 
@@ -20,7 +21,12 @@ class EditProjectForm extends React.Component {
 
         this.state = {
             name: props.project.get('name', ''),
+            company_id: props.project.get('company_id', ''),
         }
+    }
+
+    componentDidMount () {
+        this.props.fetchCompanies()
     }
 
     componentWillMount () {
@@ -43,11 +49,14 @@ class EditProjectForm extends React.Component {
         e.preventDefault()
         this.props.editProject(this.props.project.get('id'), {
             name: this.state.name,
+            company_id: parseInt(this.state.company_id, 10),
         })
         .then(id => this.props.push(`/app/projects/${id}`))
     }
 
     render () {
+        const companies = this.props.companies.entrySeq()
+
         const error = this.props.editingProjectError
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
@@ -67,6 +76,23 @@ class EditProjectForm extends React.Component {
                     />
                     <FormFeedback>{errors.name}</FormFeedback>
                 </FormGroup>
+                <FormGroup color={errors.company_id ? 'danger' : ''}>
+                    <Label for="company_id">Company</Label>
+                    <Input
+                        state={errors.company_id ? 'danger' : ''}
+                        type="select"
+                        name="company_id"
+                        id="company_id"
+                        value={this.state.company_id}
+                        onChange={e => this.onChange(e)}
+                    >
+                        <option>Choose a company...</option>
+                        {companies.map(([id, item]) => (
+                            <option key={id} value={item.get('id')}>{item.get('title')}</option>
+                        ))}
+                    </Input>
+                    <FormFeedback>{errors.lab_id}</FormFeedback>
+                </FormGroup>
                 <Button
                     color="primary"
                     disabled={this.props.editingProject}
@@ -79,9 +105,11 @@ class EditProjectForm extends React.Component {
 const mapStateToProps = store => ({
     editingProjectError: store.get('editingProjectError'),
     editingProject: store.get('editingProject'),
+    companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchCompanies: () => dispatch(fetchCompanies()),
     editProject: (id, project) => dispatch(editProject(id, project)),
     clearEditingProjectError: () => dispatch(clearEditingProjectError()),
 })
