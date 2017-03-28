@@ -9,7 +9,6 @@ import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
 import hash from 'rollup-plugin-hash'
 import uglify from 'rollup-plugin-uglify'
-import sizes from 'rollup-plugin-sizes'
 
 const NODE_ENV = process.env.CI ? 'production' : 'dev'
 
@@ -65,7 +64,6 @@ const plugins = [
             .process(css)
             .then(result => result.css),
     }),
-    sizes(),
 ]
 
 if (process.env.CI) {
