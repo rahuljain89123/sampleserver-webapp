@@ -13,6 +13,7 @@ import {
 import { editUser, clearEditingUserError, deleteUser, createUser } from '../../actions/users'
 import { msgFromError } from '../../util'
 import { FormSuccessMessage } from './FormMessages'
+import { fetchCompany } from '../../actions/companies'
 
 
 class LabContactForm extends React.Component {
@@ -20,7 +21,7 @@ class LabContactForm extends React.Component {
         super(props)
 
         this.state = {
-            id: props.user.get('id')
+            id: props.user.get('id'),
             name: props.user.get('name'),
             email: props.user.get('email'),
         }
@@ -46,7 +47,7 @@ class LabContactForm extends React.Component {
         e.preventDefault()
         // const lab_id = this.props.user.get('lab_id')
         // const role_id = this.props.user.get('role_id')
-        this.props.deleteUser(this.state.id)).then(() =>
+        this.props.deleteUser(this.state.id).then(() =>
             this.props.createUser({
                 email: this.state.email,
                 name: this.state.name,
@@ -59,6 +60,7 @@ class LabContactForm extends React.Component {
             })
         )
         .then(() => {
+            this.props.fetchCompany(this.props.companyId)
             this.setState({ showSuccessMessage: true })
             setTimeout(() => {
                 this.setState({ showSuccessMessage: false })
@@ -121,6 +123,7 @@ const mapDispatchToProps = dispatch => ({
     createUser: user => dispatch(createUser(user)),
     deleteUser: id => dispatch(deleteUser(id)),
     clearEditingUserError: () => dispatch(clearEditingUserError()),
+    fetchCompany: id => dispatch(fetchCompany(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabContactForm)
