@@ -3,7 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { Container } from 'reactstrap'
 
 import './static/css/styles.scss'
 import './index.scss'

@@ -9,8 +9,35 @@ import autoprefixer from 'autoprefixer'
 import postcss from 'postcss'
 import hash from 'rollup-plugin-hash'
 import uglify from 'rollup-plugin-uglify'
+import sizes from 'rollup-plugin-sizes'
 
 const NODE_ENV = process.env.CI ? 'production' : 'dev'
+
+const external = process.env.CI ? [] : [
+    'react',
+    'react-dom',
+    'react-redux',
+    'react-router-dom',
+    'redux',
+    'redux-thunk',
+    'timeago.js',
+    'immutable',
+    'reactstrap',
+    'filestack-js',
+]
+
+const globals = process.env.CI ? {} : {
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+    'react-redux': 'ReactRedux',
+    'react-router-dom': 'ReactRouterDOM',
+    'redux': 'Redux',
+    'redux-thunk': 'ReduxThunk',
+    'timeago.js': 'timeago',
+    'immutable': 'Immutable',
+    'reactstrap': 'Reactstrap',
+    'filestack-js': 'filestack',
+}
 
 const plugins = [
     buble({
@@ -38,6 +65,7 @@ const plugins = [
             .process(css)
             .then(result => result.css),
     }),
+    sizes(),
 ]
 
 if (process.env.CI) {
@@ -56,4 +84,6 @@ export default {
     format: 'iife',
     dest: 'dist/bundle.js',
     plugins,
+    external,
+    globals,
 }
