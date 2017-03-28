@@ -81,8 +81,12 @@ class Project extends React.Component {
                                         <h4>{project.get('name')}</h4>
                                         <span className="ml-auto">
                                             <LinkButton
+                                                href={`/app/projects/${project.get('id')}/users`}
+                                            >Manage Users</LinkButton>
+                                            <LinkButton
                                                 color="primary"
                                                 href={`/app/projects/${project.get('id')}/edit`}
+                                                style={{ marginLeft: 10 }}
                                             >Edit Project</LinkButton>
                                         </span>
                                     </div>

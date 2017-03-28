@@ -84,7 +84,13 @@ class EditProjectForm extends React.Component {
     }
 
     render () {
-        const companies = this.props.companies.entrySeq()
+        if (!this.state.user) {
+            return null
+        }
+
+        const companies = this.props.companies
+            .filter(company => company.get('lab_id') === this.state.user.get('lab_id'))
+            .entrySeq()
 
         const error = this.props.editingProjectError
         const generalError = error && error.msg ? error.msg : null

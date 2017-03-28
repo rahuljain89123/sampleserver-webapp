@@ -23,7 +23,6 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-
 import { fetchCompany } from '../../actions/companies'
 import { createUser, fetchUsers } from '../../actions/users'
 

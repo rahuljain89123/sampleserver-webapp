@@ -96,8 +96,12 @@ class Site extends React.Component {
                                         <h4>{site.get('title')}</h4>
                                         <span className="ml-auto">
                                             <LinkButton
+                                                href={`/app/sites/${site.get('id')}/users`}
+                                            >Manage Users</LinkButton>
+                                            <LinkButton
                                                 color="primary"
                                                 href={`/app/sites/${site.get('id')}/edit`}
+                                                style={{ marginLeft: 10 }}
                                             >Edit Site</LinkButton>
                                         </span>
                                     </div>
