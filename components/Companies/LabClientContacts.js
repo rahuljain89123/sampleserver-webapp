@@ -42,7 +42,7 @@ class LabClientContacts extends React.Component {
             return <UserList users={this.state.users} />
         }
         if (this.state.primaryUser) {
-            return <LabContactForm user={this.state.primaryUser} />
+            return <LabContactForm user={this.state.primaryUser} companyId={this.props.company.get('id')} />
         }
         return null
     }
