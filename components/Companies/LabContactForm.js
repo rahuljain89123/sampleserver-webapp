@@ -21,7 +21,6 @@ class LabContactForm extends React.Component {
         super(props)
 
         this.state = {
-            id: props.user.get('id'),
             name: props.user.get('name'),
             email: props.user.get('email'),
         }
@@ -47,7 +46,7 @@ class LabContactForm extends React.Component {
         e.preventDefault()
         // const lab_id = this.props.user.get('lab_id')
         // const role_id = this.props.user.get('role_id')
-        this.props.deleteUser(this.state.id).then(() =>
+        this.props.deleteUser(this.props.user.get('id')).then(() =>
             this.props.createUser({
                 email: this.state.email,
                 name: this.state.name,
@@ -57,10 +56,9 @@ class LabContactForm extends React.Component {
                     add: [this.props.companyId],
                     remove: [],
                 },
-            })
+            }).then(() => this.props.fetchCompany(this.props.companyId))
         )
         .then(() => {
-            this.props.fetchCompany(this.props.companyId)
             this.setState({ showSuccessMessage: true })
             setTimeout(() => {
                 this.setState({ showSuccessMessage: false })
