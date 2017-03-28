@@ -38,13 +38,14 @@ class CompanyUploads extends React.Component {
             .filter(fLab => fLab.get('url') === this.props.currentLabUrl)
             .first()
 
-        res.filesUploaded.map(file =>
-            this.props.createUpload({
-                filename: file.name,
+        res.filesUploaded.map(file => {
+            return this.props.createUpload({
+                filename: file.filename,
                 url: file.url,
                 lab_id: lab.get('id'),
                 company_id: this.props.company.get('id'),
-            }))
+            })
+        })
     }
 
     onSend (upload) {
