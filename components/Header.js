@@ -13,7 +13,7 @@ import {
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-import { fetchCurrentUser, signout } from '../actions/users'
+import { fetchCurrentUser, signout, reset } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
 import {
@@ -57,7 +57,10 @@ class Header extends React.Component {
     onSignout (e) {
         e.preventDefault()
         this.props.signout()
-        this.props.push('/')
+            .then(() => {
+                this.props.reset()
+                this.props.fetchCurrentLab()
+            })
     }
 
     render () {
@@ -121,6 +124,7 @@ const mapDispatchToProps = dispatch => ({
     fetchCurrentLab: () => dispatch(fetchCurrentLab()),
     fetchRoles: () => dispatch(fetchRoles()),
     signout: () => dispatch(signout()),
+    reset: () => dispatch(reset()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

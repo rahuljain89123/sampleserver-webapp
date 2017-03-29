@@ -12,6 +12,7 @@ import {
 
 import thunk from 'redux-thunk'
 
+import { RESET } from './constants/UserActionTypes'
 import {
     users,
     currentUser,
@@ -65,7 +66,17 @@ const initialState = Immutable.Map({
     currentLabUrl: window.location.hostname.split('.').shift(),
 })
 
-const rootReducer = combineReducers({
+const resetState = Immutable.Map({
+    users: Immutable.Map({}),
+    labs: Immutable.Map({}),
+    sites: Immutable.Map({}),
+    projects: Immutable.Map({}),
+    samples: Immutable.Map({}),
+    companies: Immutable.Map({}),
+    uploads: Immutable.Map({}),
+})
+
+const appReducer = combineReducers({
     users,
     currentUser,
 
@@ -109,6 +120,14 @@ const rootReducer = combineReducers({
     companies,
     uploads,
 })
+
+const rootReducer = (state, action) => {
+    if (action.type === RESET) {
+        return state.merge(resetState)
+    }
+
+    return appReducer(state, action)
+}
 
 const store = createStore(rootReducer, initialState, applyMiddleware(thunk))
 

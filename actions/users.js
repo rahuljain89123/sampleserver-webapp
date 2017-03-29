@@ -18,6 +18,7 @@ import {
     SET_ACCEPTING_INVITE,
     SET_ACCEPT_INVITE_ERROR,
     CLEAR_ACCEPT_INVITE_ERROR,
+    RESET,
 } from '../constants/UserActionTypes'
 import API from '../API'
 
@@ -212,7 +213,12 @@ export const signout = () =>
                 window.localStorage.setItem('currentUser', JSON.stringify(null))
                 dispatch(setCurrentUser(null))
             }
+            return Promise.resolve()
         })
+
+export const reset = () => ({
+    type: RESET,
+})
 
 export const acceptInvite = (id, password) =>
     dispatch => {
