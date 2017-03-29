@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 
 import { editUser, clearEditingUserError } from '../../actions/users'
+import { currentUser, safeGet } from '../../normalizers'
 import { msgFromError } from '../../util'
 
 
@@ -18,16 +19,11 @@ class CompleteProfileForm extends React.Component {
     constructor (props) {
         super(props)
 
-        const user = props.users.get(props.currentUser)
-        const email = user && user.get('email') ? user.get('email') : ''
-        const name = user && user.get('name') ? user.get('name') : ''
-        const phone = user && user.get('phone') ? user.get('phone') : ''
-
         this.state = {
-            user,
-            email,
-            name,
-            phone,
+            loadedUser: !!this.props.user,
+            email: safeGet(this.props.user, 'email', ''),
+            name: safeGet(this.props.user, 'name', ''),
+            phone: safeGet(this.props.user, 'phone', ''),
         }
     }
 
@@ -38,17 +34,12 @@ class CompleteProfileForm extends React.Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (!this.state.user) {
-            const user = nextProps.users.get(nextProps.currentUser)
-            const email = user && user.get('email') ? user.get('email') : ''
-            const name = user && user.get('name') ? user.get('name') : ''
-            const phone = user && user.get('phone') ? user.get('phone') : ''
-
+        if (!this.state.loadedUser) {
             this.setState({
-                user,
-                email,
-                name,
-                phone,
+                loadedUser: !!nextProps.user,
+                email: safeGet(nextProps.user, 'email', ''),
+                name: safeGet(nextProps.user, 'name', ''),
+                phone: safeGet(nextProps.user, 'phone', ''),
             })
         }
     }
@@ -65,7 +56,7 @@ class CompleteProfileForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editUser(this.state.user.get('id'), {
+        this.props.editUser(this.props.user.get('id'), {
             email: this.state.email,
             name: this.state.name,
             phone: this.state.phone,
@@ -129,8 +120,7 @@ class CompleteProfileForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    users: store.get('users'),
-    currentUser: store.get('currentUser'),
+    user: currentUser(store),
     editingUserError: store.get('editingUserError'),
     editingUser: store.get('editingUser'),
 })

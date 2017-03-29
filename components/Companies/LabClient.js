@@ -57,7 +57,7 @@ class LabClient extends React.Component {
                 <Breadcrumb tag="nav" style={{ marginBottom: 20 }}>
                     <BreadcrumbItem
                         tag="a"
-                        href="/app"
+                        href="/app/clients"
                         onClick={e => this.onClick(e)}
                     >
                         Clients

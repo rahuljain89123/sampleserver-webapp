@@ -21,8 +21,8 @@ class LabContactForm extends React.Component {
         super(props)
 
         this.state = {
-            name: props.user.get('name'),
-            email: props.user.get('email'),
+            name: props.user.get('name', ''),
+            email: props.user.get('email', ''),
         }
     }
 

@@ -18,43 +18,30 @@ import {
     InputGroup,
     InputGroupButton,
     Badge,
-    Breadcrumb,
-    BreadcrumbItem,
 } from 'reactstrap'
 
-import { fetchLab } from '../../actions/labs'
 import { createUser, fetchUsers } from '../../actions/users'
+import { currentUserRole } from '../../normalizers'
 
 
 class LabUsers extends React.Component {
     constructor (props) {
         super(props)
 
-        const labId = parseInt(props.match.params.id, 10)
-        const lab = props.labs.get(labId)
-        const currentUserRole = (
-            props.currentUser &&
-            props.users.size
-        ) ? (
-            props.users.get(props.currentUser).get('role_id')
-        ) : 100
-
         const roles = props.roles
             .filter(role => role.get('id') === 2 || role.get('id') === 3)
-            .filter(role => role.get('id') > currentUserRole)
+            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const activeRole = roles.size ? roles.first().get('id') : 100
         const currentRole = roles.size ? roles.get(activeRole) : null
-        const users = props.users.filter(
-            user =>
-                user.get('lab_id') === labId &&
-                user.get('role_id') === activeRole
-        ).sort((a, b) => a.get('id') - b.get('id'))
+        const users = props.users
+            .filter(user =>
+                user.get('lab_id') === props.lab.get('id') &&
+                user.get('role_id') === activeRole)
+            .sort((a, b) => a.get('id') - b.get('id'))
 
         this.state = {
-            labId,
-            lab,
             users,
             roles,
             currentRole,
@@ -64,37 +51,25 @@ class LabUsers extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers()
-
-        if (!this.state.lab) {
-            this.props.fetchLab(this.state.labId)
-        }
+        this.props.fetchUsers({ lab_id: this.props.lab.get('id') })
     }
 
     componentWillReceiveProps (nextProps) {
-        const currentUserRole = (
-            nextProps.currentUser &&
-            nextProps.users.size
-        ) ? (
-            nextProps.users.get(nextProps.currentUser).get('role_id')
-        ) : 100
-
         const roles = nextProps.roles
             .filter(role => role.get('id') === 2 || role.get('id') === 3)
-            .filter(role => role.get('id') > currentUserRole)
+            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const currentRole = roles.size ? roles.get(this.state.activeRole) : null
         const activeRole = (this.state.activeRole === 100 && roles.size) ? roles.first().get('id') : this.state.activeRole
 
-        const users = nextProps.users.filter(
-            user =>
-                user.get('lab_id') === this.state.labId &&
-                user.get('role_id') === activeRole
-        ).sort((a, b) => a.get('id') - b.get('id'))
+        const users = nextProps.users
+            .filter(user =>
+                user.get('lab_id') === this.props.lab.get('id') &&
+                user.get('role_id') === activeRole)
+            .sort((a, b) => a.get('id') - b.get('id'))
 
         this.setState({
-            lab: nextProps.labs.get(this.state.labId),
             users,
             roles,
             currentRole,
@@ -104,11 +79,12 @@ class LabUsers extends React.Component {
 
     onToggle (tab) {
         if (this.state.activeRole !== tab) {
-            const users = this.props.users.filter(
-                user =>
-                    user.get('lab_id') === this.state.labId &&
-                    user.get('role_id') === tab
-            ).sort((a, b) => a.get('id') - b.get('id'))
+            const users = this.props.users
+                .filter(user =>
+                    user.get('lab_id') === this.props.lab.get('id') &&
+                    user.get('role_id') === tab)
+                .sort((a, b) => a.get('id') - b.get('id'))
+
             const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
 
             this.setState({
@@ -125,17 +101,12 @@ class LabUsers extends React.Component {
         })
     }
 
-    onClick (e) {
-        e.preventDefault()
-        this.props.push(e.target.getAttribute('href'))
-    }
-
     onSubmit (e) {
         e.preventDefault()
 
         const user = {
             email: this.state.email,
-            lab_id: this.state.labId,
+            lab_id: this.props.lab.get('id'),
             role_id: this.state.activeRole,
         }
 
@@ -147,43 +118,21 @@ class LabUsers extends React.Component {
     }
 
     render () {
-        const lab = this.state.lab
-
-        if (!lab) {
-            return null
-        }
-
         const users = this.state.users.entrySeq()
         const roles = this.state.roles.entrySeq()
         const currentRole = this.state.currentRole
 
         return (
             <div>
-                <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                    <BreadcrumbItem
-                        tag="a"
-                        href="/app/labs"
-                        onClick={e => this.onClick(e)}
-                    >
-                        Labs
-                    </BreadcrumbItem>
-                    <BreadcrumbItem
-                        tag="a"
-                        href={`/app/labs/${lab.get('id')}`}
-                        onClick={e => this.onClick(e)}
-                    >
-                        {lab.get('title')}
-                    </BreadcrumbItem>
-                    <BreadcrumbItem className="active">
-                        Manage Users
-                    </BreadcrumbItem>
-                </Breadcrumb>
                 <Nav tabs>
                     {roles.map(([id, role]) => (
                         <NavItem key={role.get('id')}>
                             <NavLink
-                                className={classnames({ active: this.state.activeRole === role.get('id') })}
-                                onClick={() => this.onToggle(role.get('id'))}
+                                className={classnames({
+                                    pointer: true,
+                                    active: this.state.activeRole === id,
+                                })}
+                                onClick={() => this.onToggle(id)}
                             >
                                 {`${role.get('description')}s`}
                             </NavLink>
@@ -267,15 +216,13 @@ class LabUsers extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    currentUser: store.get('currentUser'),
     users: store.get('users'),
     roles: store.get('roles'),
-    labs: store.get('labs'),
+    currentUserRole: currentUserRole(store, 100),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchLab: id => dispatch(fetchLab(id)),
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUsers: filters => dispatch(fetchUsers(filters)),
     createUser: user => dispatch(createUser(user)),
 })
 

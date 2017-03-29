@@ -1,4 +1,6 @@
 
+import qs from 'qs'
+
 import {
     RECEIVE_SITE,
     RECEIVE_SITES,
@@ -29,9 +31,9 @@ export const fetchSite = id =>
             dispatch(receiveSite(site))
         })
 
-export const fetchSites = () =>
+export const fetchSites = (filters = {}) =>
     dispatch =>
-        API.get('/sites/')
+        API.get(`/sites/?${qs.stringify(filters)}`)
         .then(sites => {
             dispatch(receiveSites(sites))
         })

@@ -37,8 +37,7 @@ class SiteUsers extends React.Component {
         const users = site ? (
             Immutable.List(
                 site.get('user_ids')
-                    .map(id => props.users.get(id))
-            )
+                    .map(id => props.users.get(id)))
         ) : Immutable.List()
 
         const filteredUsers = users
@@ -55,7 +54,7 @@ class SiteUsers extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers()
+        this.props.fetchUsers({ sites: this.state.siteId })
 
         if (!this.state.site) {
             this.props.fetchSite(this.state.siteId)
@@ -69,8 +68,7 @@ class SiteUsers extends React.Component {
         const users = site ? (
             Immutable.List(
                 site.get('user_ids')
-                       .map(id => nextProps.users.get(id))
-            )
+                       .map(id => nextProps.users.get(id)))
         ) : Immutable.List()
 
         const filteredUsers = users
@@ -213,7 +211,6 @@ class SiteUsers extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    currentUser: store.get('currentUser'),
     users: store.get('users'),
     roles: store.get('roles'),
     sites: store.get('sites'),
@@ -221,7 +218,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchSite: id => dispatch(fetchSite(id)),
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUsers: filters => dispatch(fetchUsers(filters)),
     createUser: user => dispatch(createUser(user)),
 })
 

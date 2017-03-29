@@ -5,7 +5,13 @@ import { Button, Table } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
 
-import { fetchUploads, createUpload, patchUpload, deleteUpload } from '../../actions/uploads'
+import {
+    fetchUploads,
+    createUpload,
+    patchUpload,
+    deleteUpload,
+} from '../../actions/uploads'
+import { currentLab } from '../../normalizers'
 
 const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
 const FILESTACK_OPTIONS = {
@@ -34,18 +40,13 @@ class CompanyUploads extends React.Component {
     }
 
     onUpload (res) {
-        const lab = this.props.labs
-            .filter(fLab => fLab.get('url') === this.props.currentLabUrl)
-            .first()
-
-        res.filesUploaded.map(file => {
-            return this.props.createUpload({
+        res.filesUploaded.map(file =>
+            this.props.createUpload({
                 filename: file.filename,
                 url: file.url,
-                lab_id: lab.get('id'),
+                lab_id: this.props.lab.get('id'),
                 company_id: this.props.company.get('id'),
-            })
-        })
+            }))
     }
 
     onSend (upload) {
@@ -91,13 +92,21 @@ class CompanyUploads extends React.Component {
                                         {upload.get('filename')}
                                     </a>
                                 </td>
-                                <td>{new timeago().format(new Date(upload.get('created_at')))}</td>
+                                <td>{timeago().format(new Date(upload.get('created_at')))}</td>
                                 <td>{upload.get('sent') ? 'Sent' : 'New'}</td>
                                 <td>
                                     {upload.get('sent') ? (
-                                        <Button color="secondary" size="sm" onClick={() => this.onSend(upload)}>Resend</Button>
+                                        <Button
+                                            color="secondary"
+                                            size="sm"
+                                            onClick={() => this.onSend(upload)}
+                                        >Resend</Button>
                                     ) : (
-                                        <Button color="primary" size="sm" onClick={() => this.onSend(upload)}>Send</Button>
+                                        <Button
+                                            color="primary"
+                                            size="sm"
+                                            onClick={() => this.onSend(upload)}
+                                        >Send</Button>
                                     )}
                                 </td>
                                 <td>
@@ -119,8 +128,7 @@ class CompanyUploads extends React.Component {
 
 const mapStateToProps = store => ({
     uploads: store.get('uploads'),
-    labs: store.get('labs'),
-    currentLabUrl: store.get('currentLabUrl'),
+    lab: currentLab(store),
 })
 
 const mapDispatchToProps = dispatch => ({

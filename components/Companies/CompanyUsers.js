@@ -25,6 +25,7 @@ import {
 
 import { fetchCompany } from '../../actions/companies'
 import { createUser, fetchUsers } from '../../actions/users'
+import { currentUserRole } from '../../normalizers'
 
 
 class CompanyUsers extends React.Component {
@@ -33,16 +34,10 @@ class CompanyUsers extends React.Component {
 
         const companyId = parseInt(props.match.params.id, 10)
         const company = props.companies.get(companyId)
-        const currentUserRole = (
-            props.currentUser &&
-            props.users.size
-        ) ? (
-            props.users.get(props.currentUser).get('role_id')
-        ) : 100
 
         const roles = props.roles
             .filter(role => role.get('id') === 4 || role.get('id') === 5)
-            .filter(role => role.get('id') > currentUserRole)
+            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const activeRole = roles.size ? roles.first().get('id') : 100
@@ -51,15 +46,12 @@ class CompanyUsers extends React.Component {
         const users = company ? (
             Immutable.List(
                 company.get('user_ids')
-                       .map(id => props.users.get(id))
-            )
+                       .map(id => props.users.get(id)))
         ) : Immutable.List()
 
-        const filteredUsers = users.filter(
-            user => (
-                user ? (user.get('role_id') === activeRole) : false
-            )
-        ).sort((a, b) => a.get('id') - b.get('id'))
+        const filteredUsers = users
+            .filter(user => (user ? (user.get('role_id') === activeRole) : false))
+            .sort((a, b) => a.get('id') - b.get('id'))
 
         this.state = {
             companyId,
@@ -73,7 +65,7 @@ class CompanyUsers extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers()
+        this.props.fetchUsers({ companies: this.state.companyId })
 
         if (!this.state.company) {
             this.props.fetchCompany(this.state.companyId)
@@ -82,16 +74,10 @@ class CompanyUsers extends React.Component {
 
     componentWillReceiveProps (nextProps) {
         const company = nextProps.companies.get(this.state.companyId)
-        const currentUserRole = (
-            nextProps.currentUser &&
-            nextProps.users.size
-        ) ? (
-            nextProps.users.get(nextProps.currentUser).get('role_id')
-        ) : 100
 
         const roles = nextProps.roles
             .filter(role => role.get('id') === 4 || role.get('id') === 5)
-            .filter(role => role.get('id') > currentUserRole)
+            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const currentRole = roles.size ? roles.get(this.state.activeRole) : null
@@ -100,15 +86,12 @@ class CompanyUsers extends React.Component {
         const users = company ? (
             Immutable.List(
                 company.get('user_ids')
-                       .map(id => nextProps.users.get(id))
-            )
+                       .map(id => nextProps.users.get(id)))
         ) : Immutable.List()
 
-        const filteredUsers = users.filter(
-            user => (
-                user ? (user.get('role_id') === activeRole) : false
-            )
-        ).sort((a, b) => a.get('id') - b.get('id'))
+        const filteredUsers = users
+            .filter(user => (user ? (user.get('role_id') === activeRole) : false))
+            .sort((a, b) => a.get('id') - b.get('id'))
 
         this.setState({
             company: nextProps.companies.get(this.state.companyId),
@@ -124,15 +107,12 @@ class CompanyUsers extends React.Component {
             const users = this.state.company ? (
                 Immutable.List(
                     this.state.company.get('user_ids')
-                                      .map(id => this.props.users.get(id))
-                )
+                                      .map(id => this.props.users.get(id)))
             ) : Immutable.List()
 
-            const filteredUsers = users.filter(
-                user => (
-                    user ? (user.get('role_id') === tab) : false
-                )
-            ).sort((a, b) => a.get('id') - b.get('id'))
+            const filteredUsers = users
+                .filter(user => (user ? (user.get('role_id') === tab) : false))
+                .sort((a, b) => a.get('id') - b.get('id'))
 
             const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
 
@@ -209,8 +189,11 @@ class CompanyUsers extends React.Component {
                     {roles.map(([id, role]) => (
                         <NavItem key={role.get('id')}>
                             <NavLink
-                                className={classnames({ active: this.state.activeRole === role.get('id') })}
-                                onClick={() => this.onToggle(role.get('id'))}
+                                className={classnames({
+                                    pointer: true,
+                                    active: this.state.activeRole === id,
+                                })}
+                                onClick={() => this.onToggle(id)}
                             >
                                 {`${role.get('description')}s`}
                             </NavLink>
@@ -304,15 +287,15 @@ class CompanyUsers extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    currentUser: store.get('currentUser'),
     users: store.get('users'),
     roles: store.get('roles'),
+    currentUserRole: currentUserRole(store, 100),
     companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchCompany: id => dispatch(fetchCompany(id)),
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUsers: filters => dispatch(fetchUsers(filters)),
     createUser: user => dispatch(createUser(user)),
 })
 

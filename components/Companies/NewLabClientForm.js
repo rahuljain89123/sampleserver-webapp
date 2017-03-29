@@ -12,6 +12,7 @@ import {
 
 import { createCompany, clearCreatingCompanyError } from '../../actions/companies'
 import { createUser, clearCreatingUserError } from '../../actions/users'
+import { currentLab } from '../../normalizers'
 import { msgFromError } from '../../util'
 
 
@@ -53,19 +54,15 @@ class NewLabClientForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
 
-        const lab = this.props.labs
-            .filter(fLab => fLab.get('url') === this.props.currentLabUrl)
-            .first()
-
         this.props.createCompany({
             title: this.state.title,
-            lab_id: lab.get('id'),
+            lab_id: this.props.lab.get('id'),
         })
         .then(id => {
             this.props.createUser({
                 email: this.state.email,
                 name: this.state.name,
-                lab_id: lab.get('id'),
+                lab_id: this.props.lab.get('id'),
                 role_id: 4,  // company admin
                 companies: {
                     add: [id],
@@ -134,8 +131,7 @@ class NewLabClientForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    labs: store.get('labs'),
-    currentLabUrl: store.get('currentLabUrl'),
+    lab: currentLab(store),
     creatingCompanyError: store.get('creatingCompanyError'),
     creatingCompany: store.get('creatingCompany'),
     creatingUserError: store.get('creatingUserError'),

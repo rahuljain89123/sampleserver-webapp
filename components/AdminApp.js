@@ -11,7 +11,7 @@ import User from './Users/User'
 import Labs from './Labs/Labs'
 import Lab from './Labs/Lab'
 import NewLab from './Labs/NewLab'
-import LabUsers from './Labs/LabUsers'
+import AdminLabUsers from './Labs/AdminLabUsers'
 
 import Companies from './Companies/Companies'
 import Company from './Companies/Company'
@@ -43,7 +43,7 @@ const AdminApp = () => (
             <PrivateRoute exact path="/app/labs" component={Labs} />
             <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
             <PrivateRoute exact path="/app/labs/new" component={NewLab} />
-            <PrivateRoute path="/app/labs/:id(\\d+)/users" component={LabUsers} />
+            <PrivateRoute path="/app/labs/:id(\\d+)/users" component={AdminLabUsers} />
 
             <PrivateRoute exact path="/app/companies" component={Companies} />
             <PrivateRoute path="/app/companies/:id(\\d+)" component={Company} />

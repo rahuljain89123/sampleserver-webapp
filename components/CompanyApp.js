@@ -5,10 +5,10 @@ import PrivateRoute from './Auth'
 
 import CompanyDownloads from './Companies/CompanyDownloads'
 
-const LabApp = () => (
+const CompanyApp = () => (
     <div>
         <PrivateRoute exact path="/app" component={CompanyDownloads} />
     </div>
 )
 
-export default LabApp
+export default CompanyApp

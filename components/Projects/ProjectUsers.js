@@ -37,8 +37,7 @@ class ProjectUsers extends React.Component {
         const users = project ? (
             Immutable.List(
                 project.get('user_ids')
-                       .map(id => props.users.get(id))
-            )
+                       .map(id => props.users.get(id)))
         ) : Immutable.List()
 
         const filteredUsers = users
@@ -55,7 +54,7 @@ class ProjectUsers extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers()
+        this.props.fetchUsers({ projects: this.state.projectId })
 
         if (!this.state.project) {
             this.props.fetchProject(this.state.projectId)
@@ -69,8 +68,7 @@ class ProjectUsers extends React.Component {
         const users = project ? (
             Immutable.List(
                 project.get('user_ids')
-                       .map(id => nextProps.users.get(id))
-            )
+                       .map(id => nextProps.users.get(id)))
         ) : Immutable.List()
 
         const filteredUsers = users
@@ -213,7 +211,6 @@ class ProjectUsers extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    currentUser: store.get('currentUser'),
     users: store.get('users'),
     roles: store.get('roles'),
     projects: store.get('projects'),
@@ -221,7 +218,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchProject: id => dispatch(fetchProject(id)),
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUsers: filters => dispatch(fetchUsers(filters)),
     createUser: user => dispatch(createUser(user)),
 })
 

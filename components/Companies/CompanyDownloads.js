@@ -6,6 +6,7 @@ import timeago from 'timeago.js'
 
 import { fetchCompanies } from '../../actions/companies'
 import { fetchUploads } from '../../actions/uploads'
+import { currentCompany } from '../../normalizers'
 
 
 class CompanyDownloads extends React.Component {
@@ -15,16 +16,12 @@ class CompanyDownloads extends React.Component {
     }
 
     render () {
-        const company = this.props.companies
-            .filter(fCompany => fCompany.get('user_ids').indexOf(this.props.currentUser) !== -1)
-            .first()
-
-        if (!company) {
+        if (!this.props.company) {
             return null
         }
 
         const uploads = this.props.uploads
-            .filter(upload => upload.get('company_id') === company.get('id'))
+            .filter(upload => upload.get('company_id') === this.props.company.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
@@ -65,10 +62,8 @@ class CompanyDownloads extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    users: store.get('users'),
-    companies: store.get('companies'),
+    company: currentCompany(store),
     uploads: store.get('uploads'),
-    currentUser: store.get('currentUser'),
 })
 
 const mapDispatchToProps = dispatch => ({

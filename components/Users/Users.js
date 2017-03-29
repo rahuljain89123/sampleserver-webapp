@@ -35,8 +35,7 @@ class Users extends React.Component {
                         .toUpperCase()
                         .indexOf(this.state.filter.toUpperCase()) !== -1
                     : false
-                )
-            )
+                ))
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 

@@ -11,6 +11,8 @@ import {
 } from 'reactstrap'
 
 import { signin, clearSigninError } from '../../actions/users'
+import { fetchRoles } from '../../actions/roles'
+import { currentUser } from '../../normalizers'
 
 
 class SigninForm extends React.Component {
@@ -41,9 +43,11 @@ class SigninForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
         this.props.signin(this.state.email, this.state.password)
-            .then(id => {
-                if (!this.props.users.get(id).get('name') ||
-                    !this.props.users.get(id).get('phone')
+            .then(() => {
+                this.props.fetchRoles()
+
+                if (!this.props.user.get('name') ||
+                    !this.props.user.get('phone')
                 ) {
                     this.props.push('/complete-profile')
                 } else {
@@ -90,8 +94,7 @@ class SigninForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    users: store.get('users'),
-    currentUser: store.get('currentUser'),
+    user: currentUser(store),
     signinError: store.get('signinError'),
     signinProcessing: store.get('signinProcessing'),
 })
@@ -99,6 +102,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     signin: (email, password) => dispatch(signin(email, password)),
     clearSigninError: () => dispatch(clearSigninError()),
+    fetchRoles: () => dispatch(fetchRoles()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SigninForm)

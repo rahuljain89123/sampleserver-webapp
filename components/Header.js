@@ -16,6 +16,12 @@ import { Link } from 'react-router-dom'
 import { fetchCurrentUser, signout } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
+import {
+    currentUser,
+    currentUserRole,
+    currentLab,
+    safeGet,
+} from '../normalizers'
 
 class Header extends React.Component {
     constructor (props) {
@@ -38,7 +44,7 @@ class Header extends React.Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (!this.props.roles.size && nextProps.currentUser) {
+        if (!nextProps.roles.size && nextProps.user) {
             this.props.fetchRoles()
         }
     }
@@ -55,21 +61,12 @@ class Header extends React.Component {
     }
 
     render () {
-        const user = (
-            this.props.currentUser &&
-            this.props.users.size
-        ) ? (
-            this.props.users.get(this.props.currentUser)
-        ) : null
-
-        const role = (
-            user &&
-            this.props.roles.size
-        ) ? (
-            this.props.roles.get(user.get('role_id'))
-        ) : null
-
-        const lab = this.props.labs.filter(fLab => fLab.get('url') === this.props.currentLabUrl).first()
+        const {
+            user,
+            labTitle,
+            userEmail,
+            roleDescription,
+        } = this.props
 
         return (
             <Navbar
@@ -78,19 +75,20 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <Link to="/app" className="mr-auto navbar-brand">{lab ? lab.get('title') : 'SampleServe'}</Link>
-                { this.props.currentUser ? (
+                <Link to="/app" className="mr-auto navbar-brand">{labTitle}</Link>
+                { user ? (
                     <Nav className="">
-                        {!!user && !!role && (
+                        {!!user && (
                             <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
                                 <DropdownToggle caret className="pointer">
-                                    {`${user.get('email')}`}
+                                    {`${userEmail}`}
                                 </DropdownToggle>
                                 <DropdownMenu right>
-                                    <DropdownItem header>{role.get('description')}</DropdownItem>
-                                    <DropdownItem onClick={e => this.onSignout(e)} className="pointer">
-                                        Sign Out
-                                    </DropdownItem>
+                                    <DropdownItem header>{roleDescription}</DropdownItem>
+                                    <DropdownItem
+                                        onClick={e => this.onSignout(e)}
+                                        className="pointer"
+                                    >Sign Out</DropdownItem>
                                 </DropdownMenu>
                             </Dropdown>
                         )}
@@ -111,11 +109,11 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    users: store.get('users'),
     roles: store.get('roles'),
-    labs: store.get('labs'),
-    currentLabUrl: store.get('currentLabUrl'),
-    currentUser: store.get('currentUser'),
+    user: currentUser(store),
+    labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
+    userEmail: safeGet(currentUser(store), 'email', ''),
+    roleDescription: safeGet(currentUserRole(store), 'description', ''),
 })
 
 const mapDispatchToProps = dispatch => ({

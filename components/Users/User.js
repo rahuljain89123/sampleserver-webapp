@@ -13,7 +13,7 @@ import {
 import LinkButton from '../LinkButton'
 import { fetchLabs } from '../../actions/labs'
 import { fetchRoles } from '../../actions/roles'
-import { fetchUser, fetchUsers, editUser } from '../../actions/users'
+import { fetchUser, editUser } from '../../actions/users'
 import EditUserForm from './EditUserForm'
 
 const UserInfo = props => (
@@ -187,7 +187,6 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchUser: id => dispatch(fetchUser(id)),
-    fetchUsers: () => dispatch(fetchUsers()),
     fetchRoles: () => dispatch(fetchRoles()),
     fetchLabs: () => dispatch(fetchLabs()),
     editUser: (id, user) => dispatch(editUser(id, user)),

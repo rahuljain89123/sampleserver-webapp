@@ -1,4 +1,6 @@
 
+import qs from 'qs'
+
 import {
     RECEIVE_USER,
     RECEIVE_USERS,
@@ -114,9 +116,9 @@ export const fetchUser = id =>
         API.get(`/users/${id}`)
         .then(user => dispatch(receiveUser(user)))
 
-export const fetchUsers = () =>
+export const fetchUsers = (filters = {}) =>
     dispatch =>
-        API.get('/users/')
+        API.get(`/users/?${qs.stringify(filters)}`)
         .then(users => dispatch(receiveUsers(users)))
 
 export const createUser = user =>

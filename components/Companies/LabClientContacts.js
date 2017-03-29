@@ -24,7 +24,7 @@ class LabClientContacts extends React.Component {
 
     componentDidMount () {
         this.props.fetchCompany(this.props.company.get('id'))
-        this.props.fetchUsers()
+        this.props.fetchUsers({ companies: this.props.company.get('id') })
     }
 
     componentWillReceiveProps (nextProps) {
@@ -54,7 +54,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchUsers: () => dispatch(fetchUsers()),
+    fetchUsers: filters => dispatch(fetchUsers(filters)),
     fetchCompany: id => dispatch(fetchCompany(id)),
 })
 

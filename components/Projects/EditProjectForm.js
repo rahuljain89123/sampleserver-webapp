@@ -12,6 +12,7 @@ import {
 
 import { fetchCompanies } from '../../actions/companies'
 import { editProject, clearEditingProjectError } from '../../actions/projects'
+import { currentLab } from '../../normalizers'
 import { msgFromError } from '../../util'
 
 
@@ -19,42 +20,21 @@ class EditProjectForm extends React.Component {
     constructor (props) {
         super(props)
 
-        const user = (
-            props.currentUser &&
-            props.users.size
-        ) ? (
-            props.users.get(props.currentUser)
-        ) : null
-
         this.state = {
             name: props.project.get('name', ''),
             company_id: props.project.get('company_id', ''),
-            user,
         }
     }
 
     componentDidMount () {
-        if (this.state.user) {
-            this.props.fetchCompanies(this.state.user.get('lab_id'))
+        if (this.props.lab) {
+            this.props.fetchCompanies({ lab_id: this.props.lab.get('id') })
         }
     }
 
     componentWillReceiveProps (nextProps) {
-        if (!this.state.user) {
-            const user = (
-                nextProps.currentUser &&
-                nextProps.users.size
-            ) ? (
-                nextProps.users.get(nextProps.currentUser)
-            ) : null
-
-            this.setState({
-                user,
-            })
-
-            if (user) {
-                this.props.fetchCompanies(user.get('lab_id'))
-            }
+        if (nextProps.lab) {
+            this.props.fetchCompanies({ lab_id: nextProps.lab.get('id') })
         }
     }
 
@@ -84,12 +64,8 @@ class EditProjectForm extends React.Component {
     }
 
     render () {
-        if (!this.state.user) {
-            return null
-        }
-
         const companies = this.props.companies
-            .filter(company => company.get('lab_id') === this.state.user.get('lab_id'))
+            .filter(company => company.get('lab_id') === this.props.lab.get('id'))
             .entrySeq()
 
         const error = this.props.editingProjectError
@@ -138,15 +114,14 @@ class EditProjectForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    currentUser: store.get('currentUser'),
-    users: store.get('users'),
+    lab: currentLab(store),
     editingProjectError: store.get('editingProjectError'),
     editingProject: store.get('editingProject'),
     companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchCompanies: labId => dispatch(fetchCompanies({ lab_id: labId })),
+    fetchCompanies: filters => dispatch(fetchCompanies(filters)),
     editProject: (id, project) => dispatch(editProject(id, project)),
     clearEditingProjectError: () => dispatch(clearEditingProjectError()),
 })
