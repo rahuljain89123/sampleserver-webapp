@@ -63,10 +63,6 @@ class Header extends React.Component {
             })
     }
 
-    manageTeam () {
-
-    }
-
     render () {
         const {
             user,
