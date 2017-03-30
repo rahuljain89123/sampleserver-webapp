@@ -10,11 +10,10 @@ import {
     Input,
 } from 'reactstrap'
 
-import { clearCreatingUserError, deleteUser, createUser } from '../../actions/users'
+import { editUser, clearEditingUserError } from '../../actions/users'
 import { msgFromError } from '../../util'
 import { FormSuccessMessage } from './FormMessages'
-import { fetchCompany } from '../../actions/companies'
-import { safeGet, currentLab } from '../../normalizers'
+import { safeGet } from '../../normalizers'
 
 
 class LabContactForm extends React.Component {
@@ -28,14 +27,14 @@ class LabContactForm extends React.Component {
     }
 
     componentWillMount () {
-        if (this.props.creatingUserError) {
-            this.props.clearCreatingUserError()
+        if (this.props.editingUserError) {
+            this.props.clearEditingUserError()
         }
     }
 
     onChange (e) {
-        if (this.props.creatingUserError) {
-            this.props.clearCreatingUserError()
+        if (this.props.editingUserError) {
+            this.props.clearEditingUserError()
         }
 
         this.setState({
@@ -45,20 +44,10 @@ class LabContactForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        const userId = this.props.user ? this.props.user.get('id') : null
-        if (userId) { this.props.deleteUser(userId) }
-        this.props.createUser({
+        this.props.editUser(this.props.user.get('id'), {
             email: this.state.email,
             name: this.state.name,
-            lab_id: this.props.lab.get('id'),
-            role_id: 4,
-            companies: {
-                add: [this.props.companyId],
-                remove: [],
-            },
-        })
-        .then(() => this.props.fetchCompany(this.props.companyId))
-        .then(() => {
+        }).then(() => {
             this.setState({ showSuccessMessage: true })
             setTimeout(() => {
                 this.setState({ showSuccessMessage: false })
@@ -67,7 +56,7 @@ class LabContactForm extends React.Component {
     }
 
     render () {
-        const userError = this.props.creatingUserError
+        const userError = this.props.editingUserError
         const generalUserError = userError && userError.msg ? userError.msg : null
         const userErrors = userError && userError.key ? {
             [userError.key]: msgFromError(userError),
@@ -112,16 +101,13 @@ class LabContactForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    creatingUserError: store.get('creatingUserError'),
-    creatingUser: store.get('creatingUser'),
-    lab: currentLab(store),
+    editingUserError: store.get('editingUserError'),
+    editingUser: store.get('editingUser'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    createUser: user => dispatch(createUser(user)),
-    clearCreatingUserError: () => dispatch(clearCreatingUserError()),
-    deleteUser: id => dispatch(deleteUser(id)),
-    fetchCompany: id => dispatch(fetchCompany(id)),
+    editUser: (id, user) => dispatch(editUser(id, user)),
+    clearEditingUserError: () => dispatch(clearEditingUserError()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabContactForm)

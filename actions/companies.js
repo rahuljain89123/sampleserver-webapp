@@ -10,6 +10,7 @@ import {
     SET_EDITING_COMPANY,
     SET_EDITING_COMPANY_ERROR,
     CLEAR_EDITING_COMPANY_ERROR,
+    REMOVE_COMPANY,
 } from '../constants/CompanyActionTypes'
 import API from '../API'
 
@@ -116,4 +117,15 @@ export const editCompany = (id, company) =>
             })
             return Promise.reject()
         })
+    }
+
+export const removeCompany = id => ({
+    type: REMOVE_COMPANY,
+    id,
+})
+
+export const deleteCompany = id =>
+    dispatch => {
+        API.delete(`/company/${id}`)
+        .then(() => dispatch(removeCompany(id)))
     }
