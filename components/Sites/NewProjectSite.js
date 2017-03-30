@@ -7,17 +7,17 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import NewProjectForm from './NewProjectForm'
+import NewSiteForm from './NewSiteForm'
 
-const NewProject = props => (
+const NewProjectSite = props => (
     <div>
-        <h4>New Project</h4>
+        <h4>New Site</h4>
         <Row>
             <Col sm={6}>
-                <NewProjectForm push={props.push} />
+                <NewSiteForm push={props.push} />
             </Col>
         </Row>
     </div>
 )
 
-export default NewProject
+export default NewProjectSite

@@ -32,19 +32,25 @@ class ProjectSites extends React.Component {
 
         return (
             <div>
+                <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
+                    <LinkButton
+                        className="ml-auto"
+                        href="/app/projects/new"
+                    >+</LinkButton>
+                </div>
                 {projects.map(([id, project]) => (
                     <div style={{ marginBottom: 40 }} key={id}>
                         <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
                             <h4>{project.get('name')}</h4>
                             <LinkButton
-                                href={`/app/sites/new`}
-                                className="ml-auto"
-                            >New Site</LinkButton>
+                                color="link"
+                                href={`/app/projects/${id}`}
+                            >Edit</LinkButton>
                         </div>
                         {projectSites.get(id) ? (
                             <ListGroup>
                                 {projectSites.get(id).map(([siteId, site]) => (
-                                    <ListGroupItem key={siteId} href={`/app/sites/${siteId}`}>
+                                    <ListGroupItem key={siteId}>
                                         <a
                                             href={`/app/sites/${siteId}`}
                                             onClick={e => this.onClick(e)}

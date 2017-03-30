@@ -62,36 +62,22 @@ class Project extends React.Component {
                     exact
                     path="/app/projects/:id(\\d+)"
                     render={() => (
-                        <div>
-                            <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                                <BreadcrumbItem
-                                    tag="a"
-                                    href="/app/projects"
-                                    onClick={e => this.onClick(e)}
-                                >
-                                    Projects
-                                </BreadcrumbItem>
-                                <BreadcrumbItem className="active">
-                                    {project.get('name')}
-                                </BreadcrumbItem>
-                            </Breadcrumb>
-                            <div className="card">
-                                <div className="card-block">
-                                    <div className="card-title d-flex flex-row">
-                                        <h4>{project.get('name')}</h4>
-                                        <span className="ml-auto">
-                                            <LinkButton
-                                                href={`/app/projects/${project.get('id')}/users`}
-                                            >Manage Users</LinkButton>
-                                            <LinkButton
-                                                color="primary"
-                                                href={`/app/projects/${project.get('id')}/edit`}
-                                                style={{ marginLeft: 10 }}
-                                            >Edit Project</LinkButton>
-                                        </span>
-                                    </div>
-                                    <ProjectInfo project={project} />
+                        <div className="card">
+                            <div className="card-block">
+                                <div className="card-title d-flex flex-row">
+                                    <h4>{project.get('name')}</h4>
+                                    <span className="ml-auto">
+                                        <LinkButton
+                                            href={`/app/projects/${project.get('id')}/users`}
+                                        >Manage Users</LinkButton>
+                                        <LinkButton
+                                            color="primary"
+                                            href={`/app/projects/${project.get('id')}/edit`}
+                                            style={{ marginLeft: 10 }}
+                                        >Edit Project</LinkButton>
+                                    </span>
                                 </div>
+                                <ProjectInfo project={project} />
                             </div>
                         </div>
                     )}
@@ -100,41 +86,20 @@ class Project extends React.Component {
                     exact
                     path="/app/projects/:id(\\d+)/edit"
                     render={() => (
-                        <div>
-                            <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                                <BreadcrumbItem
-                                    tag="a"
-                                    href="/app/projects"
-                                    onClick={e => this.onClick(e)}
-                                >
-                                    Projects
-                                </BreadcrumbItem>
-                                <BreadcrumbItem
-                                    tag="a"
-                                    href={`/app/projects/${project.get('id')}`}
-                                    onClick={e => this.onClick(e)}
-                                >
-                                    {project.get('name')}
-                                </BreadcrumbItem>
-                                <BreadcrumbItem className="active">
-                                    Edit Project
-                                </BreadcrumbItem>
-                            </Breadcrumb>
-                            <div className="card">
-                                <div className="card-block">
-                                    <div className="card-title d-flex flex-row">
-                                        <h4>{project.get('name')}</h4>
-                                        <LinkButton
-                                            href={`/app/projects/${project.get('id')}`}
-                                            className="ml-auto"
-                                        >Back</LinkButton>
-                                    </div>
-                                    <Row>
-                                        <Col sm={6}>
-                                            <EditProjectForm project={project} push={this.props.push} />
-                                        </Col>
-                                    </Row>
+                        <div className="card">
+                            <div className="card-block">
+                                <div className="card-title d-flex flex-row">
+                                    <h4>{project.get('name')}</h4>
+                                    <LinkButton
+                                        href={`/app/projects/${project.get('id')}`}
+                                        className="ml-auto"
+                                    >Back</LinkButton>
                                 </div>
+                                <Row>
+                                    <Col sm={6}>
+                                        <EditProjectForm project={project} push={this.props.push} />
+                                    </Col>
+                                </Row>
                             </div>
                         </div>
                     )}

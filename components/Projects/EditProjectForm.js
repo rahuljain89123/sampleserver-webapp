@@ -21,6 +21,7 @@ class EditProjectForm extends React.Component {
         super(props)
 
         this.state = {
+            fetchedCompanies: !!this.props.lab,
             name: props.project.get('name', ''),
             company_id: props.project.get('company_id', ''),
         }
@@ -33,8 +34,12 @@ class EditProjectForm extends React.Component {
     }
 
     componentWillReceiveProps (nextProps) {
-        if (nextProps.lab) {
+        if (nextProps.lab && !this.state.fetchedCompanies) {
             this.props.fetchCompanies({ lab_id: nextProps.lab.get('id') })
+
+            this.setState({
+                fetchCompanies: true,
+            })
         }
     }
 

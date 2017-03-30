@@ -74,7 +74,7 @@ class EditSiteForm extends React.Component {
             background: this.state.background,
             summary: this.state.summary,
         })
-        .then(id => this.props.push(`/app/sites/${id}`))
+        .then(this.props.onSuccess)
     }
 
     render () {
@@ -87,7 +87,7 @@ class EditSiteForm extends React.Component {
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
                 <FormGroup color={errors.title ? 'danger' : ''}>
-                    <Label for="title">Title</Label>
+                    <Label for="title">Site name</Label>
                     <Input
                         state={errors.title ? 'danger' : ''}
                         name="title"

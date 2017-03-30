@@ -6,7 +6,7 @@ import { ListGroup, ListGroupItem } from 'reactstrap'
 const FilterList = (props, context) => (
     <ListGroup>
         {props.items.map(([id, item]) => (
-            <ListGroupItem key={id} href={props.href(item)}>
+            <ListGroupItem key={id}>
                 <a
                     href={props.href(item)}
                     onClick={e => {

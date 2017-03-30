@@ -146,7 +146,10 @@ class Site extends React.Component {
                                     </div>
                                     <Row>
                                         <Col sm={6}>
-                                            <EditSiteForm site={site} push={this.props.push} />
+                                            <EditSiteForm
+                                                site={site}
+                                                onSuccess={id => this.props.push(`/app/sites/${id}`)}
+                                            />
                                         </Col>
                                     </Row>
                                 </div>

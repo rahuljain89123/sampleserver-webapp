@@ -123,32 +123,7 @@ class ProjectUsers extends React.Component {
 
         return (
             <div>
-                <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                    <BreadcrumbItem
-                        tag="a"
-                        href="/app/projects"
-                        onClick={e => this.onClick(e)}
-                    >
-                        Projects
-                    </BreadcrumbItem>
-                    <BreadcrumbItem
-                        tag="a"
-                        href={`/app/projects/${project.get('id')}`}
-                        onClick={e => this.onClick(e)}
-                    >
-                        {project.get('name')}
-                    </BreadcrumbItem>
-                    <BreadcrumbItem className="active">
-                        Manage Users
-                    </BreadcrumbItem>
-                </Breadcrumb>
-                <Nav tabs>
-                    <NavItem>
-                        <NavLink className="active">
-                            {role ? `${role.get('description')}s` : ''}
-                        </NavLink>
-                    </NavItem>
-                </Nav>
+                <h4>{role ? `${role.get('description')}s` : ''}</h4>
                 <Row style={{ marginTop: 20 }}>
                     <Col sm="12">
                         <p>
