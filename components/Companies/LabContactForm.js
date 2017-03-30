@@ -14,6 +14,7 @@ import { clearEditingUserError, deleteUser, createUser } from '../../actions/use
 import { msgFromError } from '../../util'
 import { FormSuccessMessage } from './FormMessages'
 import { fetchCompany } from '../../actions/companies'
+import { safeGet, currentLab } from '../../normalizers'
 
 
 class LabContactForm extends React.Component {
@@ -21,8 +22,8 @@ class LabContactForm extends React.Component {
         super(props)
 
         this.state = {
-            name: props.user.get('name', ''),
-            email: props.user.get('email', ''),
+            name: safeGet(props.user, 'name', ''),
+            email: safeGet(props.user, 'email', ''),
         }
     }
 
@@ -44,18 +45,19 @@ class LabContactForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.deleteUser(this.props.user.get('id')).then(() =>
-            this.props.createUser({
-                email: this.state.email,
-                name: this.state.name,
-                lab_id: this.props.user.get('lab_id'),
-                role_id: this.props.user.get('role_id'),
-                companies: {
-                    add: [this.props.companyId],
-                    remove: [],
-                },
-            }).then(() => this.props.fetchCompany(this.props.companyId))
-        )
+        const userId = this.props.user ? this.props.user.get('id') : null
+        this.props.deleteUser(userId)
+        this.props.createUser({
+            email: this.state.email,
+            name: this.state.name,
+            lab_id: this.props.lab.get('id'),
+            role_id: 4,
+            companies: {
+                add: [this.props.companyId],
+                remove: [],
+            },
+        })
+        .then(() => this.props.fetchCompany(this.props.companyId))
         .then(() => {
             this.setState({ showSuccessMessage: true })
             setTimeout(() => {
@@ -112,6 +114,7 @@ class LabContactForm extends React.Component {
 const mapStateToProps = store => ({
     editingUserError: store.get('editingUserError'),
     editingUser: store.get('editingUser'),
+    lab: currentLab(store),
 })
 
 const mapDispatchToProps = dispatch => ({

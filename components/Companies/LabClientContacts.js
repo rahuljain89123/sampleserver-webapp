@@ -41,10 +41,7 @@ class LabClientContacts extends React.Component {
         if (this.state.primaryUser && this.state.primaryUser.get('active')) {
             return <UserList users={this.state.users} />
         }
-        if (this.state.primaryUser) {
-            return <LabContactForm user={this.state.primaryUser} companyId={this.props.company.get('id')} />
-        }
-        return null
+        return <LabContactForm user={this.state.primaryUser} companyId={this.props.company.get('id')} />
     }
 }
 
