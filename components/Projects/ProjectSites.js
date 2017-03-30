@@ -12,7 +12,6 @@ import {
 
 import { fetchSites } from '../../actions/sites'
 import { fetchProjects } from '../../actions/projects'
-import LinkButton from '../LinkButton'
 
 
 class ProjectSites extends React.Component {
@@ -67,7 +66,7 @@ class ProjectSites extends React.Component {
                         isOpen={this.state.dropdownOpen}
                         toggle={() => this.onToggle()}
                     >
-                        <DropdownToggle>
+                        <DropdownToggle className="pointer">
                             <i className="fa fa-plus" />
                         </DropdownToggle>
                         <DropdownMenu right>
@@ -84,10 +83,15 @@ class ProjectSites extends React.Component {
                     <div style={{ marginBottom: 40 }} key={id}>
                         <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
                             <h4>{project.get('name')}</h4>
-                            <LinkButton
-                                color="link"
-                                href={`/app/projects/${id}`}
-                            >Edit</LinkButton>
+                            <h4 style={{ marginLeft: 15 }}>
+                                <a
+                                    href={`/app/projects/${id}`}
+                                    onClick={e => this.onClick(e)}
+                                    style={{ color: '#aaa' }}
+                                >
+                                    <i className="fa fa-gear" href={`/app/projects/${id}`} />
+                                </a>
+                            </h4>
                         </div>
                         {projectSites.get(id) ? (
                             <ListGroup>
