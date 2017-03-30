@@ -37,7 +37,7 @@ class AdminSite extends React.Component {
             return null
         }
 
-        const editing = this.props.match.path.endsWith('/edit')
+        const editing = this.props.location.pathname.endsWith('/edit')
         const breadcrumbItems = editing ? [
             { href: '/app/sites', title: 'Sites' },
             { href: `/app/sites/${site.get('id')}`, title: site.get('title') },
