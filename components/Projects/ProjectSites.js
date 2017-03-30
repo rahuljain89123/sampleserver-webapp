@@ -1,17 +1,45 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { ListGroup, ListGroupItem } from 'reactstrap'
+import {
+    ListGroup,
+    ListGroupItem,
+    ButtonDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem,
+} from 'reactstrap'
 
 import { fetchSites } from '../../actions/sites'
 import { fetchProjects } from '../../actions/projects'
-import LinkButton from '../LinkButton'
 
 
 class ProjectSites extends React.Component {
+    constructor (props) {
+        super(props)
+
+        this.state = {
+            dropdownOpen: false,
+        }
+    }
+
     componentDidMount () {
         this.props.fetchProjects()
         this.props.fetchSites(1)
+    }
+
+    onToggle () {
+        this.setState({
+            dropdownOpen: !this.state.dropdownOpen,
+        })
+    }
+
+    onNewProject () {
+        this.props.push('/app/projects/new')
+    }
+
+    onNewSite () {
+        this.props.push('/app/sites/new')
     }
 
     onClick (e) {
@@ -32,19 +60,43 @@ class ProjectSites extends React.Component {
 
         return (
             <div>
+                <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
+                    <ButtonDropdown
+                        className="ml-auto"
+                        isOpen={this.state.dropdownOpen}
+                        toggle={() => this.onToggle()}
+                    >
+                        <DropdownToggle className="pointer">
+                            <i className="fa fa-plus" />
+                        </DropdownToggle>
+                        <DropdownMenu right>
+                            <DropdownItem className="pointer" onClick={() => this.onNewProject()}>
+                                New Project
+                            </DropdownItem>
+                            <DropdownItem className="pointer" onClick={() => this.onNewSite()}>
+                                New Site
+                            </DropdownItem>
+                        </DropdownMenu>
+                    </ButtonDropdown>
+                </div>
                 {projects.map(([id, project]) => (
                     <div style={{ marginBottom: 40 }} key={id}>
                         <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
                             <h4>{project.get('name')}</h4>
-                            <LinkButton
-                                href={`/app/sites/new`}
-                                className="ml-auto"
-                            >New Site</LinkButton>
+                            <h4 style={{ marginLeft: 15 }}>
+                                <a
+                                    href={`/app/projects/${id}`}
+                                    onClick={e => this.onClick(e)}
+                                    style={{ color: '#aaa' }}
+                                >
+                                    <i className="fa fa-gear" href={`/app/projects/${id}`} />
+                                </a>
+                            </h4>
                         </div>
                         {projectSites.get(id) ? (
                             <ListGroup>
                                 {projectSites.get(id).map(([siteId, site]) => (
-                                    <ListGroupItem key={siteId} href={`/app/sites/${siteId}`}>
+                                    <ListGroupItem key={siteId}>
                                         <a
                                             href={`/app/sites/${siteId}`}
                                             onClick={e => this.onClick(e)}

@@ -8,7 +8,6 @@ import PrivateRoute from './Auth'
 import LabClients from './Companies/LabClients'
 import LabClient from './Companies/LabClient'
 import NewLabClient from './Companies/NewLabClient'
-import ProjectSites from './Projects/ProjectSites'
 import TeamLabUsers from './Labs/TeamLabUsers'
 
 const LabApp = () => (
@@ -21,11 +20,6 @@ const LabApp = () => (
                     activeClassName="active"
                 >Clients</NavLink>
                 <NavLink
-                    to="/app/projects"
-                    className="nav-link"
-                    activeClassName="active"
-                >Projects</NavLink>
-                <NavLink
                     to="/app/team"
                     className="nav-link"
                     activeClassName="active"
@@ -36,7 +30,7 @@ const LabApp = () => (
             <PrivateRoute exact path="/app/clients" component={LabClients} />
             <PrivateRoute path="/app/clients/:id(\\d+)" component={LabClient} />
             <PrivateRoute exact path="/app/clients/new" component={NewLabClient} />
-            <PrivateRoute exact path="/app/projects" component={ProjectSites} />
+
             <PrivateRoute path="/app/team" component={TeamLabUsers} />
         </Col>
     </Row>
