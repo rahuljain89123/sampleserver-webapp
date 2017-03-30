@@ -13,7 +13,7 @@ class CompanySettings extends React.Component {
 
     render () {
         return (
-            <div class="container-fluid">
+            <div className="container-fluid">
                 <p className="">Allow deletion of the company if there are no active users.</p>
             </div>
         )
