@@ -10,7 +10,7 @@ import {
     Input,
 } from 'reactstrap'
 
-import { clearEditingUserError, deleteUser, createUser } from '../../actions/users'
+import { clearCreatingUserError, deleteUser, createUser } from '../../actions/users'
 import { msgFromError } from '../../util'
 import { FormSuccessMessage } from './FormMessages'
 import { fetchCompany } from '../../actions/companies'
@@ -28,14 +28,14 @@ class LabContactForm extends React.Component {
     }
 
     componentWillMount () {
-        if (this.props.editingUserError) {
-            this.props.clearEditingUserError()
+        if (this.props.creatingUserError) {
+            this.props.clearCreatingUserError()
         }
     }
 
     onChange (e) {
-        if (this.props.editingUserError) {
-            this.props.clearEditingUserError()
+        if (this.props.creatingUserError) {
+            this.props.clearCreatingUserError()
         }
 
         this.setState({
@@ -46,7 +46,7 @@ class LabContactForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
         const userId = this.props.user ? this.props.user.get('id') : null
-        this.props.deleteUser(userId)
+        if (userId) { this.props.deleteUser(userId) }
         this.props.createUser({
             email: this.state.email,
             name: this.state.name,
@@ -67,7 +67,7 @@ class LabContactForm extends React.Component {
     }
 
     render () {
-        const userError = this.props.editingUserError
+        const userError = this.props.creatingUserError
         const generalUserError = userError && userError.msg ? userError.msg : null
         const userErrors = userError && userError.key ? {
             [userError.key]: msgFromError(userError),
@@ -112,15 +112,15 @@ class LabContactForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    editingUserError: store.get('editingUserError'),
-    editingUser: store.get('editingUser'),
+    creatingUserError: store.get('creatingUserError'),
+    creatingUser: store.get('creatingUser'),
     lab: currentLab(store),
 })
 
 const mapDispatchToProps = dispatch => ({
     createUser: user => dispatch(createUser(user)),
+    clearCreatingUserError: () => dispatch(clearCreatingUserError()),
     deleteUser: id => dispatch(deleteUser(id)),
-    clearEditingUserError: () => dispatch(clearEditingUserError()),
     fetchCompany: id => dispatch(fetchCompany(id)),
 })
 
