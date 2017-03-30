@@ -63,6 +63,10 @@ class Header extends React.Component {
             })
     }
 
+    manageTeam () {
+
+    }
+
     render () {
         const {
             user,
@@ -88,6 +92,7 @@ class Header extends React.Component {
                                 </DropdownToggle>
                                 <DropdownMenu right>
                                     <DropdownItem header>{roleDescription}</DropdownItem>
+                                    <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
                                     <DropdownItem
                                         onClick={e => this.onSignout(e)}
                                         className="pointer"
