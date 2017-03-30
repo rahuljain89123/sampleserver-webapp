@@ -9,7 +9,7 @@ import Project from './Projects/Project'
 import NewProject from './Projects/NewProject'
 import ProjectUsers from './Projects/ProjectUsers'
 
-import NewProjectSite from './Sites/NewProjectSite'
+import NewSite from './Sites/NewSite'
 
 import SiteApp from './SiteApp'
 
@@ -20,7 +20,16 @@ const CompanyApp = () => (
 
         <PrivateRoute path="/app/projects/:id(\\d+)" component={Project} />
         <PrivateRoute exact path="/app/projects/new" component={NewProject} />
-        <PrivateRoute exact path="/app/projects/:project(\\d+)/new" component={NewProjectSite} />
+        <PrivateRoute
+            exact
+            path="/app/sites/new"
+            component={props => (
+                <div>
+                    <h4>New Site</h4>
+                    <NewSite onSuccess={id => props.push(`/app/sites/${id}`)} />
+                </div>
+            )}
+        />
         <PrivateRoute exact path="/app/projects/:id(\\d+)/users" component={ProjectUsers} />
     </div>
 )

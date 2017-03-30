@@ -72,11 +72,14 @@ class SiteApp extends React.Component {
                                 exact
                                 path={`/app/sites/${site.get('id')}`}
                                 component={props => (
-                                    <EditSite
-                                        site={site}
-                                        onSuccess={() => {}}
-                                        {...props}
-                                    />
+                                    <div>
+                                        <h4 style={{ marginBottom: 20 }}>Site Details</h4>
+                                        <EditSite
+                                            site={site}
+                                            onSuccess={() => {}}
+                                            {...props}
+                                        />
+                                    </div>
                                 )}
                             />
                             <PrivateRoute

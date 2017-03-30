@@ -74,7 +74,7 @@ class NewSiteForm extends React.Component {
             background: this.state.background,
             summary: this.state.summary,
         })
-        .then(id => this.props.push(`/app/sites/${id}`))
+        .then(this.props.onSuccess)
     }
 
     render () {

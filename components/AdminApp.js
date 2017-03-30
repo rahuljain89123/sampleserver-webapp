@@ -19,8 +19,8 @@ import NewCompany from './Companies/NewCompany'
 import CompanyUsers from './Companies/CompanyUsers'
 
 import Sites from './Sites/Sites'
-import Site from './Sites/Site'
-import NewSite from './Sites/NewSite'
+import AdminSite from './Sites/AdminSite'
+import AdminNewSite from './Sites/AdminNewSite'
 import SiteUsers from './Sites/SiteUsers'
 
 import Projects from './Projects/Projects'
@@ -56,8 +56,8 @@ const AdminApp = () => (
             <PrivateRoute path="/app/projects/:id(\\d+)/users" component={ProjectUsers} />
 
             <PrivateRoute exact path="/app/sites" component={Sites} />
-            <PrivateRoute path="/app/sites/:id(\\d+)" component={Site} />
-            <PrivateRoute exact path="/app/sites/new" component={NewSite} />
+            <PrivateRoute path="/app/sites/:id(\\d+)" component={AdminSite} />
+            <PrivateRoute exact path="/app/sites/new" component={AdminNewSite} />
             <PrivateRoute path="/app/sites/:id(\\d+)/users" component={SiteUsers} />
 
             <PrivateRoute exact path="/app/samples" component={Samples} />
