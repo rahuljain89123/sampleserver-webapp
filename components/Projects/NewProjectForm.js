@@ -12,6 +12,8 @@ import {
 
 import { createProject, clearCreatingProjectError } from '../../actions/projects'
 import { msgFromError } from '../../util'
+import { currentCompany } from '../../normalizers'
+import { fetchCompanies } from '../../actions/companies'
 
 
 class NewProjectForm extends React.Component {
@@ -29,6 +31,10 @@ class NewProjectForm extends React.Component {
         }
     }
 
+    componentDidMount () {
+        this.props.fetchCompanies()
+    }
+
     onChange (e) {
         if (this.props.creatingProjectError) {
             this.props.clearCreatingProjectError()
@@ -43,8 +49,9 @@ class NewProjectForm extends React.Component {
         e.preventDefault()
         this.props.createProject({
             name: this.state.name,
+            company_id: this.props.company.get('id'),
         })
-        .then(id => this.props.push(`/app/projects/${id}`))
+        .then(() => this.props.push('/app/'))
     }
 
     render () {
@@ -77,11 +84,13 @@ class NewProjectForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
+    company: currentCompany(store),
     creatingProjectError: store.get('creatingProjectError'),
     creatingProject: store.get('creatingProject'),
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchCompanies: () => dispatch(fetchCompanies()),
     createProject: project => dispatch(createProject(project)),
     clearCreatingProjectError: () => dispatch(clearCreatingProjectError()),
 })
