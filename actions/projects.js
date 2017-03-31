@@ -22,19 +22,19 @@ export const receiveProjects = projects => ({
     projects,
 })
 
-export const fetchProject = id =>
-    dispatch =>
-        API.get(`/projects/${id}`)
-        .then(project => {
-            dispatch(receiveProject(project))
-        })
+export const setEditingProject = editing => ({
+    type: SET_EDITING_PROJECT,
+    editing,
+})
 
-export const fetchProjects = () =>
-    dispatch =>
-        API.get('/projects/')
-        .then(projects => {
-            dispatch(receiveProjects(projects))
-        })
+export const setEditingProjectError = error => ({
+    type: SET_EDITING_PROJECT_ERROR,
+    error,
+})
+
+export const clearEditingProjectError = () => ({
+    type: CLEAR_EDITING_PROJECT_ERROR,
+})
 
 export const setCreatingProject = creating => ({
     type: SET_CREATING_PROJECT,
@@ -49,6 +49,20 @@ export const setCreatingProjectError = error => ({
 export const clearCreatingProjectError = () => ({
     type: CLEAR_CREATING_PROJECT_ERROR,
 })
+
+export const fetchProject = id =>
+    dispatch =>
+        API.get(`/projects/${id}`)
+        .then(project => {
+            dispatch(receiveProject(project))
+        })
+
+export const fetchProjects = () =>
+    dispatch =>
+        API.get('/projects/')
+        .then(projects => {
+            dispatch(receiveProjects(projects))
+        })
 
 export const createProject = project =>
     dispatch => {
@@ -75,20 +89,6 @@ export const createProject = project =>
             return Promise.reject()
         })
     }
-
-export const setEditingProject = editing => ({
-    type: SET_EDITING_PROJECT,
-    editing,
-})
-
-export const setEditingProjectError = error => ({
-    type: SET_EDITING_PROJECT_ERROR,
-    error,
-})
-
-export const clearEditingProjectError = () => ({
-    type: CLEAR_EDITING_PROJECT_ERROR,
-})
 
 export const editProject = (id, project) =>
     dispatch => {

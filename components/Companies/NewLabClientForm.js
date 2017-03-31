@@ -57,20 +57,14 @@ class NewLabClientForm extends React.Component {
         this.props.createCompany({
             title: this.state.title,
             lab_id: this.props.lab.get('id'),
-        })
-        .then(id => {
-            this.props.createUser({
+            primary_user: {
                 email: this.state.email,
                 name: this.state.name,
                 lab_id: this.props.lab.get('id'),
-                role_id: 4,  // company admin
-                companies: {
-                    add: [id],
-                    remove: [],
-                },
-            })
-            .then(() => this.props.push(`/app/clients/${id}`))
+                role_id: 4,
+            },
         })
+        .then(id => this.props.push(`/app/clients/${id}`))
     }
 
     render () {
@@ -99,27 +93,27 @@ class NewLabClientForm extends React.Component {
                     <FormFeedback>{companyErrors.title}</FormFeedback>
                 </FormGroup>
                 <h5 style={{ marginTop: 30, marginBottom: 20 }}>Primary Contact</h5>
-                <FormGroup color={userErrors.name ? 'danger' : ''}>
+                <FormGroup color={companyErrors.name ? 'danger' : ''}>
                     <Label for="name">Full Name</Label>
                     <Input
-                        state={userErrors.name ? 'danger' : ''}
+                        state={companyErrors.name ? 'danger' : ''}
                         name="name"
                         id="name"
                         value={this.state.name}
                         onChange={e => this.onChange(e)}
                     />
-                    <FormFeedback>{userErrors.name}</FormFeedback>
+                    <FormFeedback>{companyErrors.name}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={userErrors.email ? 'danger' : ''}>
+                <FormGroup color={companyErrors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
-                        state={userErrors.email ? 'danger' : ''}
+                        state={companyErrors.email ? 'danger' : ''}
                         name="email"
                         id="email"
                         value={this.state.email}
                         onChange={e => this.onChange(e)}
                     />
-                    <FormFeedback>{userErrors.email}</FormFeedback>
+                    <FormFeedback>{companyErrors.email}</FormFeedback>
                 </FormGroup>
                 <Button
                     color="primary"

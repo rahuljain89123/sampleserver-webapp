@@ -51,13 +51,19 @@ import {
     editingProject,
     editingProjectError,
 } from './reducers/projects'
+import {
+    companies,
+    creatingCompany,
+    creatingCompanyError,
+    editingCompany,
+    editingCompanyError,
+} from './reducers/companies'
 import { roles } from './reducers/roles'
 import {
     samples,
     editingSample,
     editingSampleError,
 } from './reducers/samples'
-import { companies } from './reducers/companies'
 import { uploads } from './reducers/uploads'
 
 
@@ -111,13 +117,18 @@ const appReducer = combineReducers({
     editingProject,
     editingProjectError,
 
+    companies,
+    creatingCompany,
+    creatingCompanyError,
+    editingCompany,
+    editingCompanyError,
+
     roles,
 
     samples,
     editingSample,
     editingSampleError,
 
-    companies,
     uploads,
 })
 
