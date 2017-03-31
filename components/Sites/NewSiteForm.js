@@ -10,6 +10,7 @@ import {
     Input,
 } from 'reactstrap'
 
+import { fetchProjects } from '../../actions/projects'
 import { createSite, clearCreatingSiteError } from '../../actions/sites'
 import { msgFromError } from '../../util'
 
@@ -19,6 +20,7 @@ class NewSiteForm extends React.Component {
         super(props)
 
         this.state = {
+            project_id: '',
             title: '',
             contact: '',
             contact_phone: '',
@@ -39,6 +41,8 @@ class NewSiteForm extends React.Component {
     }
 
     componentWillMount () {
+        this.props.fetchProjects()
+
         if (this.props.creatingSiteError) {
             this.props.clearCreatingSiteError()
         }
@@ -57,6 +61,7 @@ class NewSiteForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
         this.props.createSite({
+            project_id: parseInt(this.state.project_id, 10),
             title: this.state.title,
             contact: this.state.contact,
             contact_phone: this.state.contact_phone,
@@ -67,9 +72,9 @@ class NewSiteForm extends React.Component {
             state: this.state.state,
             zip: this.state.zip,
             county: this.state.county,
-            latitude: this.state.latitude,
-            longitude: this.state.longitude,
-            start_sampling_on: this.state.start_sampling_on,
+            latitude: parseFloat(this.state.latitude),
+            longitude: parseFloat(this.state.longitude),
+            start_sampling_on: parseInt(this.state.start_sampling_on, 10),
             history: this.state.history,
             background: this.state.background,
             summary: this.state.summary,
@@ -78,6 +83,8 @@ class NewSiteForm extends React.Component {
     }
 
     render () {
+        const projects = this.props.projects.entrySeq()
+
         const error = this.props.editingSiteError
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
@@ -86,6 +93,23 @@ class NewSiteForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
+                <FormGroup color={errors.project_id ? 'danger' : ''}>
+                    <Label for="project_id">Project</Label>
+                    <Input
+                        state={errors.project_id ? 'danger' : ''}
+                        type="select"
+                        name="project_id"
+                        id="project_id"
+                        value={this.state.project_id}
+                        onChange={e => this.onChange(e)}
+                    >
+                        <option>Choose a project...</option>
+                        {projects.map(([id, item]) => (
+                            <option key={id} value={item.get('id')}>{item.get('name')}</option>
+                        ))}
+                    </Input>
+                    <FormFeedback>{errors.project_id}</FormFeedback>
+                </FormGroup>
                 <FormGroup color={errors.title ? 'danger' : ''}>
                     <Label for="title">Title</Label>
                     <Input
@@ -276,11 +300,13 @@ class NewSiteForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
+    projects: store.get('projects'),
     creatingSiteError: store.get('creatingSiteError'),
     creatingSite: store.get('creatingSite'),
 })
 
 const mapDispatchToProps = dispatch => ({
+    fetchProjects: () => dispatch(fetchProjects()),
     createSite: site => dispatch(createSite(site)),
     clearCreatingSiteError: () => dispatch(clearCreatingSiteError()),
 })
