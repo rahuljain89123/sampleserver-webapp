@@ -60,6 +60,7 @@ class Header extends React.Component {
             .then(() => {
                 this.props.reset()
                 this.props.fetchCurrentLab()
+                this.props.push('/')
             })
     }
 
