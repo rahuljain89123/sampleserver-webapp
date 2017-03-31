@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import {
     RECEIVE_COMPANY,
     RECEIVE_COMPANIES,
+    REMOVE_COMPANY,
 } from '../constants/CompanyActionTypes'
 
 export const companies = (state = Immutable.Map(), action) => {
@@ -16,6 +17,8 @@ export const companies = (state = Immutable.Map(), action) => {
             tempState = tempState.set(company.id, Immutable.Map(company))
         })
         return tempState
+    case REMOVE_COMPANY:
+        return state.delete(action.id)
     default:
         return state
     }

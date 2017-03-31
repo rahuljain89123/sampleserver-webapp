@@ -8,17 +8,6 @@ import { fetchCompanies, deleteCompany } from '../../actions/companies'
 
 
 class CompanySettings extends React.Component {
-    constructor (props) {
-        super(props)
-    }
-
-    componentDidMount () {
-    }
-
-    componentWillReceiveProps (props) {
-
-    }
-
     deleteClient () {
         this.props.deleteCompany(this.props.company.get('id'))
             .then(() => this.props.fetchCompanies())
@@ -28,8 +17,10 @@ class CompanySettings extends React.Component {
     render () {
         return (
             <div className="container-fluid">
-                <p className="">Since there are no active users, you may permanently delete this client.</p>
-                <Button role="button" color="danger" onClick={() => this.deleteClient()}>Delete Client</Button>
+                <p className="">
+                    Since there are no active users, you may permanently delete this client.</p>
+                <Button role="button" color="danger" onClick={() => this.deleteClient()}>
+                    Delete Client</Button>
             </div>
         )
     }
