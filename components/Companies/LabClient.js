@@ -81,12 +81,14 @@ class LabClient extends React.Component {
                         className="nav-link"
                         activeClassName="active"
                     >Uploads</NavLink>
-                    <NavLink
-                        exact
-                        to={`/app/clients/${company.get('id')}/settings`}
-                        className="nav-link"
-                        activeClassName="active"
-                    >Settings</NavLink>
+                    {company.get('is_deletable') ? (
+                        <NavLink
+                            exact
+                            to={`/app/clients/${company.get('id')}/settings`}
+                            className="nav-link"
+                            activeClassName="active"
+                        >Settings</NavLink>
+                    ) : null}
                 </Nav>
 
                 <Switch>
@@ -110,8 +112,8 @@ class LabClient extends React.Component {
                     <Route
                         exact
                         path="/app/clients/:id(\\d+)/settings"
-                        render={() => (
-                            <CompanySettings company={company} />
+                        render={props => (
+                            <CompanySettings company={company} {...props} />
                         )}
                     />
                 </Switch>
