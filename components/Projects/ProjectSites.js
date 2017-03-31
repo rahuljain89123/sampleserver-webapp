@@ -37,7 +37,7 @@ class ProjectSites extends React.Component {
                 this.props.fetchSites({ project_id: project.get('id') })
                 return true
             }
-            return false
+            return this.state.fetchedSites.get(project.get('id'))
         })
 
         this.setState({
