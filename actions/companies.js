@@ -125,7 +125,6 @@ export const removeCompany = id => ({
 })
 
 export const deleteCompany = id =>
-    dispatch => {
-        API.delete(`/company/${id}`)
+    dispatch => API.delete(`/companies/${id}`)
         .then(() => dispatch(removeCompany(id)))
-    }
+

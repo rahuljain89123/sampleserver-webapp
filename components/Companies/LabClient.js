@@ -12,6 +12,7 @@ import {
 import { fetchCompany } from '../../actions/companies'
 
 import CompanyUploads from './CompanyUploads'
+import CompanySettings from './CompanySettings'
 import LabClientContacts from './LabClientContacts'
 
 
@@ -80,6 +81,14 @@ class LabClient extends React.Component {
                         className="nav-link"
                         activeClassName="active"
                     >Uploads</NavLink>
+                    {company.get('is_deletable') ? (
+                        <NavLink
+                            exact
+                            to={`/app/clients/${company.get('id')}/settings`}
+                            className="nav-link"
+                            activeClassName="active"
+                        >Settings</NavLink>
+                    ) : null}
                 </Nav>
 
                 <Switch>
@@ -98,6 +107,13 @@ class LabClient extends React.Component {
                         path="/app/clients/:id(\\d+)/uploads"
                         render={() => (
                             <CompanyUploads company={company} />
+                        )}
+                    />
+                    <Route
+                        exact
+                        path="/app/clients/:id(\\d+)/settings"
+                        render={props => (
+                            <CompanySettings company={company} {...props} />
                         )}
                     />
                 </Switch>
