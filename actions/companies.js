@@ -25,20 +25,6 @@ export const receiveCompanies = companies => ({
     companies,
 })
 
-export const fetchCompany = id =>
-    dispatch =>
-        API.get(`/companies/${id}`)
-        .then(company => {
-            dispatch(receiveCompany(company))
-        })
-
-export const fetchCompanies = (filters = {}) =>
-    dispatch =>
-        API.get(`/companies/?${qs.stringify(filters)}`)
-        .then(companies => {
-            dispatch(receiveCompanies(companies))
-        })
-
 export const setCreatingCompany = creating => ({
     type: SET_CREATING_COMPANY,
     creating,
@@ -52,6 +38,39 @@ export const setCreatingCompanyError = error => ({
 export const clearCreatingCompanyError = () => ({
     type: CLEAR_CREATING_COMPANY_ERROR,
 })
+
+export const setEditingCompany = editing => ({
+    type: SET_EDITING_COMPANY,
+    editing,
+})
+
+export const setEditingCompanyError = error => ({
+    type: SET_EDITING_COMPANY_ERROR,
+    error,
+})
+
+export const clearEditingCompanyError = () => ({
+    type: CLEAR_EDITING_COMPANY_ERROR,
+})
+
+export const removeCompany = id => ({
+    type: REMOVE_COMPANY,
+    id,
+})
+
+export const fetchCompany = id =>
+    dispatch =>
+        API.get(`/companies/${id}`)
+        .then(company => {
+            dispatch(receiveCompany(company))
+        })
+
+export const fetchCompanies = (filters = {}) =>
+    dispatch =>
+        API.get(`/companies/?${qs.stringify(filters)}`)
+        .then(companies => {
+            dispatch(receiveCompanies(companies))
+        })
 
 export const createCompany = company =>
     dispatch => {
@@ -79,20 +98,6 @@ export const createCompany = company =>
         })
     }
 
-export const setEditingCompany = editing => ({
-    type: SET_EDITING_COMPANY,
-    editing,
-})
-
-export const setEditingCompanyError = error => ({
-    type: SET_EDITING_COMPANY_ERROR,
-    error,
-})
-
-export const clearEditingCompanyError = () => ({
-    type: CLEAR_EDITING_COMPANY_ERROR,
-})
-
 export const editCompany = (id, company) =>
     dispatch => {
         dispatch(setEditingCompany(true))
@@ -119,10 +124,6 @@ export const editCompany = (id, company) =>
         })
     }
 
-export const removeCompany = id => ({
-    type: REMOVE_COMPANY,
-    id,
-})
 
 export const deleteCompany = id =>
     dispatch => API.delete(`/companies/${id}`)
