@@ -10,6 +10,7 @@ import {
     Input,
 } from 'reactstrap'
 
+import PrivateRoute from '../Auth'
 import { fetchCompanies } from '../../actions/companies'
 import { editProject, clearEditingProjectError } from '../../actions/projects'
 import { currentLab } from '../../normalizers'
@@ -92,23 +93,29 @@ class EditProjectForm extends React.Component {
                     />
                     <FormFeedback>{errors.name}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={errors.company_id ? 'danger' : ''}>
-                    <Label for="company_id">Company</Label>
-                    <Input
-                        state={errors.company_id ? 'danger' : ''}
-                        type="select"
-                        name="company_id"
-                        id="company_id"
-                        value={this.state.company_id}
-                        onChange={e => this.onChange(e)}
-                    >
-                        <option>Choose a company...</option>
-                        {companies.map(([id, item]) => (
-                            <option key={id} value={item.get('id')}>{item.get('title')}</option>
-                        ))}
-                    </Input>
-                    <FormFeedback>{errors.lab_id}</FormFeedback>
-                </FormGroup>
+                <PrivateRoute
+                    path=""
+                    authorized={['Admin', 'LabAdmin', 'LabAssociate']}
+                    component={() => (
+                        <FormGroup color={errors.company_id ? 'danger' : ''}>
+                            <Label for="company_id">Company</Label>
+                            <Input
+                                state={errors.company_id ? 'danger' : ''}
+                                type="select"
+                                name="company_id"
+                                id="company_id"
+                                value={this.state.company_id}
+                                onChange={e => this.onChange(e)}
+                            >
+                                <option>Choose a company...</option>
+                                {companies.map(([id, item]) => (
+                                    <option key={id} value={item.get('id')}>{item.get('title')}</option>
+                                ))}
+                            </Input>
+                            <FormFeedback>{errors.lab_id}</FormFeedback>
+                        </FormGroup>
+                    )}
+                />
                 <Button
                     color="primary"
                     disabled={this.props.editingProject}

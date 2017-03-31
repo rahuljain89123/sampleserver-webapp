@@ -1,23 +1,17 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Route, Switch } from 'react-router-dom'
+import { Route, NavLink } from 'react-router-dom'
 import {
     Row,
     Col,
-    Breadcrumb,
-    BreadcrumbItem,
+    Nav,
 } from 'reactstrap'
 
-import LinkButton from '../LinkButton'
 import { fetchProject } from '../../actions/projects'
 import EditProjectForm from './EditProjectForm'
+import ProjectUsers from './ProjectUsers'
 
-const ProjectInfo = props => (
-    <div>
-        <strong>Name: </strong><span>{props.project.get('name')}</span><br />
-    </div>
-)
 
 class Project extends React.Component {
     constructor (props) {
@@ -57,54 +51,41 @@ class Project extends React.Component {
         }
 
         return (
-            <Switch>
+            <div>
+                <h4>Edit Project</h4>
+                <div>
+                    <Nav pills style={{ marginTop: 20, marginBottom: 20 }}>
+                        <NavLink
+                            exact
+                            to={`/app/projects/${project.get('id')}`}
+                            className="nav-link"
+                            activeClassName="active"
+                        >Details</NavLink>
+                        <NavLink
+                            exact
+                            to={`/app/projects/${project.get('id')}/users`}
+                            className="nav-link"
+                            activeClassName="active"
+                        >Manage Users</NavLink>
+                    </Nav>
+                </div>
                 <Route
                     exact
                     path="/app/projects/:id(\\d+)"
                     render={() => (
-                        <div className="card">
-                            <div className="card-block">
-                                <div className="card-title d-flex flex-row">
-                                    <h4>{project.get('name')}</h4>
-                                    <span className="ml-auto">
-                                        <LinkButton
-                                            href={`/app/projects/${project.get('id')}/users`}
-                                        >Manage Users</LinkButton>
-                                        <LinkButton
-                                            color="primary"
-                                            href={`/app/projects/${project.get('id')}/edit`}
-                                            style={{ marginLeft: 10 }}
-                                        >Edit Project</LinkButton>
-                                    </span>
-                                </div>
-                                <ProjectInfo project={project} />
-                            </div>
-                        </div>
+                        <Row>
+                            <Col sm={6}>
+                                <EditProjectForm project={project} push={this.props.push} />
+                            </Col>
+                        </Row>
                     )}
                 />
                 <Route
                     exact
-                    path="/app/projects/:id(\\d+)/edit"
-                    render={() => (
-                        <div className="card">
-                            <div className="card-block">
-                                <div className="card-title d-flex flex-row">
-                                    <h4>{project.get('name')}</h4>
-                                    <LinkButton
-                                        href={`/app/projects/${project.get('id')}`}
-                                        className="ml-auto"
-                                    >Back</LinkButton>
-                                </div>
-                                <Row>
-                                    <Col sm={6}>
-                                        <EditProjectForm project={project} push={this.props.push} />
-                                    </Col>
-                                </Row>
-                            </div>
-                        </div>
-                    )}
+                    path="/app/projects/:id(\\d+)/users"
+                    component={ProjectUsers}
                 />
-            </Switch>
+            </div>
         )
     }
 }

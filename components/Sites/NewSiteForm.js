@@ -13,6 +13,7 @@ import {
 import { fetchProjects } from '../../actions/projects'
 import { createSite, clearCreatingSiteError } from '../../actions/sites'
 import { msgFromError } from '../../util'
+import { currentLab } from '../../normalizers'
 
 
 class NewSiteForm extends React.Component {
@@ -62,6 +63,7 @@ class NewSiteForm extends React.Component {
         e.preventDefault()
         this.props.createSite({
             project_id: parseInt(this.state.project_id, 10),
+            lab_id: this.props.lab.get('id'),
             title: this.state.title,
             contact: this.state.contact,
             contact_phone: this.state.contact_phone,
@@ -300,6 +302,7 @@ class NewSiteForm extends React.Component {
 }
 
 const mapStateToProps = store => ({
+    lab: currentLab(store),
     projects: store.get('projects'),
     creatingSiteError: store.get('creatingSiteError'),
     creatingSite: store.get('creatingSite'),

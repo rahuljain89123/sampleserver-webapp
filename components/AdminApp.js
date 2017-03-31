@@ -53,7 +53,6 @@ const AdminApp = () => (
             <PrivateRoute exact path="/app/projects" component={Projects} />
             <PrivateRoute path="/app/projects/:id(\\d+)" component={Project} />
             <PrivateRoute exact path="/app/projects/new" component={NewProject} />
-            <PrivateRoute path="/app/projects/:id(\\d+)/users" component={ProjectUsers} />
 
             <PrivateRoute exact path="/app/sites" component={Sites} />
             <PrivateRoute path="/app/sites/:id(\\d+)" component={AdminSite} />

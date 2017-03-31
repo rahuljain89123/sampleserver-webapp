@@ -18,14 +18,31 @@ class ProjectSites extends React.Component {
     constructor (props) {
         super(props)
 
+        const fetchedSites = props.projects.map(() => true)
+
         this.state = {
+            fetchedSites,
             dropdownOpen: false,
         }
     }
 
     componentDidMount () {
         this.props.fetchProjects()
-        this.props.fetchSites(1)
+        this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
+    }
+
+    componentWillReceiveProps (nextProps) {
+        const fetchedSites = nextProps.projects.map(project => {
+            if (!this.state.fetchedSites.get(project.get('id'))) {
+                this.props.fetchSites({ project_id: project.get('id') })
+                return true
+            }
+            return false
+        })
+
+        this.setState({
+            fetchedSites,
+        })
     }
 
     onToggle () {
@@ -121,7 +138,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchProjects: () => dispatch(fetchProjects()),
-    fetchSites: projectId => dispatch(fetchSites({ project_id: projectId })),
+    fetchSites: filters => dispatch(fetchSites(filters)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectSites)

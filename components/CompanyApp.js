@@ -7,7 +7,6 @@ import ProjectSites from './Projects/ProjectSites'
 
 import Project from './Projects/Project'
 import NewProject from './Projects/NewProject'
-import ProjectUsers from './Projects/ProjectUsers'
 
 import NewSite from './Sites/NewSite'
 
@@ -30,7 +29,6 @@ const CompanyApp = () => (
                 </div>
             )}
         />
-        <PrivateRoute exact path="/app/projects/:id(\\d+)/users" component={ProjectUsers} />
     </div>
 )
 

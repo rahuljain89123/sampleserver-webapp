@@ -123,15 +123,6 @@ class ProjectUsers extends React.Component {
 
         return (
             <div>
-                <h4>{role ? `${role.get('description')}s` : ''}</h4>
-                <Row style={{ marginTop: 20 }}>
-                    <Col sm="12">
-                        <p>
-                            Can create/edit/view sites within project but cannot delete.<br />
-                            Can assign Technicians on a site-by-site basis only.<br /><br />
-                        </p>
-                    </Col>
-                </Row>
                 {!!users.size && (
                     <Table size="sm" style={{ marginBottom: 60 }}>
                         <thead>
