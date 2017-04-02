@@ -12,23 +12,20 @@ import {
 
 import {
     fetchUser,
+    fetchUsers,
     acceptInvite,
     signin,
     clearAcceptInviteError,
 } from '../../actions/users'
-import { msgFromError, hashids } from '../../util'
+import { msgFromError } from '../../util'
 
 
 class AcceptInviteForm extends React.Component {
     constructor (props) {
         super(props)
 
-        const userId = hashids.decode(this.props.code)[0]
-        const user = this.props.users.get(userId)
-
         this.state = {
-            userId,
-            user,
+            user: null,
             password: '',
         }
     }
@@ -40,13 +37,13 @@ class AcceptInviteForm extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUser(this.state.userId)
+        this.props.fetchUsers({ 'invite_code': this.props.code })
     }
 
     componentWillReceiveProps (nextProps) {
         if (!this.state.user) {
             this.setState({
-                user: nextProps.users.get(this.state.userId),
+                user: nextProps.users.first(),
             })
         }
     }
@@ -64,7 +61,7 @@ class AcceptInviteForm extends React.Component {
     onSubmit (e) {
         e.preventDefault()
 
-        this.props.acceptInvite(this.state.userId, this.state.password)
+        this.props.acceptInvite(this.state.user.get('id'), this.state.password)
             .then(() => {
                 this.props.signin(this.state.user.get('email'), this.state.password)
                     .then(id => {
@@ -129,6 +126,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchUser: id => dispatch(fetchUser(id)),
+    fetchUsers: filters => dispatch(fetchUsers(filters)),
     acceptInvite: (email, password) => dispatch(acceptInvite(email, password)),
     signin: (email, password) => dispatch(signin(email, password)),
     clearAcceptInviteError: () => dispatch(clearAcceptInviteError()),
