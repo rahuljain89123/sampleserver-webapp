@@ -22,7 +22,6 @@ class UpdateProfileImage extends React.Component {
 
         this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
-            name: safeGet(this.props.user, 'name', ''),
             photoURL: safeGet(this.props.user, 'photo_url', ''),
         }
     }
@@ -45,9 +44,9 @@ class UpdateProfileImage extends React.Component {
             <div className="update-profile-image">
                 <div className="profile-image-holder" onClick={() => this.pickImage()} >
                     { this.state.photoURL ? (
-                        <img className="profile-image" src={this.state.photoURL} alt={this.state.name} />
+                        <img className="profile-image" src={this.state.photoURL} alt={this.props.name} />
                     ) : (
-                        <img className="profile-image" src="/static/img/blank-avatar.png" alt={this.state.name} />
+                        <img className="profile-image" src="/static/img/blank-avatar.png" alt={this.props.name} />
                     )}
                     <div className="edit-panel">Edit</div>
                 </div>

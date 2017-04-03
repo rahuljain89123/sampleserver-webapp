@@ -76,7 +76,7 @@ class CompleteProfileForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <UpdateProfileImage user={this.props.user} />
+                <UpdateProfileImage user={this.props.user} name={this.state.name} />
                 <FormGroup color={errors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
