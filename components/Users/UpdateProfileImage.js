@@ -48,11 +48,14 @@ class UpdateProfileImage extends React.Component {
     render () {
         return (
             <div className="update-profile-image">
-                { this.props.photoURL ? (
-                    <img className="profile-image" src={this.props.photoURL} alt={this.props.name} onClick={() => this.pickImage()} />
-                ) : (
-                    <img className="profile-image" src="/static/img/blank-avatar.png" alt={this.props.name} onClick={() => this.pickImage()} />
-                )}
+                <div className="profile-image-holder" onClick={() => this.pickImage()} >
+                    { this.props.photoURL ? (
+                        <img className="profile-image" src={this.props.photoURL} alt={this.props.name} />
+                    ) : (
+                        <img className="profile-image" src="/static/img/blank-avatar.png" alt={this.props.name} />
+                    )}
+                    <div className="edit-panel">Edit</div>
+                </div>
             </div>
         )
     }
