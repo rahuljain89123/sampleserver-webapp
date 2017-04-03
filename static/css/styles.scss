@@ -212,8 +212,16 @@ section {
 }
 
 
-
-
+.update-profile-image {
+    text-align: center;
+    margin: 20px;
+    img.profile-image {
+        width: 125px;
+        height: 125px;
+        border-radius: 50%;
+        max-width: 100%;
+    }
+}
 
 
 
