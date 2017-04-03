@@ -19,11 +19,17 @@ const FILESTACK_OPTIONS = {
 class UpdateProfileImage extends React.Component {
     constructor (props) {
         super(props)
-
+        console.log(props, safeGet(this.props.user, 'photo_url', ''))
         this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
             photoURL: safeGet(this.props.user, 'photo_url', ''),
         }
+    }
+
+    componentWillReceiveProps (nextProps) {
+        this.setState({
+            photoURL: safeGet(nextProps.user, 'photo_url', ''),
+        })
     }
 
     pickImage () {
@@ -33,10 +39,10 @@ class UpdateProfileImage extends React.Component {
     }
 
     onUpload (res) {
-        res.filesUploaded.map(file =>
-            this.props.editUser(this.props.user.get('id'), {
-                'photo_url': file.url,
-            }))
+        const file = res.filesUploaded[0]
+        this.props.editUser(this.props.user.get('id'), {
+            'photo_url': file.url,
+        })
     }
 
     render () {
