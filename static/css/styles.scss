@@ -212,8 +212,35 @@ section {
 }
 
 
+.update-profile-image {
+    text-align: center;
+    margin: 20px;
+
+    .profile-image-holder {
+        position: relative;
+        cursor: pointer;
+        width: 125px;
+        height: 125px;
+        overflow: hidden;
+        border-radius: 50%;
+        display: inline-block;
+
+        .edit-panel {
+            height: 30px;
+            background: #EEE;
+            position: absolute;
+            bottom: 0;
+            width: 125px;
+        }
+    }
+
+    img.profile-image {
+        max-width: 100%;
 
 
+    }
+
+}
 
 
 
