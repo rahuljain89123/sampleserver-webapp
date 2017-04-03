@@ -19,6 +19,9 @@ import {
     SET_ACCEPT_INVITE_ERROR,
     CLEAR_ACCEPT_INVITE_ERROR,
     RESET,
+    SET_RESETTING,
+    SET_RESET_ERROR,
+    CLEAR_RESET_ERROR,
 } from '../constants/UserActionTypes'
 import API from '../API'
 
@@ -95,6 +98,19 @@ export const setAcceptInviteError = error => ({
 
 export const clearAcceptInviteError = () => ({
     type: CLEAR_ACCEPT_INVITE_ERROR,
+})
+
+export const setResetting = resetting => ({
+    type: SET_RESETTING,
+    resetting,
+})
+
+export const setResetError = () => ({
+    type: SET_RESET_ERROR,
+})
+
+export const clearResetError = () => ({
+    type: CLEAR_RESET_ERROR,
 })
 
 export const fetchCurrentUser = () =>
@@ -216,10 +232,6 @@ export const signout = () =>
             return Promise.resolve()
         })
 
-export const reset = () => ({
-    type: RESET,
-})
-
 export const acceptInvite = (id, password) =>
     dispatch => {
         dispatch(setAcceptingInvite(true))
@@ -243,5 +255,48 @@ export const acceptInvite = (id, password) =>
                     msg: 'Unable to update user.',
                 }))
             })
+        })
+    }
+
+export const reset = email =>
+    dispatch => {
+        dispatch(setResetting(true))
+
+        return API.post('/auth/reset', {
+            email,
+        })
+        .then(json => {
+            if (json.success) {
+                dispatch(setResetting(false))
+                return Promise.resolve()
+            }
+            return Promise.reject()
+        })
+        .catch(() => {
+            dispatch(setResetting(false))
+            dispatch(setResetError())
+            return Promise.reject()
+        })
+    }
+
+export const finishReset = (resetCode, password) =>
+    dispatch => {
+        dispatch(setResetting(true))
+
+        return API.post('/auth/reset', {
+            reset_code: resetCode,
+            password,
+        })
+        .then(json => {
+            if (json.success) {
+                dispatch(setResetting(false))
+                return Promise.resolve()
+            }
+            return Promise.reject()
+        })
+        .catch(() => {
+            dispatch(setResetting(false))
+            dispatch(setResetError())
+            return Promise.reject()
         })
     }

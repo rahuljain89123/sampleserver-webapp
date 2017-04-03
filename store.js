@@ -28,6 +28,9 @@ import {
 
     acceptingInvite,
     acceptInviteError,
+
+    resetError,
+    resetting,
 } from './reducers/users'
 import {
     labs,
@@ -97,6 +100,9 @@ const appReducer = combineReducers({
 
     acceptingInvite,
     acceptInviteError,
+
+    resetError,
+    resetting,
 
     labs,
     currentLabUrl,

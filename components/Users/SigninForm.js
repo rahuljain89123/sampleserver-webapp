@@ -40,6 +40,11 @@ class SigninForm extends React.Component {
         })
     }
 
+    onClick (e) {
+        e.preventDefault()
+        this.props.push(e.target.getAttribute('href'))
+    }
+
     onSubmit (e) {
         e.preventDefault()
         this.props.signin(this.state.email, this.state.password)
@@ -83,11 +88,19 @@ class SigninForm extends React.Component {
                     />
                     <FormFeedback>{signinError ? 'Invalid email or password.' : ''}</FormFeedback>
                 </FormGroup>
-                <Button
-                    role="button"
-                    color="primary"
-                    disabled={this.props.signinProcessing}
-                >Sign In</Button>
+                <div className="d-flex">
+                    <Button
+                        role="button"
+                        color="primary"
+                        disabled={this.props.signinProcessing}
+                    >Sign In</Button>
+                    <Button
+                        color="link"
+                        href="/forgot"
+                        className="ml-auto"
+                        onClick={e => this.onClick(e)}
+                    >Forgot Password?</Button>
+                </div>
             </Form>
         )
     }

@@ -17,6 +17,9 @@ import {
     SET_ACCEPTING_INVITE,
     SET_ACCEPT_INVITE_ERROR,
     CLEAR_ACCEPT_INVITE_ERROR,
+    SET_RESETTING,
+    SET_RESET_ERROR,
+    CLEAR_RESET_ERROR,
 } from '../constants/UserActionTypes'
 
 export const users = (state = Immutable.Map(), action) => {
@@ -118,6 +121,26 @@ export const acceptInviteError = (state = null, action) => {
         return action.error
     case CLEAR_ACCEPT_INVITE_ERROR:
         return null
+    default:
+        return state
+    }
+}
+
+export const resetting = (state = false, action) => {
+    switch (action.type) {
+    case SET_RESETTING:
+        return action.resetting
+    default:
+        return state
+    }
+}
+
+export const resetError = (state = false, action) => {
+    switch (action.type) {
+    case SET_RESET_ERROR:
+        return true
+    case CLEAR_RESET_ERROR:
+        return false
     default:
         return state
     }
