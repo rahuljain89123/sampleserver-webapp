@@ -22,11 +22,7 @@ class UpdateProfileImage extends React.Component {
 
         this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
-            loadedUser: !!this.props.user,
-            userId: safeGet(this.props.user, 'id', ''),
-            email: safeGet(this.props.user, 'email', ''),
             name: safeGet(this.props.user, 'name', ''),
-            phone: safeGet(this.props.user, 'phone', ''),
             photoURL: safeGet(this.props.user, 'photo_url', ''),
         }
     }
@@ -39,27 +35,9 @@ class UpdateProfileImage extends React.Component {
 
     onUpload (res) {
         res.filesUploaded.map(file =>
-            this.props.editUser(this.props.userId, {
+            this.props.editUser(this.props.user.get('id'), {
                 'photo_url': file.url,
-            }).then(id => {
-                this.props.fetchUser(id)
             }))
-    }
-
-    componentWillMount () {
-    }
-
-    componentWillReceiveProps (nextProps) {
-        if (!this.state.loadedUser) {
-            this.setState({
-                loadedUser: !!nextProps.user,
-                userId: safeGet(nextProps.user, 'id', ''),
-                email: safeGet(nextProps.user, 'email', ''),
-                name: safeGet(nextProps.user, 'name', ''),
-                phone: safeGet(nextProps.user, 'phone', ''),
-                photoURL: safeGet(nextProps.user, 'photo_url', ''),
-            })
-        }
     }
 
     render () {

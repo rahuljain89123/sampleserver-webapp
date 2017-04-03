@@ -22,11 +22,9 @@ class CompleteProfileForm extends React.Component {
 
         this.state = {
             loadedUser: !!this.props.user,
-            userId: safeGet(this.props.user, 'id', ''),
             email: safeGet(this.props.user, 'email', ''),
             name: safeGet(this.props.user, 'name', ''),
             phone: safeGet(this.props.user, 'phone', ''),
-            photoURL: safeGet(this.props.user, 'photo_url', ''),
         }
     }
 
@@ -40,11 +38,9 @@ class CompleteProfileForm extends React.Component {
         if (!this.state.loadedUser) {
             this.setState({
                 loadedUser: !!nextProps.user,
-                userId: safeGet(nextProps.user, 'id', ''),
                 email: safeGet(nextProps.user, 'email', ''),
                 name: safeGet(nextProps.user, 'name', ''),
                 phone: safeGet(nextProps.user, 'phone', ''),
-                photoURL: safeGet(nextProps.user, 'photo_url', ''),
             })
         }
     }
@@ -80,7 +76,7 @@ class CompleteProfileForm extends React.Component {
 
         return (
             <Form onSubmit={e => this.onSubmit(e)}>
-                <UpdateProfileImage userId={this.state.userId} photoURL={this.state.photoURL} name={this.state.name} />
+                <UpdateProfileImage user={this.props.user} />
                 <FormGroup color={errors.email ? 'danger' : ''}>
                     <Label for="email">Email</Label>
                     <Input
