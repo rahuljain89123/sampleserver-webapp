@@ -25,7 +25,7 @@ const CompanyApp = () => (
             component={props => (
                 <div>
                     <h4>New Site</h4>
-                    <NewSite onSuccess={id => props.push(`/app/sites/${id}`)} />
+                    <NewSite onSuccess={() => props.push('/app')} />
                 </div>
             )}
         />
