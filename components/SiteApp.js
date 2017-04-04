@@ -162,11 +162,83 @@ class SiteApp extends React.Component {
                             )}
                         />
                         <NavLink
-                            exact
-                            to={`/app/sites/${site.get('id')}`}
+                            to={`/app/sites/${site.get('id')}/details/info`}
                             className="nav-link"
                             activeClassName="active"
                         >Site Details</NavLink>
+                        <PrivateRoute
+                            path={`/app/sites/${site.get('id')}/details`}
+                            component={() => (
+                                <nav className="nav nav-pills flex-column" style={{ marginLeft: 20 }}>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/info`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Info</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/contacts`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Regulatory, Owner, Consultant and Lab contacts</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/wells`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Wells</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/sample-schedule`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Sample Schedule</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/site-activity-report`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Site Activity Report Info - MI</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/qa-qc-preferences`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >QA/QC Preferences</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/site-maps`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Site Maps</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/executive-summary`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Executive Summary, Site History and Background Information</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/field-data-input`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Field Data Input</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/lab-data-input`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >Lab Data Input</NavLink>
+                                    <NavLink
+                                        exact
+                                        to={`/app/sites/${site.get('id')}/details/state-specific-info`}
+                                        className="nav-link"
+                                        activeClassName="active"
+                                    >State Specific Required Information - MI</NavLink>
+                                </nav>
+                            )}
+                        />
                         <NavLink
                             to={`/app/sites/${site.get('id')}/users`}
                             className="nav-link"
@@ -179,7 +251,7 @@ class SiteApp extends React.Component {
                         <div className="card-block">
                             <PrivateRoute
                                 exact
-                                path={`/app/sites/${site.get('id')}`}
+                                path={`/app/sites/${site.get('id')}/details/info`}
                                 component={props => (
                                     <div>
                                         <h4 style={{ marginBottom: 20 }}>Site Details</h4>
