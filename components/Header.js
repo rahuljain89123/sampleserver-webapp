@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom'
 
 import { fetchCurrentUser, signout, reset } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
+import { fetchCurrentCompany } from '../actions/companies'
 import { fetchRoles } from '../actions/roles'
 import {
     currentUser,
@@ -41,6 +42,7 @@ class Header extends React.Component {
     componentDidMount () {
         this.props.fetchCurrentLab()
         this.props.fetchCurrentUser()
+        this.props.fetchCurrentCompany()
     }
 
     componentWillReceiveProps (nextProps) {
@@ -79,7 +81,7 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <Link to="/app" className="mr-auto navbar-brand">{labTitle}</Link>
+                <Link to="/app" className="mr-auto navbar-brand">{labTitle} {this.props.currentCompany ? "exists" : ''}</Link>
                 { user ? (
                     <Nav className="">
                         {!!user && (
@@ -116,6 +118,7 @@ class Header extends React.Component {
 const mapStateToProps = store => ({
     roles: store.get('roles'),
     user: currentUser(store),
+    currentCompany: safeGet(store.get('currentCompany'), ''),
     labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
     userEmail: safeGet(currentUser(store), 'email', ''),
     roleDescription: safeGet(currentUserRole(store), 'description', ''),
@@ -124,6 +127,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     fetchCurrentUser: () => dispatch(fetchCurrentUser()),
     fetchCurrentLab: () => dispatch(fetchCurrentLab()),
+    fetchCurrentCompany: () => dispatch(fetchCurrentCompany()),
     fetchRoles: () => dispatch(fetchRoles()),
     signout: () => dispatch(signout()),
     reset: () => dispatch(reset()),

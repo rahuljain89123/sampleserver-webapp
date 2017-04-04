@@ -58,6 +58,14 @@ export const removeCompany = id => ({
     id,
 })
 
+export const fetchCurrentCompany = () =>
+    dispatch =>
+        API.get(`/company`)
+        .then(company => {
+            dispatch(receiveCompany(company))
+        })
+
+
 export const fetchCompany = id =>
     dispatch =>
         API.get(`/companies/${id}`)
