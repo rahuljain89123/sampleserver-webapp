@@ -87,7 +87,7 @@ class ResetForm extends React.Component {
                 message={(
                     <span>
                         Successfully reset password.
-                        <a href="/" onClick={e => this.onClick(e)}>Continue to sign in</a>.
+                        <a href="/app" onClick={e => this.onClick(e)}>Continue to app</a>.
                     </span>
                 )}
             />
