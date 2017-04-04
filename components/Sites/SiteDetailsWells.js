@@ -11,7 +11,7 @@ import {
     patchUpload,
     deleteUpload,
 } from '../../actions/uploads'
-import { currentLab } from '../../normalizers'
+import { currentLab, currentCompany } from '../../normalizers'
 
 const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
 const FILESTACK_OPTIONS = {
@@ -45,7 +45,7 @@ class SiteDetailsWells extends React.Component {
                 filename: file.filename,
                 url: file.url,
                 lab_id: this.props.lab.get('id'),
-                company_id: this.props.site.get('company_id'),
+                company_id: this.props.currentCompany.get('id'),
                 project_id: this.props.site.get('project_id'),
                 site_id: this.props.site.get('id'),
                 upload_type: 'well_data',
@@ -111,6 +111,7 @@ class SiteDetailsWells extends React.Component {
 const mapStateToProps = store => ({
     uploads: store.get('uploads'),
     lab: currentLab(store),
+    currentCompany: currentCompany(store),
 })
 
 const mapDispatchToProps = dispatch => ({

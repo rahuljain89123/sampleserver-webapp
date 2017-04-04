@@ -56,7 +56,6 @@ import {
 } from './reducers/projects'
 import {
     companies,
-    currentCompany,
     creatingCompany,
     creatingCompanyError,
     editingCompany,

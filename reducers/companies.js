@@ -30,15 +30,6 @@ export const companies = (state = Immutable.Map(), action) => {
     }
 }
 
-export const currentCompany = (state = Immutable.Map(), action) => {
-    switch (action.type) {
-    case RECEIVE_COMPANY:
-        return state.set(action.company.id, Immutable.Map(action.company))
-    default:
-        return state
-    }
-}
-
 export const creatingCompany = (state = false, action) => {
     switch (action.type) {
     case SET_CREATING_COMPANY:

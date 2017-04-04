@@ -21,6 +21,7 @@ import {
     currentUser,
     currentUserRole,
     currentLab,
+    currentCompany,
     safeGet,
 } from '../normalizers'
 
@@ -42,12 +43,12 @@ class Header extends React.Component {
     componentDidMount () {
         this.props.fetchCurrentLab()
         this.props.fetchCurrentUser()
-        this.props.fetchCurrentCompany()
     }
 
     componentWillReceiveProps (nextProps) {
         if (!nextProps.roles.size && nextProps.user) {
             this.props.fetchRoles()
+            this.props.fetchCurrentCompany()
         }
     }
 
@@ -69,9 +70,10 @@ class Header extends React.Component {
     render () {
         const {
             user,
-            labTitle,
+            appTitle,
             userEmail,
             roleDescription,
+            currentCompany
         } = this.props
 
         return (
@@ -81,7 +83,7 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <Link to="/app" className="mr-auto navbar-brand">{labTitle} {this.props.currentCompany ? "exists" : ''}</Link>
+                <Link to="/app" className="mr-auto navbar-brand">{currentCompany ? currentCompany.get('title') : appTitle}</Link>
                 { user ? (
                     <Nav className="">
                         {!!user && (
@@ -118,8 +120,8 @@ class Header extends React.Component {
 const mapStateToProps = store => ({
     roles: store.get('roles'),
     user: currentUser(store),
-    currentCompany: safeGet(store.get('currentCompany'), ''),
-    labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
+    currentCompany: currentCompany(store),
+    appTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
     userEmail: safeGet(currentUser(store), 'email', ''),
     roleDescription: safeGet(currentUserRole(store), 'description', ''),
 })
