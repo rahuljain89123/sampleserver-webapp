@@ -98,7 +98,7 @@ class SiteApp extends React.Component {
                             to={`/app/sites/${site.get('id')}/reports`}
                             className="nav-link"
                             activeClassName="active"
-                        >Analytical Reports</NavLink>
+                        >Regulatory Reports</NavLink>
                         <PrivateRoute
                             path={`/app/sites/${site.get('id')}/reports`}
                             component={() => (
