@@ -9,6 +9,7 @@ import PrivateRoute from './Auth'
 import EditSite from './Sites/EditSite'
 import ProjectSiteUsers from './Sites/ProjectSiteUsers'
 import SiteDownloads from './Sites/SiteDownloads'
+import SiteDetailsWells from './Sites/SiteDetailsWells'
 
 import { fetchSite } from '../actions/sites'
 
@@ -262,6 +263,11 @@ class SiteApp extends React.Component {
                                         />
                                     </div>
                                 )}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/wells`}
+                                component={props => <SiteDetailsWells site={site} {...props} />}
                             />
                             <PrivateRoute
                                 exact
