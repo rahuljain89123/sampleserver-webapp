@@ -16,12 +16,13 @@ import { Link } from 'react-router-dom'
 import { fetchCurrentUser, signout, reset } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
 import { fetchRoles } from '../actions/roles'
-import { fetchCurrentCompany } from '../actions/companies'
+import { fetchCompanies } from '../actions/companies'
 import {
     currentUser,
     currentUserRole,
     currentLab,
     safeGet,
+    currentCompany,
 } from '../normalizers'
 
 class Header extends React.Component {
@@ -42,7 +43,7 @@ class Header extends React.Component {
     componentDidMount () {
         this.props.fetchCurrentLab()
         this.props.fetchCurrentUser()
-        this.props.fetchCurrentCompany()
+        this.props.fetchCompanies()
     }
 
     componentWillReceiveProps (nextProps) {
@@ -66,10 +67,16 @@ class Header extends React.Component {
             })
     }
 
+    getAppTitle () {
+        if (this.props.company) {
+            return this.props.company.get('title')
+        }
+        return this.props.labTitle
+    }
+
     render () {
         const {
             user,
-            labTitle,
             userEmail,
             roleDescription,
         } = this.props
@@ -81,7 +88,7 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <Link to="/app" className="mr-auto navbar-brand">{labTitle} {this.props.currentCompany ? this.props.currentCompany.get('title') : ''}</Link>
+                <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
                 { user ? (
                     <Nav className="">
                         {!!user && (
@@ -121,13 +128,13 @@ const mapStateToProps = store => ({
     labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
     userEmail: safeGet(currentUser(store), 'email', ''),
     roleDescription: safeGet(currentUserRole(store), 'description', ''),
-    currentCompany: store.get('currentCompany'),
+    company: currentCompany(store),
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchCurrentUser: () => dispatch(fetchCurrentUser()),
     fetchCurrentLab: () => dispatch(fetchCurrentLab()),
-    fetchCurrentCompany: () => dispatch(fetchCurrentCompany()),
+    fetchCompanies: () => dispatch(fetchCompanies()),
     fetchRoles: () => dispatch(fetchRoles()),
     signout: () => dispatch(signout()),
     reset: () => dispatch(reset()),

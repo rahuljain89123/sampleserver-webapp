@@ -56,7 +56,6 @@ import {
 } from './reducers/projects'
 import {
     companies,
-    currentCompany,
     creatingCompany,
     creatingCompanyError,
     editingCompany,
@@ -125,7 +124,6 @@ const appReducer = combineReducers({
     editingProjectError,
 
     companies,
-    currentCompany,
     creatingCompany,
     creatingCompanyError,
     editingCompany,
