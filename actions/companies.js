@@ -3,6 +3,7 @@ import qs from 'qs'
 
 import {
     RECEIVE_COMPANY,
+    RECEIVE_CURRENT_COMPANY,
     RECEIVE_COMPANIES,
     SET_CREATING_COMPANY,
     SET_CREATING_COMPANY_ERROR,
@@ -17,6 +18,11 @@ import API from '../API'
 
 export const receiveCompany = company => ({
     type: RECEIVE_COMPANY,
+    company,
+})
+
+export const receiveCurrentCompany = company => ({
+    type: RECEIVE_CURRENT_COMPANY,
     company,
 })
 
@@ -69,7 +75,8 @@ export const fetchCurrentCompany = () =>
     dispatch =>
         API.get('/company')
         .then(company => {
-            dispatch(receiveCompany(company))
+            console.log(company)
+            dispatch(receiveCurrentCompany(company))
         })
 
 export const fetchCompanies = (filters = {}) =>

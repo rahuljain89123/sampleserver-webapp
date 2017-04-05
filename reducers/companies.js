@@ -3,6 +3,7 @@ import Immutable from 'immutable'
 
 import {
     RECEIVE_COMPANY,
+    RECEIVE_CURRENT_COMPANY,
     RECEIVE_COMPANIES,
     SET_CREATING_COMPANY,
     SET_CREATING_COMPANY_ERROR,
@@ -32,8 +33,9 @@ export const companies = (state = Immutable.Map(), action) => {
 
 export const currentCompany = (state = Immutable.Map(), action) => {
     switch (action.type) {
-    case RECEIVE_COMPANY:
-        return state.set(action.company)
+    case RECEIVE_CURRENT_COMPANY:
+        console.log(action.company)
+        return Immutable.Map(action.company)
     default:
         return state
     }
