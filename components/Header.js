@@ -15,13 +15,12 @@ import { Link } from 'react-router-dom'
 
 import { fetchCurrentUser, signout, reset } from '../actions/users'
 import { fetchCurrentLab } from '../actions/labs'
-import { fetchCurrentCompany } from '../actions/companies'
 import { fetchRoles } from '../actions/roles'
+import { fetchCurrentCompany } from '../actions/companies'
 import {
     currentUser,
     currentUserRole,
     currentLab,
-    currentCompany,
     safeGet,
 } from '../normalizers'
 
@@ -43,12 +42,12 @@ class Header extends React.Component {
     componentDidMount () {
         this.props.fetchCurrentLab()
         this.props.fetchCurrentUser()
+        this.props.fetchCurrentCompany()
     }
 
     componentWillReceiveProps (nextProps) {
         if (!nextProps.roles.size && nextProps.user) {
             this.props.fetchRoles()
-            this.props.fetchCurrentCompany()
         }
     }
 
@@ -70,10 +69,9 @@ class Header extends React.Component {
     render () {
         const {
             user,
-            appTitle,
+            labTitle,
             userEmail,
             roleDescription,
-            currentCompany
         } = this.props
 
         return (
@@ -83,7 +81,7 @@ class Header extends React.Component {
                 className="flex-row justify-content-end"
                 style={{ marginBottom: 20 }}
             >
-                <Link to="/app" className="mr-auto navbar-brand">{currentCompany ? currentCompany.get('title') : appTitle}</Link>
+                <Link to="/app" className="mr-auto navbar-brand">{labTitle} {this.props.currentCompany ? this.props.currentCompany.get('title') : ''}</Link>
                 { user ? (
                     <Nav className="">
                         {!!user && (
@@ -120,10 +118,10 @@ class Header extends React.Component {
 const mapStateToProps = store => ({
     roles: store.get('roles'),
     user: currentUser(store),
-    currentCompany: currentCompany(store),
-    appTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
+    labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
     userEmail: safeGet(currentUser(store), 'email', ''),
     roleDescription: safeGet(currentUserRole(store), 'description', ''),
+    currentCompany: store.get('currentCompany'),
 })
 
 const mapDispatchToProps = dispatch => ({
