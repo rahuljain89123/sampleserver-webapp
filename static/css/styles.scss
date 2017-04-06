@@ -242,11 +242,19 @@ section {
 
 }
 
-
-
-
-
-
+.site-details-wells {
+    .bulk-upload {
+        margin-top: 30px;
+        padding-top: 30px;
+        border-top: 1px solid #EEE;
+        h4 {
+            line-height: 38px;
+        }
+        .right {
+            text-align: right;
+        }
+    }
+}
 
 
 
