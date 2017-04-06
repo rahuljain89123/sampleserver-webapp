@@ -8,6 +8,8 @@ import PrivateRoute from './Auth'
 
 import EditSite from './Sites/EditSite'
 import ProjectSiteUsers from './Sites/ProjectSiteUsers'
+import SiteContacts from './Sites/SiteContacts'
+import NewSiteContact from './Sites/NewSiteContact'
 import SiteDownloads from './Sites/SiteDownloads'
 import SiteDetailsWells from './Sites/SiteDetailsWells'
 
@@ -245,6 +247,11 @@ class SiteApp extends React.Component {
                             className="nav-link"
                             activeClassName="active"
                         >Technicians</NavLink>
+                        <NavLink
+                            to={`/app/sites/${site.get('id')}/contacts`}
+                            className="nav-link"
+                            activeClassName="active"
+                        >Contacts</NavLink>
                     </nav>
                 </Col>
                 <Col xs="10">
@@ -278,6 +285,22 @@ class SiteApp extends React.Component {
                                 exact
                                 path={`/app/sites/${site.get('id')}/users`}
                                 component={props => <ProjectSiteUsers site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/contacts`}
+                                component={props => <SiteContacts site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/contacts/new`}
+                                component={props => (
+                                    <NewSiteContact
+                                        site={site}
+                                        onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
+                                        {...props}
+                                    />
+                                )}
                             />
                         </div>
                     </div>

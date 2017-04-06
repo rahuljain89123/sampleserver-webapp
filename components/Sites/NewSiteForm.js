@@ -87,7 +87,7 @@ class NewSiteForm extends React.Component {
     render () {
         const projects = this.props.projects.entrySeq()
 
-        const error = this.props.editingSiteError
+        const error = this.props.creatingSiteError
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
             [error.key]: msgFromError(error),
