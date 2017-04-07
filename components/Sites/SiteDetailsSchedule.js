@@ -11,13 +11,13 @@ import {
     Input,
 } from 'reactstrap'
 import {
-    createSampleSchedule,
-    clearCreatingSampleScheduleError,
-} from '../../actions/sample-schedule'
+    createSchedule,
+    clearCreatingScheduleError,
+} from '../../actions/schedule'
 import { msgFromError } from '../../util'
 
 
-class SiteDetailsSampleSchedule extends React.Component {
+class SiteDetailsSchedule extends React.Component {
     constructor (props) {
         super(props)
 
@@ -31,8 +31,8 @@ class SiteDetailsSampleSchedule extends React.Component {
     }
 
     onChange (e) {
-        if (this.props.creatingSampleScheduleError) {
-            this.props.clearCreatingSampleScheduleError()
+        if (this.props.creatingScheduleError) {
+            this.props.clearCreatingScheduleError()
         }
 
         this.setState({
@@ -43,7 +43,7 @@ class SiteDetailsSampleSchedule extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.createSampleSchedule({
+        this.props.createSchedule({
             site_id: this.props.site.get('id'),
             date: this.state.date,
             copy_params: this.state.copy_params,
@@ -90,7 +90,7 @@ class SiteDetailsSampleSchedule extends React.Component {
                     </FormGroup>
                     <Button
                         color="primary"
-                        disabled={this.props.creatingSampleSchedule}
+                        disabled={this.props.creatingSchedule}
                     >Create Sample Schedule</Button>
                 </Form>
             </div>
@@ -99,13 +99,13 @@ class SiteDetailsSampleSchedule extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    creatingSampleScheduleError: store.get('creatingSampleScheduleError'),
-    creatingSampleSchedule: store.get('creatingSampleSchedule'),
+    creatingScheduleError: store.get('creatingScheduleError'),
+    creatingSchedule: store.get('creatingSchedule'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    createSampleSchedule: sampleSchedule => dispatch(createSampleSchedule(sampleSchedule)),
-    clearCreatingSampleScheduleError: () => dispatch(clearCreatingSampleScheduleError()),
+    createSchedule: schedule => dispatch(createSchedule(schedule)),
+    clearCreatingScheduleError: () => dispatch(clearCreatingScheduleError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsSampleSchedule)
+export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsSchedule)

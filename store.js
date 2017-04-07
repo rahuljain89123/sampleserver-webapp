@@ -48,11 +48,11 @@ import {
     editingSiteError,
 } from './reducers/sites'
 import {
-    sampleSchedules,
-    creatingSampleSchedule,
-    creatingSampleScheduleError,
-    editingSampleSchedule,
-    editingSampleScheduleError,
+    schedules,
+    creatingSchedule,
+    creatingScheduleError,
+    editingSchedule,
+    editingScheduleError,
 } from './reducers/sampleschedules'
 import {
     projects,
@@ -124,11 +124,11 @@ const appReducer = combineReducers({
     editingSite,
     editingSiteError,
 
-    sampleSchedules,
-    creatingSampleSchedule,
-    creatingSampleScheduleError,
-    editingSampleSchedule,
-    editingSampleScheduleError,
+    schedules,
+    creatingSchedule,
+    creatingScheduleError,
+    editingSchedule,
+    editingScheduleError,
 
     projects,
     creatingProject,
