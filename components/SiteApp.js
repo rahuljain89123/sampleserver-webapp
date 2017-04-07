@@ -10,6 +10,7 @@ import EditSite from './Sites/EditSite'
 import ProjectSiteUsers from './Sites/ProjectSiteUsers'
 import SiteDownloads from './Sites/SiteDownloads'
 import SiteDetailsWells from './Sites/SiteDetailsWells'
+import SiteDetailsSampleSchedule from './Sites/SiteDetailsSampleSchedule'
 
 import { fetchSite } from '../actions/sites'
 
@@ -268,6 +269,11 @@ class SiteApp extends React.Component {
                                 exact
                                 path={`/app/sites/${site.get('id')}/details/wells`}
                                 component={props => <SiteDetailsWells site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/sample-schedule`}
+                                component={props => <SiteDetailsSampleSchedule site={site} {...props} />}
                             />
                             <PrivateRoute
                                 exact
