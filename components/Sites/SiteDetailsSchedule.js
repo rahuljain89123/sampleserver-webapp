@@ -27,6 +27,12 @@ class SiteDetailsSchedule extends React.Component {
         }
     }
 
+    componentWillMount () {
+        if (this.props.creatingScheduleError) {
+            this.props.clearCreatingScheduleError()
+        }
+    }
+
     componentDidMount () {
     }
 
@@ -53,7 +59,7 @@ class SiteDetailsSchedule extends React.Component {
 
 
     render () {
-        const error = this.props.editingSiteError
+        const error = this.props.creatingScheduleError
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
             [error.key]: msgFromError(error),
