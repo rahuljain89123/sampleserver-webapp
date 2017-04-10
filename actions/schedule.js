@@ -12,6 +12,7 @@ import {
     CLEAR_EDITING_SCHEDULE_ERROR,
 } from '../constants/ScheduleActionTypes'
 import API from '../API'
+import pickBy from 'lodash/pickBy'
 
 
 export const receiveSchedule = schedule => ({
@@ -55,12 +56,13 @@ export const clearCreatingScheduleError = () => ({
 export const createSchedule = schedule =>
     dispatch => {
         dispatch(setCreatingSchedule(true))
+        const cleanSchedule = pickBy(schedule)
 
-        return API.post('/schedules/', schedule)
+        return API.post('/schedules/', cleanSchedule)
         .then(json => {
             dispatch(setCreatingSchedule(false))
             dispatch(receiveSchedule(json))
-            return Promise.resolve(json.id)
+            return Promise.resolve(json)
         })
         .catch(e => {
             dispatch(setCreatingSchedule(false))

@@ -5,6 +5,7 @@ import {
     createStore,
     applyMiddleware,
 } from 'redux'
+import { reducer as formReducer } from 'redux-form'
 
 import {
     combineReducers,
@@ -93,6 +94,7 @@ const resetState = Immutable.Map({
 })
 
 const appReducer = combineReducers({
+    form: formReducer,
     users,
     currentUser,
 

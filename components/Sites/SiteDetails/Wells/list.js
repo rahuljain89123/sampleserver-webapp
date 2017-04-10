@@ -11,9 +11,9 @@ import {
     createUpload,
     patchUpload,
     deleteUpload,
-} from '../../actions/uploads'
-import { fetchSite } from '../../actions/sites'
-import { currentLab, currentCompany } from '../../normalizers'
+} from '../../../../actions/uploads'
+import { fetchSite } from '../../../../actions/sites'
+import { currentLab, currentCompany } from '../../../../normalizers'
 
 const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
 const FILESTACK_OPTIONS = {
@@ -21,7 +21,7 @@ const FILESTACK_OPTIONS = {
     fromSources: ['local_file_system', 'dropbox'],
 }
 
-class SiteDetailsWells extends React.Component {
+class Wells extends React.Component {
     constructor (props) {
         super(props)
 
@@ -125,4 +125,4 @@ const mapDispatchToProps = dispatch => ({
     fetchSite: id => dispatch(fetchSite(id)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsWells)
+export default connect(mapStateToProps, mapDispatchToProps)(Wells)

@@ -9,8 +9,12 @@ import PrivateRoute from './Auth'
 import EditSite from './Sites/EditSite'
 import ProjectSiteUsers from './Sites/ProjectSiteUsers'
 import SiteDownloads from './Sites/SiteDownloads'
-import SiteDetailsWells from './Sites/SiteDetailsWells'
-import SiteDetailsSchedule from './Sites/SiteDetailsSchedule'
+import Wells from './Sites/SiteDetails/Wells/list'
+import ListSchedules from './Sites/SiteDetails/Schedule/list'
+import NewSchedule from './Sites/SiteDetails/Schedule/new'
+import EditSchedule from './Sites/SiteDetails/Schedule/edit'
+
+import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import { fetchSite } from '../actions/sites'
 
@@ -249,6 +253,9 @@ class SiteApp extends React.Component {
                     </nav>
                 </Col>
                 <Col xs="10">
+                    <Breadcrumb tag="nav">
+                        <BreadcrumbItem>Item</BreadcrumbItem>
+                    </Breadcrumb>
                     <div className="card">
                         <div className="card-block">
                             <PrivateRoute
@@ -268,12 +275,22 @@ class SiteApp extends React.Component {
                             <PrivateRoute
                                 exact
                                 path={`/app/sites/${site.get('id')}/details/wells`}
-                                component={props => <SiteDetailsWells site={site} {...props} />}
+                                component={props => <Wells site={site} {...props} />}
                             />
                             <PrivateRoute
                                 exact
                                 path={`/app/sites/${site.get('id')}/details/sample-schedule`}
-                                component={props => <SiteDetailsSchedule site={site} {...props} />}
+                                component={props => <ListSchedules site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
+                                component={props => <NewSchedule site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
+                                component={props => <EditSchedule site={site} {...props} />}
                             />
                             <PrivateRoute
                                 exact

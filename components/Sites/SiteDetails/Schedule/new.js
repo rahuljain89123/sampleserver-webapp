@@ -13,17 +13,17 @@ import {
 import {
     createSchedule,
     clearCreatingScheduleError,
-} from '../../actions/schedule'
-import { msgFromError } from '../../util'
+} from '../../../../actions/schedule'
+import { msgFromError } from '../../../../util'
 
 
-class SiteDetailsSchedule extends React.Component {
+class NewSchedule extends React.Component {
     constructor (props) {
         super(props)
 
         this.state = {
             date: '',
-            copy_params: '',
+            copy_params: undefined,
         }
     }
 
@@ -54,7 +54,11 @@ class SiteDetailsSchedule extends React.Component {
             date: this.state.date,
             copy_params: this.state.copy_params,
         })
-        .then(this.props.onSuccess)
+        .then(schedule => {
+            console.log(schedule)
+            console.log(`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.id}`)
+            this.props.push(`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.id}`)
+        })
     }
 
 
@@ -114,4 +118,4 @@ const mapDispatchToProps = dispatch => ({
     clearCreatingScheduleError: () => dispatch(clearCreatingScheduleError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsSchedule)
+export default connect(mapStateToProps, mapDispatchToProps)(NewSchedule)
