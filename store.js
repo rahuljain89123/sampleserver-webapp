@@ -5,6 +5,7 @@ import {
     createStore,
     applyMiddleware,
 } from 'redux'
+import { reducer as formReducer } from 'redux-form'
 
 import {
     combineReducers,
@@ -47,6 +48,13 @@ import {
     editingSite,
     editingSiteError,
 } from './reducers/sites'
+import {
+    schedules,
+    creatingSchedule,
+    creatingScheduleError,
+    editingSchedule,
+    editingScheduleError,
+} from './reducers/sampleschedules'
 import {
     projects,
     creatingProject,
@@ -100,6 +108,7 @@ const resetState = Immutable.Map({
 })
 
 const appReducer = combineReducers({
+    form: formReducer,
     users,
     currentUser,
 
@@ -130,6 +139,12 @@ const appReducer = combineReducers({
     creatingSiteError,
     editingSite,
     editingSiteError,
+
+    schedules,
+    creatingSchedule,
+    creatingScheduleError,
+    editingSchedule,
+    editingScheduleError,
 
     projects,
     creatingProject,

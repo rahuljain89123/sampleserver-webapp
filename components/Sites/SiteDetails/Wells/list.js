@@ -22,7 +22,7 @@ const FILESTACK_OPTIONS = {
     fromSources: ['local_file_system', 'dropbox'],
 }
 
-class SiteDetailsWells extends React.Component {
+class Wells extends React.Component {
     constructor (props) {
         super(props)
 
@@ -134,4 +134,4 @@ const mapDispatchToProps = dispatch => ({
     fetchWells: filters => dispatch(fetchWells(filters)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsWells)
+export default connect(mapStateToProps, mapDispatchToProps)(Wells)
