@@ -6,6 +6,7 @@ import { Button, Table } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
 
+import WellRow from '../Wells/WellRow'
 import {
     fetchUploads,
     createUpload,
@@ -13,6 +14,7 @@ import {
     deleteUpload,
 } from '../../actions/uploads'
 import { fetchSite } from '../../actions/sites'
+import { fetchWells } from '../../actions/wells'
 import { currentLab, currentCompany } from '../../normalizers'
 
 const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
@@ -30,6 +32,7 @@ class SiteDetailsWells extends React.Component {
 
     componentDidMount () {
         this.props.fetchUploads()
+        this.props.fetchWells({ site_id: this.props.site.get('id') })
     }
 
     onNewUpload () {
@@ -49,7 +52,7 @@ class SiteDetailsWells extends React.Component {
             site_id: this.props.site.get('id'),
             upload_type: 'well_data',
         }).then(() => {
-            this.props.fetchSite(this.props.site.get('id'))
+            this.props.fetchWells({ site_id: this.props.site.get('id') })
         })
     }
 
@@ -62,12 +65,37 @@ class SiteDetailsWells extends React.Component {
                 <div className="d-flex flex-row">
                     <h2>Wells</h2>
                 </div>
-                <div className="well-list">
-                    {this.props.site.get('wells').map(well => (
-                        <div key={well.id}>
-                            <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.id}`}>{well.title}</Link>
-                        </div>
-                    ))}
+                <div style={{ overflowX: 'scroll' }}>
+                    <table className="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Well/Sample ID</th>
+                                <th>Top of Casing Elevation</th>
+                                <th>Well Diameter (inches)</th>
+                                <th>Well Material</th>
+                                <th>Screen Length (ft)</th>
+                                <th>Sampling Technique</th>
+                                <th>GPS Latitude (decimal)</th>
+                                <th>GPS Longitude (decimal)</th>
+                                <th>Predicted Depth to Water (ft)</th>
+                                <th>Measured Depth to Bottom (ft)</th>
+                                <th>Well Sampling Purge Water Disposal</th>
+                                <th>Well Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.site.get('well_ids').map(wellId => {
+                                const well = this.props.wells.get(wellId)
+                                return well ? (
+                                    <WellRow
+                                        key={well.get('id')}
+                                        well={well}
+                                        onSuccess={() => {}}
+                                    />
+                                ) : null
+                            })}
+                        </tbody>
+                    </table>
                 </div>
 
                 <div className="bulk-upload">
@@ -115,6 +143,7 @@ const mapStateToProps = store => ({
     uploads: store.get('uploads'),
     lab: currentLab(store),
     company: currentCompany(store),
+    wells: store.get('wells'),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -123,6 +152,7 @@ const mapDispatchToProps = dispatch => ({
     patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
     deleteUpload: id => dispatch(deleteUpload(id)),
     fetchSite: id => dispatch(fetchSite(id)),
+    fetchWells: filters => dispatch(fetchWells(filters)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsWells)

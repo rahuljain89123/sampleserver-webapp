@@ -10,6 +10,7 @@ import EditSite from './Sites/EditSite'
 import ProjectSiteUsers from './Sites/ProjectSiteUsers'
 import SiteContacts from './Sites/SiteContacts'
 import NewSiteContact from './Sites/NewSiteContact'
+import EditSiteContact from './Sites/EditSiteContact'
 import SiteDownloads from './Sites/SiteDownloads'
 import SiteDetailsWells from './Sites/SiteDetailsWells'
 
@@ -296,6 +297,17 @@ class SiteApp extends React.Component {
                                 path={`/app/sites/${site.get('id')}/contacts/new`}
                                 component={props => (
                                     <NewSiteContact
+                                        site={site}
+                                        onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
+                                        {...props}
+                                    />
+                                )}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/contacts/:id`}
+                                component={props => (
+                                    <EditSiteContact
                                         site={site}
                                         onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
                                         {...props}

@@ -36,21 +36,20 @@ class SiteContacts extends React.Component {
                             <th>Email</th>
                             <th>Phone</th>
                             <th>Type</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {contacts.map(([id, contact]) => (
-                            <tr key={id}>
+                            <tr
+                                key={id}
+                                className="pointer"
+                                onClick={() => { this.props.push(`/app/sites/${this.props.site.get('id')}/contacts/${id}`) }}
+                            >
                                 <td>{contact.get('title')}</td>
                                 <td>{contact.get('contact')}</td>
                                 <td>{contact.get('email')}</td>
                                 <td>{contact.get('phone')}</td>
                                 <td>{contact.get('type')}</td>
-                                <td>
-                                    <Button size="sm">View</Button>
-                                    <Button size="sm">Delete</Button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>

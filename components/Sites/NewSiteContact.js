@@ -7,7 +7,7 @@ import {
 
 import NewSiteContactForm from './NewSiteContactForm'
 
-const NewSite = props => (
+const NewSiteContact = props => (
     <Row>
         <Col sm={6}>
             <h4>New Contact</h4>
@@ -16,4 +16,4 @@ const NewSite = props => (
     </Row>
 )
 
-export default NewSite
+export default NewSiteContact
