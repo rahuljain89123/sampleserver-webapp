@@ -69,6 +69,20 @@ import {
     editingCompany,
     editingCompanyError,
 } from './reducers/companies'
+import {
+    contacts,
+    creatingContact,
+    creatingContactError,
+    editingContact,
+    editingContactError,
+} from './reducers/contacts'
+import {
+    wells,
+    creatingWell,
+    creatingWellError,
+    editingWell,
+    editingWellError,
+} from './reducers/wells'
 import { roles } from './reducers/roles'
 import {
     samples,
@@ -143,6 +157,18 @@ const appReducer = combineReducers({
     creatingCompanyError,
     editingCompany,
     editingCompanyError,
+
+    contacts,
+    creatingContact,
+    creatingContactError,
+    editingContact,
+    editingContactError,
+
+    wells,
+    creatingWell,
+    creatingWellError,
+    editingWell,
+    editingWellError,
 
     roles,
 
