@@ -13,6 +13,7 @@ import {
     deleteUpload,
 } from '../../actions/uploads'
 import { fetchSite } from '../../actions/sites'
+import { fetchWells } from '../../actions/wells'
 import { currentLab, currentCompany } from '../../normalizers'
 
 const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
@@ -30,6 +31,7 @@ class SiteDetailsWells extends React.Component {
 
     componentDidMount () {
         this.props.fetchUploads()
+        this.props.fetchWells({ site_id: this.props.site.get('id') })
     }
 
     onNewUpload () {
@@ -49,7 +51,7 @@ class SiteDetailsWells extends React.Component {
             site_id: this.props.site.get('id'),
             upload_type: 'well_data',
         }).then(() => {
-            this.props.fetchSite(this.props.site.get('id'))
+            this.props.fetchWells({ site_id: this.props.site.get('id') })
         })
     }
 
@@ -63,11 +65,16 @@ class SiteDetailsWells extends React.Component {
                     <h2>Wells</h2>
                 </div>
                 <div className="well-list">
-                    {this.props.site.get('wells').map(well => (
-                        <div key={well.id}>
-                            <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.id}`}>{well.title}</Link>
-                        </div>
-                    ))}
+                    {this.props.site.get('well_ids').map(wellId => {
+                        const well = this.props.wells.get(wellId)
+                        return well ? (
+                            <div key={well.get('id')}>
+                                <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                                    {well.get('title')}
+                                </Link>
+                            </div>
+                        ) : null
+                    })}
                 </div>
 
                 <div className="bulk-upload">
@@ -115,6 +122,7 @@ const mapStateToProps = store => ({
     uploads: store.get('uploads'),
     lab: currentLab(store),
     company: currentCompany(store),
+    wells: store.get('wells'),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -123,6 +131,7 @@ const mapDispatchToProps = dispatch => ({
     patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
     deleteUpload: id => dispatch(deleteUpload(id)),
     fetchSite: id => dispatch(fetchSite(id)),
+    fetchWells: filters => dispatch(fetchWells(filters)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteDetailsWells)
