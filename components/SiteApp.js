@@ -13,6 +13,7 @@ import NewSiteContact from './Sites/NewSiteContact'
 import EditSiteContact from './Sites/EditSiteContact'
 import SiteDownloads from './Sites/SiteDownloads'
 import SiteDetailsWells from './Sites/SiteDetailsWells'
+import EditWell from './Wells/EditWell'
 
 import { fetchSite } from '../actions/sites'
 
@@ -187,7 +188,6 @@ class SiteApp extends React.Component {
                                         activeClassName="active"
                                     >Regulatory, Owner, Consultant and Lab contacts</NavLink>
                                     <NavLink
-                                        exact
                                         to={`/app/sites/${site.get('id')}/details/wells`}
                                         className="nav-link"
                                         activeClassName="active"
@@ -276,6 +276,17 @@ class SiteApp extends React.Component {
                                 exact
                                 path={`/app/sites/${site.get('id')}/details/wells`}
                                 component={props => <SiteDetailsWells site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/wells/:id`}
+                                component={props => (
+                                    <EditWell
+                                        site={site}
+                                        onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
+                                        {...props}
+                                    />
+                                )}
                             />
                             <PrivateRoute
                                 exact

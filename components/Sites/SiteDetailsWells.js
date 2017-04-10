@@ -6,7 +6,6 @@ import { Button, Table } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
 
-import WellRow from '../Wells/WellRow'
 import {
     fetchUploads,
     createUpload,
@@ -65,37 +64,17 @@ class SiteDetailsWells extends React.Component {
                 <div className="d-flex flex-row">
                     <h2>Wells</h2>
                 </div>
-                <div style={{ overflowX: 'scroll' }}>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Well/Sample ID</th>
-                                <th>Top of Casing Elevation</th>
-                                <th>Well Diameter (inches)</th>
-                                <th>Well Material</th>
-                                <th>Screen Length (ft)</th>
-                                <th>Sampling Technique</th>
-                                <th>GPS Latitude (decimal)</th>
-                                <th>GPS Longitude (decimal)</th>
-                                <th>Predicted Depth to Water (ft)</th>
-                                <th>Measured Depth to Bottom (ft)</th>
-                                <th>Well Sampling Purge Water Disposal</th>
-                                <th>Well Notes</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.props.site.get('well_ids').map(wellId => {
-                                const well = this.props.wells.get(wellId)
-                                return well ? (
-                                    <WellRow
-                                        key={well.get('id')}
-                                        well={well}
-                                        onSuccess={() => {}}
-                                    />
-                                ) : null
-                            })}
-                        </tbody>
-                    </table>
+                <div className="well-list">
+                    {this.props.site.get('well_ids').map(wellId => {
+                        const well = this.props.wells.get(wellId)
+                        return well ? (
+                            <div key={well.get('id')}>
+                                <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                                    {well.get('title')}
+                                </Link>
+                            </div>
+                        ) : null
+                    })}
                 </div>
 
                 <div className="bulk-upload">
