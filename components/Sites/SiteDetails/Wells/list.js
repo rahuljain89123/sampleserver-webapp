@@ -11,10 +11,10 @@ import {
     createUpload,
     patchUpload,
     deleteUpload,
-} from '../../actions/uploads'
-import { fetchSite } from '../../actions/sites'
-import { fetchWells } from '../../actions/wells'
-import { currentLab, currentCompany } from '../../normalizers'
+} from '../../../../actions/uploads'
+import { fetchSite } from '../../../../actions/sites'
+import { fetchWells } from '../../../../actions/wells'
+import { currentLab, currentCompany } from '../../../../normalizers'
 
 const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
 const FILESTACK_OPTIONS = {

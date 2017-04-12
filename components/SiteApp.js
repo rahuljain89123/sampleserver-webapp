@@ -17,7 +17,6 @@ import ListSchedules from './Sites/SiteDetails/Schedule/list'
 import NewSchedule from './Sites/SiteDetails/Schedule/new'
 import EditSchedule from './Sites/SiteDetails/Schedule/edit'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
-import SiteDetailsWells from './Sites/SiteDetailsWells'
 import EditWell from './Wells/EditWell'
 
 import { fetchSite } from '../actions/sites'
