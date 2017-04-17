@@ -186,12 +186,6 @@ class SiteApp extends React.Component {
                                         activeClassName="active"
                                     >Info</NavLink>
                                     <NavLink
-                                        exact
-                                        to={`/app/sites/${site.get('id')}/details/contacts`}
-                                        className="nav-link"
-                                        activeClassName="active"
-                                    >Regulatory, Owner, Consultant and Lab contacts</NavLink>
-                                    <NavLink
                                         to={`/app/sites/${site.get('id')}/details/wells`}
                                         className="nav-link"
                                         activeClassName="active"
