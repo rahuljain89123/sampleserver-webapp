@@ -53,6 +53,7 @@
     "redux-immutable": "github:nathancahill/redux-immutable",
     "redux-thunk": "2.2.0",
     "tether": "github:nathancahill/tether",
-    "timeago.js": "3.0.0"
+    "timeago.js": "3.0.0",
+    "whatwg-fetch": "^2.0.3"
   }
 }

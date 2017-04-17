@@ -1,5 +1,6 @@
 /* global fetch */
 
+import 'whatwg-fetch'
 import store from './store'
 
 const IS_DEV = window.location.hostname.indexOf('sampleserve-webapp.dev') > 0
