@@ -57,11 +57,11 @@ class LabUsers extends React.Component {
     componentWillReceiveProps (nextProps) {
         const roles = nextProps.roles
             .filter(role => role.get('id') === 2 || role.get('id') === 3)
-            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
+            .filter(role => role.get('id') >= this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const currentRole = roles.size ? roles.get(this.state.activeRole) : null
-        const activeRole = (this.state.activeRole === 100 && roles.size) ? roles.first().get('id') : this.state.activeRole
+        const activeRole = this.props.currentUserRole.get('id')
 
         const users = nextProps.users
             .filter(user =>
@@ -78,21 +78,19 @@ class LabUsers extends React.Component {
     }
 
     onToggle (tab) {
-        if (this.state.activeRole !== tab) {
-            const users = this.props.users
-                .filter(user =>
-                    user.get('lab_id') === this.props.lab.get('id') &&
-                    user.get('role_id') === tab)
-                .sort((a, b) => a.get('id') - b.get('id'))
+        const users = this.props.users
+            .filter(user =>
+                user.get('lab_id') === this.props.lab.get('id') &&
+                user.get('role_id') === tab)
+            .sort((a, b) => a.get('id') - b.get('id'))
 
-            const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
+        const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
 
-            this.setState({
-                users,
-                currentRole,
-                activeRole: tab,
-            })
-        }
+        this.setState({
+            users,
+            currentRole,
+            activeRole: tab,
+        })
     }
 
     onChange (e) {
