@@ -16,6 +16,7 @@ import Wells from './Sites/SiteDetails/Wells/list'
 import ListSchedules from './Sites/SiteDetails/Schedule/list'
 import NewSchedule from './Sites/SiteDetails/Schedule/new'
 import EditSchedule from './Sites/SiteDetails/Schedule/edit'
+import EditExecutiveSummary from './Sites/SiteDetails/ExecutiveSummary/EditExecutiveSummary'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import EditWell from './Wells/EditWell'
 
@@ -292,6 +293,11 @@ class SiteApp extends React.Component {
                                 exact
                                 path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
                                 component={props => <EditSchedule site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                              exact
+                              path={`/app/sites/${site.get('id')}/details/executive-summary`}
+                              component={props =>  <EditExecutiveSummary site={site} {...props} />}
                             />
                             <PrivateRoute
                                 exact

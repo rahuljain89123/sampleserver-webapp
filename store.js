@@ -5,11 +5,13 @@ import {
     createStore,
     applyMiddleware,
 } from 'redux'
-import { reducer as formReducer } from 'redux-form'
 
 import {
     combineReducers,
 } from 'redux-immutable'
+
+import { reducer as form } from 'redux-form/immutable'
+
 
 import thunk from 'redux-thunk'
 
@@ -108,7 +110,7 @@ const resetState = Immutable.Map({
 })
 
 const appReducer = combineReducers({
-    form: formReducer,
+    form,
     users,
     currentUser,
 
@@ -176,7 +178,7 @@ const appReducer = combineReducers({
     editingSample,
     editingSampleError,
 
-    uploads,
+    uploads
 })
 
 const rootReducer = (state, action) => {
