@@ -90,6 +90,7 @@ import {
     editingSampleError,
 } from './reducers/samples'
 import { uploads } from './reducers/uploads'
+import { pageErrors } from './reducers/global'
 
 
 const initialState = Immutable.Map({
@@ -177,6 +178,7 @@ const appReducer = combineReducers({
     editingSampleError,
 
     uploads,
+    pageErrors,
 })
 
 const rootReducer = (state, action) => {

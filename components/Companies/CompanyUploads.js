@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Table } from 'reactstrap'
+import { Button, Table, Alert } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
 
@@ -26,6 +26,7 @@ class CompanyUploads extends React.Component {
         this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
             sent: false,
+            error: false
         }
     }
 
@@ -46,7 +47,16 @@ class CompanyUploads extends React.Component {
                 url: file.url,
                 lab_id: this.props.lab.get('id'),
                 company_id: this.props.company.get('id'),
-            }))
+                upload_type: 'lab_data',
+            }).catch(e => {
+                e.response.json().then(error => {
+                    console.log(error)
+                    this.setState({
+                        error: error.message
+                    })
+                })
+            })
+        )
     }
 
     onSend (upload) {
@@ -57,6 +67,12 @@ class CompanyUploads extends React.Component {
         this.props.deleteUpload(upload.get('id'))
     }
 
+    clearError () {
+        this.setState({
+            error: false
+        })
+    }
+
     render () {
         const uploads = this.props.uploads
             .filter(upload => upload.get('company_id') === this.props.company.get('id'))
@@ -65,6 +81,14 @@ class CompanyUploads extends React.Component {
 
         return (
             <div className="lab-uploads">
+                {this.state.error ? (
+                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                        <button type="button" className="close" onClick={() => this.clearError()}>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <strong>Upload Error</strong> {this.state.error}
+                    </div>
+                ): ''}
                 <div className="d-flex flex-row">
                     <h4>Uploads</h4>
                     <Button

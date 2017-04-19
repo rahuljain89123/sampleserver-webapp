@@ -1,0 +1,2 @@
+
+export const SET_PAGE_ERRORS = 'GLOBAL/SET_PAGE_ERRORS'

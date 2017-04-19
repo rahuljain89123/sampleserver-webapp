@@ -1,6 +1,7 @@
 
 import { RECEIVE_UPLOAD, RECEIVE_UPLOADS, REMOVE_UPLOAD } from '../constants/UploadActionTypes'
 import API from '../API'
+import { setPageErrors } from './global'
 
 export const receiveUpload = upload => ({
     type: RECEIVE_UPLOAD,
@@ -12,12 +13,10 @@ export const receiveUploads = uploads => ({
     uploads,
 })
 
-
 export const removeUpload = id => ({
     type: REMOVE_UPLOAD,
     id,
 })
-
 
 export const fetchUploads = () =>
     dispatch =>
@@ -33,7 +32,8 @@ export const createUpload = upload =>
             dispatch(receiveUpload(json))
             return Promise.resolve(json.id)
         })
-        .catch(e => Promise.reject())
+        .catch(e => Promise.reject(e))
+
 
 
 export const patchUpload = (id, upload) =>
