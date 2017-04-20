@@ -12,7 +12,6 @@ import {
 
 import { reducer as form } from 'redux-form/immutable'
 
-
 import thunk from 'redux-thunk'
 
 import { RESET } from './constants/UserActionTypes'
