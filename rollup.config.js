@@ -20,7 +20,7 @@ const globals = process.env.CI ? {} : {}
 
 const plugins = [
     buble({
-        exclude: '**/*.scss',
+        exclude: ['**/*.scss'],
         objectAssign: 'Object.assign',
     }),
     replace({
@@ -31,11 +31,13 @@ const plugins = [
         include: 'node_modules/**',
         namedExports: {
             'node_modules/react/react.js': ['Component', 'PropTypes', 'Children', 'createElement'],
-            'node_modules/redux-form/immutable.js': ['reducer', 'Field', 'reduxForm']
+            'node_modules/redux-form/immutable.js': ['reducer', 'Field', 'reduxForm'], 
         },
     }),
     nodeResolve({
-        browser: true
+        browser: true,
+        jsNext: true,
+        main: true
     }),
     sass({
         output: true,
