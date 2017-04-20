@@ -1,4 +1,3 @@
-
 import process from 'process'
 import buble from 'rollup-plugin-buble'
 import commonjs from 'rollup-plugin-commonjs'
@@ -15,31 +14,9 @@ const FONT_AWESOME_PATH = process.env.CI ?
     '//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts' :
     '/node_modules/font-awesome/fonts'
 
-const external = process.env.CI ? [] : [
-    'react',
-    'react-dom',
-    'react-redux',
-    'react-router-dom',
-    'redux',
-    'redux-thunk',
-    'timeago.js',
-    'immutable',
-    'reactstrap',
-    'filestack-js',
-]
+const external = process.env.CI ? [] : []
 
-const globals = process.env.CI ? {} : {
-    'react': 'React',
-    'react-dom': 'ReactDOM',
-    'react-redux': 'ReactRedux',
-    'react-router-dom': 'ReactRouterDOM',
-    'redux': 'Redux',
-    'redux-thunk': 'ReduxThunk',
-    'timeago.js': 'timeago',
-    'immutable': 'Immutable',
-    'reactstrap': 'Reactstrap',
-    'filestack-js': 'filestack',
-}
+const globals = process.env.CI ? {} : {}
 
 const plugins = [
     buble({
@@ -54,10 +31,11 @@ const plugins = [
         include: 'node_modules/**',
         namedExports: {
             'node_modules/react/react.js': ['Component', 'PropTypes', 'Children', 'createElement'],
+            'node_modules/redux-form/immutable.js': ['reducer', 'Field', 'reduxForm']
         },
     }),
     nodeResolve({
-        browser: true,
+        browser: true
     }),
     sass({
         output: true,

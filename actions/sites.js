@@ -104,7 +104,7 @@ export const editSite = (id, site) =>
         })
         .catch(e => {
             dispatch(setEditingSite(false))
-
+            
             e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
                     return dispatch(setEditingSiteError(json.errors[0]))
