@@ -1,4 +1,4 @@
-
+ 
 import React from 'react'
 
 import { connect } from 'react-redux'
@@ -12,14 +12,10 @@ import {
 import {
     Button,
     Form,
-    FormGroup,
-    FormFeedback,
-    Label,
 } from 'reactstrap'
 
 import { Field, reduxForm } from 'redux-form/immutable'
-import { renderInputField } from '../../../shared/ReduxFormHelpers'
-
+import DraftJSFormGroup from '../../../shared/ReduxFormHelpers/DraftJSFormGroup'
 import { msgFromError } from '../../../../util'
 
 class EditExecutiveSummaryForm extends React.Component {
@@ -38,60 +34,44 @@ class EditExecutiveSummaryForm extends React.Component {
         [error.key]: msgFromError(error),
     } : {}
 
-    const handleSubmit = this.props.handleSubmit
+    const { handleSubmit } = this.props
 
     return (
       <Row>
-        <Col sm={6}>
-          <form onSubmit={handleSubmit(this.submitForm.bind(this))}>
+        <Col sm={8}>
+          <Form onSubmit={handleSubmit(this.submitForm.bind(this))}>
 
-            <FormGroup color={errors.background ? 'danger' : ''}>
-              <Label for="background">Background</Label>
-              <Field
-                props={{ state: (errors.background ? 'danger' : '') }}
-                name="background"
-                id="background"
-                component={renderInputField}
-                type="textarea"
-              />
-              <FormFeedback>{errors.background}</FormFeedback>
-            </FormGroup>
+            <Field
+              props={{ error: errors.background, label: 'Background' }}
+              name="background"
+              id="background"
+              component={DraftJSFormGroup}
+            />
 
-            <FormGroup color={errors.summary ? 'danger' : ''}>
-              <Label for="summary">Executive Summary</Label>
-              <Field
-                props={{ state: (errors.summary ? 'danger' : '') }}
-                name="summary"
-                id="summary"
-                component={renderInputField}
-                type="textarea"
-              />
-              <FormFeedback>{errors.summary}</FormFeedback>
-            </FormGroup>
+            <Field
+              props={{ error: errors.summary, label: 'Executive Summary' }}
+              name="summary"
+              id="summary"
+              component={DraftJSFormGroup}
+            />
 
-            <FormGroup color={errors.history ? 'danger' : ''}>
-              <Label for="history">History</Label>
-              <Field
-                props={{ state: (errors.history ? 'danger' : '') }}
-                name="history"
-                id="history"
-                component={renderInputField}
-                type="textarea"
-              />
-              <FormFeedback>{errors.history}</FormFeedback>
-            </FormGroup>
+            <Field
+              props={{ error: errors.history, label: 'History' }}
+              name="history"
+              id="history"
+              component={DraftJSFormGroup}
+            />
 
             <Button
               color="primary"
               disabled={this.props.editingSite}
             >Save</Button>
-          </form>
+          </Form>
         </Col>
       </Row>
     )
   }
 }
-
 
 EditExecutiveSummaryForm = reduxForm({
   form: 'executivesummary'
@@ -114,7 +94,6 @@ const mapDispatchToProps = (dispatch, props) => ({
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
 })
 
- EditExecutiveSummaryForm = connect(mapStateToProps, mapDispatchToProps)(EditExecutiveSummaryForm)
-
+EditExecutiveSummaryForm = connect(mapStateToProps, mapDispatchToProps)(EditExecutiveSummaryForm)
 
 export default EditExecutiveSummaryForm
