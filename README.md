@@ -1,9 +1,13 @@
 # Sampleserve Webapp (*.sampleserve.net)
 
+[Yarn](https://yarnpkg.com) is the recommended package manager.
+
+`brew install yarn`
+
 ## Installation & Running
 
 ```
-npm install
-rollup -cw
-npm run serve
+yarn install
+yarn run watch
+yarn run serve
 ```
