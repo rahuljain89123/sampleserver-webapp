@@ -72,7 +72,7 @@ class Lab extends React.Component {
             <Switch>
                 <Route
                     exact
-                    path="/app/labs/:id(\\d+)"
+                    path="/app/labs/:id"
                     render={() => (
                         <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
@@ -110,7 +110,7 @@ class Lab extends React.Component {
                 />
                 <Route
                     exact
-                    path="/app/labs/:id(\\d+)/edit"
+                    path="/app/labs/:id/edit"
                     render={() => (
                         <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>

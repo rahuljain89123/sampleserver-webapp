@@ -15,9 +15,9 @@ import SiteApp from './SiteApp'
 const CompanyApp = () => (
     <div>
         <PrivateRoute exact path="/app" component={ProjectSites} />
-        <PrivateRoute path="/app/sites/:id(\\d+)" component={SiteApp} />
+        <PrivateRoute path="/app/sites/:id" component={SiteApp} />
 
-        <PrivateRoute path="/app/projects/:id(\\d+)" component={Project} />
+        <PrivateRoute path="/app/projects/:id" component={Project} />
         <PrivateRoute exact path="/app/projects/new" component={NewProject} />
         <PrivateRoute
             exact

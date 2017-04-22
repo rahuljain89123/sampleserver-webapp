@@ -1,5 +1,7 @@
-var path = require('path');
-var webpack = require('webpack');
+
+const FONT_AWESOME_PATH = process.env.NODE_ENV ?
+  "'//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts'" :
+  "'/node_modules/font-awesome/fonts'"
 
 var config = {
   entry: './index.js',
@@ -26,7 +28,10 @@ var config = {
         }, {
             loader: "css-loader" // translates CSS into CommonJS
         }, {
-            loader: "sass-loader" // compiles Sass to CSS
+            loader: "sass-loader", // compiles Sass to CSS
+            options: {
+              data: "$fa-font-path: " + FONT_AWESOME_PATH + ";"
+            }
         }]
     }]
   },

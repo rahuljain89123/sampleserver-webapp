@@ -296,7 +296,7 @@ class SiteApp extends React.Component {
                             />
                             <PrivateRoute
                                 exact
-                                path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
+                                path={`/app/sites/${site.get('id')}/details/sample-schedule/:id`}
                                 component={props => <EditSchedule site={site} {...props} />}
                             />
                             <PrivateRoute

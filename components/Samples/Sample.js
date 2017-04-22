@@ -53,7 +53,7 @@ class Sample extends React.Component {
             <Switch>
                 <Route
                     exact
-                    path="/app/samples/:id(\\d+)"
+                    path="/app/samples/:id"
                     render={() => (
                         <div className="card">
                             <div className="card-block">
@@ -73,7 +73,7 @@ class Sample extends React.Component {
                 />
                 <Route
                     exact
-                    path="/app/samples/:id(\\d+)/edit"
+                    path="/app/samples/:id/edit"
                     render={() => (
                         <div className="card">
                             <div className="card-block">

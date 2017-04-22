@@ -13,7 +13,7 @@ import TeamLabUsers from './Labs/TeamLabUsers'
 const LabApp = () => (
     <div>
         <PrivateRoute exact path="/app" component={LabClients} />
-        <PrivateRoute path="/app/clients/:id(\\d+)" component={LabClient} />
+        <PrivateRoute path="/app/clients/:id" component={LabClient} />
         <PrivateRoute exact path="/app/clients/new" component={NewLabClient} />
         <PrivateRoute path="/app/team" component={TeamLabUsers} />
     </div>

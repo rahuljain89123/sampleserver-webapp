@@ -70,7 +70,7 @@ class Company extends React.Component {
             <Switch>
                 <Route
                     exact
-                    path="/app/companies/:id(\\d+)"
+                    path="/app/companies/:id"
                     render={() => (
                         <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
@@ -108,7 +108,7 @@ class Company extends React.Component {
                 />
                 <Route
                     exact
-                    path="/app/companies/:id(\\d+)/edit"
+                    path="/app/companies/:id/edit"
                     render={() => (
                         <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
