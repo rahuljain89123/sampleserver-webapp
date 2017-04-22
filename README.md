@@ -11,3 +11,7 @@ yarn install
 yarn run watch
 yarn run serve
 ```
+
+## Building for Production
+
+`yarn run build`
