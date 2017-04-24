@@ -19,12 +19,28 @@ import DraftJSFormGroup from '../../../shared/ReduxFormHelpers/DraftJSFormGroup'
 import { msgFromError } from '../../../../util'
 
 class EditExecutiveSummaryForm extends React.Component {
+  constructor (props) {
+      super(props)
+
+      this.state = {
+          successMessage: false,
+      }
+  }
 
   submitForm (siteParams) {
     this.props.editSite(
       this.props.site.get('id'),
       siteParams
-    ).then(this.props.onSuccess)
+    ).then(this.onSuccess())
+  }
+
+  onSuccess (params) {
+    this.setState({
+      successMessage: "Saved!"
+    })
+    setTimeout(function() {
+        this.setState({successMessage: false})
+    }.bind(this), 3000);
   }
 
   render () {
@@ -66,6 +82,9 @@ class EditExecutiveSummaryForm extends React.Component {
               color="primary"
               disabled={this.props.editingSite}
             >Save</Button>
+            {this.state.successMessage ? (
+              <p>{this.state.successMessage}</p>
+            ) : ''}
           </Form>
         </Col>
       </Row>

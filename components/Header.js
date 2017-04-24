@@ -31,6 +31,11 @@ class Header extends React.Component {
 
         this.state = {
             dropdownOpen: false,
+            flash: {
+                class: 'danger',
+                message: 'There was an error saving that record!',
+                heading: 'Error'
+            }
         }
     }
 
@@ -82,42 +87,49 @@ class Header extends React.Component {
         } = this.props
 
         return (
-            <Navbar
-                color="faded"
-                light
-                className="flex-row justify-content-end"
-                style={{ marginBottom: 20 }}
-            >
-                <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
-                { user ? (
-                    <Nav className="">
-                        {!!user && (
-                            <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
-                                <DropdownToggle caret className="pointer">
-                                    {`${userEmail}`}
-                                </DropdownToggle>
-                                <DropdownMenu right>
-                                    <DropdownItem header>{roleDescription}</DropdownItem>
-                                    <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
-                                    <DropdownItem
-                                        onClick={e => this.onSignout(e)}
-                                        className="pointer"
-                                    >Sign Out</DropdownItem>
-                                </DropdownMenu>
-                            </Dropdown>
-                        )}
-                    </Nav>
-                ) : (
-                    <Nav className="ml-auto" navbar>
-                        <NavItem>
-                            <NavLink
-                                href="/"
-                                onClick={e => this.onSignin(e)}
-                            >Sign In</NavLink>
-                        </NavItem>
-                    </Nav>
-                )}
-            </Navbar>
+            <div className="navbar-container">
+                {this.state.flash ? (
+                    <div className={"flash alert alert alert-" + this.state.flash.class + " fade show"} role="alert">
+                        <span className="title">{this.state.flash.heading}</span> {this.state.flash.message}
+                    </div>
+                ): ''}
+                <Navbar
+                    color="faded"
+                    light
+                    className="flex-row justify-content-end"
+                    style={{ marginBottom: 20 }}
+                >
+                    <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
+                    { user ? (
+                        <Nav className="">
+                            {!!user && (
+                                <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
+                                    <DropdownToggle caret className="pointer">
+                                        {`${userEmail}`}
+                                    </DropdownToggle>
+                                    <DropdownMenu right>
+                                        <DropdownItem header>{roleDescription}</DropdownItem>
+                                        <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
+                                        <DropdownItem
+                                            onClick={e => this.onSignout(e)}
+                                            className="pointer"
+                                        >Sign Out</DropdownItem>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            )}
+                        </Nav>
+                    ) : (
+                        <Nav className="ml-auto" navbar>
+                            <NavItem>
+                                <NavLink
+                                    href="/"
+                                    onClick={e => this.onSignin(e)}
+                                >Sign In</NavLink>
+                            </NavItem>
+                        </Nav>
+                    )}
+                </Navbar>
+            </div>
         )
     }
 }
