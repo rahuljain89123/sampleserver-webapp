@@ -32,6 +32,7 @@ class DraftJSFormGroup extends React.Component {
     return (<FormGroup>
       <Label for={id}> {label} </Label>
       <RichTextEditor
+        editorClassName="rich-text-editor"
         value={value}
         onChange={handleChange.bind(this)}
         onBlur={onBlur}
