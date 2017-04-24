@@ -34,8 +34,8 @@ class Header extends React.Component {
             flash: {
                 class: 'danger',
                 message: 'There was an error saving that record!',
-                heading: 'Error'
-            }
+                heading: 'Error',
+            },
         }
     }
 
@@ -92,7 +92,7 @@ class Header extends React.Component {
                     <div className={"flash alert alert alert-" + this.state.flash.class + " fade show"} role="alert">
                         <span className="title">{this.state.flash.heading}</span> {this.state.flash.message}
                     </div>
-                ): ''}
+                ) : ''}
                 <Navbar
                     color="faded"
                     light
