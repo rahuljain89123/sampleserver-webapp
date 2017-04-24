@@ -71,7 +71,7 @@ class Project extends React.Component {
                 </div>
                 <Route
                     exact
-                    path="/app/projects/:id(\\d+)"
+                    path="/app/projects/:id"
                     render={() => (
                         <Row>
                             <Col sm={6}>
@@ -82,7 +82,7 @@ class Project extends React.Component {
                 />
                 <Route
                     exact
-                    path="/app/projects/:id(\\d+)/users"
+                    path="/app/projects/:id/users"
                     component={ProjectUsers}
                 />
             </div>

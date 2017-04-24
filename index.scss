@@ -1,9 +1,12 @@
 
-$fa-font-path: process.env.FONT_AWESOME_PATH;
-
-@import "bootstrap/scss/bootstrap.scss";
-@import "font-awesome/scss/font-awesome.scss";
+@import "node_modules/bootstrap/scss/bootstrap.scss";
+@import "node_modules/font-awesome/scss/font-awesome.scss";
 
 .pointer {
     cursor: pointer;
+}
+
+.rich-text-editor {
+  height: 250px;
+  font-family: 'helvetica'
 }

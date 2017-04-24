@@ -94,7 +94,7 @@ class LabClient extends React.Component {
                 <Switch>
                     <Route
                         exact
-                        path="/app/clients/:id(\\d+)"
+                        path="/app/clients/:id"
                         render={() => (
                             <div>
                                 <h4>Contacts</h4>
@@ -104,14 +104,14 @@ class LabClient extends React.Component {
                     />
                     <Route
                         exact
-                        path="/app/clients/:id(\\d+)/uploads"
+                        path="/app/clients/:id/uploads"
                         render={() => (
                             <CompanyUploads company={company} />
                         )}
                     />
                     <Route
                         exact
-                        path="/app/clients/:id(\\d+)/settings"
+                        path="/app/clients/:id/settings"
                         render={props => (
                             <CompanySettings company={company} {...props} />
                         )}

@@ -89,7 +89,7 @@ class User extends React.Component {
             <Switch>
                 <Route
                     exact
-                    path="/app/users/:id(\\d+)"
+                    path="/app/users/:id"
                     render={() => (
                         <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
@@ -133,7 +133,7 @@ class User extends React.Component {
                 />
                 <Route
                     exact
-                    path="/app/users/:id(\\d+)/edit"
+                    path="/app/users/:id/edit"
                     render={() => (
                         <div>
                             <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>

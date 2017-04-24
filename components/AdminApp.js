@@ -38,29 +38,29 @@ const AdminApp = () => (
         </Col>
         <Col xs="10">
             <PrivateRoute exact path="/app/users" component={Users} authorized={['Admin']} />
-            <PrivateRoute path="/app/users/:id(\\d+)" component={User} />
+            <PrivateRoute path="/app/users/:id" component={User} />
 
             <PrivateRoute exact path="/app/labs" component={Labs} />
-            <PrivateRoute path="/app/labs/:id(\\d+)" component={Lab} />
+            <PrivateRoute path="/app/labs/:id" component={Lab} />
             <PrivateRoute exact path="/app/labs/new" component={NewLab} />
-            <PrivateRoute path="/app/labs/:id(\\d+)/users" component={AdminLabUsers} />
+            <PrivateRoute path="/app/labs/:id/users" component={AdminLabUsers} />
 
             <PrivateRoute exact path="/app/companies" component={Companies} />
-            <PrivateRoute path="/app/companies/:id(\\d+)" component={Company} />
+            <PrivateRoute path="/app/companies/:id" component={Company} />
             <PrivateRoute exact path="/app/companies/new" component={NewCompany} />
-            <PrivateRoute path="/app/companies/:id(\\d+)/users" component={CompanyUsers} />
+            <PrivateRoute path="/app/companies/:id/users" component={CompanyUsers} />
 
             <PrivateRoute exact path="/app/projects" component={Projects} />
-            <PrivateRoute path="/app/projects/:id(\\d+)" component={Project} />
+            <PrivateRoute path="/app/projects/:id" component={Project} />
             <PrivateRoute exact path="/app/projects/new" component={NewProject} />
 
             <PrivateRoute exact path="/app/sites" component={Sites} />
-            <PrivateRoute path="/app/sites/:id(\\d+)" component={AdminSite} />
+            <PrivateRoute path="/app/sites/:id" component={AdminSite} />
             <PrivateRoute exact path="/app/sites/new" component={AdminNewSite} />
-            <PrivateRoute path="/app/sites/:id(\\d+)/users" component={SiteUsers} />
+            <PrivateRoute path="/app/sites/:id/users" component={SiteUsers} />
 
             <PrivateRoute exact path="/app/samples" component={Samples} />
-            <PrivateRoute path="/app/samples/:id(\\d+)" component={Sample} />
+            <PrivateRoute path="/app/samples/:id" component={Sample} />
         </Col>
     </Row>
 )
