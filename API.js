@@ -3,7 +3,7 @@
 import 'whatwg-fetch'
 import store from './store'
 
-const IS_DEV = window.location.hostname.indexOf('sampleserve-webapp.dev') > 0
+const IS_DEV = window.location.hostname.indexOf('sampleserve.dev') > 0
 
 const PROTOCOL = `${window.location.protocol}//`
 const API_BASE = IS_DEV ? '.sampleserve.dev/api/v1' : '.sampleserve.net/api/v1'

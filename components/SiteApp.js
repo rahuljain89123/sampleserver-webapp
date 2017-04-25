@@ -255,9 +255,6 @@ class SiteApp extends React.Component {
                     </nav>
                 </Col>
                 <Col xs="10">
-                    <Breadcrumb tag="nav">
-                        <BreadcrumbItem>Item</BreadcrumbItem>
-                    </Breadcrumb>
                     <div className="card">
                         <div className="card-block">
                             <PrivateRoute
@@ -296,7 +293,7 @@ class SiteApp extends React.Component {
                             />
                             <PrivateRoute
                                 exact
-                                path={`/app/sites/${site.get('id')}/details/sample-schedule/:id`}
+                                path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
                                 component={props => <EditSchedule site={site} {...props} />}
                             />
                             <PrivateRoute
