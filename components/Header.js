@@ -31,11 +31,6 @@ class Header extends React.Component {
 
         this.state = {
             dropdownOpen: false,
-            flash: {
-                class: 'danger',
-                message: 'There was an error saving that record!',
-                heading: 'Error',
-            },
         }
     }
 
@@ -84,13 +79,14 @@ class Header extends React.Component {
             user,
             userEmail,
             roleDescription,
+            flash,
         } = this.props
 
         return (
             <div className="navbar-container">
-                {this.state.flash ? (
-                    <div className={"flash alert alert alert-" + this.state.flash.class + " fade show"} role="alert">
-                        <span className="title">{this.state.flash.heading}</span> {this.state.flash.message}
+                {flash ? (
+                    <div className={"flash alert alert alert-" + flash.get('type') + " fade show"} role="alert">
+                        <span className="title">{flash.get('heading')}</span> {flash.get('message')}
                     </div>
                 ) : ''}
                 <Navbar
@@ -136,6 +132,7 @@ class Header extends React.Component {
 
 const mapStateToProps = store => ({
     roles: store.get('roles'),
+    flash: store.get('flash'),
     user: currentUser(store),
     labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
     userEmail: safeGet(currentUser(store), 'email', ''),

@@ -3,6 +3,7 @@ import React from 'react'
 
 import { connect } from 'react-redux'
 import { editSite, clearEditingSiteError } from '../../../../actions/sites'
+import { flashMessage } from '../../../../actions/global'
 
 import {
   Row,
@@ -21,10 +22,6 @@ import { msgFromError } from '../../../../util'
 class EditExecutiveSummaryForm extends React.Component {
   constructor (props) {
       super(props)
-
-      this.state = {
-          successMessage: false,
-      }
   }
 
   submitForm (siteParams) {
@@ -35,12 +32,7 @@ class EditExecutiveSummaryForm extends React.Component {
   }
 
   onSuccess (params) {
-    this.setState({
-      successMessage: "Saved!"
-    })
-    setTimeout(function() {
-        this.setState({successMessage: false})
-    }.bind(this), 3000);
+    this.props.flashMessage('success', 'saved successfully', 'Saved')
   }
 
   render () {
@@ -82,9 +74,7 @@ class EditExecutiveSummaryForm extends React.Component {
               color="primary"
               disabled={this.props.editingSite}
             >Save</Button>
-            {this.state.successMessage ? (
-              <p>{this.state.successMessage}</p>
-            ) : ''}
+
           </Form>
         </Col>
       </Row>
@@ -111,6 +101,7 @@ const mapStateToProps = (store, props) => ({
 const mapDispatchToProps = (dispatch, props) => ({
   editSite: (id, site) => dispatch(editSite(id, site)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
+  flashMessage: (type, message, heading) => dispatch(flashMessage(type, message, heading)),
 })
 
 EditExecutiveSummaryForm = connect(mapStateToProps, mapDispatchToProps)(EditExecutiveSummaryForm)

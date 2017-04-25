@@ -1,2 +1,4 @@
 
 export const SET_PAGE_ERRORS = 'GLOBAL/SET_PAGE_ERRORS'
+export const SET_FLASH = 'GLOBAL/SET_FLASH'
+export const CLEAR_FLASH = 'GLOBAL/CLEAR_FLASH'

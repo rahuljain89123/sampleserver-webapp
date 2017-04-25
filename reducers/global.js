@@ -1,5 +1,11 @@
 
-import { SET_PAGE_ERRORS } from '../constants/GlobalActionTypes'
+import Immutable from 'immutable'
+
+import {
+  SET_PAGE_ERRORS,
+  SET_FLASH,
+  CLEAR_FLASH,
+} from '../constants/GlobalActionTypes'
 
 export const pageErrors = (state = null, action) => {
     switch (action.type) {
@@ -8,4 +14,15 @@ export const pageErrors = (state = null, action) => {
     default:
         return state
     }
+}
+
+export const flash = (state = null, action) => {
+  switch (action.type) {
+  case SET_FLASH:
+    return Immutable.Map(action.flash)
+  case CLEAR_FLASH:
+    return null
+  default:
+    return state
+  }
 }

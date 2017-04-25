@@ -91,8 +91,10 @@ import {
     editingSampleError,
 } from './reducers/samples'
 import { uploads } from './reducers/uploads'
-import { pageErrors } from './reducers/global'
-
+import {
+  pageErrors,
+  flash
+} from './reducers/global'
 
 const initialState = Immutable.Map({
     currentUser: JSON.parse(window.localStorage.getItem('currentUser')),
@@ -180,6 +182,7 @@ const appReducer = combineReducers({
 
     uploads,
     pageErrors,
+    flash,
 })
 
 const rootReducer = (state, action) => {
