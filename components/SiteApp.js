@@ -255,9 +255,6 @@ class SiteApp extends React.Component {
                     </nav>
                 </Col>
                 <Col xs="10">
-                    <Breadcrumb tag="nav">
-                        <BreadcrumbItem>Item</BreadcrumbItem>
-                    </Breadcrumb>
                     <div className="card">
                         <div className="card-block">
                             <PrivateRoute
