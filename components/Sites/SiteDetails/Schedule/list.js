@@ -44,17 +44,22 @@ class ListSchedules extends React.Component {
     onSubmit (e) {
     }
 
-
     render () {
+        let schedules = undefined
+
+        if (this.props.schedules.size > 0 && this.props.site) {
+            schedules = this.props.schedules.map(function (schedule) {
+              return <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}> {schedule.get('date')} </Link>
+            })
+        } else {
+            schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`}>Create one</Link> </span>
+        }
+
         return (
             <div className="sample-schedule">
-            <Button onClick={() => this.props.push(`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`)} className='btn btn-default float-right'>New Schedule</Button>
+                <Button onClick={() => this.props.push(`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`)} className='btn btn-default float-right'>New Schedule</Button>
                 <h2>Site Details Schedule List</h2>
-                {this.props.schedules.map(schedule => {
-                    <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}>
-                        {schedule.get('date')}
-                    </Link>
-                })}
+                {schedules}
             </div>
         )
     }
