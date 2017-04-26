@@ -80,10 +80,12 @@ class NewSchedule extends React.Component {
             [error.key]: msgFromError(error),
         } : {}
 
-        const scheduleOptions = this.props.schedules.map(function (schedule) {
-          return <option>{moment(schedule.get('date')).utc().format('YYYY-MM-DD')}</option>
-        })
-
+        let scheduleOptions = undefined
+        if (this.props.schedules.size > 0) {
+          scheduleOptions = this.props.schedules.map(function (schedule) {
+            return <option>{moment(schedule.get('date')).utc().format('YYYY-MM-DD')}</option>
+          })
+        }
 
         return (
             <div className="sample-schedule">
