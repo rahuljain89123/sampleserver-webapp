@@ -81,7 +81,7 @@ class NewSchedule extends React.Component {
         } : {}
 
         const scheduleOptions = this.props.schedules.map(function (schedule) {
-          return <option>{moment(schedule.get('date')).utc().format('MM/DD/YYYY')}</option>
+          return <option>{moment(schedule.get('date')).utc().format('YYYY-MM-DD')}</option>
         })
 
 
@@ -92,6 +92,7 @@ class NewSchedule extends React.Component {
                     <FormGroup color={errors.date ? 'danger' : ''}>
                         <Label for="date">Date</Label>
                         <DatePicker
+                          dateFormat="YYYY-MM-DD"
                           state={errors.date ? 'danger' : ''}
                           name="date"
                           id="date"
@@ -111,7 +112,8 @@ class NewSchedule extends React.Component {
                             value={this.state.copy_params}
                             onChange={e => this.onChange(e)}
                         >
-                            {scheduleOptions}
+                          {scheduleOptions ? (<option selected="selected">Select a date...</option> ) : ( <option></option>)}
+                          {scheduleOptions}
                         </Input>
                         <FormFeedback>{errors.copy_params}</FormFeedback>
                     </FormGroup>
