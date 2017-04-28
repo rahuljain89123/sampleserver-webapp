@@ -18,7 +18,7 @@ import { currentLab, currentCompany } from '../../../../normalizers'
 
 import {
   FILESTACK_API_KEY,
-} from '../../helpers/filestack'
+} from '../../../../helpers/filestack'
 
 const FILESTACK_OPTIONS = {
     accept: ['.csv', '.xls'],
