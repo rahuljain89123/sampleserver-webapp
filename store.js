@@ -92,6 +92,11 @@ import {
     editingSample,
     editingSampleError,
 } from './reducers/samples'
+import {
+    tests,
+    editingTest,
+    editingTestError,
+} from './reducers/tests'
 import { uploads } from './reducers/uploads'
 import {
   pageErrors,
@@ -182,6 +187,10 @@ const appReducer = combineReducers({
     samples,
     editingSample,
     editingSampleError,
+
+    tests,
+    editingTest,
+    editingTestError,
 
     uploads,
     pageErrors,
