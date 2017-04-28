@@ -33,7 +33,7 @@ class SiteMap extends React.Component {
   componentDidMount () {
     this.props.fetchSiteMap(this.props.siteMapId)
     this.props.fetchSiteMapWells({ site_map_id: this.props.siteMapId })
-    this.props.fetchWells({ site_id: this.props.siteId })
+    this.props.fetchWells({ site_id: this.props.site.get('id') })
   }
 
 
@@ -56,18 +56,28 @@ class SiteMap extends React.Component {
     if (!siteMap) { return null }
 
     const siteMapWells = this.props.siteMapWells.filter((smw) => (
-      smw.get('site_map_id') === this.props.siteMapId
+      smw.get('site_map_id') === this.props.siteMapId &&
+      this.props.wells.get(smw.get('well_id'))
     ))
+
+    const wellNames = siteMapWells.map((smw) => {
+      const well = this.props.wells.get(smw.get('well_id'))
+      return <li className='well'>{well.get('title')}</li>
+    })
 
     const imageUrl = resizedImageUrl(siteMap.get('url'), { width: 640, height: 640, fit: 'scale' })
     return (
       <div className="site-map">
         <h2> {siteMap.get('title')} </h2>
-
-        <SiteMapImage
-          imageUrl={imageUrl}
-          siteMapWells={siteMapWells}
-          addSiteMapWell={this.addSiteMapWell} />
+        <div className='d-flex'>
+          <SiteMapImage
+            imageUrl={imageUrl}
+            siteMapWells={siteMapWells}
+            addSiteMapWell={this.addSiteMapWell} />
+          <ul className='well-names'>
+            {wellNames}
+          </ul>
+        </div>
       </div>
     )
   }
