@@ -97,6 +97,11 @@ import {
 } from 'reducers/samples'
 import { uploads } from 'reducers/uploads'
 import {
+    tests,
+    editingTest,
+    editingTestError,
+} from 'reducers/tests'
+import {
   pageErrors,
   flash
 } from 'reducers/global'
@@ -187,6 +192,10 @@ const appReducer = combineReducers({
     samples,
     editingSample,
     editingSampleError,
+
+    tests,
+    editingTest,
+    editingTestError,
 
     uploads,
     pageErrors,
