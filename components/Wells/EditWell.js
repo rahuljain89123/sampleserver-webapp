@@ -12,15 +12,15 @@ import {
   deleteWell,
   editWell,
   clearEditingWellError,
-} from '../../actions/wells'
+} from 'actions/wells'
 
 import {
   fetchWellImages,
   uploadWellImages,
   deleteWellImage,
-} from '../../actions/wellImages'
+} from 'actions/wellImages'
 
-import { flashMessage } from '../../actions/global'
+import { flashMessage } from 'actions/global'
 
 import WellForm from './WellForm'
 import WellImages from './WellImages'
@@ -45,7 +45,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Deleted Successfully',
-          'Deleted'
         )
       )
   }
@@ -56,7 +55,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Updated Successfully',
-          'Updated'
         )
       )
   }
@@ -68,7 +66,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Image Uploaded Successfully',
-          'Success'
         )
       )
   }
@@ -79,7 +76,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Image Deleted Successfully',
-          'Deleted'
         )
       )
   }
@@ -90,7 +86,6 @@ class EditWell extends React.Component {
       wellId,
       editingWellError,
       clearEditingWellError,
-      uploadWellImage
     } = this.props
 
     const well = this.props.wells.get(wellId)
@@ -138,8 +133,8 @@ const mapStateToProps = (store, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  flashMessage: (type, message, heading) =>
-    dispatch(flashMessage(type, message, heading)),
+  flashMessage: (type, message) =>
+    dispatch(flashMessage(type, message)),
 
   /* Well Dispatches */
   fetchWell: id => dispatch(fetchWell(id)),
@@ -148,9 +143,9 @@ const mapDispatchToProps = dispatch => ({
   clearEditingWellError: () => dispatch(clearEditingWellError()),
 
   /* Well Image Dispatches */
-  fetchWellImages: id => dispatch(fetchWellImages(id)),
-  uploadWellImages: (id, wellImageParams) =>
-    dispatch(uploadWellImages(id, wellImageParams)),
+  fetchWellImages: wellId => dispatch(fetchWellImages(wellId)),
+  uploadWellImages: (wellId, wellImageParams) =>
+    dispatch(uploadWellImages(wellId, wellImageParams)),
   deleteWellImage: (wellId, wellImageId) =>
     dispatch(deleteWellImage(wellId, wellImageId))
 })

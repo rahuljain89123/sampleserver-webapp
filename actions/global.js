@@ -5,6 +5,10 @@ import {
   CLEAR_FLASH,
 } from '../constants/GlobalActionTypes'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
+
 export const setPageErrors = errors => ({
     type: SET_PAGE_ERRORS,
     errors,
@@ -19,12 +23,15 @@ export const clearFlash = () => ({
   type: CLEAR_FLASH
 })
 
-export const flashMessage = (type, message, heading) =>
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
+
+export const flashMessage = (type, message) =>
   dispatch => {
     dispatch(setFlash({
       type,
       message,
-      heading
     }))
 
     setTimeout(() => dispatch(clearFlash()), 3000)

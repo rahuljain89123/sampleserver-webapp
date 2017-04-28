@@ -4,19 +4,14 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import {
     Button,
-    Form,
-    FormGroup,
-    FormFeedback,
-    Label,
-    Input,
 } from 'reactstrap'
+
 import {
     createSchedule,
     clearCreatingScheduleError,
     fetchSchedules,
-} from '../../../../actions/schedule'
-import { msgFromError } from '../../../../util'
-
+} from 'actions/schedule'
+import { msgFromError } from 'util'
 
 class ListSchedules extends React.Component {
     constructor (props) {
