@@ -1,7 +1,10 @@
 
 import React from 'react'
 import { Row, Col } from 'reactstrap'
-import { NavLink } from 'react-router-dom'
+import {
+  NavLink,
+  Switch 
+} from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import PrivateRoute from './Auth'
@@ -19,6 +22,7 @@ import EditSchedule from './Sites/SiteDetails/Schedule/edit'
 import EditExecutiveSummaryForm from './Sites/SiteDetails/ExecutiveSummary/EditExecutiveSummaryForm'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import EditWell from './Wells/EditWell'
+import NewWell from './Wells/NewWell'
 
 import { fetchSite } from '../actions/sites'
 
@@ -296,17 +300,32 @@ class SiteApp extends React.Component {
                                 path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
                                 component={props => <EditSchedule site={site} {...props} />}
                             />
-                            <PrivateRoute
-                                exact
-                                path={`/app/sites/${site.get('id')}/details/wells/:id`}
-                                component={props => (
-                                    <EditWell
-                                        site={site}
-                                        onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
-                                        {...props}
-                                    />
-                                )}
-                            />
+                            <Switch>
+                              <PrivateRoute
+                                  exact
+                                  path={`/app/sites/${site.get('id')}/details/wells/new`}
+                                  component={props => (
+                                      <NewWell
+                                          site={site}
+                                          onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
+                                          {...props}
+                                      />
+                                  )}
+                              />
+                              <PrivateRoute
+                                  exact
+                                  path={`/app/sites/${site.get('id')}/details/wells/:id`}
+                                  component={props => (
+                                      <EditWell
+                                          site={site}
+                                          onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
+                                          {...props}
+                                      />
+                                  )}
+                              />
+                            </Switch>
+
+
                             <PrivateRoute
                                 exact
                                 path={`/app/sites/${site.get('id')}/downloads`}

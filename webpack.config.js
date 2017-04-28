@@ -1,14 +1,20 @@
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const path = require('path')
+
 const FONT_AWESOME_PATH = process.env.NODE_ENV ?
   "'//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts'" :
   "'/node_modules/font-awesome/fonts'"
 
 var config = {
-  entry: './index.js',
+  context: path.resolve(__dirname),
+  entry: 'index.js',
   output: {
     path: __dirname + '/dist/',
     filename: 'bundle.js'
+  },
+  resolve: {
+    modules: ["node_modules", path.resolve(__dirname)]
   },
   module: {
     rules: [

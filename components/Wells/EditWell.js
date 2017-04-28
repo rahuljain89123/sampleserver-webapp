@@ -12,15 +12,15 @@ import {
   deleteWell,
   editWell,
   clearEditingWellError,
-} from '../../actions/wells'
+} from 'actions/wells'
 
 import {
   fetchWellImages,
   uploadWellImages,
   deleteWellImage,
-} from '../../actions/wellImages'
+} from 'actions/wellImages'
 
-import { flashMessage } from '../../actions/global'
+import { flashMessage } from 'actions/global'
 
 import WellForm from './WellForm'
 import WellImages from './WellImages'
@@ -90,13 +90,12 @@ class EditWell extends React.Component {
       wellId,
       editingWellError,
       clearEditingWellError,
-      uploadWellImage
     } = this.props
 
     const well = this.props.wells.get(wellId)
     const wellImages = this.props.wellImages.get(wellId)
     if (!well) { return null }
-
+    
     return (
       <Row>
         <Col sm={6}>
@@ -148,9 +147,9 @@ const mapDispatchToProps = dispatch => ({
   clearEditingWellError: () => dispatch(clearEditingWellError()),
 
   /* Well Image Dispatches */
-  fetchWellImages: id => dispatch(fetchWellImages(id)),
-  uploadWellImages: (id, wellImageParams) =>
-    dispatch(uploadWellImages(id, wellImageParams)),
+  fetchWellImages: wellId => dispatch(fetchWellImages(wellId)),
+  uploadWellImages: (wellId, wellImageParams) =>
+    dispatch(uploadWellImages(wellId, wellImageParams)),
   deleteWellImage: (wellId, wellImageId) =>
     dispatch(deleteWellImage(wellId, wellImageId))
 })
