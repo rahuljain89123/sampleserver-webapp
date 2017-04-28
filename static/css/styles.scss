@@ -308,3 +308,12 @@ section {
         padding-left: 5px;
     }
 }
+
+.img-and-canvas-overlay {
+  position: relative;
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}

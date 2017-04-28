@@ -51,6 +51,8 @@ import {
 } from 'reducers/sites'
 import {
   siteMaps,
+  siteMapWells,
+  addingSiteMapWell,
 } from 'reducers/siteMaps'
 import {
     schedules,
@@ -155,6 +157,8 @@ const appReducer = combineReducers({
     editingSiteError,
 
     siteMaps,
+    siteMapWells,
+    addingSiteMapWell,
 
     schedules,
     creatingSchedule,

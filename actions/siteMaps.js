@@ -11,7 +11,10 @@ import {
   SET_EDITING_SITE_MAP,
   SET_EDITING_SITE_MAP_ERROR,
   CLEAR_EDITING_SITE_MAP_ERROR,
-  REMOVE_SITE_MAP
+  REMOVE_SITE_MAP,
+  RECEIVE_SITE_MAP_WELL,
+  RECEIVE_SITE_MAP_WELLS,
+  SET_ADDING_SITE_MAP_WELL,
 } from 'constants/SiteMapActionTypes'
 
 /*****************************************************************************
@@ -27,12 +30,21 @@ export const receiveSiteMaps = siteMaps => ({
   type: RECEIVE_SITE_MAPS,
   siteMaps,
 })
-//
-// export const receiveSiteMapWells = siteMaps => ({
-//   type: RECEIVE_SITE_MAP_WELLS,
-//   siteM
-//   siteMapWells,
-// })
+
+export const receiveSiteMapWells = siteMapWells => ({
+  type: RECEIVE_SITE_MAP_WELLS,
+  siteMapWells,
+})
+
+export const receiveSiteMapWell = siteMapWell => ({
+  type: RECEIVE_SITE_MAP_WELL,
+  siteMapWell,
+})
+
+export const setAddingSiteMapWell = adding => ({
+  type: SET_ADDING_SITE_MAP_WELL,
+  adding,
+})
 
 /*****************************************************************************
  * THUNK ACTION CREATORS
@@ -54,10 +66,19 @@ export const createSiteMap = (siteMapParams) =>
   dispatch =>
     API.post('/sitemaps/', siteMapParams)
     .then(json => {
-      debugger
       dispatch(receiveSiteMap(json))
       return Promise.resolve(json.id)
     })
     .catch(e => {
       return Promise.reject()
     })
+
+export const fetchSiteMapWells = (filters) =>
+  dispatch =>
+    API.get(`/sitemapwells/?${qs.stringify(filters)}`)
+    .then(siteMapWells => dispatch(receiveSiteMapWells(siteMapWells)))
+
+export const createSiteMapWell = (siteMapWellParams) =>
+  dispatch =>
+    API.post('/sitemapwells/', siteMapWellParams)
+    .then(siteMapWell => dispatch(receiveSiteMapWell(siteMapWell)))
