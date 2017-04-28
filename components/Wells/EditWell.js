@@ -20,6 +20,8 @@ import {
   deleteWellImage,
 } from '../../actions/wellImages'
 
+import { flashMessage } from '../../actions/global'
+
 import WellForm from './WellForm'
 import WellImages from './WellImages'
 
@@ -27,8 +29,9 @@ class EditWell extends React.Component {
   constructor (props) {
     super(props)
 
-    this.onSubmit = this.onSubmitWellForm.bind(this)
+    this.onSubmitWellForm = this.onSubmitWellForm.bind(this)
     this.onUploadWellImages = this.onUploadWellImages.bind(this)
+    this.onDeleteWellImage = this.onDeleteWellImage.bind(this)
   }
 
   componentDidMount () {
@@ -38,16 +41,47 @@ class EditWell extends React.Component {
 
   onDelete () {
     this.props.deleteWell(this.props.wellId)
-      .then(this.props.onSuccess)
+      .then(
+        this.props.flashMessage(
+          'success',
+          'Well Deleted Successfully',
+          'Deleted'
+        )
+      )
   }
 
   onSubmitWellForm (wellParams) {
     this.props.editWell(this.props.wellId, wellParams)
+      .then(
+        this.props.flashMessage(
+          'success',
+          'Well Updated Successfully',
+          'Updated'
+        )
+      )
   }
 
   onUploadWellImages (wellImages) {
     this.props.uploadWellImages(this.props.wellId, wellImages)
       .then(this.props.fetchWellImages(this.props.wellId))
+      .then(
+        this.props.flashMessage(
+          'success',
+          'Well Image Uploaded Successfully',
+          'Success'
+        )
+      )
+  }
+
+  onDeleteWellImage (wellId, wellImageId) {
+    this.props.deleteWellImage(wellId, wellImageId)
+      .then(
+        this.props.flashMessage(
+          'success',
+          'Well Image Deleted Successfully',
+          'Deleted'
+        )
+      )
   }
 
   render () {
@@ -81,12 +115,13 @@ class EditWell extends React.Component {
             wellError={editingWellError}
             clearWellError={clearEditingWellError}
           />
+          <hr/>
 
           <WellImages
             wellId={wellId}
             wellImages={wellImages}
             onUpload={this.onUploadWellImages}
-            deleteWellImage={this.props.deleteWellImage}
+            onDelete={this.onDeleteWellImage}
            />
         </Col>
       </Row>
@@ -95,27 +130,29 @@ class EditWell extends React.Component {
 }
 
 const mapStateToProps = (store, props) => ({
-    wells: store.get('wells'),
-    wellImages: store.get('wellImages'),
-    editingWellError: store.get('editingWellError'),
-    editingWell: store.get('editingWell'),
-    wellId: parseInt(props.match.params.id, 10),
+  wells: store.get('wells'),
+  wellImages: store.get('wellImages'),
+  editingWellError: store.get('editingWellError'),
+  editingWell: store.get('editingWell'),
+  wellId: parseInt(props.match.params.id, 10),
 })
 
 const mapDispatchToProps = dispatch => ({
+  flashMessage: (type, message, heading) =>
+    dispatch(flashMessage(type, message, heading)),
 
-    /* Well Dispatches */
-    fetchWell: id => dispatch(fetchWell(id)),
-    deleteWell: id => dispatch(deleteWell(id)),
-    editWell: (id, well) => dispatch(editWell(id, well)),
-    clearEditingWellError: () => dispatch(clearEditingWellError()),
+  /* Well Dispatches */
+  fetchWell: id => dispatch(fetchWell(id)),
+  deleteWell: id => dispatch(deleteWell(id)),
+  editWell: (id, well) => dispatch(editWell(id, well)),
+  clearEditingWellError: () => dispatch(clearEditingWellError()),
 
-    /* Well Image Dispatches */
-    fetchWellImages: id => dispatch(fetchWellImages(id)),
-    uploadWellImages: (id, wellImageParams) =>
-      dispatch(uploadWellImages(id, wellImageParams)),
-    deleteWellImage: (wellId, wellImageId) =>
-      dispatch(deleteWellImage(wellId, wellImageId))
+  /* Well Image Dispatches */
+  fetchWellImages: id => dispatch(fetchWellImages(id)),
+  uploadWellImages: (id, wellImageParams) =>
+    dispatch(uploadWellImages(id, wellImageParams)),
+  deleteWellImage: (wellId, wellImageId) =>
+    dispatch(deleteWellImage(wellId, wellImageId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditWell)

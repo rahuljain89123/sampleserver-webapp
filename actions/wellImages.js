@@ -22,9 +22,9 @@ export const removeWellImage = (wellId, wellImageId) => ({
 export const fetchWellImages = (wellId) =>
   dispatch =>
     API.get(`/wellimages/?well_id=${wellId}`)
-      .then(wellImages => {
+      .then(wellImages =>
         dispatch(receiveWellImages(wellId, wellImages))
-      })
+      )
 
 export const uploadWellImages = (wellId, wellImages) =>
   dispatch => {
@@ -54,4 +54,6 @@ export const uploadWellImages = (wellId, wellImages) =>
 
 export const deleteWellImage = (wellId, wellImageId) =>
   dispatch => API.delete(`/wellimages/${wellImageId}`).
-    then(() => dispatch(removeWellImage(wellId, wellImageId)))
+    then(() =>
+      dispatch(removeWellImage(wellId, wellImageId))
+    )
