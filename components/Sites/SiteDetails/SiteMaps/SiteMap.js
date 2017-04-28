@@ -44,7 +44,7 @@ class SiteMap extends React.Component {
       xpos: evt.clientX - divOffsets.left,
       ypos: evt.clientY - divOffsets.top,
       well_id: 2423,
-      site_map_id: 139,
+      site_map_id: this.props.siteMapId,
     }
 
     this.props.createSiteMapWell(well)
