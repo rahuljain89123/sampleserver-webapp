@@ -12,6 +12,7 @@ import {
 } from 'reactstrap'
 import {
     createSchedule,
+    editSchedule,
     fetchSchedule,
     clearCreatingScheduleError,
 } from '../../../../actions/schedule'
@@ -20,7 +21,7 @@ import { fetchWells } from '../../../../actions/wells'
 import { fetchTests } from '../../../../actions/tests'
 
 
-class SubstanceRow extends React.Component {
+class WellRow extends React.Component {
     render () {
         return <div>
             {this.props.well.get('title')}
@@ -39,68 +40,115 @@ class EditSchedule extends React.Component {
         const scheduleId = parseInt(props.match.params.id, 10)
         this.state = {
             scheduleId,
+            test: 0,
         }
     }
 
     componentWillMount () {
-        this.props.fetchTests()
-        this.props.fetchWells({ site_id: this.props.site.get('id') })
-        this.props.fetchSchedule(this.state.scheduleId)
     }
 
     componentDidMount () {
-        // this.props.fetchSchedule(this.state.scheduleId)
+        this.props.fetchTests().then((tests) => {
+            console.log(this.props.tests)
+        })
+        this.props.fetchWells({ site_id: this.props.site.get('id') }).then((wells) => {
+            console.log(this.props.wells)
+        })
+        this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
+            console.log(this.props.schedules)
+        })
     }
 
     onChange (e) {
+        console.log(e.target.value)
+        this.setState({
+            test: e.target.value,
+        })
     }
 
 
-    onSubmit (e) {
+    addTest (e) {
+        this.props.editSchedule(this.state.scheduleId, {
+            tests: {
+                add: [parseInt(this.state.test)],
+                remove: [],
+            },
+        })
     }
 
+    deleteTest (e, test_id) {
+        console.log(test_id)
+
+        this.props.editSchedule(this.state.scheduleId, {
+            tests: {
+                add: [],
+                remove: [test_id],
+            },
+        })
+    }
 
     render () {
-        let wells = undefined
+        if (this.props.wells && this.props.site && this.props.schedules.size > 0 && this.props.tests.size > 0) {
+            const schedule = this.props.schedules.get(this.state.scheduleId)
 
-        if (this.props.wells.size > 0 && this.props.site && this.props.schedule) {
-            return <table className="table">
-                <thead>
-                    <td>Uncheck All</td>
-                    <td>Gauge Only - Do Not Sample</td>
-                    {this.props.schedule.get('test_ids').map((test_id) => {
-                        return <td>{this.props.tests.get(test_id).get('title')}</td>
-                    })}
-                </thead>
-                {wells = this.props.wells.map((well) => {
-                  return <tr>
-                    <td>{well.get('title')}</td>
-                    <td><input type="checkbox"/></td>
-                  </tr>
+            return <div className="sample-schedule">
+                <h2>Edit Schedule</h2>
+
+                <select name="tests" onChange={(e) => this.onChange(e)}>
+                {this.props.tests.map((test) => {
+                    return <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
                 })}
-            </table>
-        }
+                </select>
 
-        return (
-            <div className="sample-schedule">
-                <h2>Site Details Edit Schedule</h2>
-                <p>Schedule here</p>
-                {wells}
+                <button className="btn btn-primary" onClick={(e) => this.addTest(e)}>Add Test</button>
+                <table className="table table-striped">
+                    <thead>
+                        <td>&nbsp;</td>
+                        <td>Uncheck All</td>
+                        <td>Gauge Only - Do Not Sample</td>
+                        {schedule.get('test_ids').map((test_id) => {
+                            return <td key={test_id}>
+                                {this.props.tests.get(test_id).get('title')}
+                                <i
+                                    className="fa fa-times pointer"
+                                    onClick={(e) => this.deleteTest(e, test_id)}
+                                />
+                            </td>
+                        })}
+                    </thead>
+                    <tbody>
+                        {this.props.wells.map((well) => {
+                          return <tr key={well.get('id')}>
+                            <td>{well.get('title')}</td>
+                            <td><input type="checkbox"/></td>
+                            <td><input type="checkbox"/></td>
+                            {schedule.get('test_ids').map((test_id) => {
+                                return <td key={test_id}><input type="checkbox"/></td>
+                            })}
+                          </tr>
+                        })}
+                    </tbody>
+                </table>
             </div>
-        )
+        } else {
+            return <div className="sample-schedule">
+                <h2>Edit Schedule</h2>
+            </div>
+        }
     }
 }
 
 const mapStateToProps = store => ({
     wells: store.get('wells'),
     tests: store.get('tests'),
-    schedule: store.get('schedule'),
+    schedules: store.get('schedules'),
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchWells: filters => dispatch(fetchWells(filters)),
     fetchTests: filters => dispatch(fetchTests(filters)),
     fetchSchedule: filters => dispatch(fetchSchedule(filters)),
+    editSchedule: (id, schedule) => dispatch(editSchedule(id, schedule)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSchedule)

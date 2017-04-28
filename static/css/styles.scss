@@ -281,7 +281,6 @@ section {
 .react-datepicker__input-container {
     width: 100%;
 }
-
 .well-images {
     .img {
         display: inline-block;
@@ -302,5 +301,10 @@ section {
     }
     .img-actions {
         margin-top: 20px;
+    }
+}
+.sample-schedule {
+    .fa-times {
+        padding-left: 5px;
     }
 }
