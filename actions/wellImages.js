@@ -7,6 +7,10 @@ import {
   REMOVE_WELL_IMAGE,
 } from '../constants/WellImageActionTypes'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
+
 export const receiveWellImages = (wellId, wellImages) => ({
   type: RECEIVE_WELL_IMAGES,
   wellId,
@@ -19,6 +23,10 @@ export const removeWellImage = (wellId, wellImageId) => ({
   wellImageId,
 })
 
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
+
 export const fetchWellImages = (wellId) =>
   dispatch =>
     API.get(`/wellimages/?well_id=${wellId}`)
@@ -27,10 +35,11 @@ export const fetchWellImages = (wellId) =>
       )
 
 /**
- *
  * @param {integer} wellId
  * @param {Object[]} wellImages - array of well images
- * Uses $q library  to allow for multiple post requests
+ *
+ * Uses $q library  to handle multiple post requests, so the
+ * promise does not resolve until all images finish uploading.
  */
 export const uploadWellImages = (wellId, wellImages) =>
   dispatch => {

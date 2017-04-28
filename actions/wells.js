@@ -14,7 +14,10 @@ import {
 } from '../constants/WellActionTypes'
 import API from '../API'
 
-
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
+ 
 export const receiveWell = well => ({
   type: RECEIVE_WELL,
   well,
@@ -57,6 +60,10 @@ export const removeWell = id => ({
   type: REMOVE_WELL,
   id,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchWell = id =>
   dispatch =>
