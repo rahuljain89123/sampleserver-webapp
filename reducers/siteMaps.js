@@ -50,7 +50,7 @@ export const siteMapWells = (state = Immutable.Map(), action) => {
 export const addingSiteMapWell = (state = null, action) => {
     switch (action.type) {
     case SET_ADDING_SITE_MAP_WELL:
-        return action.adding
+        return Immutable.Map(action.adding)
     default:
         return state
     }

@@ -17,8 +17,14 @@ class SiteMapImage extends React.Component {
   drawWells () {
     const ctx = this.canvasEl.getContext('2d')
     ctx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height)
+    ctx.strokeStyle='black'
 
     this.props.siteMapWells.forEach((well) => { this.drawWell(well, ctx) })
+
+    if (this.props.addingSiteMapWell) {
+      ctx.strokeStyle='white'
+      this.drawWell(this.props.addingSiteMapWell, ctx)
+    }
   }
 
   drawWell (well, ctx) {
