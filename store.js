@@ -55,7 +55,7 @@ import {
     creatingScheduleError,
     editingSchedule,
     editingScheduleError,
-} from './reducers/sampleschedules'
+} from './reducers/schedules'
 import {
     projects,
     creatingProject,
@@ -92,6 +92,11 @@ import {
     editingSample,
     editingSampleError,
 } from './reducers/samples'
+import {
+    tests,
+    editingTest,
+    editingTestError,
+} from './reducers/tests'
 import { uploads } from './reducers/uploads'
 import {
   pageErrors,
@@ -182,6 +187,10 @@ const appReducer = combineReducers({
     samples,
     editingSample,
     editingSampleError,
+
+    tests,
+    editingTest,
+    editingTestError,
 
     uploads,
     pageErrors,
