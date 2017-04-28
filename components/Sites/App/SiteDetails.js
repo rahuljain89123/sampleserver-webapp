@@ -1,10 +1,12 @@
 
+import React from 'react'
 import {
-  NavLink,
-  Switch
+  Switch,
 } from 'react-router-dom'
-import PrivateRoute from 'components/Auth'
+import { connect } from 'react-redux'
 
+import PrivateRoute from 'components/Auth'
+import EditSite from 'components/Sites/EditSite'
 import Wells from 'components/Sites/SiteDetails/Wells/list'
 import ListSchedules from 'components/Sites/SiteDetails/Schedule/list'
 import NewSchedule from 'components/Sites/SiteDetails/Schedule/new'
@@ -23,6 +25,7 @@ class SiteDetails extends React.Component {
 
   render () {
     const { site } = this.props
+    if (!site) { return null; }
 
     return (
       <div>
@@ -104,4 +107,12 @@ class SiteDetails extends React.Component {
   }
 }
 
-export default SiteDetails
+const mapStateToProps = store => ({
+    sites: store.get('sites'),
+})
+
+const mapDispatchToProps = dispatch => ({
+    fetchSite: id => dispatch(fetchSite(id)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(SiteDetails)

@@ -3,13 +3,11 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 import {
   NavLink,
-  Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import PrivateRoute from './Auth'
 
-import EditSite from './Sites/EditSite'
 import ProjectSiteUsers from './Sites/ProjectSiteUsers'
 import SiteContacts from './Sites/SiteContacts'
 import NewSiteContact from './Sites/NewSiteContact'
