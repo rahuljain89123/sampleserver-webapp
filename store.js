@@ -84,6 +84,8 @@ import {
     editingWell,
     editingWellError,
 } from './reducers/wells'
+import { wellImages } from './reducers/wellImages'
+
 import { roles } from './reducers/roles'
 import {
     samples,
@@ -173,6 +175,7 @@ const appReducer = combineReducers({
     creatingWellError,
     editingWell,
     editingWellError,
+    wellImages,
 
     roles,
 

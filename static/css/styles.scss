@@ -278,21 +278,24 @@ section {
     box-shadow: 0 2px 3px 0px rgba(0, 0, 0, 0.16);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.well-images {
+    .img {
+        display: inline-block;
+        a {
+            display: block;
+        }
+    }
+    .img-container {
+        position: relative;
+        display: inline-block;
+    }
+    .fa-times-circle-o {
+        position: absolute;
+        font-size: 48px;
+        top: -10px;
+        right: -10px;
+    }
+    .img-actions {
+        margin-top: 20px;
+    }
+}

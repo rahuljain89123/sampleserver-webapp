@@ -1,13 +1,10 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+
 import {
     Button,
     Form,
-    FormGroup,
-    FormFeedback,
-    Label,
-    Input,
 } from 'reactstrap'
 
 import { Field, reduxForm } from 'redux-form/immutable'
