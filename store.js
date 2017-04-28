@@ -58,7 +58,7 @@ import {
     creatingScheduleError,
     editingSchedule,
     editingScheduleError,
-} from 'reducers/sampleschedules'
+} from 'reducers/schedules'
 import {
     projects,
     creatingProject,

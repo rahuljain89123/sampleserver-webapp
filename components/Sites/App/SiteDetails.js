@@ -13,6 +13,8 @@ import EditExecutiveSummaryForm from 'components/Sites/SiteDetails/ExecutiveSumm
 import EditWell from 'components/Wells/EditWell'
 import NewWell from 'components/Wells/NewWell'
 import SiteMapsList from 'components/Sites/SiteDetails/SiteMaps/SiteMapsList'
+import SiteMap from 'components/Sites/SiteDetails/SiteMaps/SiteMap'
+
 
 class SiteDetails extends React.Component {
   constructor (props) {
@@ -62,6 +64,11 @@ class SiteDetails extends React.Component {
           exact
           path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
           component={props => <EditSchedule site={site} {...props} />}
+      />
+      <PrivateRoute
+        exact
+        path={`/app/sites/${site.get('id')}/details/site-maps/:id`}
+        component={props => <SiteMap site={site} {...props} />}
       />
       <PrivateRoute
         exact

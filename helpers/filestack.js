@@ -8,12 +8,12 @@ export const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
  *
  * see: https://www.filestack.com/docs/image-transformations/resize
  * @param {string} imageUrl
- * @param {Object} opts - accepted keys: 'width', 'height'
+ * @param {Object} opts - accepted keys: 'width', 'height', 'fit'
  *
  */
 export const resizedImageUrl = (imageUrl, opts = {}) => {
+  if (!opts.fit) { opts.fit = 'max' }
   const optionsString = Object.entries(opts).map((arr)=> `${arr[0]}:${arr[1]}`)
-  optionsString.push('fit:max')
 
   const param = `resize=${optionsString.join(',')}`
 

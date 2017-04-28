@@ -27,6 +27,12 @@ export const receiveSiteMaps = siteMaps => ({
   type: RECEIVE_SITE_MAPS,
   siteMaps,
 })
+//
+// export const receiveSiteMapWells = siteMaps => ({
+//   type: RECEIVE_SITE_MAP_WELLS,
+//   siteM
+//   siteMapWells,
+// })
 
 /*****************************************************************************
  * THUNK ACTION CREATORS
@@ -34,7 +40,7 @@ export const receiveSiteMaps = siteMaps => ({
 
  export const fetchSiteMap = (id) =>
    dispatch =>
-     API.get(`/sitemaps/${id}}`)
+     API.get(`/sitemaps/${id}`)
      .then(siteMap => dispatch(receiveSiteMap(siteMap)))
 
 
