@@ -3,7 +3,7 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 import {
   NavLink,
-  Switch 
+  Switch
 } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -20,6 +20,8 @@ import ListSchedules from './Sites/SiteDetails/Schedule/list'
 import NewSchedule from './Sites/SiteDetails/Schedule/new'
 import EditSchedule from './Sites/SiteDetails/Schedule/edit'
 import EditExecutiveSummaryForm from './Sites/SiteDetails/ExecutiveSummary/EditExecutiveSummaryForm'
+import LabDataUpload from './Sites/LabDataUpload'
+import FieldDataUpload from './Sites/FieldDataUpload'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 import EditWell from './Wells/EditWell'
 import NewWell from './Wells/NewWell'
@@ -279,6 +281,16 @@ class SiteApp extends React.Component {
                                 exact
                                 path={`/app/sites/${site.get('id')}/details/executive-summary`}
                                 component={props => <EditExecutiveSummaryForm site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/field-data-input`}
+                                component={props => <FieldDataUpload site={site} {...props} />}
+                            />
+                            <PrivateRoute
+                                exact
+                                path={`/app/sites/${site.get('id')}/details/lab-data-input`}
+                                component={props => <LabDataUpload site={site} {...props} />}
                             />
                             <PrivateRoute
                                 exact
