@@ -5,6 +5,9 @@ import {
 } from '../constants/RoleActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveRole = role => ({
     type: RECEIVE_ROLE,
@@ -15,6 +18,10 @@ export const receiveRoles = roles => ({
     type: RECEIVE_ROLES,
     roles,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchRole = id =>
     dispatch =>

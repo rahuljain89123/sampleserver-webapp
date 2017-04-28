@@ -14,6 +14,9 @@ import {
 } from '../constants/ContactActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveContact = contact => ({
     type: RECEIVE_CONTACT,
@@ -57,6 +60,10 @@ export const removeContact = id => ({
     type: REMOVE_CONTACT,
     id,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchContact = id =>
     dispatch =>

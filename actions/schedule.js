@@ -14,6 +14,9 @@ import {
 import API from '../API'
 import pickBy from 'lodash/pickBy'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveSchedule = schedule => ({
     type: RECEIVE_SCHEDULE,
@@ -52,6 +55,10 @@ export const setCreatingScheduleError = error => ({
 export const clearCreatingScheduleError = () => ({
     type: CLEAR_CREATING_SCHEDULE_ERROR,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const createSchedule = schedule =>
     dispatch => {

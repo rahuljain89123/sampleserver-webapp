@@ -3,6 +3,10 @@ import { RECEIVE_UPLOAD, RECEIVE_UPLOADS, REMOVE_UPLOAD } from '../constants/Upl
 import API from '../API'
 import { setPageErrors } from './global'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
+
 export const receiveUpload = upload => ({
     type: RECEIVE_UPLOAD,
     upload,
@@ -17,6 +21,10 @@ export const removeUpload = id => ({
     type: REMOVE_UPLOAD,
     id,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchUploads = () =>
     dispatch =>
@@ -33,8 +41,6 @@ export const createUpload = upload =>
             return Promise.resolve(json.id)
         })
         .catch(e => Promise.reject(e))
-
-
 
 export const patchUpload = (id, upload) =>
     dispatch => {

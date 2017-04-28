@@ -25,6 +25,10 @@ import {
 } from '../constants/UserActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
+
 export const receiveUser = user => ({
     type: RECEIVE_USER,
     user,
@@ -112,6 +116,10 @@ export const setResetError = () => ({
 export const clearResetError = () => ({
     type: CLEAR_RESET_ERROR,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchCurrentUser = () =>
     dispatch =>

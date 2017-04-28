@@ -14,6 +14,9 @@ import {
 } from '../constants/CompanyActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveCompany = company => ({
     type: RECEIVE_COMPANY,
@@ -57,6 +60,10 @@ export const removeCompany = id => ({
     type: REMOVE_COMPANY,
     id,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchCompany = id =>
     dispatch =>
@@ -128,4 +135,3 @@ export const editCompany = (id, company) =>
 export const deleteCompany = id =>
     dispatch => API.delete(`/companies/${id}`)
         .then(() => dispatch(removeCompany(id)))
-

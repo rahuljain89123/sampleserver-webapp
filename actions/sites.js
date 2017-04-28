@@ -13,6 +13,9 @@ import {
 } from '../constants/SiteActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveSite = site => ({
     type: RECEIVE_SITE,
@@ -51,6 +54,10 @@ export const setCreatingSiteError = error => ({
 export const clearCreatingSiteError = () => ({
     type: CLEAR_CREATING_SITE_ERROR,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const createSite = site =>
     dispatch => {
@@ -104,7 +111,7 @@ export const editSite = (id, site) =>
         })
         .catch(e => {
             dispatch(setEditingSite(false))
-            
+
             e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
                     return dispatch(setEditingSiteError(json.errors[0]))
