@@ -22,12 +22,14 @@ import {
 } from 'actions/global'
 
 import SiteMapImage from './SiteMapImage'
+import SiteMapWellForm from './SiteMapWellForm'
 
 class SiteMap extends React.Component {
   constructor (props) {
     super(props)
 
     this.addSiteMapWell = this.addSiteMapWell.bind(this)
+    this.createSiteMapWell = this.createSiteMapWell.bind(this)
   }
 
   componentDidMount () {
@@ -43,13 +45,16 @@ class SiteMap extends React.Component {
     const well = {
       xpos: evt.clientX - divOffsets.left,
       ypos: evt.clientY - divOffsets.top,
-      well_id: 2423,
       site_map_id: this.props.siteMapId,
     }
 
-    this.props.createSiteMapWell(well)
+    this.props.setAddingSiteMapWell(well)
   }
 
+  createSiteMapWell (wellParams) {
+    this.props.createSiteMapWell(wellParams)
+    .then(this.props.setAddingSiteMapWell(null))
+  }
 
   render () {
     const siteMap = this.props.siteMaps.get(this.props.siteMapId)
@@ -70,6 +75,7 @@ class SiteMap extends React.Component {
       <div className="site-map">
         <h2> {siteMap.get('title')} </h2>
         <div className='d-flex'>
+
           <SiteMapImage
             imageUrl={imageUrl}
             siteMapWells={siteMapWells}
@@ -77,6 +83,13 @@ class SiteMap extends React.Component {
           <ul className='well-names'>
             {wellNames}
           </ul>
+
+          { this.props.addingSiteMapWell &&
+            <SiteMapWellForm
+              initialValues={this.props.addingSiteMapWell}
+              onSubmit={this.createSiteMapWell}
+              wells={this.props.wells} />
+          }
         </div>
       </div>
     )

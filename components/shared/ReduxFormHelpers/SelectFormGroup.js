@@ -6,16 +6,18 @@ import {
   Label,
 } from 'reactstrap'
 
-const IndividualFormGroup = (field) => (
+const SelectFormGroup = (field) => (
   <FormGroup color={field.error ? 'danger' : ''}>
     <Label for={field.id}> {field.label} </Label>
     <Input
       { ...field.input}
-      type={field.type}
+      type='select'
       state={field.state}
-      id={field.id} />
+      id={field.id}>
+      {field.options}
+    </Input>
     <FormFeedback> {field.error} </FormFeedback>
   </FormGroup>
 )
 
-export default IndividualFormGroup
+export default SelectFormGroup
