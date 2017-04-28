@@ -28,9 +28,9 @@ class NewWell extends React.Component {
     wellParams = wellParams.set('site_id', siteId)
 
     this.props.createWell(wellParams)
-      .then((res) => {
-        this.props.flashMessage('success', 'Well created successfully', 'create')
-        this.props.push(`/app/sites/${siteId}/details/wells/${res}`)
+      .then((wellId) => {
+        this.props.flashMessage('success', 'Well created successfully')
+        this.props.push(`/app/sites/${siteId}/details/wells/${wellId}`)
       })
   }
 
@@ -63,8 +63,8 @@ const mapStateToProps = (store, props) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  flashMessage: (type, message, heading) =>
-    dispatch(flashMessage(type, message, heading)),
+  flashMessage: (type, message) =>
+    dispatch(flashMessage(type, message)),
 
   createWell: (wellParams) => dispatch(createWell(wellParams)),
 })

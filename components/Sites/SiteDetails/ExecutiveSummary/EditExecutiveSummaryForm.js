@@ -32,7 +32,7 @@ class EditExecutiveSummaryForm extends React.Component {
   }
 
   onSuccess (params) {
-    this.props.flashMessage('success', 'saved successfully', 'Saved')
+    this.props.flashMessage('success', 'Executive Summary saved')
   }
 
   render () {
@@ -101,7 +101,7 @@ const mapStateToProps = (store, props) => ({
 const mapDispatchToProps = (dispatch, props) => ({
   editSite: (id, site) => dispatch(editSite(id, site)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
-  flashMessage: (type, message, heading) => dispatch(flashMessage(type, message, heading)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 })
 
 EditExecutiveSummaryForm = connect(mapStateToProps, mapDispatchToProps)(EditExecutiveSummaryForm)

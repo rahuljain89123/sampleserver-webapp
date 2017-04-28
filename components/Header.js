@@ -86,7 +86,7 @@ class Header extends React.Component {
             <div className="navbar-container">
                 {flash ? (
                     <div className={"flash alert alert alert-" + flash.get('type') + " fade show"} role="alert">
-                        <span className="title">{flash.get('heading')}</span> {flash.get('message')}
+                        {flash.get('message')}
                     </div>
                 ) : ''}
                 <Navbar

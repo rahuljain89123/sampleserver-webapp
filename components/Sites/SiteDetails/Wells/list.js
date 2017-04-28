@@ -61,7 +61,7 @@ class Wells extends React.Component {
   render () {
     const uploads = this.props.uploads
     .entrySeq()
-
+    
     return (
       <div className="site-details-wells">
         <div className="d-flex flex-row justify-content-between">

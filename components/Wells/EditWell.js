@@ -45,7 +45,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Deleted Successfully',
-          'Deleted'
         )
       )
   }
@@ -56,7 +55,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Updated Successfully',
-          'Updated'
         )
       )
   }
@@ -68,7 +66,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Image Uploaded Successfully',
-          'Success'
         )
       )
   }
@@ -79,7 +76,6 @@ class EditWell extends React.Component {
         this.props.flashMessage(
           'success',
           'Well Image Deleted Successfully',
-          'Deleted'
         )
       )
   }
@@ -95,7 +91,7 @@ class EditWell extends React.Component {
     const well = this.props.wells.get(wellId)
     const wellImages = this.props.wellImages.get(wellId)
     if (!well) { return null }
-    
+
     return (
       <Row>
         <Col sm={6}>
@@ -137,8 +133,8 @@ const mapStateToProps = (store, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  flashMessage: (type, message, heading) =>
-    dispatch(flashMessage(type, message, heading)),
+  flashMessage: (type, message) =>
+    dispatch(flashMessage(type, message)),
 
   /* Well Dispatches */
   fetchWell: id => dispatch(fetchWell(id)),
