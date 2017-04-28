@@ -11,8 +11,8 @@ import {
   SET_EDITING_WELL_ERROR,
   CLEAR_EDITING_WELL_ERROR,
   REMOVE_WELL,
-} from '../constants/WellActionTypes'
-import API from '../API'
+} from 'constants/WellActionTypes'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS
@@ -75,9 +75,7 @@ export const fetchWell = id =>
 export const fetchWells = (filters = {}) =>
   dispatch =>
     API.get(`/wells/?${qs.stringify(filters)}`)
-    .then(wells => {
-      dispatch(receiveWells(wells))
-    })
+    .then(wells => dispatch(receiveWells(wells)))
 
 export const createWell = well =>
   dispatch => {
