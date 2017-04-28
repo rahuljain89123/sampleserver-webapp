@@ -34,7 +34,10 @@ class Wells extends React.Component {
 
   componentDidMount () {
     this.props.fetchUploads()
-    this.props.fetchWells({ site_id: this.props.site.get('id') })
+    this.props.fetchWells({
+      site_id: this.props.site.get('id'),
+      per_page: 50
+    })
   }
 
   onNewUpload () {
@@ -54,14 +57,17 @@ class Wells extends React.Component {
       site_id: this.props.site.get('id'),
       upload_type: 'well_data',
     }).then(() => {
-      this.props.fetchWells({ site_id: this.props.site.get('id') })
+      this.props.fetchWells({
+        site_id: this.props.site.get('id'),
+        per_page: 50
+      })
     })
   }
 
   render () {
     const uploads = this.props.uploads
     .entrySeq()
-    
+
     return (
       <div className="site-details-wells">
         <div className="d-flex flex-row justify-content-between">
