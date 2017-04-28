@@ -282,20 +282,25 @@ section {
     width: 100%;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.well-images {
+    .img {
+        display: inline-block;
+        margin-bottom: 20px;
+        a {
+            display: block;
+        }
+    }
+    .img-container {
+        position: relative;
+        display: inline-block;
+    }
+    .fa-times-circle-o {
+        position: absolute;
+        font-size: 48px;
+        top: -10px;
+        right: -10px;
+    }
+    .img-actions {
+        margin-top: 20px;
+    }
+}
