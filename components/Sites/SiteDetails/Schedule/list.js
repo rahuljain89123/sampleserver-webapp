@@ -2,6 +2,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import moment from 'moment'
+
 import {
     Button,
     Form,
@@ -49,7 +51,9 @@ class ListSchedules extends React.Component {
 
         if (this.props.schedules.size > 0 && this.props.site) {
             schedules = this.props.schedules.map((schedule) => {
-              return <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}> {schedule.get('date')} </Link>
+              return <li>
+                  <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}> {moment(schedule.get('date')).utc().format('YYYY-MM-DD')} </Link>
+              </li>
             })
         } else {
             schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`}>Create one</Link> </span>
