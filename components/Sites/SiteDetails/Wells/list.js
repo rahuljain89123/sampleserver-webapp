@@ -16,7 +16,10 @@ import { fetchSite } from '../../../../actions/sites'
 import { fetchWells } from '../../../../actions/wells'
 import { currentLab, currentCompany } from '../../../../normalizers'
 
-const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
+import {
+  FILESTACK_API_KEY,
+} from '../../../../helpers/filestack'
+
 const FILESTACK_OPTIONS = {
     accept: ['.csv', '.xls'],
     fromSources: ['local_file_system', 'dropbox'],
