@@ -5,12 +5,16 @@ import { connect } from 'react-redux'
 import filestack from 'filestack-js'
 import API from '../../API'
 
-const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
+import {
+  FILESTACK_API_KEY,
+  resizedImageUrl
+} from '../../helpers/filestack'
+
 const FILESTACK_OPTIONS = {
     accept: 'image/*',
     fromSources: ['local_file_system', 'dropbox'],
     transformOptions: {
-      maxDimensions: [640, 640]
+      maxDimensions: [1280, 1280]
     },
 }
 
@@ -45,13 +49,23 @@ class WellImages extends React.Component {
     this.props.onDelete(this.props.wellId, image.get('id'))
   }
 
+  resizedImageUrl (imageUrl) {
+    return resizedImageUrl(imageUrl, { width: 640, height: 640 })
+  }
+
   render () {
     let wellImages = null
     if (this.props.wellImages && this.props.wellImages.size > 0) {
       wellImages = this.props.wellImages.map((image) => (
         <div key={image.get('id')} className="img">
-            <img src={image.get('url_lg')} className="img-thumbnail" />
-            <a href='#' onClick={(e) => this.handleDelete(image, e)}>Delete</a>
+            <img
+              src={this.resizedImageUrl(image.get('url_lg'))}
+              className="img-thumbnail" />
+            <a
+              href='#'
+              onClick={(e) => this.handleDelete(image, e)}>
+              Delete
+            </a>
         </div>
       ))
     } else {

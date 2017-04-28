@@ -26,6 +26,12 @@ export const fetchWellImages = (wellId) =>
         dispatch(receiveWellImages(wellId, wellImages))
       )
 
+/**
+ *
+ * @param {integer} wellId
+ * @param {Object[]} wellImages - array of well images
+ * Uses $q library  to allow for multiple post requests
+ */
 export const uploadWellImages = (wellId, wellImages) =>
   dispatch => {
     const

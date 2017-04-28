@@ -6,8 +6,10 @@ import filestack from 'filestack-js'
 import { editUser, clearEditingUserError, fetchUser } from '../../actions/users'
 import { currentUser, safeGet } from '../../normalizers'
 
+import {
+  FILESTACK_API_KEY,
+} from '../../helpers/filestack'
 
-const FILESTACK_API_KEY = 'ATg3pguKNRI2jg6wRHiydz'
 const FILESTACK_OPTIONS = {
     accept: 'image/*',
     fromSources: ['local_file_system', 'dropbox'],
