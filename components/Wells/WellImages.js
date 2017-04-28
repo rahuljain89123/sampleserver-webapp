@@ -79,11 +79,11 @@ class WellImages extends React.Component {
           {wellImages}
         </div>
         <div className="img-actions">
-          <a
+          <button
             onClick={this.pickImage}
             className="btn btn-primary">
             <i className="fa fa-plus-square" aria-hidden="true"></i> Add Image
-          </a>
+          </button>
         </div>
       </div>
     )
