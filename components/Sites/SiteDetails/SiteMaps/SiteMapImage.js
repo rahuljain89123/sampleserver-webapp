@@ -17,28 +17,48 @@ class SiteMapImage extends React.Component {
   drawWells () {
     const ctx = this.canvasEl.getContext('2d')
     ctx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height)
-    ctx.strokeStyle='black'
 
-    this.props.siteMapWells.forEach((well) => { this.drawWell(well, ctx) })
+
+    this.props.siteMapWells.forEach((well) => { this.drawWellMarker(well, ctx) })
 
     if (this.props.addingSiteMapWell) {
-      ctx.strokeStyle='white'
-      this.drawWell(this.props.addingSiteMapWell, ctx)
+
+      this.drawWellMarker(this.props.addingSiteMapWell, ctx, 'white')
     }
   }
 
-  drawWell (well, ctx) {
+  drawWellMarker (well, ctx, color='black') {
     const x = well.get('xpos'),
-          y = well.get('ypos')
+          y = well.get('ypos'),
+          r = 10
 
+    // Draw top left of marker and fill it
+    ctx.strokeStyle = color
+    ctx.fillStyle = color
     ctx.beginPath()
-    ctx.moveTo(x - 10, y - 10)
-    ctx.lineTo(x + 10, y + 10)
-    ctx.stroke();
-
-    ctx.moveTo(x + 10, y - 10)
-    ctx.lineTo(x - 10, y + 10)
+    ctx.moveTo(x - r, y)
+    ctx.lineTo(x, y)
+    ctx.lineTo(x, y-r)
+    ctx.arc(x, y, r, 3*Math.PI/2, Math.PI, true)
     ctx.stroke()
+    ctx.closePath()
+    ctx.fill()
+
+    // Draw bottom right of marker and fill it
+    ctx.beginPath()
+    ctx.moveTo(x + r, y)
+    ctx.lineTo(x, y)
+    ctx.lineTo(x, y+r)
+    ctx.arc(x, y, r, Math.PI/2, 0, true)
+    ctx.stroke()
+    ctx.closePath()
+    ctx.fill()
+
+    // Draw remainder of the circle
+    ctx.beginPath()
+    ctx.arc(x, y, r, 0, 2 * Math.PI, false)
+    ctx.stroke()
+
     ctx.closePath()
   }
 

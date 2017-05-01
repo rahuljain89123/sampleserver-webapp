@@ -5,16 +5,24 @@ import {
     Button,
     Form,
 } from 'reactstrap'
-
 import {
   Field,
   reduxForm,
+  change,
 } from 'redux-form/immutable'
+
 import SelectFormGroup from 'components/shared/ReduxFormHelpers/SelectFormGroup'
+
+const FORM_NAME = 'siteMapWellForm'
 
 class SiteMapWellForm extends React.Component {
   constructor (props) {
     super(props)
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.props.dispatch(change(FORM_NAME, 'xpos', nextProps.initialValues.get('xpos')))
+    this.props.dispatch(change(FORM_NAME, 'ypos', nextProps.initialValues.get('ypos')))
   }
 
   render () {
@@ -48,4 +56,4 @@ class SiteMapWellForm extends React.Component {
 }
 
 
-export default reduxForm({form: 'siteMapWellForm'})(SiteMapWellForm)
+export default reduxForm({form: FORM_NAME})(SiteMapWellForm)
