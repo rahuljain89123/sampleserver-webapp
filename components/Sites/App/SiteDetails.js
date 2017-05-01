@@ -16,7 +16,8 @@ import EditWell from 'components/Wells/EditWell'
 import NewWell from 'components/Wells/NewWell'
 import SiteMapsList from 'components/Sites/SiteDetails/SiteMaps/SiteMapsList'
 import SiteMap from 'components/Sites/SiteDetails/SiteMaps/SiteMap'
-
+import LabDataUpload from 'components/Sites/LabDataUpload'
+import FieldDataUpload from 'components/Sites/FieldDataUpload'
 
 class SiteDetails extends React.Component {
   constructor (props) {
@@ -67,6 +68,16 @@ class SiteDetails extends React.Component {
           exact
           path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
           component={props => <EditSchedule site={site} {...props} />}
+      />
+      <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/field-data-input`}
+          component={props => <FieldDataUpload site={site} {...props} />}
+      />
+      <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/lab-data-input`}
+          component={props => <LabDataUpload site={site} {...props} />}
       />
       <PrivateRoute
         exact

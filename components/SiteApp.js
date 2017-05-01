@@ -253,7 +253,7 @@ class SiteApp extends React.Component {
                 <Col xs="10">
                     <div className="card">
                         <div className="card-block">
-                            <SiteDetails site={site} />
+                           <SiteDetails site={site} />
 
                             <PrivateRoute
                                 exact
