@@ -82,6 +82,7 @@ class FieldDataUpload extends React.Component {
     render () {
         const uploads = this.props.uploads
             .filter(upload => upload.get('company_id') === this.props.site.get('company_id'))
+            .filter(upload => upload.get('upload_type') === 'field_data')
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
@@ -110,8 +111,6 @@ class FieldDataUpload extends React.Component {
                             <th>Filename</th>
                             <th>Uploaded</th>
                             <th>Status</th>
-                            <th>Action</th>
-                            <th>&nbsp;</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,30 +122,7 @@ class FieldDataUpload extends React.Component {
                                     </a>
                                 </td>
                                 <td>{timeago().format(new Date(upload.get('created_at')))}</td>
-                                <td>{upload.get('sent') ? 'Sent' : 'New'}</td>
-                                <td>
-                                    {upload.get('sent') ? (
-                                        <Button
-                                            color="secondary"
-                                            size="sm"
-                                            onClick={() => this.onSend(upload)}
-                                        >Resend</Button>
-                                    ) : (
-                                        <Button
-                                            color="primary"
-                                            size="sm"
-                                            onClick={() => this.onSend(upload)}
-                                        >Send</Button>
-                                    )}
-                                </td>
-                                <td>
-                                    {!upload.get('sent') ? (
-                                        <i
-                                            className="fa fa-times pointer"
-                                            onClick={() => this.removeItem(upload)}
-                                        />
-                                    ) : null}
-                                </td>
+                                <td>Imported</td>
                             </tr>
                         ))}
                     </tbody>
