@@ -20,6 +20,13 @@ class SiteMapWellForm extends React.Component {
     super(props)
   }
 
+  componentWillMount () {
+    this.props.dispatch(change(
+      FORM_NAME,
+      'well_id', this.props.wells.first().get('id')
+    ))
+  }
+
   componentWillReceiveProps (nextProps) {
     this.props.dispatch(change(FORM_NAME, 'xpos', nextProps.initialValues.get('xpos')))
     this.props.dispatch(change(FORM_NAME, 'ypos', nextProps.initialValues.get('ypos')))
@@ -29,7 +36,7 @@ class SiteMapWellForm extends React.Component {
     const { handleSubmit } = this.props
 
     const selectOptions = this.props.wells.map((well) => (
-      <option value={well.get('id')}>{well.get('title')}</option>
+      <option key={well.get('id')} value={well.get('id')}>{well.get('title')}</option>
     ))
 
 

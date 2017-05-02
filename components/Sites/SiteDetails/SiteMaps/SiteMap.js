@@ -3,14 +3,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {
-  resizedImageUrl
-} from 'helpers/filestack'
-
-import {
   fetchSiteMap,
   fetchSiteMapWells,
   createSiteMapWell,
   setAddingSiteMapWell,
+  deleteSiteMapWell,
 } from 'actions/siteMaps'
 
 import {
@@ -56,6 +53,10 @@ class SiteMap extends React.Component {
     .then(this.props.setAddingSiteMapWell(null))
   }
 
+  deleteSiteMapWell (siteMapWellId) {
+    this.props.deleteSiteMapWell(siteMapWellId)
+  }
+
   render () {
     const siteMap = this.props.siteMaps.get(this.props.siteMapId)
     if (!siteMap) { return null }
@@ -65,21 +66,25 @@ class SiteMap extends React.Component {
       this.props.wells.get(smw.get('well_id'))
     ))
 
-    const wellNames = siteMapWells.map((smw) => {
+    const wellOptions = this.props.wells.valueSeq()
+
+    const wellNames = siteMapWells.valueSeq().map((smw) => {
       const well = this.props.wells.get(smw.get('well_id'))
-      return <li className='well'>{well.get('title')}</li>
+      return (
+        <li key={smw.get('id')} className='well'>
+          {well.get('title')}
+          <a href='#' onClick={(e) => this.props.deleteSiteMapWell(smw.get('id'))}> x </a>
+        </li>)
     })
 
-    const imageUrl = resizedImageUrl(siteMap.get('url'), { width: 640, height: 640, fit: 'scale' })
     return (
       <div className="site-map">
         <h2> {siteMap.get('title')} </h2>
         <div className='d-flex'>
 
           <SiteMapImage
-            imageUrl={imageUrl}
+            imageUrl={siteMap.get('url')}
             siteMapWells={siteMapWells}
-
             addingSiteMapWell={this.props.addingSiteMapWell}
             addSiteMapWell={this.addSiteMapWell} />
           <ul className='well-names'>
@@ -90,7 +95,7 @@ class SiteMap extends React.Component {
             <SiteMapWellForm
               initialValues={this.props.addingSiteMapWell}
               onSubmit={this.createSiteMapWell}
-              wells={this.props.wells} />
+              wells={wellOptions} />
           }
         </div>
       </div>
@@ -108,10 +113,14 @@ const mapStateToProps = (store, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, heading)),
+
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
+
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   setAddingSiteMapWell: (adding) => dispatch(setAddingSiteMapWell(adding)),
   createSiteMapWell: (siteMapWellParams) => dispatch(createSiteMapWell(siteMapWellParams)),
+  deleteSiteMapWell: (id) => dispatch(deleteSiteMapWell(id)),
+
   fetchWells: (filters) => dispatch(fetchWells(filters)),
 })
 

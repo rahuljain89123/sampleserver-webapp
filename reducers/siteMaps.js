@@ -14,6 +14,7 @@ import {
   RECEIVE_SITE_MAP_WELL,
   SET_ADDING_SITE_MAP_WELL,
   RECEIVE_SITE_MAP_WELLS,
+  REMOVE_SITE_MAP_WELL,
 } from 'constants/SiteMapActionTypes'
 
 export const siteMaps = (state = Immutable.Map(), action) => {
@@ -26,6 +27,8 @@ export const siteMaps = (state = Immutable.Map(), action) => {
       tempState = tempState.set(siteMap.id, Immutable.Map(siteMap))
     })
     return tempState
+  case REMOVE_SITE_MAP:
+    return state.delete(action.id)
   default:
     return state
   }
@@ -42,6 +45,8 @@ export const siteMapWells = (state = Immutable.Map(), action) => {
       tempState = tempState.set(siteMapWell.id, Immutable.Map(siteMapWell))
     })
     return tempState
+  case REMOVE_SITE_MAP_WELL:
+    return state.delete(action.id)
   default:
     return state
   }

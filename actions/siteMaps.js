@@ -15,6 +15,7 @@ import {
   RECEIVE_SITE_MAP_WELL,
   RECEIVE_SITE_MAP_WELLS,
   SET_ADDING_SITE_MAP_WELL,
+  REMOVE_SITE_MAP_WELL,
 } from 'constants/SiteMapActionTypes'
 
 /*****************************************************************************
@@ -31,6 +32,11 @@ export const receiveSiteMaps = siteMaps => ({
   siteMaps,
 })
 
+export const removeSiteMap = id => ({
+  type: REMOVE_SITE_MAP,
+  id,
+})
+
 export const receiveSiteMapWells = siteMapWells => ({
   type: RECEIVE_SITE_MAP_WELLS,
   siteMapWells,
@@ -44,6 +50,11 @@ export const receiveSiteMapWell = siteMapWell => ({
 export const setAddingSiteMapWell = adding => ({
   type: SET_ADDING_SITE_MAP_WELL,
   adding,
+});
+
+export const removeSiteMapWell = id => ({
+  type: REMOVE_SITE_MAP_WELL,
+  id,
 })
 
 /*****************************************************************************
@@ -73,6 +84,38 @@ export const createSiteMap = (siteMapParams) =>
       return Promise.reject()
     })
 
+export const editSiteMap = (id, siteMapParams) =>
+  dispatch => {
+    // dispatch(setEditingWell(true))
+
+    return API.patch(`/sitemaps/${id}`, siteMapParams)
+    .then(json => {
+      // dispatch(setEditingWell(false))
+      dispatch(receiveSiteMap(json))
+      return Promise.resolve(json.id)
+    })
+    .catch(e => {
+      // dispatch(setEditingWell(false))
+
+      // e.response.json().then(json => {
+      //   if (json.errors && json.errors.length) {
+      //     return dispatch(setEditingSiteMapError(json.errors[0]))
+      //   }
+      //
+      //   return dispatch(setEditingSiteMapError({
+      //     msg: 'Unable to update well.',
+      //   }))
+      // })
+      return Promise.reject()
+    })
+  }
+
+export const deleteSiteMap = (id) =>
+  dispatch =>
+    API.delete(`/sitemaps/${id}`)
+    .then(id => dispatch(removeSiteMap(id)))
+
+
 export const fetchSiteMapWells = (filters) =>
   dispatch =>
     API.get(`/sitemapwells/?${qs.stringify(filters)}`)
@@ -82,3 +125,8 @@ export const createSiteMapWell = (siteMapWellParams) =>
   dispatch =>
     API.post('/sitemapwells/', siteMapWellParams)
     .then(siteMapWell => dispatch(receiveSiteMapWell(siteMapWell)))
+
+export const deleteSiteMapWell = (id) =>
+  dispatch =>
+    API.delete(`/sitemapwells/${id}`)
+    .then(() => dispatch(removeSiteMapWell(id)))
