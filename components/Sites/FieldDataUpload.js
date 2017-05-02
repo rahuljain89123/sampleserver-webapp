@@ -87,7 +87,7 @@ class FieldDataUpload extends React.Component {
             .entrySeq()
 
         return (
-            <div className="lab-uploads">
+            <div className="field-data-uploads">
                 {this.state.error ? (
                     <div className="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" className="close" onClick={() => this.clearError()}>
@@ -105,28 +105,32 @@ class FieldDataUpload extends React.Component {
                         onClick={() => this.onNewUpload()}
                     >New Upload</Button>
                 </div>
-                <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
-                    <thead>
-                        <tr>
-                            <th>Filename</th>
-                            <th>Uploaded</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {uploads.map(([id, upload]) => (
-                            <tr key={id}>
-                                <td>
-                                    <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
-                                        {upload.get('filename')}
-                                    </a>
-                                </td>
-                                <td>{timeago().format(new Date(upload.get('created_at')))}</td>
-                                <td>Imported</td>
+                {uploads.size > 0 ? (
+                    <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Uploaded</th>
+                                <th>Status</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {uploads.map(([id, upload]) => (
+                                <tr key={id}>
+                                    <td>
+                                        <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
+                                            {upload.get('filename')}
+                                        </a>
+                                    </td>
+                                    <td>{timeago().format(new Date(upload.get('created_at')))}</td>
+                                    <td>Imported</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                ) : (
+                    <p>You haven't uploaded any field data yet. <a href="https://www.dropbox.com/s/6ee1iqfp6dt03zy/field_data_upload_example.csv?dl=1">Download Example</a></p>
+                )}
             </div>
         )
     }

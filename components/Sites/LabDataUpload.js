@@ -29,12 +29,14 @@ class LabDataUpload extends React.Component {
         this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
             sent: false,
-            error: false
+            error: false,
+            site: this.props.site,
         }
     }
 
     componentDidMount () {
         this.props.fetchUploads()
+        console.log(this.props.site.toObject())
     }
 
     onNewUpload () {
@@ -50,6 +52,7 @@ class LabDataUpload extends React.Component {
                 url: file.url,
                 lab_id: this.props.lab.get('id'),
                 company_id: this.props.site.get('company_id'),
+                site_id: this.props.site.get('id'),
                 upload_type: 'lab_data',
             }).catch(e => {
                 e.response.json().then(error => {
@@ -84,7 +87,7 @@ class LabDataUpload extends React.Component {
             .entrySeq()
 
         return (
-            <div className="lab-uploads">
+            <div className="lab-data-upload">
                 {this.state.error ? (
                     <div className="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" className="close" onClick={() => this.clearError()}>
@@ -102,28 +105,32 @@ class LabDataUpload extends React.Component {
                         onClick={() => this.onNewUpload()}
                     >New Upload</Button>
                 </div>
-                <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
-                    <thead>
-                        <tr>
-                            <th>Filename</th>
-                            <th>Uploaded</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {uploads.map(([id, upload]) => (
-                            <tr key={id}>
-                                <td>
-                                    <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
-                                        {upload.get('filename')}
-                                    </a>
-                                </td>
-                                <td>{timeago().format(new Date(upload.get('created_at')))}</td>
-                                <td>Imported</td>
+                {uploads.size > 0 ? (
+                    <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
+                        <thead>
+                            <tr>
+                                <th>Filename</th>
+                                <th>Uploaded</th>
+                                <th>Status</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {uploads.map(([id, upload]) => (
+                                <tr key={id}>
+                                    <td>
+                                        <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
+                                            {upload.get('filename')}
+                                        </a>
+                                    </td>
+                                    <td>{timeago().format(new Date(upload.get('created_at')))}</td>
+                                    <td>Imported</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                ) : (
+                    <p>You haven't uploaded any lab data yet. <a href="https://www.dropbox.com/s/xk1yhih8ma0ao4p/lab_data_upload_example.csv?dl=1">Download Example</a></p>
+                )}
             </div>
         )
     }

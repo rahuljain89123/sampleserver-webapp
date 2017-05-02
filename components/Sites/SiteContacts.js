@@ -2,6 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 import LinkButton from '../LinkButton'
 import { fetchContacts } from '../../actions/contacts'
@@ -28,32 +29,36 @@ class SiteContacts extends React.Component {
                         className="ml-auto"
                     >New Contact</LinkButton>
                 </div>
-                <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
-                    <thead>
-                        <tr>
-                            <th>Company</th>
-                            <th>Contact</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Type</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {contacts.map(([id, contact]) => (
-                            <tr
-                                key={id}
-                                className="pointer"
-                                onClick={() => { this.props.push(`/app/sites/${this.props.site.get('id')}/contacts/${id}`) }}
-                            >
-                                <td>{contact.get('title')}</td>
-                                <td>{contact.get('contact')}</td>
-                                <td>{contact.get('email')}</td>
-                                <td>{contact.get('phone')}</td>
-                                <td>{contact.get('type')}</td>
+                {contacts.size ? (
+                    <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
+                        <thead>
+                            <tr>
+                                <th>Company</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Type</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </Table>
+                        </thead>
+                        <tbody>
+                            {contacts.map(([id, contact]) => (
+                                <tr
+                                    key={id}
+                                    className="pointer"
+                                    onClick={() => { this.props.push(`/app/sites/${this.props.site.get('id')}/contacts/${id}`) }}
+                                >
+                                    <td>{contact.get('title')}</td>
+                                    <td>{contact.get('contact')}</td>
+                                    <td>{contact.get('email')}</td>
+                                    <td>{contact.get('phone')}</td>
+                                    <td>{contact.get('type')}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </Table>
+                ) : (
+                    <p>No contacts yet. <Link to={`/app/sites/${this.props.site.get('id')}/contacts/new`}>Add Contact</Link></p>
+                )}
             </div>
         )
     }
