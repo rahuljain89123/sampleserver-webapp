@@ -86,26 +86,13 @@ export const createSiteMap = (siteMapParams) =>
 
 export const editSiteMap = (id, siteMapParams) =>
   dispatch => {
-    // dispatch(setEditingWell(true))
 
     return API.patch(`/sitemaps/${id}`, siteMapParams)
     .then(json => {
-      // dispatch(setEditingWell(false))
       dispatch(receiveSiteMap(json))
       return Promise.resolve(json.id)
     })
     .catch(e => {
-      // dispatch(setEditingWell(false))
-
-      // e.response.json().then(json => {
-      //   if (json.errors && json.errors.length) {
-      //     return dispatch(setEditingSiteMapError(json.errors[0]))
-      //   }
-      //
-      //   return dispatch(setEditingSiteMapError({
-      //     msg: 'Unable to update well.',
-      //   }))
-      // })
       return Promise.reject()
     })
   }

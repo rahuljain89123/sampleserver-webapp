@@ -240,7 +240,7 @@ class SiteMapImage extends React.Component {
     }
 
     return (
-      <div>
+      <div className='site-map-image'>
         <a href='#' onClick={(e) => this.scaleBy(0.2)}>Zoom In</a>
         <a href='#' onClick={(e) => this.scaleBy(-0.2)}>Zoom Out</a>
         <div className='img-and-canvas-overlay' style={overlayStyles}>
