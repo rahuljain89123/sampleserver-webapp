@@ -13,18 +13,28 @@ class SiteMapImage extends React.Component {
         x: null,
         y: null,
       },
+
       x: 0,
       y: 0,
+
+      drag: null,
+
       scale: 1,
     }
 
     this.setImage = this.setImage.bind(this)
     this.drawCanvas = this.drawCanvas.bind(this)
     this.addSiteMapWell = this.addSiteMapWell.bind(this)
+    this.initDrag = this.initDrag.bind(this)
+    this.processDrag = this.processDrag.bind(this)
+    this.endDrag = this.endDrag.bind(this)
 
     this.componentDidUpdate = this.drawCanvas
   }
 
+  /**
+   * Loads the SiteMapImage from source and creates an ImageBitmap from it.
+   */
   componentDidMount () {
     const img = new Image()
     const setImage = this.setImage
@@ -32,6 +42,7 @@ class SiteMapImage extends React.Component {
     img.onload = function() {
       createImageBitmap(this).then(setImage)
     }
+
     img.src = this.props.imageUrl
   }
 
@@ -60,17 +71,21 @@ class SiteMapImage extends React.Component {
     return (canvasDim - imgDim * scale) / 2;
   }
 
+  /**
+   * TODO: CHECK THAT CANVAS CLICK IS INSIDE BOUNDS OF IMAGE
+   */
   addSiteMapWell (evt) {
+    const { x, y, centerVals: { x: centerX, y: centerY } } = this.state
     const divOffsets = evt.target.getBoundingClientRect()
 
-    const x = (evt.clientX - divOffsets.left) - this.state.x
-    const y = (evt.clientY - divOffsets.top)  - this.state.y
+    const xpos = (evt.clientX - divOffsets.left) - (x + centerX)
+    const ypos = (evt.clientY - divOffsets.top)  - (y + centerY)
 
-    this.props.addSiteMapWell(x, y)
+    this.props.addSiteMapWell(xpos, ypos)
   }
 
   scaleBy (increment) {
-    if (this.state.scale < 0.3) { return } //don't decrement scale below 0
+    if (this.state.scale < 0.3 && increment < 0) { return } //don't decrement scale below 0
     this.setState((prevState) => {
       const newScale = prevState.scale + increment
       return {
@@ -81,6 +96,48 @@ class SiteMapImage extends React.Component {
         }
       }
     })
+  }
+
+  initDrag (evt) {
+    const { screenX, screenY } = evt
+    const { x, y } = this.state
+    this.setState({
+      drag: {
+        startX: screenX,
+        startY: screenY,
+        posStartX: x,
+        posStartY: y,
+      }
+    })
+  }
+  processDrag (evt) {
+    const { screenX, screenY } = evt
+    if (!this.state.drag) { return } // Return if not dragging
+
+    this.setState({
+      x: (screenX - this.state.drag.startX) + this.state.drag.posStartX,
+      y: (screenY - this.state.drag.startY) + this.state.drag.posStartY,
+    })
+  }
+
+  endDrag (evt) {
+    const { screenX, screenY } = evt
+    const drag = null
+
+    if (Math.abs(this.state.drag.startX - screenX) < 10) {
+      this.addSiteMapWell(evt)
+      this.setState({ drag })
+    } else {
+      const newPosX = (screenX - this.state.drag.startX) + this.state.drag.posStartX
+      const newPosY = (screenY - this.state.drag.startY) + this.state.drag.posStartY
+
+      this.setState({
+        drag,
+        x: newPosX,
+        y: newPosY
+      })
+    }
+
   }
 
   drawCanvas () {
@@ -157,7 +214,9 @@ class SiteMapImage extends React.Component {
             height={CANVAS_HEIGHT}
             width={CANVAS_WIDTH}
             ref={(canvas) => {this.canvasEl = canvas}}
-            onClick={addSiteMapWell} />
+            onMouseDown={this.initDrag}
+            onMouseMove={this.processDrag}
+            onMouseUp={this.endDrag} />
 
         </div>
       </div>
