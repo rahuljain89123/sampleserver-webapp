@@ -71,21 +71,40 @@ class SiteMapImage extends React.Component {
     return (canvasDim - imgDim * scale) / 2;
   }
 
-  /**
-   * TODO: CHECK THAT CANVAS CLICK IS INSIDE BOUNDS OF IMAGE
-   */
   addSiteMapWell (evt) {
-    const { x, y, centerVals: { x: centerX, y: centerY } } = this.state
+    const {
+      x,
+      y,
+      img,
+      scale,
+      centerVals: {
+        x: centerX,
+        y: centerY
+      }
+    } = this.state
     const divOffsets = evt.target.getBoundingClientRect()
 
-    const xpos = (evt.clientX - divOffsets.left) - (x + centerX)
-    const ypos = (evt.clientY - divOffsets.top)  - (y + centerY)
+    const clickX = evt.clientX - divOffsets.left,
+          clickY = evt.clientY - divOffsets.top,
+          imgX   = x + centerX,
+          imgY   = y + centerY,
+          xpos   = clickX - imgX,
+          ypos   = clickY - imgY
+
+
+    // Check that click is within the bounds of the map
+    if ( clickX < imgX ||
+          clickX > (imgX + img.width * scale) ||
+          clickY < imgY ||
+          clickY > (imgY + img.height * scale)) {
+      return
+    }
 
     this.props.addSiteMapWell(xpos, ypos)
   }
 
   scaleBy (increment) {
-    if (this.state.scale < 0.3 && increment < 0) { return } //don't decrement scale below 0
+    if (this.state.scale + increment < 0.2) { return } //don't decrement scale below 0
     this.setState((prevState) => {
       const newScale = prevState.scale + increment
       return {
@@ -98,9 +117,17 @@ class SiteMapImage extends React.Component {
     })
   }
 
+  /**
+   * Begins the dragging event so the image can be moved around in the container
+   * Stores start position of the image and start position of the mouse in state.drag
+   */
   initDrag (evt) {
-    const { screenX, screenY } = evt
+    const { screenX, screenY, button } = evt
     const { x, y } = this.state
+
+    // Don't do anything if it's not a left click
+    if (button !== 0) { return }
+
     this.setState({
       drag: {
         startX: screenX,
@@ -110,6 +137,10 @@ class SiteMapImage extends React.Component {
       }
     })
   }
+
+  /**
+   * Moves the image as it is being dragged in the container
+   */
   processDrag (evt) {
     const { screenX, screenY } = evt
     if (!this.state.drag) { return } // Return if not dragging
@@ -123,11 +154,15 @@ class SiteMapImage extends React.Component {
   endDrag (evt) {
     const { screenX, screenY } = evt
     const drag = null
+    // Don't do anything if it's not a drag
+    if (!this.state.drag) { return }
 
+    // If they moved the mouse less than 10 pixels, fire a click event, clear the drag
     if (Math.abs(this.state.drag.startX - screenX) < 10) {
       this.addSiteMapWell(evt)
       this.setState({ drag })
     } else {
+      // Otherwise drag the image
       const newPosX = (screenX - this.state.drag.startX) + this.state.drag.posStartX
       const newPosY = (screenY - this.state.drag.startY) + this.state.drag.posStartY
 
