@@ -35,13 +35,10 @@ class SiteMap extends React.Component {
     this.props.fetchWells({ site_id: this.props.site.get('id') })
   }
 
-
-  addSiteMapWell (evt) {
-    const divOffsets = evt.target.getBoundingClientRect()
-
+  addSiteMapWell (xpos, ypos) {
     const well = {
-      xpos: evt.clientX - divOffsets.left,
-      ypos: evt.clientY - divOffsets.top,
+      xpos,
+      ypos,
       site_map_id: this.props.siteMapId,
     }
 
