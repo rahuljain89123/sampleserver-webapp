@@ -1,6 +1,6 @@
 import React from 'react'
 
-const CANVAS_HEIGHT = '800'
+const CANVAS_HEIGHT = '600'
 const CANVAS_WIDTH = '800'
 
 class SiteMapImage extends React.Component {
@@ -9,8 +9,12 @@ class SiteMapImage extends React.Component {
 
     this.state = {
       img: undefined,
-      x: null,
-      y: null,
+      centerVals: {
+        x: null,
+        y: null,
+      },
+      x: 0,
+      y: 0,
       scale: 1,
     }
 
@@ -39,8 +43,10 @@ class SiteMapImage extends React.Component {
   setImage(img) {
     this.setState({
       img,
-      x: this.centerVal(img.width, CANVAS_WIDTH),
-      y: this.centerVal(img.height, CANVAS_HEIGHT),
+      centerVals: {
+        x: this.centerVal(img.width, CANVAS_WIDTH),
+        y: this.centerVal(img.height, CANVAS_HEIGHT),
+      },
       scale: 1,
     })
   }
@@ -48,10 +54,10 @@ class SiteMapImage extends React.Component {
   /**
    * @param imgDim {Integer} length of image
    * @param canvasDim {Integer} total length of canvas
-   * @return the x or y coordinate such that the image will be centered in the canvas
+   * @return the x or y coordinate such that the image will be centered within the canvas
    */
-  centerVal (imgDim, canvasDim) {
-    return (canvasDim - imgDim) / 2;
+  centerVal (imgDim, canvasDim, scale = 1) {
+    return (canvasDim - imgDim * scale) / 2;
   }
 
   addSiteMapWell (evt) {
@@ -64,19 +70,27 @@ class SiteMapImage extends React.Component {
   }
 
   scaleBy (increment) {
-    this.setState((prevState) => ({
-      scale: prevState.scale + increment
-    }))
+    if (this.state.scale < 0.3) { return } //don't decrement scale below 0
+    this.setState((prevState) => {
+      const newScale = prevState.scale + increment
+      return {
+        scale: newScale,
+        centerVals: {
+          x: this.centerVal(prevState.img.width, CANVAS_WIDTH, newScale),
+          y: this.centerVal(prevState.img.height, CANVAS_HEIGHT, newScale),
+        }
+      }
+    })
   }
 
   drawCanvas () {
     const ctx = this.canvasEl.getContext('2d')
-    const { x, y, scale, img } = this.state
-    if (!x) { return } // break if the image hasn't been loaded yet.
+    const { x, y, scale, img, centerVals: { x: centerX, y: centerY } } = this.state
+    if (!img) { return } // break if the image hasn't been loaded yet.
 
     ctx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height)
 
-    ctx.drawImage(img, x, y, img.width * scale, img.height * scale)
+    ctx.drawImage(img, centerX + x, centerY + y, img.width * scale, img.height * scale)
     this.drawWells(ctx)
   }
 
@@ -90,9 +104,9 @@ class SiteMapImage extends React.Component {
   }
 
   drawWellMarker (well, ctx, color='black') {
-    const { x: imgX, y: imgY, scale } = this.state
-    const x = well.get('xpos') * scale + imgX,
-          y = well.get('ypos') * scale + imgY,
+    const { x: imgX, y: imgY, scale, centerVals: { x: centerX, y: centerY } } = this.state
+    const x = well.get('xpos') * scale + (centerX + imgX),
+          y = well.get('ypos') * scale + (centerY + imgY),
           r = 10
 
     // Draw top left of marker and fill it
