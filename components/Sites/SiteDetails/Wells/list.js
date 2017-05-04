@@ -68,6 +68,24 @@ class Wells extends React.Component {
     const uploads = this.props.uploads
     .entrySeq()
 
+    let wellsList = null
+
+    if (this.props.wells.size) {
+      wellsList = (
+        <div className="well-list">
+          {this.props.wells.map((well) => (
+            <div key={well.get('id')}>
+              <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                {well.get('title')}
+              </Link>
+            </div>
+          ))}
+        </div>
+      )
+    } else {
+      wellsList = <p>No wells found yet. To add many wells, you can bulk upload.</p>
+    }
+
     return (
       <div className="site-details-wells">
         <div className="d-flex flex-row justify-content-between">
@@ -76,23 +94,8 @@ class Wells extends React.Component {
             onClick={() => this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells/new`)}
             className='btn btn-default float-right'>New Well</Button>
         </div>
-        <div className="well-list">
-          {this.props.wells.size ? (
-            <div>{this.props.wells.map((well) => {
-              return <div key={well.get('id')}>
-                <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
-                  {well.get('title')}
-                </Link>
-              </div>
-              })}
-            </div>
-          ) : (
-            <p>No wells found yet. To add many wells, you can bulk upload.</p>
-          )}
-        </div>
-
+        {wellsList}
         <div className="bulk-upload">
-
           <div className="row justify-content-between">
             <div className="col-4">
               <h4>Bulk Upload</h4><a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1">Download Example</a>
