@@ -16,6 +16,7 @@ import EditWell from 'components/Wells/EditWell'
 import NewWell from 'components/Wells/NewWell'
 import SiteMapsList from 'components/Sites/SiteDetails/SiteMaps/SiteMapsList'
 import SiteMap from 'components/Sites/SiteDetails/SiteMaps/SiteMap'
+import SiteMapForm from 'components/Sites/SiteDetails/SiteMaps/SiteMapForm'
 import LabDataUpload from 'components/Sites/LabDataUpload'
 import FieldDataUpload from 'components/Sites/FieldDataUpload'
 
@@ -79,16 +80,26 @@ class SiteDetails extends React.Component {
           path={`/app/sites/${site.get('id')}/details/lab-data-input`}
           component={props => <LabDataUpload site={site} {...props} />}
       />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/site-maps/:id`}
-        component={props => <SiteMap site={site} {...props} />}
-      />
+      <Switch>
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/site-maps/new`}
+          component={props => <SiteMapForm site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/site-maps/:id`}
+          component={props => <SiteMap site={site} {...props} />}
+        />
+      </Switch>
       <PrivateRoute
         exact
         path={`/app/sites/${site.get('id')}/details/site-maps`}
         component={props => <SiteMapsList site={site} {...props} />}
       />
+
+
+
       <Switch>
         <PrivateRoute
             exact

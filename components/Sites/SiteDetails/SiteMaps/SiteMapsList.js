@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Button } from 'reactstrap'
+import LinkButton from 'components/LinkButton'
 import filestack from 'filestack-js'
 
 import {
@@ -40,22 +40,10 @@ class SiteMapsList extends React.Component {
       .then((res) => this.createSiteMap(res))
   }
 
-  createSiteMap (res) {
-    const file = res.filesUploaded[0]
-
-    const siteMapParams = {
-      site_id: this.props.site.get('id'),
-      title: file.filename,
-      url: file.url,
-    }
-
-    this.props.createSiteMap(siteMapParams)
-  }
-
   render () {
     let siteMaps = undefined
     if (this.props.siteMaps && this.props.siteMaps.size > 0) {
-      siteMaps = this.props.siteMaps.map((siteMap) => {
+      siteMaps = this.props.siteMaps.valueSeq().map((siteMap) => {
         return (<div key={siteMap.get('id')}>
           <Link
             to={`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMap.get('id')}`}>
@@ -71,11 +59,11 @@ class SiteMapsList extends React.Component {
       <div className="site-maps">
         <div className="d-flex flex-row justify-content-between">
           <h2>Site Maps</h2>
-          <Button
-            onClick={this.uploadSiteMap}
-            className='btn btn-default float-right'>
+          <LinkButton
+            className='btn btn-default float-right'
+            href={`/app/sites/${this.props.site.get('id')}/details/site-maps/new`}>
             New Site Map
-          </Button>
+          </LinkButton>
         </div>
 
         <div className="site-map-list">
@@ -92,7 +80,6 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
-  createSiteMap: siteMapParams => dispatch(createSiteMap(siteMapParams)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteMapsList)
