@@ -63,7 +63,11 @@ class SiteMap extends React.Component {
       this.props.wells.get(smw.get('well_id'))
     ))
 
-    const wellOptions = this.props.wells.valueSeq()
+    const markedWellIds = siteMapWells.map((smw) => (smw.get('well_id'))).valueSeq()
+
+    const unmarkedWells = this.props.wells
+      .filter((well) => (!markedWellIds.contains(well.get('id'))))
+      .valueSeq()
 
     const wellNames = siteMapWells.valueSeq().map((smw) => {
       const well = this.props.wells.get(smw.get('well_id'))
@@ -92,7 +96,7 @@ class SiteMap extends React.Component {
             <SiteMapWellForm
               initialValues={this.props.addingSiteMapWell}
               onSubmit={this.createSiteMapWell}
-              wells={wellOptions} />
+              wells={unmarkedWells} />
           }
         </div>
       </div>

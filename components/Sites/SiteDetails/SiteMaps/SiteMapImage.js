@@ -88,8 +88,8 @@ class SiteMapImage extends React.Component {
           clickY = evt.clientY - divOffsets.top,
           imgX   = x + centerX,
           imgY   = y + centerY,
-          xpos   = clickX - imgX,
-          ypos   = clickY - imgY
+          xpos   = (clickX - imgX)/scale,
+          ypos   = (clickY - imgY)/scale
 
 
     // Check that click is within the bounds of the map
@@ -190,7 +190,7 @@ class SiteMapImage extends React.Component {
     this.props.siteMapWells.forEach((well) => { this.drawWellMarker(well, ctx) })
 
     if (this.props.addingSiteMapWell) {
-      this.drawWellMarker(this.props.addingSiteMapWell, ctx, 'white')
+      this.drawWellMarker(this.props.addingSiteMapWell, ctx, 'red')
     }
 
   }
