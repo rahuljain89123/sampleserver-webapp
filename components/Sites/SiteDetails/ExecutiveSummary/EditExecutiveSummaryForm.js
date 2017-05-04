@@ -50,13 +50,6 @@ class EditExecutiveSummaryForm extends React.Component {
           <Form onSubmit={handleSubmit(this.submitForm.bind(this))}>
 
             <Field
-              props={{ error: errors.background, label: 'Background' }}
-              name="background"
-              id="background"
-              component={DraftJSFormGroup}
-            />
-
-            <Field
               props={{ error: errors.summary, label: 'Executive Summary' }}
               name="summary"
               id="summary"
@@ -67,6 +60,13 @@ class EditExecutiveSummaryForm extends React.Component {
               props={{ error: errors.history, label: 'History' }}
               name="history"
               id="history"
+              component={DraftJSFormGroup}
+            />
+
+            <Field
+              props={{ error: errors.background, label: 'Background' }}
+              name="background"
+              id="background"
               component={DraftJSFormGroup}
             />
 

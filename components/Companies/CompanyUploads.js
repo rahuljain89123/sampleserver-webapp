@@ -51,6 +51,7 @@ class CompanyUploads extends React.Component {
                 lab_id: this.props.lab.get('id'),
                 company_id: this.props.company.get('id'),
                 upload_type: 'lab_data',
+                dry_run: 'true',
             }).catch(e => {
                 e.response.json().then(error => {
                     console.log(error)

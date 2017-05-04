@@ -29,12 +29,14 @@ class LabDataUpload extends React.Component {
         this.client = filestack.init(FILESTACK_API_KEY)
         this.state = {
             sent: false,
-            error: false
+            error: false,
+            site: this.props.site,
         }
     }
 
     componentDidMount () {
         this.props.fetchUploads()
+        console.log(this.props.site.toObject())
     }
 
     onNewUpload () {
@@ -50,6 +52,7 @@ class LabDataUpload extends React.Component {
                 url: file.url,
                 lab_id: this.props.lab.get('id'),
                 company_id: this.props.site.get('company_id'),
+                site_id: this.props.site.get('id'),
                 upload_type: 'lab_data',
             }).catch(e => {
                 e.response.json().then(error => {
@@ -72,7 +75,7 @@ class LabDataUpload extends React.Component {
 
     clearError () {
         this.setState({
-            error: false
+            error: false,
         })
     }
 
@@ -83,25 +86,11 @@ class LabDataUpload extends React.Component {
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
-        return (
-            <div className="lab-uploads">
-                {this.state.error ? (
-                    <div className="alert alert-danger alert-dismissible fade show" role="alert">
-                        <button type="button" className="close" onClick={() => this.clearError()}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Upload Error</strong> {this.state.error}
-                    </div>
-                ): ''}
-                <div className="d-flex flex-row">
-                    <h4>Lab Data Upload</h4>
-                    <Button
-                        color="secondary"
-                        role="button"
-                        className="ml-auto"
-                        onClick={() => this.onNewUpload()}
-                    >New Upload</Button>
-                </div>
+        let uploadsTable = null
+        let errorDisplay = null
+
+        if (uploads.size) {
+            uploadsTable = (
                 <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                     <thead>
                         <tr>
@@ -124,6 +113,35 @@ class LabDataUpload extends React.Component {
                         ))}
                     </tbody>
                 </Table>
+            )
+        } else {
+            uploadsTable = <p>You have&apos;t uploaded any lab data yet. <a href="https://www.dropbox.com/s/xk1yhih8ma0ao4p/lab_data_upload_example.csv?dl=1">Download Example</a></p>
+        }
+
+        if (this.state.error) {
+            errorDisplay = (
+                <div className="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" className="close" onClick={() => this.clearError()}>
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Upload Error</strong> {this.state.error}
+                </div>
+            )
+        }
+
+        return (
+            <div className="lab-data-uploads">
+                {errorDisplay}
+                <div className="d-flex flex-row">
+                    <h4>Lab Data Upload</h4>
+                    <Button
+                        color="secondary"
+                        role="button"
+                        className="ml-auto"
+                        onClick={() => this.onNewUpload()}
+                    >New Upload</Button>
+                </div>
+                {uploadsTable}
             </div>
         )
     }
