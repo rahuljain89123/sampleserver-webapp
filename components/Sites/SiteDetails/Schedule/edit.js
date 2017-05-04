@@ -16,9 +16,16 @@ import {
     fetchSchedule,
     clearCreatingScheduleError,
 } from '../../../../actions/schedule'
+import {
+    fetchScheduleWellTests,
+    createScheduleWellTest,
+    editScheduleWellTest,
+    deleteScheduleWellTest,
+} from '../../../../actions/scheduleWellTests'
 import { msgFromError } from '../../../../util'
 import { fetchWells } from '../../../../actions/wells'
 import { fetchTests } from '../../../../actions/tests'
+import includes from 'lodash/includes'
 
 
 class WellRow extends React.Component {
@@ -57,15 +64,16 @@ class EditSchedule extends React.Component {
         this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
             console.log(this.props.schedules)
         })
+        this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId }).then(() => {
+            console.log(this.props.scheduleWellTests.toObject())
+        })
     }
 
     onChange (e) {
-        console.log(e.target.value)
         this.setState({
             test: e.target.value,
         })
     }
-
 
     addTest (e) {
         this.props.editSchedule(this.state.scheduleId, {
@@ -76,65 +84,135 @@ class EditSchedule extends React.Component {
         })
     }
 
-    deleteTest (e, test_id) {
-        console.log(test_id)
-
+    deleteTest (e, testId) {
         this.props.editSchedule(this.state.scheduleId, {
             tests: {
                 add: [],
-                remove: [test_id],
+                remove: [testId],
             },
         })
+    }
+
+    toggleTest (e, testId, wellId, scheduleId) {
+        if (e.target.checked) {
+            // Checked, enable the test!
+            this.props.createScheduleWellTest({
+                test_id: testId,
+                well_id: wellId,
+                schedule_id: scheduleId,
+            })
+        } else {
+            const mycheck = this.props.scheduleWellTests
+                .filter(schedulewelltest => schedulewelltest.get('well_id') === wellId)
+                .filter(schedulewelltest => schedulewelltest.get('test_id') === testId)
+                .first()
+            this.props.deleteScheduleWellTest(mycheck.get('id'))
+        }
+    }
+
+    toggleGuagedWell (e, wellId) {
+        if (e.target.checked) {
+            this.props.editSchedule(this.state.scheduleId, {
+                gauged_wells: {
+                    add: [wellId],
+                    remove: [],
+                },
+            })
+        } else {
+            this.props.editSchedule(this.state.scheduleId, {
+                gauged_wells: {
+                    add: [],
+                    remove: [wellId],
+                },
+            })
+        }
+    }
+
+    isChecked (testId, wellId, scheduleId) {
+        if (this.props.scheduleWellTests.size) {
+            const mycheck = this.props.scheduleWellTests
+                .filter(schedulewelltest => schedulewelltest.get('well_id') === wellId)
+                .filter(schedulewelltest => schedulewelltest.get('test_id') === testId)
+                .first()
+            if (mycheck) {
+                return true
+            }
+        }
+        return false
+    }
+
+    toGuage (wellId) {
+        if (this.props.schedules.size) {
+            const schedule = this.props.schedules.get(this.state.scheduleId)
+            if (includes(schedule.get('gauged_well_ids'), wellId)) {
+                return true
+            }
+        }
+        return false
     }
 
     render () {
         if (this.props.wells && this.props.site && this.props.schedules.size > 0 && this.props.tests.size > 0) {
             const schedule = this.props.schedules.get(this.state.scheduleId)
 
-            return <div className="sample-schedule">
-                <h2>Edit Schedule</h2>
+            return (
+                <div className="sample-schedule">
+                    <h2>Edit Schedule</h2>
 
-                <select name="tests" onChange={(e) => this.onChange(e)}>
-                {this.props.tests.map((test) => {
-                    return <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
-                })}
-                </select>
+                    <select name="tests" onChange={e => this.onChange(e)}>
+                        {this.props.tests.map(test => (
+                            <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
+                        ))}
+                    </select>
 
-                <button className="btn btn-primary" onClick={(e) => this.addTest(e)}>Add Test</button>
-                <table className="table table-striped">
-                    <thead>
-                        <td>&nbsp;</td>
-                        <td>Uncheck All</td>
-                        <td>Gauge Only - Do Not Sample</td>
-                        {schedule.get('test_ids').map((test_id) => {
-                            return <td key={test_id}>
-                                {this.props.tests.get(test_id).get('title')}
-                                <i
-                                    className="fa fa-times pointer"
-                                    onClick={(e) => this.deleteTest(e, test_id)}
-                                />
-                            </td>
-                        })}
-                    </thead>
-                    <tbody>
-                        {this.props.wells.map((well) => {
-                          return <tr key={well.get('id')}>
-                            <td>{well.get('title')}</td>
-                            <td><input type="checkbox"/></td>
-                            <td><input type="checkbox"/></td>
-                            {schedule.get('test_ids').map((test_id) => {
-                                return <td key={test_id}><input type="checkbox"/></td>
-                            })}
-                          </tr>
-                        })}
-                    </tbody>
-                </table>
-            </div>
-        } else {
-            return <div className="sample-schedule">
-                <h2>Edit Schedule</h2>
-            </div>
+                    <button className="btn btn-primary" onClick={e => this.addTest(e)}>Add Test</button>
+                    <table className="table table-striped">
+                        <thead>
+                            <td>&nbsp;</td>
+                            <td>Gauge Only</td>
+                            {schedule.get('test_ids').map(testId => (
+                                <td key={testId}>
+                                    {this.props.tests.get(testId).get('title')}
+                                    <i
+                                        className="fa fa-times pointer"
+                                        onClick={e => this.deleteTest(e, testId)}
+                                    />
+                                </td>
+                            ))}
+                        </thead>
+                        <tbody>
+                            {this.props.wells.map(well => (
+                                <tr key={well.get('id')}>
+                                    <td>{well.get('title')}</td>
+                                    <td>
+                                        <input
+                                            type="checkbox"
+                                            className="gauge-only"
+                                            onClick={e => this.toggleGuagedWell(e, well.get('id'))}
+                                            checked={this.toGuage(well.get('id'))}
+                                        />
+                                    </td>
+                                    {schedule.get('test_ids').map(testId => (
+                                        <td key={testId}>
+                                            <input
+                                                type="checkbox"
+                                                onChange={e => this.toggleTest(e, testId, well.get('id'), schedule.get('id'))}
+                                                checked={this.isChecked(testId, well.get('id'), schedule.get('id'))}
+                                            />
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )
         }
+        return (
+            <div className="sample-schedule">
+                <h2>Edit Schedule</h2>
+            </div>
+        )
     }
 }
 
@@ -142,6 +220,7 @@ const mapStateToProps = store => ({
     wells: store.get('wells'),
     tests: store.get('tests'),
     schedules: store.get('schedules'),
+    scheduleWellTests: store.get('scheduleWellTests'),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -149,6 +228,10 @@ const mapDispatchToProps = dispatch => ({
     fetchTests: filters => dispatch(fetchTests(filters)),
     fetchSchedule: filters => dispatch(fetchSchedule(filters)),
     editSchedule: (id, schedule) => dispatch(editSchedule(id, schedule)),
+    fetchScheduleWellTests: filters => dispatch(fetchScheduleWellTests(filters)),
+    createScheduleWellTest: schedulewelltest => dispatch(createScheduleWellTest(schedulewelltest)),
+    editScheduleWellTest: (id, schedulewelltest) => dispatch(editScheduleWellTest(id, schedulewelltest)),
+    deleteScheduleWellTest: id => dispatch(deleteScheduleWellTest(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSchedule)
