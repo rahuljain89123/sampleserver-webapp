@@ -87,6 +87,7 @@ class FieldDataUpload extends React.Component {
             .entrySeq()
 
         let uploadsTable = null
+        let errorDisplay = null
 
         if (uploads.size) {
             uploadsTable = (
@@ -114,10 +115,9 @@ class FieldDataUpload extends React.Component {
                 </Table>
             )
         } else {
-            uploadsTable = <p>You haven't uploaded any field data yet. <a href="https://www.dropbox.com/s/6ee1iqfp6dt03zy/field_data_upload_example.csv?dl=1">Download Example</a></p>
+            uploadsTable = <p>You haven&apos;t uploaded any field data yet. <a href="https://www.dropbox.com/s/6ee1iqfp6dt03zy/field_data_upload_example.csv?dl=1">Download Example</a></p>
         }
 
-        let errorDisplay = null
 
         if (this.state.error) {
             errorDisplay = (

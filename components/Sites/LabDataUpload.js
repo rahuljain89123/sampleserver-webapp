@@ -87,6 +87,7 @@ class LabDataUpload extends React.Component {
             .entrySeq()
 
         let uploadsTable = null
+        let errorDisplay = null
 
         if (uploads.size) {
             uploadsTable = (
@@ -116,8 +117,6 @@ class LabDataUpload extends React.Component {
         } else {
             uploadsTable = <p>You have&apos;t uploaded any lab data yet. <a href="https://www.dropbox.com/s/xk1yhih8ma0ao4p/lab_data_upload_example.csv?dl=1">Download Example</a></p>
         }
-
-        let errorDisplay = null
 
         if (this.state.error) {
             errorDisplay = (
