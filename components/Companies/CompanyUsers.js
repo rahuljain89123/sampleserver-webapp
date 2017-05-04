@@ -24,7 +24,7 @@ import {
 } from 'reactstrap'
 
 import { fetchCompany } from '../../actions/companies'
-import { createUser, fetchUsers } from '../../actions/users'
+import { createUser, fetchUsers, editUser } from '../../actions/users'
 import { currentUserRole } from '../../normalizers'
 
 
@@ -32,12 +32,16 @@ class CompanyUsers extends React.Component {
     constructor (props) {
         super(props)
 
-        const companyId = parseInt(props.match.params.id, 10)
+        // if (props.match) {
+        //     const companyId = parseInt(props.match.params.id, 10)
+        // } else {
+        // }
+        const companyId = this.props.currentCompany.get('id')
         const company = props.companies.get(companyId)
 
         const roles = props.roles
             .filter(role => role.get('id') === 4 || role.get('id') === 5)
-            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
+            .filter(role => role.get('id') >= this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const activeRole = roles.size ? roles.first().get('id') : 100
@@ -77,7 +81,7 @@ class CompanyUsers extends React.Component {
 
         const roles = nextProps.roles
             .filter(role => role.get('id') === 4 || role.get('id') === 5)
-            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
+            .filter(role => role.get('id') >= this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const currentRole = roles.size ? roles.get(this.state.activeRole) : null
@@ -153,6 +157,12 @@ class CompanyUsers extends React.Component {
         })
     }
 
+    toggleActive (user) {
+        this.props.editUser(user.get('id'), {
+            active: !user.get('active'),
+        })
+    }
+
     render () {
         const company = this.state.company
 
@@ -164,8 +174,9 @@ class CompanyUsers extends React.Component {
         const roles = this.state.roles.entrySeq()
         const currentRole = this.state.currentRole
 
-        return (
-            <div>
+        let adminBreadcrumb = null
+        if (currentRole.get('name') === 'LabAdmin' || currentRole.get('name') === 'LabAssociate') {
+            adminBreadcrumb = (
                 <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
                     <BreadcrumbItem
                         tag="a"
@@ -185,6 +196,12 @@ class CompanyUsers extends React.Component {
                         Manage Users
                     </BreadcrumbItem>
                 </Breadcrumb>
+            )
+        }
+
+        return (
+            <div>
+                {adminBreadcrumb}
                 <Nav tabs>
                     {roles.map(([id, role]) => (
                         <NavItem key={role.get('id')}>
@@ -250,9 +267,9 @@ class CompanyUsers extends React.Component {
                                     <td>{user.get('name') || '-'}</td>
                                     <td>{user.get('email')}</td>
                                     <td>{user.get('active') ? (
-                                        <Badge color="success">Active</Badge>
+                                        <Badge color="success" onClick={() => this.toggleActive(user)}>Active</Badge>
                                     ) : (
-                                        <Badge>Pending</Badge>
+                                        <Badge onClick={() => this.toggleActive(user)}>Pending</Badge>
                                     )}</td>
                                 </tr>
                             ))}
@@ -297,6 +314,7 @@ const mapDispatchToProps = dispatch => ({
     fetchCompany: id => dispatch(fetchCompany(id)),
     fetchUsers: filters => dispatch(fetchUsers(filters)),
     createUser: user => dispatch(createUser(user)),
+    editUser: (id, user) => dispatch(editUser(id, user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUsers)

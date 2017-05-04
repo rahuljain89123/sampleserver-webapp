@@ -30,7 +30,7 @@ class LabUsers extends React.Component {
 
         const roles = props.roles
             .filter(role => role.get('id') === 2 || role.get('id') === 3)
-            .filter(role => role.get('id') > this.props.currentUserRole.get('id'))
+            .filter(role => role.get('id') >= this.props.currentUserRole.get('id'))
             .sort((a, b) => a.get('id') - b.get('id'))
 
         const activeRole = roles.size ? roles.first().get('id') : 100
