@@ -9,6 +9,7 @@ import {
     Label,
     Input,
 } from 'reactstrap'
+import STATES from 'helpers/states'
 
 import { editSite, clearEditingSiteError } from '../../actions/sites'
 import { msgFromError } from '../../util'
@@ -26,7 +27,7 @@ class EditSiteForm extends React.Component {
             notes: props.site.get('notes', ''),
             address: props.site.get('address', ''),
             city: props.site.get('city', ''),
-            state: props.site.get('state', ''),
+            state_id: props.site.get('state_id', ''),
             zip: props.site.get('zip', ''),
             county: props.site.get('county', ''),
             latitude: props.site.get('latitude', ''),
@@ -64,7 +65,7 @@ class EditSiteForm extends React.Component {
             notes: this.state.notes,
             address: this.state.address,
             city: this.state.city,
-            state: this.state.state,
+            state_id: this.state.state_id,
             zip: this.state.zip,
             county: this.state.county,
             latitude: this.state.latitude,
@@ -164,15 +165,20 @@ class EditSiteForm extends React.Component {
                     />
                     <FormFeedback>{errors.city}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={errors.state ? 'danger' : ''}>
-                    <Label for="state">State</Label>
+                <FormGroup color={errors.state_id ? 'danger' : ''}>
+                    <Label for="state_id">State</Label>
                     <Input
-                        state={errors.state ? 'danger' : ''}
-                        name="state"
-                        id="state"
-                        value={this.state.state}
-                        onChange={e => this.onChange(e)}
-                    />
+                        state={errors.state_id ? 'danger' : ''}
+                        name="state_id"
+                        id="state_id"
+                        value={this.state.state_id}
+                        type="select"
+                        onChange={e => this.onChange(e)}>
+                        <option> Choose a state... </option>
+                        {STATES.map((state) => (
+                            <option key={state.state_id} value={state.state_id}>{state.title}</option>)
+                        )}
+                    </Input>
                     <FormFeedback>{errors.state}</FormFeedback>
                 </FormGroup>
                 <FormGroup color={errors.zip ? 'danger' : ''}>

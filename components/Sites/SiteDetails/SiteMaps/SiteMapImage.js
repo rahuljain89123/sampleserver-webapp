@@ -199,7 +199,8 @@ class SiteMapImage extends React.Component {
     const { x: imgX, y: imgY, scale, centerVals: { x: centerX, y: centerY } } = this.state
     const x = well.get('xpos') * scale + (centerX + imgX),
           y = well.get('ypos') * scale + (centerY + imgY),
-          r = 10
+          r = 7 * scale,
+          fontSize = 12 * scale
 
     // Draw top left of marker and fill it
     ctx.strokeStyle = color
@@ -230,7 +231,7 @@ class SiteMapImage extends React.Component {
     ctx.closePath()
 
     if(well.get('well_id')) {
-      ctx.font = '20px Arial'
+      ctx.font = `${fontSize}px Arial`
       const wellTitle = this.props.wells.get(well.get('well_id')).get('title')
       ctx.fillText(wellTitle, x + r, y - r)
     }
