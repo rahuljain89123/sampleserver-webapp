@@ -401,6 +401,13 @@ section {
             display: block;
         }
     }
+    .app-logo {
+        position: absolute;
+        bottom: 30px;
+        left: 30px;
+        width: 39px;
+    }
+    position: relative;
     width: 270px;
     flex: 0 0 270px;
     height: 100%;
