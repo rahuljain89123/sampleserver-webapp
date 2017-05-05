@@ -3,7 +3,6 @@ import React from 'react'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import {
-  Table,
   TabContent,
   TabPane,
   Nav,
@@ -11,14 +10,10 @@ import {
   NavLink,
   Row,
   Col,
-  Button,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupButton,
-  Badge,
 } from 'reactstrap'
+
+import UsersTable from './UsersTable'
+import UserForm from './UserForm'
 
 import { createUser, fetchUsers } from 'actions/users'
 import { currentUserRole } from 'normalizers'
@@ -28,10 +23,9 @@ class LabUsers extends React.Component {
   constructor (props) {
     super(props)
     const roles = props.roles
+    this.onSubmit = this.onSubmit.bind(this)
 
     const activeRole = roles.size ? roles.first().get('id') : 100
-    // const currentRole = roles.size ? roles.get(activeRole) : null
-
     this.state = {
       activeRole,
     }
@@ -41,11 +35,9 @@ class LabUsers extends React.Component {
     this.props.fetchUsers({ lab_id: this.props.lab.get('id') })
   }
 
-  onToggle (tab) {
-    // const currentRole = this.props.roles.size ? this.props.roles.get(tab) : null
-
+  onToggle (activeRole) {
     this.setState({
-      activeRole: tab,
+      activeRole,
     })
   }
 
@@ -55,11 +47,10 @@ class LabUsers extends React.Component {
     })
   }
 
-  onSubmit (e) {
-    e.preventDefault()
+  onSubmit (userParams) {
 
     const user = {
-      email: this.state.email,
+      email: userParams.get('email'),
       lab_id: this.props.lab.get('id'),
       role_id: this.state.activeRole,
     }
@@ -75,7 +66,9 @@ class LabUsers extends React.Component {
     const { activeRole } = this.state
     const currentRole = this.props.roles.size ? this.props.roles.get(activeRole) : null
 
-    const users = this.props.users.filter(user => user.get('role_id') === activeRole).entrySeq()
+    const users = this.props.users
+      .filter(user => user.get('role_id') === activeRole)
+      .entrySeq()
     const roles = this.props.roles.entrySeq()
 
     return (
@@ -118,52 +111,12 @@ class LabUsers extends React.Component {
             </Row>
           </TabPane>
         </TabContent>
-        {!!users.size && (
-          <Table size="sm" style={{ marginBottom: 60 }}>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map(([id, user]) => (
-                <tr key={id}>
-                  <td>{user.get('name') || '-'}</td>
-                  <td>{user.get('email')}</td>
-                  <td>{user.get('active') ? (
-                    <Badge color="success">Active</Badge>
-                  ) : (
-                    <Badge>Pending</Badge>
-                  )}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        )}
+        <UsersTable users={users} />
         <Row>
           {!!currentRole && (
-            <Col sm="6">
-              <h6>Add {currentRole.get('description')}</h6>
-              <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup>
-                  <InputGroup>
-                    <Input
-                      name="email"
-                      placeholder="name@example.com"
-                      value={this.state.email}
-                      onChange={e => this.onChange(e)}
-                    />
-                    <InputGroupButton>
-                      <Button color="primary" className="pointer">
-                        Invite
-                      </Button>
-                    </InputGroupButton>
-                  </InputGroup>
-                </FormGroup>
-              </Form>
-            </Col>
+            <UserForm
+              currentRole={currentRole}
+              onSubmit={this.onSubmit} />
           )}
         </Row>
       </div>
