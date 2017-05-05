@@ -7,37 +7,12 @@ import filestack from 'filestack-js'
 
 import {
   fetchSiteMaps,
-  createSiteMap,
 } from 'actions/siteMaps'
 
-import {
-  FILESTACK_API_KEY,
-} from 'helpers/filestack'
-
-const FILESTACK_OPTIONS = {
-    accept: 'image/*',
-    fromSources: ['local_file_system', 'dropbox'],
-    transformOptions: {
-      maxDimensions: [1280, 1280]
-    },
-}
-
 class SiteMapsList extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.uploadSiteMap = this.uploadSiteMap.bind(this)
-    this.client = filestack.init(FILESTACK_API_KEY)
-  }
-
+  
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
-  }
-
-  uploadSiteMap () {
-    this.client
-      .pick(FILESTACK_OPTIONS)
-      .then((res) => this.createSiteMap(res))
   }
 
   render () {

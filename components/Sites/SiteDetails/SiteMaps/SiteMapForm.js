@@ -15,11 +15,6 @@ import {
 import IndividualFormGroup from 'components/shared/ReduxFormHelpers/IndividualFormGroup'
 
 import {
-  createSiteMap,
-} from 'actions/siteMaps'
-
-
-import {
   FILESTACK_API_KEY,
 } from 'helpers/filestack'
 
@@ -29,14 +24,13 @@ const FILESTACK_OPTIONS = {
     maxFiles: 1,
 }
 
-const FORM_NAME = 'sitemapform'
+export const FORM_NAME = 'sitemapform'
 
 class SiteMapForm extends React.Component {
   constructor (props) {
     super(props)
 
     this.client = filestack.init(FILESTACK_API_KEY)
-    this.createSiteMap = this.createSiteMap.bind(this)
     this.pickImage = this.pickImage.bind(this)
   }
 
@@ -46,6 +40,9 @@ class SiteMapForm extends React.Component {
       .then((res) => this.handleUpload(res))
   }
 
+  /**
+   * When user uploads an image, add the url to the form values
+   */
   handleUpload (files) {
     const url = files.filesUploaded[0].url
     this.props.dispatch(change(
@@ -55,23 +52,22 @@ class SiteMapForm extends React.Component {
     ))
   }
 
-  createSiteMap (siteMapParams) {
-    siteMapParams = siteMapParams.set('site_id', this.props.site.get('id'))
-
-    this.props.createSiteMap(siteMapParams).then((siteMapId) => {
-      this.props.push(`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMapId}`)
-    })
-  }
-
   render () {
-    const { handleSubmit, url, title } = this.props
+    const {
+      handleSubmit,
+      url,
+      title,
+      onSubmit,
+      buttonText,
+    } = this.props
     const canSubmit = url && title
     let image = null
+
     if (url) {
       image = <img src={url} height='400'  />
     }
 
-    return (<Form onSubmit={handleSubmit(this.createSiteMap)}>
+    return (<Form onSubmit={handleSubmit(onSubmit)}>
       <Field
         name='title'
         id='title'
@@ -80,19 +76,19 @@ class SiteMapForm extends React.Component {
         type='text'
       />
       {image}
-      <div className="img-actions">
+      <div className="img-actions" style={{margin: '20px'}}>
         <a
           href='#'
           onClick={this.pickImage}
           className="btn btn-primary">
-          <i className="fa fa-plus-square" aria-hidden="true"></i> Add Image
+          <i className="fa fa-plus-square" aria-hidden="true"></i> Upload SiteMap
         </a>
       </div>
       <Button
           role="button"
           color="primary"
           disabled={!canSubmit}
-      >Create</Button>
+      >{buttonText}</Button>
     </Form>)
   }
 
@@ -105,8 +101,4 @@ const mapStateToProps = (state) => ({
   title: selector(state, 'title'),
 })
 
-const mapDispatchToProps = dispatch => ({
-  createSiteMap: siteMapParams => dispatch(createSiteMap(siteMapParams)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(SiteMapForm)
+export default connect(mapStateToProps)(SiteMapForm)
