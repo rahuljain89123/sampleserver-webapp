@@ -20,88 +20,88 @@ import SiteDetails from 'components/Sites/App/SiteDetails'
 import { fetchSite } from '../actions/sites'
 
 class SiteApp extends React.Component {
-    constructor (props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        const siteId = parseInt(props.match.params.id, 10)
+    const siteId = parseInt(props.match.params.id, 10)
 
-        this.state = {
-            siteId,
-        }
+    this.state = {
+      siteId,
     }
+  }
 
-    componentDidMount () {
-        if (!this.props.sites.get(this.state.siteId)) {
-            this.props.fetchSite(this.state.siteId)
-        }
+  componentDidMount () {
+    if (!this.props.sites.get(this.state.siteId)) {
+      this.props.fetchSite(this.state.siteId)
     }
+  }
 
-    render () {
-        const site = this.props.sites.get(this.state.siteId)
-        if (!site) { return null }
+  render () {
+    const site = this.props.sites.get(this.state.siteId)
+    if (!site) { return null }
 
-        return (
-            <Row>
-                <Col xs="2">
-                    <h4 style={{ marginLeft: 15 }}>{site.get('title')}</h4>
-                    <SiteNav site={site} />
-                </Col>
-                <Col xs="10">
-                    <div className="card">
-                        <div className="card-block">
-                           <SiteDetails site={site} />
+    return (
+      <Row>
+        <Col xs="2">
+          <h4 style={{ marginLeft: 15 }}>{site.get('title')}</h4>
+          <SiteNav site={site} />
+        </Col>
+        <Col xs="10">
+          <div className="card">
+            <div className="card-block">
+              <SiteDetails site={site} />
 
-                            <PrivateRoute
-                                exact
-                                path={`/app/sites/${site.get('id')}/downloads`}
-                                component={props => <SiteDownloads site={site} {...props} />}
-                            />
-                            <PrivateRoute
-                                exact
-                                path={`/app/sites/${site.get('id')}/users`}
-                                component={props => <ProjectSiteUsers site={site} {...props} />}
-                            />
-                            <PrivateRoute
-                                exact
-                                path={`/app/sites/${site.get('id')}/contacts`}
-                                component={props => <SiteContacts site={site} {...props} />}
-                            />
-                            <PrivateRoute
-                                exact
-                                path={`/app/sites/${site.get('id')}/contacts/new`}
-                                component={props => (
-                                    <NewSiteContact
-                                        site={site}
-                                        onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
-                                        {...props}
-                                    />
-                                )}
-                            />
-                            <PrivateRoute
-                                exact
-                                path={`/app/sites/${site.get('id')}/contacts/:id`}
-                                component={props => (
-                                    <EditSiteContact
-                                        site={site}
-                                        onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
-                                        {...props}
-                                    />
-                                )}
-                            />
-                        </div>
-                    </div>
-                </Col>
-            </Row>
-        )
-    }
+              <PrivateRoute
+                exact
+                path={`/app/sites/${site.get('id')}/downloads`}
+                component={props => <SiteDownloads site={site} {...props} />}
+              />
+              <PrivateRoute
+                exact
+                path={`/app/sites/${site.get('id')}/users`}
+                component={props => <ProjectSiteUsers site={site} {...props} />}
+              />
+              <PrivateRoute
+                exact
+                path={`/app/sites/${site.get('id')}/contacts`}
+                component={props => <SiteContacts site={site} {...props} />}
+              />
+              <PrivateRoute
+                exact
+                path={`/app/sites/${site.get('id')}/contacts/new`}
+                component={props => (
+                  <NewSiteContact
+                    site={site}
+                    onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
+                    {...props}
+                  />
+                )}
+              />
+              <PrivateRoute
+                exact
+                path={`/app/sites/${site.get('id')}/contacts/:id`}
+                component={props => (
+                  <EditSiteContact
+                    site={site}
+                    onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
+                    {...props}
+                  />
+                )}
+              />
+            </div>
+          </div>
+        </Col>
+      </Row>
+    )
+  }
 }
 
 const mapStateToProps = store => ({
-    sites: store.get('sites'),
+  sites: store.get('sites'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchSite: id => dispatch(fetchSite(id)),
+  fetchSite: id => dispatch(fetchSite(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteApp)

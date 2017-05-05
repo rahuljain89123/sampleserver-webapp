@@ -3,8 +3,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import {
-    Button,
-    Form,
+  Button,
+  Form,
 } from 'reactstrap'
 
 import { Field, reduxForm } from 'redux-form/immutable'
