@@ -16,20 +16,11 @@ import SelectFormGroup from 'components/shared/ReduxFormHelpers/SelectFormGroup'
 const FORM_NAME = 'siteMapWellForm'
 
 class SiteMapWellForm extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
-  componentWillMount () {
+  componentDidMount () {
     this.props.dispatch(change(
       FORM_NAME,
       'well_id', this.props.wells.first().get('id')
     ))
-  }
-
-  componentWillReceiveProps (nextProps) {
-    this.props.dispatch(change(FORM_NAME, 'xpos', nextProps.initialValues.get('xpos')))
-    this.props.dispatch(change(FORM_NAME, 'ypos', nextProps.initialValues.get('ypos')))
   }
 
   render () {
@@ -38,7 +29,6 @@ class SiteMapWellForm extends React.Component {
     const selectOptions = this.props.wells.map((well) => (
       <option key={well.get('id')} value={well.get('id')}>{well.get('title')}</option>
     ))
-
 
     return (
       <Form className="gray" onSubmit={handleSubmit(this.props.onSubmit)}>
@@ -57,10 +47,11 @@ class SiteMapWellForm extends React.Component {
         >Save</Button>
       </Form>
     )
-
   }
-
 }
 
-
-export default reduxForm({form: FORM_NAME})(SiteMapWellForm)
+export default reduxForm({
+  form: FORM_NAME,
+  enableReinitialize: true,
+  keepDirtyOnReinitialize: true
+})(SiteMapWellForm)

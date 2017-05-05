@@ -78,6 +78,15 @@ class SiteMap extends React.Component {
         </li>)
     })
 
+    let siteMapWellForm = null
+
+    if (this.props.addingSiteMapWell) {
+      siteMapWellForm = (<SiteMapWellForm
+        initialValues={this.props.addingSiteMapWell}
+        onSubmit={this.createSiteMapWell}
+        wells={unmarkedWells} />)
+    }
+
     return (
       <div className="site-map">
         <h2> {siteMap.get('title')} </h2>
@@ -92,12 +101,7 @@ class SiteMap extends React.Component {
             {wellNames}
           </ul>
 
-          { this.props.addingSiteMapWell &&
-            <SiteMapWellForm
-              initialValues={this.props.addingSiteMapWell}
-              onSubmit={this.createSiteMapWell}
-              wells={unmarkedWells} />
-          }
+          {siteMapWellForm}
         </div>
       </div>
     )
