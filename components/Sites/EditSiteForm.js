@@ -9,6 +9,7 @@ import {
     Label,
     Input,
 } from 'reactstrap'
+import STATES from 'helpers/states'
 
 import { editSite, clearEditingSiteError } from '../../actions/sites'
 import { msgFromError } from '../../util'
@@ -171,8 +172,13 @@ class EditSiteForm extends React.Component {
                         name="state"
                         id="state"
                         value={this.state.state}
-                        onChange={e => this.onChange(e)}
-                    />
+                        type="select"
+                        onChange={e => this.onChange(e)}>
+                        <option> Choose a state... </option>
+                        {STATES.map((state) => (
+                            <option key={state.state_id} value={state.state_id}>{state.title}</option>)
+                        )}
+                    </Input>
                     <FormFeedback>{errors.state}</FormFeedback>
                 </FormGroup>
                 <FormGroup color={errors.zip ? 'danger' : ''}>

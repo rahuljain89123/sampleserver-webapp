@@ -15,10 +15,11 @@ import {
     editSchedule,
     fetchSchedule,
     clearCreatingScheduleError,
-} from '../../../../actions/schedule'
-import { msgFromError } from '../../../../util'
-import { fetchWells } from '../../../../actions/wells'
-import { fetchTests } from '../../../../actions/tests'
+} from 'actions/schedule'
+import { fetchWells } from 'actions/wells'
+import { fetchTests } from 'actions/tests'
+
+import { msgFromError } from 'util'
 
 
 class WellRow extends React.Component {
@@ -42,9 +43,6 @@ class EditSchedule extends React.Component {
             scheduleId,
             test: 0,
         }
-    }
-
-    componentWillMount () {
     }
 
     componentDidMount () {
@@ -88,14 +86,17 @@ class EditSchedule extends React.Component {
     }
 
     render () {
-        if (this.props.wells && this.props.site && this.props.schedules.size > 0 && this.props.tests.size > 0) {
+        const site = this.props.site
+        const siteStateId = parseInt(site.get('state'))
+        const tests = this.props.tests.filter((test) => test.get('state_id') === siteStateId)
+        if (this.props.wells && this.props.site && this.props.schedules.size > 0 && tests.size > 0) {
             const schedule = this.props.schedules.get(this.state.scheduleId)
 
             return <div className="sample-schedule">
                 <h2>Edit Schedule</h2>
 
                 <select name="tests" onChange={(e) => this.onChange(e)}>
-                {this.props.tests.map((test) => {
+                {tests.map((test) => {
                     return <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
                 })}
                 </select>
