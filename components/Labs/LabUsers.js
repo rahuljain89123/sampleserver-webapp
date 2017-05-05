@@ -36,19 +36,10 @@ class LabUsers extends React.Component {
   }
 
   onToggle (activeRole) {
-    this.setState({
-      activeRole,
-    })
-  }
-
-  onChange (e) {
-    this.setState({
-      [e.target.name]: e.target.value,
-    })
+    this.setState({ activeRole })
   }
 
   onSubmit (userParams) {
-
     const user = {
       email: userParams.get('email'),
       lab_id: this.props.lab.get('id'),
@@ -56,10 +47,6 @@ class LabUsers extends React.Component {
     }
 
     this.props.createUser(user)
-
-    this.setState({
-      email: '',
-    })
   }
 
   render () {
@@ -113,11 +100,9 @@ class LabUsers extends React.Component {
         </TabContent>
         <UsersTable users={users} />
         <Row>
-          {!!currentRole && (
-            <UserForm
-              currentRole={currentRole}
-              onSubmit={this.onSubmit} />
-          )}
+          <UserForm
+            currentRole={currentRole}
+            onSubmit={this.onSubmit} />
         </Row>
       </div>
     )

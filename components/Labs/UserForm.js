@@ -14,6 +14,8 @@ import IndividualFormGroup from '../shared/ReduxFormHelpers/IndividualFormGroup'
 
 const UserForm = (props) => {
   const { currentRole, handleSubmit, onSubmit } = props
+  if (!currentRole) { return null }
+
   return (
     <Col sm="6">
       <h6>Add {currentRole.get('description')}</h6>
@@ -21,17 +23,22 @@ const UserForm = (props) => {
         <FormGroup>
           <InputGroup>
             <Field
-              name='title'
-              id='title'
-              component={Input}
+              name='email'
+              id='email'
+              component={(field) => (<Input
+                { ...field.input}
+                type={field.type}
+                state={field.state}
+                id={field.id} />)}
               type='text'
             />
+            <InputGroupButton>
+              <Button color="primary" className="pointer">
+                Invite
+              </Button>
+            </InputGroupButton>
           </InputGroup>
-          <InputGroupButton>
-            <Button color="primary" className="pointer">
-              Invite
-            </Button>
-          </InputGroupButton>
+
         </FormGroup>
       </Form>
     </Col>
