@@ -6,8 +6,6 @@ import {
   Label,
 } from 'reactstrap'
 
-import RichTextEditor from 'react-rte'
-
 const IndividualFormGroup = (field) => (
   <FormGroup color={field.error ? 'danger' : ''}>
     <Label for={field.id}> {field.label} </Label>

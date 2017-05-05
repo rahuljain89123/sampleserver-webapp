@@ -11,6 +11,9 @@ import {
 } from '../constants/ProjectActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveProject = project => ({
     type: RECEIVE_PROJECT,
@@ -49,6 +52,10 @@ export const setCreatingProjectError = error => ({
 export const clearCreatingProjectError = () => ({
     type: CLEAR_CREATING_PROJECT_ERROR,
 })
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchProject = id =>
     dispatch =>

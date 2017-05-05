@@ -14,7 +14,7 @@ import { reducer as form } from 'redux-form/immutable'
 
 import thunk from 'redux-thunk'
 
-import { RESET } from './constants/UserActionTypes'
+import { RESET } from 'constants/UserActionTypes'
 import {
     users,
     currentUser,
@@ -33,7 +33,7 @@ import {
 
     resetError,
     resetting,
-} from './reducers/users'
+} from 'reducers/users'
 import {
     labs,
     currentLabUrl,
@@ -41,67 +41,72 @@ import {
     creatingLabError,
     editingLab,
     editingLabError,
-} from './reducers/labs'
+} from 'reducers/labs'
 import {
     sites,
     creatingSite,
     creatingSiteError,
     editingSite,
     editingSiteError,
-} from './reducers/sites'
+} from 'reducers/sites'
+import {
+  siteMaps,
+  siteMapWells,
+  addingSiteMapWell,
+} from 'reducers/siteMaps'
 import {
     schedules,
     creatingSchedule,
     creatingScheduleError,
     editingSchedule,
     editingScheduleError,
-} from './reducers/schedules'
+} from 'reducers/schedules'
 import {
     projects,
     creatingProject,
     creatingProjectError,
     editingProject,
     editingProjectError,
-} from './reducers/projects'
+} from 'reducers/projects'
 import {
     companies,
     creatingCompany,
     creatingCompanyError,
     editingCompany,
     editingCompanyError,
-} from './reducers/companies'
+} from 'reducers/companies'
 import {
     contacts,
     creatingContact,
     creatingContactError,
     editingContact,
     editingContactError,
-} from './reducers/contacts'
+} from 'reducers/contacts'
 import {
     wells,
     creatingWell,
     creatingWellError,
     editingWell,
     editingWellError,
-} from './reducers/wells'
-import { wellImages } from './reducers/wellImages'
+} from 'reducers/wells'
+import { wellImages } from 'reducers/wellImages'
 
-import { roles } from './reducers/roles'
+import { roles } from 'reducers/roles'
 import {
     samples,
     editingSample,
     editingSampleError,
-} from './reducers/samples'
+} from 'reducers/samples'
+import { uploads } from 'reducers/uploads'
 import {
     tests,
     editingTest,
     editingTestError,
-} from './reducers/tests'
-import { uploads } from './reducers/uploads'
+} from 'reducers/tests'
 import {
   pageErrors,
   flash
-} from './reducers/global'
+} from 'reducers/global'
 
 const initialState = Immutable.Map({
     currentUser: JSON.parse(window.localStorage.getItem('currentUser')),
@@ -150,6 +155,10 @@ const appReducer = combineReducers({
     creatingSiteError,
     editingSite,
     editingSiteError,
+
+    siteMaps,
+    siteMapWells,
+    addingSiteMapWell,
 
     schedules,
     creatingSchedule,

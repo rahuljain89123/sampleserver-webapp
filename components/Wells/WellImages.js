@@ -3,12 +3,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import filestack from 'filestack-js'
-import API from '../../API'
+import API from 'API'
 
 import {
   FILESTACK_API_KEY,
   resizedImageUrl
-} from '../../helpers/filestack'
+} from 'helpers/filestack'
 
 const FILESTACK_OPTIONS = {
     accept: 'image/*',
@@ -29,9 +29,7 @@ class WellImages extends React.Component {
   pickImage () {
     this.client
       .pick(FILESTACK_OPTIONS)
-      .then((res) => {
-        this.handleUpload(res)
-      })
+      .then((res) => this.handleUpload(res))
   }
 
   handleUpload (res) {

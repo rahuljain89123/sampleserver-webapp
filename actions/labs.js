@@ -12,6 +12,9 @@ import {
 } from '../constants/LabActionTypes'
 import API from '../API'
 
+/*****************************************************************************
+ * ACTION CREATORS
+ *****************************************************************************/
 
 export const receiveLab = lab => ({
     type: RECEIVE_LAB,
@@ -27,6 +30,38 @@ export const setCurrentLabUrl = id => ({
     type: SET_CURRENT_LAB_URL,
     id,
 })
+
+export const setCreatingLab = creating => ({
+    type: SET_CREATING_LAB,
+    creating,
+})
+
+export const setCreatingLabError = error => ({
+    type: SET_CREATING_LAB_ERROR,
+    error,
+})
+
+export const clearCreatingLabError = () => ({
+    type: CLEAR_CREATING_LAB_ERROR,
+})
+
+export const setEditingLab = editing => ({
+    type: SET_EDITING_LAB,
+    editing,
+})
+
+export const setEditingLabError = error => ({
+    type: SET_EDITING_LAB_ERROR,
+    error,
+})
+
+export const clearEditingLabError = () => ({
+    type: CLEAR_EDITING_LAB_ERROR,
+})
+
+/*****************************************************************************
+ * THUNK ACTION CREATORS
+ *****************************************************************************/
 
 export const fetchLab = id =>
     dispatch =>
@@ -48,20 +83,6 @@ export const fetchCurrentLab = () =>
         .then(lab => {
             dispatch(receiveLab(lab))
         })
-
-export const setCreatingLab = creating => ({
-    type: SET_CREATING_LAB,
-    creating,
-})
-
-export const setCreatingLabError = error => ({
-    type: SET_CREATING_LAB_ERROR,
-    error,
-})
-
-export const clearCreatingLabError = () => ({
-    type: CLEAR_CREATING_LAB_ERROR,
-})
 
 export const createLab = lab =>
     dispatch => {
@@ -88,20 +109,6 @@ export const createLab = lab =>
             return Promise.reject()
         })
     }
-
-export const setEditingLab = editing => ({
-    type: SET_EDITING_LAB,
-    editing,
-})
-
-export const setEditingLabError = error => ({
-    type: SET_EDITING_LAB_ERROR,
-    error,
-})
-
-export const clearEditingLabError = () => ({
-    type: CLEAR_EDITING_LAB_ERROR,
-})
 
 export const editLab = (id, lab) =>
     dispatch => {
