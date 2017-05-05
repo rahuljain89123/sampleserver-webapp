@@ -369,6 +369,55 @@ section {
     }
 }
 
+.wrapper {
+    .wrapper-inner {
+        display: flex;
+        justify-content: space-around;
+        align-items: stretch;
+        // justify-content: space-around;
+        box-sizing: initial;
+
+        .sidebar-container {
+            overflow: hidden;
+        }
+        .main-container {
+            overflow: hidden;
+            // width: 100%;
+            flex: 1;
+        }
+    }
+}
+.content-closed {
+    display: none;
+}
+.sidebar {
+    &.closed {
+        width: 100px;
+        flex: 0 0 100px;
+        .content {
+            display: none;
+        }
+        .content-closed {
+            display: block;
+        }
+    }
+    width: 270px;
+    flex: 0 0 270px;
+    height: 100%;
+    background: #575C61;
+    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+}
+
+
+
+
+
+
+
+
 
 
 

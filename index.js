@@ -9,6 +9,7 @@ import './index.scss'
 
 import store from './store'
 import Header from './components/Header'
+import Sidebar from './components/Sidebar'
 import Signin from './components/Users/Signin'
 import Forgot from './components/Users/Forgot'
 import AcceptInvite from './components/Users/AcceptInvite'
@@ -21,13 +22,18 @@ ReactDOM.render((
     <Provider store={store}>
         <Router>
             <div className="wrapper">
-                <Route component={Header} />
-                <div className="container-fluid">
-                    <Route exact path="/" component={Signin} />
-                    <Route exact path="/forgot" component={Forgot} />
-                    <Route exact path="/accept-invite" component={AcceptInvite} />
-                    <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
-                    <PrivateRoute path="/app" component={App} />
+                <div className="wrapper-inner">
+                    <Route path="/app/sites/" component={Sidebar} />
+                    <div className="main-container">
+                        <Route component={Header} />
+                        <div className="container-fluid">
+                            <Route exact path="/" component={Signin} />
+                            <Route exact path="/forgot" component={Forgot} />
+                            <Route exact path="/accept-invite" component={AcceptInvite} />
+                            <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
+                            <PrivateRoute path="/app" component={App} />
+                        </div>
+                    </div>
                 </div>
             </div>
         </Router>
