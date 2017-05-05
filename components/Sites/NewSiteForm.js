@@ -29,7 +29,7 @@ class NewSiteForm extends React.Component {
             notes: '',
             address: '',
             city: '',
-            state: '',
+            state_id: '',
             zip: '',
             county: '',
             latitude: '',
@@ -71,7 +71,7 @@ class NewSiteForm extends React.Component {
             notes: this.state.notes,
             address: this.state.address,
             city: this.state.city,
-            state: this.state.state,
+            state_id: this.state.state_id,
             zip: this.state.zip,
             county: this.state.county,
             latitude: parseFloat(this.state.latitude),
@@ -190,13 +190,13 @@ class NewSiteForm extends React.Component {
                     />
                     <FormFeedback>{errors.city}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={errors.state ? 'danger' : ''}>
-                    <Label for="state">State</Label>
+                <FormGroup color={errors.state_id ? 'danger' : ''}>
+                    <Label for="state_id">State</Label>
                     <Input
-                        state={errors.state ? 'danger' : ''}
-                        name="state"
-                        id="state"
-                        value={this.state.state}
+                        state={errors.state_id ? 'danger' : ''}
+                        name="state_id"
+                        id="state_id"
+                        value={this.state.state_id}
                         type="select"
                         onChange={e => this.onChange(e)}>
                         <option> Choose a state... </option>
