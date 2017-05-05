@@ -1,0 +1,39 @@
+@font-face {
+	font-family: 'Gotham HTF';
+	src: url('GothamHTF-LightCondensed.eot');
+	src: url('GothamHTF-LightCondensed.eot?#iefix') format('embedded-opentype'),
+		url('GothamHTF-LightCondensed.woff') format('woff'),
+		url('GothamHTF-LightCondensed.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham HTF';
+	src: url('GothamHTF-BookCondensed.eot');
+	src: url('GothamHTF-BookCondensed.eot?#iefix') format('embedded-opentype'),
+		url('GothamHTF-BookCondensed.woff') format('woff'),
+		url('GothamHTF-BookCondensed.ttf') format('truetype');
+	font-weight: 600;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham HTF';
+	src: url('GothamHTF-BoldCondensed.eot');
+	src: url('GothamHTF-BoldCondensed.eot?#iefix') format('embedded-opentype'),
+		url('GothamHTF-BoldCondensed.woff') format('woff'),
+		url('GothamHTF-BoldCondensed.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Gotham HTF';
+	src: url('GothamHTF-MediumCondensed.eot');
+	src: url('GothamHTF-MediumCondensed.eot?#iefix') format('embedded-opentype'),
+		url('GothamHTF-MediumCondensed.woff') format('woff'),
+		url('GothamHTF-MediumCondensed.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}

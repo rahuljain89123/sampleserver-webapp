@@ -335,3 +335,48 @@ section {
     left: 0;
   }
 }
+
+.site-map-image {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 2px;
+    position: relative;
+    .zoom-controls {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+        background: #FFFFFF;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
+        border-radius: 3px;
+    }
+    .material-icons {
+        font-size: 22px;
+        border: 1px solid rgba(86,91,96,0.20);
+        letter-spacing: 0;
+        color: #575C61;
+        border-radius: 50%;
+        cursor: pointer;
+        margin: 20px;
+        padding: 3px;
+    }
+    .zoom-level {
+        opacity: 0.7;
+        font-family: GothamHTF-Medium;
+        font-size: 12px;
+        color: #575C61;
+        letter-spacing: 0;
+        text-align: center;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
