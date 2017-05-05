@@ -11,10 +11,13 @@ import NewProject from './Projects/NewProject'
 import NewSite from './Sites/NewSite'
 
 import SiteApp from './SiteApp'
+import TeamCompanyUsers from './Companies/TeamCompanyUsers'
 
 const CompanyApp = () => (
     <div>
         <PrivateRoute exact path="/app" component={ProjectSites} />
+        <PrivateRoute path="/app/team" component={TeamCompanyUsers} />
+
         <PrivateRoute path="/app/sites/:id" component={SiteApp} />
 
         <PrivateRoute path="/app/projects/:id" component={Project} />

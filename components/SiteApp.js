@@ -5,6 +5,7 @@ import {
   NavLink,
 } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { Route, Redirect } from 'react-router'
 
 import PrivateRoute from './Auth'
 import SiteNav from 'components/Sites/App/SiteNav'
@@ -12,7 +13,11 @@ import ProjectSiteUsers from './Sites/ProjectSiteUsers'
 import SiteContacts from './Sites/SiteContacts'
 import NewSiteContact from './Sites/NewSiteContact'
 import EditSiteContact from './Sites/EditSiteContact'
-import SiteDownloads from './Sites/SiteDownloads'
+
+import LabDataList from './Sites/LabDataList'
+import LabDataUpload from './Sites/LabDataUpload'
+import FieldDataUpload from './Sites/FieldDataUpload'
+
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import SiteDetails from 'components/Sites/App/SiteDetails'
@@ -53,8 +58,8 @@ class SiteApp extends React.Component {
 
               <PrivateRoute
                 exact
-                path={`/app/sites/${site.get('id')}/downloads`}
-                component={props => <SiteDownloads site={site} {...props} />}
+                path={`/app/sites/${site.get('id')}/lab-data-list`}
+                component={props => <LabDataList site={site} {...props} />}
               />
               <PrivateRoute
                 exact

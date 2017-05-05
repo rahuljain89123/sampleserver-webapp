@@ -2,6 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
+import { Link } from 'react-router-dom'
 
 import LinkButton from '../LinkButton'
 import { fetchContacts } from '../../actions/contacts'
@@ -18,16 +19,10 @@ class SiteContacts extends React.Component {
             .sort((a, b) => a.get('id') - b.get('id'))
             .entrySeq()
 
-        return (
-            <div>
-                <div className="d-flex flex-row">
-                    <h4>Contacts</h4>
-                    <LinkButton
-                        href={`/app/sites/${this.props.site.get('id')}/contacts/new`}
-                        color="primary"
-                        className="ml-auto"
-                    >New Contact</LinkButton>
-                </div>
+        let contactsTable = null
+
+        if (contacts.size) {
+            contactsTable = (
                 <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                     <thead>
                         <tr>
@@ -54,6 +49,22 @@ class SiteContacts extends React.Component {
                         ))}
                     </tbody>
                 </Table>
+            )
+        } else {
+            contactsTable = <p>No contacts yet. <Link to={`/app/sites/${this.props.site.get('id')}/contacts/new`}>Add Contact</Link></p>
+        }
+
+        return (
+            <div>
+                <div className="d-flex flex-row">
+                    <h4>Contacts</h4>
+                    <LinkButton
+                        href={`/app/sites/${this.props.site.get('id')}/contacts/new`}
+                        color="primary"
+                        className="ml-auto"
+                    >New Contact</LinkButton>
+                </div>
+                {contactsTable}
             </div>
         )
     }

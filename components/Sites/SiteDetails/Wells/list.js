@@ -68,6 +68,24 @@ class Wells extends React.Component {
     const uploads = this.props.uploads
     .entrySeq()
 
+    let wellsList = null
+
+    if (this.props.wells.size) {
+      wellsList = (
+        <div className="well-list">
+          {this.props.wells.map((well) => (
+            <div key={well.get('id')}>
+              <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                {well.get('title')}
+              </Link>
+            </div>
+          ))}
+        </div>
+      )
+    } else {
+      wellsList = <p>No wells found yet. To add many wells, you can bulk upload.</p>
+    }
+
     return (
       <div className="site-details-wells">
         <div className="d-flex flex-row justify-content-between">
@@ -76,24 +94,11 @@ class Wells extends React.Component {
             onClick={() => this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells/new`)}
             className='btn btn-default float-right'>New Well</Button>
         </div>
-        <div className="well-list">
-          {this.props.site.get('well_ids').map(wellId => {
-            const well = this.props.wells.get(wellId)
-            return well ? (
-              <div key={well.get('id')}>
-                <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
-                  {well.get('title')}
-                </Link>
-              </div>
-            ) : null
-          })}
-        </div>
-
+        {wellsList}
         <div className="bulk-upload">
-
           <div className="row justify-content-between">
             <div className="col-4">
-              <h4>Bulk Upload</h4>
+              <h4>Bulk Upload</h4><a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1">Download Example</a>
             </div>
             <div className="col-4 right">
               <Button
@@ -104,26 +109,6 @@ class Wells extends React.Component {
               >Choose File</Button>
             </div>
           </div>
-          <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
-            <thead>
-              <tr>
-                <th>Filename</th>
-                <th>Uploaded</th>
-              </tr>
-            </thead>
-              <tbody>
-                {uploads.map(([id, upload]) => (
-                  <tr key={id}>
-                    <td>
-                      <a href={upload.get('url')} target="_blank" rel="noopener noreferrer">
-                        {upload.get('filename')}
-                      </a>
-                    </td>
-                    <td>{timeago().format(new Date(upload.get('created_at')))}</td>
-                  </tr>
-                ))}
-              </tbody>
-          </Table>
         </div>
       </div>
     )

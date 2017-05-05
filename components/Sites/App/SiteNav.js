@@ -12,7 +12,7 @@ const SiteNav = (props) => {
   return (
     <nav className="nav nav-pills flex-column">
       <NavLink
-        to={`/app/sites/${site.get('id')}/downloads`}
+        to={`/app/sites/${site.get('id')}/lab-data-list`}
         className="nav-link"
         activeClassName="active"
       >Downloads</NavLink>
