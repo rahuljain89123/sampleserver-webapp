@@ -161,54 +161,54 @@ class EditSchedule extends React.Component {
 
       return (
           <div className="sample-schedule">
-              <h2>Edit Schedule</h2>
+            <h2>Edit Schedule</h2>
 
-              <select name="tests" onChange={e => this.onChange(e)}>
-                  {tests.map(test => (
-                      <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
-                  ))}
-              </select>
+            <select name="tests" onChange={e => this.onChange(e)}>
+              {tests.map(test => (
+                <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
+              ))}
+            </select>
 
-              <button className="btn btn-primary" onClick={e => this.addTest(e)}>Add Test</button>
-              <table className="table table-striped">
-                  <thead>
-                      <td>&nbsp;</td>
-                      <td>Gauge Only</td>
+            <button className="btn btn-primary" onClick={e => this.addTest(e)}>Add Test</button>
+            <table className="table table-striped">
+              <thead>
+                <td>&nbsp;</td>
+                <td>Gauge Only</td>
+                {schedule.get('test_ids').map(testId => (
+                  <td key={testId}>
+                    {tests.get(testId).get('title')}
+                    <i
+                      className="fa fa-times pointer"
+                      onClick={e => this.deleteTest(e, testId)}
+                    />
+                  </td>
+                ))}
+              </thead>
+              <tbody>
+                {this.props.wells.map(well => (
+                    <tr key={well.get('id')}>
+                      <td>{well.get('title')}</td>
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="gauge-only"
+                          onClick={e => this.toggleGuagedWell(e, well.get('id'))}
+                          checked={this.toGuage(well.get('id'))}
+                        />
+                      </td>
                       {schedule.get('test_ids').map(testId => (
-                          <td key={testId}>
-                              {tests.get(testId).get('title')}
-                              <i
-                                  className="fa fa-times pointer"
-                                  onClick={e => this.deleteTest(e, testId)}
-                              />
-                          </td>
+                        <td key={testId}>
+                          <input
+                            type="checkbox"
+                            onChange={e => this.toggleTest(e, testId, well.get('id'), schedule.get('id'))}
+                            checked={this.isChecked(testId, well.get('id'), schedule.get('id'))}
+                          />
+                        </td>
                       ))}
-                  </thead>
-                  <tbody>
-                      {this.props.wells.map(well => (
-                          <tr key={well.get('id')}>
-                              <td>{well.get('title')}</td>
-                              <td>
-                                  <input
-                                      type="checkbox"
-                                      className="gauge-only"
-                                      onClick={e => this.toggleGuagedWell(e, well.get('id'))}
-                                      checked={this.toGuage(well.get('id'))}
-                                  />
-                              </td>
-                              {schedule.get('test_ids').map(testId => (
-                                  <td key={testId}>
-                                      <input
-                                          type="checkbox"
-                                          onChange={e => this.toggleTest(e, testId, well.get('id'), schedule.get('id'))}
-                                          checked={this.isChecked(testId, well.get('id'), schedule.get('id'))}
-                                      />
-                                  </td>
-                              ))}
-                          </tr>
-                      ))}
-                  </tbody>
-              </table>
+                    </tr>
+                  ))}
+                </tbody>
+            </table>
           </div>
       )
     } else {
