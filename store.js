@@ -62,6 +62,13 @@ import {
     editingScheduleError,
 } from 'reducers/schedules'
 import {
+    scheduleWellTests,
+    creatingscheduleWellTest,
+    creatingscheduleWellTestError,
+    editingscheduleWellTest,
+    editingscheduleWellTestError,
+} from './reducers/scheduleWellTests'
+import {
     projects,
     creatingProject,
     creatingProjectError,
@@ -105,8 +112,9 @@ import {
 } from 'reducers/tests'
 import {
   pageErrors,
-  flash
+  flash,
 } from 'reducers/global'
+
 
 const initialState = Immutable.Map({
     currentUser: JSON.parse(window.localStorage.getItem('currentUser')),
@@ -165,6 +173,12 @@ const appReducer = combineReducers({
     creatingScheduleError,
     editingSchedule,
     editingScheduleError,
+
+    scheduleWellTests,
+    creatingscheduleWellTest,
+    creatingscheduleWellTestError,
+    editingscheduleWellTest,
+    editingscheduleWellTestError,
 
     projects,
     creatingProject,
