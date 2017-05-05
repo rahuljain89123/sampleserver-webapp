@@ -229,7 +229,6 @@ class SiteMapImage extends React.Component {
     ctx.stroke()
     ctx.closePath()
 
-
     if(well.get('well_id')) {
       ctx.font = '20px Arial'
       const wellTitle = this.props.wells.get(well.get('well_id')).get('title')
