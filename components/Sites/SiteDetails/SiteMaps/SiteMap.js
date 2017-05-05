@@ -163,6 +163,7 @@ class SiteMap extends React.Component {
           <SiteMapImage
             imageUrl={siteMap.get('url')}
             siteMapWells={siteMapWells}
+            wells={this.props.wells}
             addingSiteMapWell={this.props.addingSiteMapWell}
             addSiteMapWell={this.addSiteMapWell} />
           <ul className='well-names'>

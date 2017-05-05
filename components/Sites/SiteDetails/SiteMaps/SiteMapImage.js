@@ -227,8 +227,14 @@ class SiteMapImage extends React.Component {
     ctx.beginPath()
     ctx.arc(x, y, r, 0, 2 * Math.PI, false)
     ctx.stroke()
-
     ctx.closePath()
+
+
+    if(well.get('well_id')) {
+      ctx.font = '20px Arial'
+      const wellTitle = this.props.wells.get(well.get('well_id')).get('title')
+      ctx.fillText(wellTitle, x + r, y - r)
+    }
   }
 
   render () {
