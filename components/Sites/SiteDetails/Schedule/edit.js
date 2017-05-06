@@ -54,18 +54,10 @@ class EditSchedule extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchTests().then((tests) => {
-      console.log(this.props.tests)
-    })
-    this.props.fetchWells({ site_id: this.props.site.get('id') }).then((wells) => {
-      console.log(this.props.wells)
-    })
-    this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
-      console.log(this.props.schedules)
-    })
-    this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId }).then(() => {
-      console.log(this.props.scheduleWellTests.toObject())
-    })
+    this.props.fetchTests()
+    this.props.fetchWells({ site_id: this.props.site.get('id') })
+    this.props.fetchSchedule(this.state.scheduleId)
+    this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId })
   }
 
   onChange (e) {
@@ -176,7 +168,7 @@ class EditSchedule extends React.Component {
                 <td>Gauge Only</td>
                 {schedule.get('test_ids').map(testId => (
                   <td key={testId}>
-                    {tests.get(testId).get('title')}
+                    {this.props.tests.get(testId).get('title')}
                     <i
                       className="fa fa-times pointer"
                       onClick={e => this.deleteTest(e, testId)}
