@@ -65,7 +65,7 @@ const SiteActivityReportForm = (props) => {
 
     <Button
       color="primary"
-      disabled={this.props.editingSchedule}>
+      disabled={props.editingSchedule}>
       Save
     </Button>
 

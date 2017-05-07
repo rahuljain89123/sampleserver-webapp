@@ -10,6 +10,8 @@ import {
   FormFeedback,
   Label,
   Input,
+  Row,
+  Col,
 } from 'reactstrap'
 
 import SiteActivityReportForm from './SiteActivityReportForm'
@@ -28,9 +30,13 @@ import {
     editScheduleWellTest,
     deleteScheduleWellTest,
 } from 'actions/scheduleWellTests'
+import { flashMessage } from 'actions/global'
+
 
 import { msgFromError } from 'util'
 import includes from 'lodash/includes'
+import moment from 'moment'
+
 
 /*****************************************************************************
  * CLASS DEFINITION
@@ -57,6 +63,8 @@ class EditSchedule extends React.Component {
       scheduleId,
       test: 0,
     }
+
+    this.editSchedule = this.editSchedule.bind(this)
   }
 
   componentDidMount () {
@@ -148,17 +156,28 @@ class EditSchedule extends React.Component {
       return false
   }
 
+  editSchedule (scheduleParams) {
+    this.props.editSchedule(this.state.scheduleId, scheduleParams)
+      .then(this.props.flashMessage('success', 'Site Activity Report Updated'))
+  }
+
   render () {
     const { site, schedules } = this.props
     const siteStateId = parseInt(site.get('state_id'))
     const tests = this.props.tests.filter((test) => test.get('state_id') === siteStateId)
       .valueSeq()
     const wells = this.props.wells.valueSeq()
+
+
     if (wells && site && schedules.size > 0 && tests.size > 0) {
       const schedule = this.props.schedules.get(this.state.scheduleId)
+      const formattedDate = moment(schedule.get('date')).utc().format('YYYY-MM-DD')
+      const siteActivityReport = schedule.delete('test_ids')
+        .delete('gauged_well_ids')
+        .set('date', formattedDate)
       return (
           <div className="sample-schedule">
-            <h2>Edit Schedule: </h2>
+            <h2>Edit Schedule: {formattedDate} </h2>
 
             <select name="tests" onChange={e => this.onChange(e)}>
               {tests.map(test => (
@@ -208,7 +227,15 @@ class EditSchedule extends React.Component {
                   ))}
                 </tbody>
             </table>
-            <SiteActivityReportForm />
+            <Row>
+              <Col sm={6}>
+                <h3> Site Activity Report </h3>
+                <SiteActivityReportForm
+                  initialValues={siteActivityReport}
+                  onSubmit={this.editSchedule}
+                />
+              </Col>
+            </Row>
           </div>
       )
     } else {
@@ -239,6 +266,7 @@ const mapDispatchToProps = dispatch => ({
   createScheduleWellTest: schedulewelltest => dispatch(createScheduleWellTest(schedulewelltest)),
   editScheduleWellTest: (id, schedulewelltest) => dispatch(editScheduleWellTest(id, schedulewelltest)),
   deleteScheduleWellTest: id => dispatch(deleteScheduleWellTest(id)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 })
 
 /*****************************************************************************
