@@ -71,7 +71,7 @@ class NewSiteForm extends React.Component {
             notes: this.state.notes,
             address: this.state.address,
             city: this.state.city,
-            state_id: this.state.state_id,
+            state_id: parseInt(this.state.state_id),
             zip: this.state.zip,
             county: this.state.county,
             latitude: parseFloat(this.state.latitude),

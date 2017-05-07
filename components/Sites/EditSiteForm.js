@@ -11,8 +11,8 @@ import {
 } from 'reactstrap'
 import STATES from 'helpers/states'
 
-import { editSite, clearEditingSiteError } from '../../actions/sites'
-import { msgFromError } from '../../util'
+import { editSite, clearEditingSiteError } from 'actions/sites'
+import { msgFromError } from 'util'
 
 
 class EditSiteForm extends React.Component {
@@ -65,7 +65,7 @@ class EditSiteForm extends React.Component {
             notes: this.state.notes,
             address: this.state.address,
             city: this.state.city,
-            state_id: this.state.state_id,
+            state_id: parseInt(this.state.state_id),
             zip: this.state.zip,
             county: this.state.county,
             latitude: this.state.latitude,
@@ -179,7 +179,7 @@ class EditSiteForm extends React.Component {
                             <option key={state.state_id} value={state.state_id}>{state.title}</option>)
                         )}
                     </Input>
-                    <FormFeedback>{errors.state}</FormFeedback>
+                    <FormFeedback>{errors.state_id}</FormFeedback>
                 </FormGroup>
                 <FormGroup color={errors.zip ? 'danger' : ''}>
                     <Label for="zip">Zip</Label>
