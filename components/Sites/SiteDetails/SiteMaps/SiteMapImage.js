@@ -199,7 +199,8 @@ class SiteMapImage extends React.Component {
     const { x: imgX, y: imgY, scale, centerVals: { x: centerX, y: centerY } } = this.state
     const x = well.get('xpos') * scale + (centerX + imgX),
           y = well.get('ypos') * scale + (centerY + imgY),
-          r = 10
+          r = 7 * scale,
+          fontSize = 12 * scale
 
     // Draw top left of marker and fill it
     ctx.strokeStyle = color
@@ -227,8 +228,13 @@ class SiteMapImage extends React.Component {
     ctx.beginPath()
     ctx.arc(x, y, r, 0, 2 * Math.PI, false)
     ctx.stroke()
-
     ctx.closePath()
+
+    if(well.get('well_id')) {
+      ctx.font = `${fontSize}px Arial`
+      const wellTitle = this.props.wells.get(well.get('well_id')).get('title')
+      ctx.fillText(wellTitle, x + r, y - r)
+    }
   }
 
   render () {
@@ -241,8 +247,11 @@ class SiteMapImage extends React.Component {
 
     return (
       <div className='site-map-image'>
-        <a href='#' onClick={(e) => this.scaleBy(0.2)}>Zoom In</a>
-        <a href='#' onClick={(e) => this.scaleBy(-0.2)}>Zoom Out</a>
+        <div className="zoom-controls">
+          <i className="material-icons" onClick={(e) => this.scaleBy(0.2)}>add</i>
+          <div className="zoom-level">{parseInt(this.state.scale * 100)}%</div>
+          <i className="material-icons" onClick={(e) => this.scaleBy(-0.2)}>remove</i>
+        </div>
         <div className='img-and-canvas-overlay' style={overlayStyles}>
 
           <canvas

@@ -32,7 +32,6 @@ export const fetchSchedule = id =>
     dispatch =>
         API.get(`/schedules/${id}`)
         .then(schedule => {
-            console.log(schedule)
             dispatch(receiveSchedule(schedule))
         })
 

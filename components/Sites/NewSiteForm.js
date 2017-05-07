@@ -14,7 +14,7 @@ import { fetchProjects } from '../../actions/projects'
 import { createSite, clearCreatingSiteError } from '../../actions/sites'
 import { msgFromError } from '../../util'
 import { currentLab } from '../../normalizers'
-
+import STATES from 'helpers/states'
 
 class NewSiteForm extends React.Component {
     constructor (props) {
@@ -29,7 +29,7 @@ class NewSiteForm extends React.Component {
             notes: '',
             address: '',
             city: '',
-            state: '',
+            state_id: '',
             zip: '',
             county: '',
             latitude: '',
@@ -71,7 +71,7 @@ class NewSiteForm extends React.Component {
             notes: this.state.notes,
             address: this.state.address,
             city: this.state.city,
-            state: this.state.state,
+            state_id: this.state.state_id,
             zip: this.state.zip,
             county: this.state.county,
             latitude: parseFloat(this.state.latitude),
@@ -190,15 +190,20 @@ class NewSiteForm extends React.Component {
                     />
                     <FormFeedback>{errors.city}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={errors.state ? 'danger' : ''}>
-                    <Label for="state">State</Label>
+                <FormGroup color={errors.state_id ? 'danger' : ''}>
+                    <Label for="state_id">State</Label>
                     <Input
-                        state={errors.state ? 'danger' : ''}
-                        name="state"
-                        id="state"
-                        value={this.state.state}
-                        onChange={e => this.onChange(e)}
-                    />
+                        state={errors.state_id ? 'danger' : ''}
+                        name="state_id"
+                        id="state_id"
+                        value={this.state.state_id}
+                        type="select"
+                        onChange={e => this.onChange(e)}>
+                        <option> Choose a state... </option>
+                        {STATES.map((state) => (
+                            <option key={state.state_id} value={state.state_id}>{state.title}</option>)
+                        )}
+                    </Input>
                     <FormFeedback>{errors.state}</FormFeedback>
                 </FormGroup>
                 <FormGroup color={errors.zip ? 'danger' : ''}>

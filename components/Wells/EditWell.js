@@ -41,22 +41,18 @@ class EditWell extends React.Component {
 
   onDelete () {
     this.props.deleteWell(this.props.wellId)
-      .then(
-        this.props.flashMessage(
-          'success',
-          'Well Deleted Successfully',
-        )
-      )
+      .then(() => {
+        this.props.flashMessage('success', 'Well Deleted Successfully')
+        this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
+      })
   }
 
   onSubmitWellForm (wellParams) {
     this.props.editWell(this.props.wellId, wellParams)
-      .then(
-        this.props.flashMessage(
-          'success',
-          'Well Updated Successfully',
-        )
-      )
+      .then(() => {
+        this.props.flashMessage('success', 'Well Updated Successfully')
+        this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
+      })
   }
 
   onUploadWellImages (wellImages) {
