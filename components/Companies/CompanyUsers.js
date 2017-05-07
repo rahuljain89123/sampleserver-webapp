@@ -4,7 +4,6 @@ import Immutable from 'immutable'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import {
-  Table,
   TabContent,
   TabPane,
   Nav,
@@ -12,15 +11,6 @@ import {
   NavLink,
   Row,
   Col,
-  Button,
-  Form,
-  FormGroup,
-  Input,
-  InputGroup,
-  InputGroupButton,
-  Badge,
-  Breadcrumb,
-  BreadcrumbItem,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/team/UsersTable'
