@@ -32,11 +32,9 @@ import {
 } from 'actions/scheduleWellTests'
 import { flashMessage } from 'actions/global'
 
-
 import { msgFromError } from 'util'
 import includes from 'lodash/includes'
 import moment from 'moment'
-
 
 /*****************************************************************************
  * CLASS DEFINITION
