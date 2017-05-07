@@ -18,8 +18,8 @@ import {
     createSchedule,
     clearCreatingScheduleError,
     fetchSchedules,
-} from '../../../../actions/schedule'
-import { msgFromError } from '../../../../util'
+} from 'actions/schedule'
+import { msgFromError } from 'util'
 
 
 class NewSchedule extends React.Component {
