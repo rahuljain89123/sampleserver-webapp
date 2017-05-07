@@ -12,8 +12,8 @@ import {
   Col,
 } from 'reactstrap'
 
-import UsersTable from './UsersTable'
-import UserForm from './UserForm'
+import UsersTable from 'SharedComponents/Team/UsersTable'
+import UserForm from 'SharedComponents/Team/UserForm'
 
 import { createUser, fetchUsers } from 'actions/users'
 import { currentUserRole } from 'normalizers'
@@ -23,12 +23,14 @@ class LabUsers extends React.Component {
   constructor (props) {
     super(props)
     const roles = props.roles
-    this.onSubmit = this.onSubmit.bind(this)
 
     const activeRole = roles.size ? roles.first().get('id') : 100
     this.state = {
       activeRole,
     }
+
+    this.onSubmit = this.onSubmit.bind(this)
+
   }
 
   componentDidMount () {

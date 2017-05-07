@@ -4,317 +4,183 @@ import Immutable from 'immutable'
 import classnames from 'classnames'
 import { connect } from 'react-redux'
 import {
-    Table,
-    TabContent,
-    TabPane,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    Col,
-    Button,
-    Form,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupButton,
-    Badge,
-    Breadcrumb,
-    BreadcrumbItem,
+  Table,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupButton,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
 } from 'reactstrap'
 
-import { fetchCompany } from '../../actions/companies'
-import { createUser, fetchUsers, editUser } from '../../actions/users'
-import { currentUserRole } from '../../normalizers'
+import UsersTable from 'SharedComponents/team/UsersTable'
+import UserForm from 'SharedComponents/team/UserForm'
+
+import { fetchCompany } from 'actions/companies'
+import { createUser, fetchUsers, editUser } from 'actions/users'
+import { currentUserRole } from 'normalizers'
 
 
 class CompanyUsers extends React.Component {
-    constructor (props) {
-        super(props)
+  constructor (props) {
+    super(props)
+    const roles = props.roles
 
-        // if (props.match) {
-        //     const companyId = parseInt(props.match.params.id, 10)
-        // } else {
-        // }
-        const companyId = this.props.currentCompany.get('id')
-        const company = props.companies.get(companyId)
+    const activeRole = roles.size ? roles.first().get('id') : 100
 
-        const roles = props.roles
-            .filter(role => role.get('id') === 4 || role.get('id') === 5)
-            .filter(role => role.get('id') >= this.props.currentUserRole.get('id'))
-            .sort((a, b) => a.get('id') - b.get('id'))
+    this.onSubmit = this.onSubmit.bind(this)
 
-        const activeRole = roles.size ? roles.first().get('id') : 100
-        const currentRole = roles.size ? roles.get(activeRole) : null
+    this.state = {
+      activeRole,
+    }
+  }
 
-        const users = company ? (
-            Immutable.List(
-                company.get('user_ids')
-                       .map(id => props.users.get(id)))
-        ) : Immutable.List()
+  componentDidMount () {
+    this.props.fetchUsers({ companies: this.state.companyId })
 
-        const filteredUsers = users
-            .filter(user => (user ? (user.get('role_id') === activeRole) : false))
-            .sort((a, b) => a.get('id') - b.get('id'))
+    if (!this.state.company) {
+      this.props.fetchCompany(this.state.companyId)
+    }
+  }
 
-        this.state = {
-            companyId,
-            company,
-            users: filteredUsers,
-            roles,
-            currentRole,
-            activeRole,
-            email: '',
-        }
+  onToggle (activeRole) {
+    this.setState({ activeRole })
+  }
+
+  onSubmit (userParams) {
+    const user = {
+      email: userParams.get('email'),
+      lab_id: this.props.lab.get('id'),
+      role_id: this.state.activeRole,
+      companies: {
+        add: [this.props.company.get('id')],
+        remove: [],
+      },
     }
 
-    componentDidMount () {
-        this.props.fetchUsers({ companies: this.state.companyId })
+    this.props.createUser(user)
+  }
 
-        if (!this.state.company) {
-            this.props.fetchCompany(this.state.companyId)
-        }
+  toggleActive (user) {
+    this.props.editUser(user.get('id'), {
+      active: !user.get('active'),
+    })
+  }
+
+  render () {
+    const { activeRole } = this.state
+    const currentRole = this.props.roles.size ? this.props.roles.get(activeRole) : null
+    const company = this.props.currentCompany
+
+    if (!company) {
+      return null
     }
 
-    componentWillReceiveProps (nextProps) {
-        const company = nextProps.companies.get(this.state.companyId)
+    const users = this.props.users
+      .filter(user => user.get('role_id') === activeRole)
+      .entrySeq()
+    const roles = this.props.roles.entrySeq()
 
-        const roles = nextProps.roles
-            .filter(role => role.get('id') === 4 || role.get('id') === 5)
-            .filter(role => role.get('id') >= this.props.currentUserRole.get('id'))
-            .sort((a, b) => a.get('id') - b.get('id'))
-
-        const currentRole = roles.size ? roles.get(this.state.activeRole) : null
-        const activeRole = (this.state.activeRole === 100 && roles.size) ? roles.first().get('id') : this.state.activeRole
-
-        const users = company ? (
-            Immutable.List(
-                company.get('user_ids')
-                       .map(id => nextProps.users.get(id)))
-        ) : Immutable.List()
-
-        const filteredUsers = users
-            .filter(user => (user ? (user.get('role_id') === activeRole) : false))
-            .sort((a, b) => a.get('id') - b.get('id'))
-
-        this.setState({
-            company: nextProps.companies.get(this.state.companyId),
-            users: filteredUsers,
-            roles,
-            currentRole,
-            activeRole,
-        })
-    }
-
-    onToggle (tab) {
-        if (this.state.activeRole !== tab) {
-            const users = this.state.company ? (
-                Immutable.List(
-                    this.state.company.get('user_ids')
-                                      .map(id => this.props.users.get(id)))
-            ) : Immutable.List()
-
-            const filteredUsers = users
-                .filter(user => (user ? (user.get('role_id') === tab) : false))
-                .sort((a, b) => a.get('id') - b.get('id'))
-
-            const currentRole = this.state.roles.size ? this.state.roles.get(tab) : null
-
-            this.setState({
-                users: filteredUsers,
-                currentRole,
-                activeRole: tab,
-            })
-        }
-    }
-
-    onChange (e) {
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
-    }
-
-    onClick (e) {
-        e.preventDefault()
-        this.props.push(e.target.getAttribute('href'))
-    }
-
-    onSubmit (e) {
-        e.preventDefault()
-
-        this.props.createUser({
-            email: this.state.email,
-            lab_id: this.state.labId,
-            role_id: this.state.activeRole,
-            companies: {
-                add: [this.state.companyId],
-                remove: [],
-            },
-        })
-
-        this.setState({
-            email: '',
-        })
-    }
-
-    toggleActive (user) {
-        this.props.editUser(user.get('id'), {
-            active: !user.get('active'),
-        })
-    }
-
-    render () {
-        const company = this.state.company
-
-        if (!company) {
-            return null
-        }
-
-        const users = this.state.users.entrySeq()
-        const roles = this.state.roles.entrySeq()
-        const currentRole = this.state.currentRole
-
-        let adminBreadcrumb = null
-        if (currentRole.get('name') === 'LabAdmin' || currentRole.get('name') === 'LabAssociate') {
-            adminBreadcrumb = (
-                <Breadcrumb tag="nav" style={{ marginBottom: 30 }}>
-                    <BreadcrumbItem
-                        tag="a"
-                        href="/app/companies"
-                        onClick={e => this.onClick(e)}
-                    >
-                        Companies
-                    </BreadcrumbItem>
-                    <BreadcrumbItem
-                        tag="a"
-                        href={`/app/companies/${company.get('id')}`}
-                        onClick={e => this.onClick(e)}
-                    >
-                        {company.get('title')}
-                    </BreadcrumbItem>
-                    <BreadcrumbItem className="active">
-                        Manage Users
-                    </BreadcrumbItem>
-                </Breadcrumb>
-            )
-        }
-
-        return (
-            <div>
-                {adminBreadcrumb}
-                <Nav tabs>
-                    {roles.map(([id, role]) => (
-                        <NavItem key={role.get('id')}>
-                            <NavLink
-                                className={classnames({
-                                    pointer: true,
-                                    active: this.state.activeRole === id,
-                                })}
-                                onClick={() => this.onToggle(id)}
-                            >
-                                {`${role.get('description')}s`}
-                            </NavLink>
-                        </NavItem>
-                    ))}
-                </Nav>
-                <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
-                    <TabPane tabId={4}>
-                        <Row>
-                            <Col sm="12">
-                                <p>
-                                Can create additional CompanyAdmin Users.
-                                <br />
-                                CompanyAdmin users can disable other CompanyAdmin users.
-                                <br />
-                                CompanyAdmin cannot disable himself.
-                                <br />
-                                All CompanyAdmins receive notification the invoice,
-                                and all have the ability to pay.
-                                <br />
-                                Also have CompanyAssociate permissions.
-                                <br /><br />
-                                </p>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                    <TabPane tabId={5}>
-                        <Row>
-                            <Col sm="12">
-                                <p>
-                                Can create/edit/view all sites within the company.
-                                <br />
-                                Can create site groups.
-                                <br />
-                                Can add project managers and technicians to each site group.
-                                <br /><br />
-                                </p>
-                            </Col>
-                        </Row>
-                    </TabPane>
-                </TabContent>
-                {!!users.size && (
-                    <Table size="sm" style={{ marginBottom: 60 }}>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map(([id, user]) => (
-                                <tr key={id}>
-                                    <td>{user.get('name') || '-'}</td>
-                                    <td>{user.get('email')}</td>
-                                    <td>{user.get('active') ? (
-                                        <Badge color="success" onClick={() => this.toggleActive(user)}>Active</Badge>
-                                    ) : (
-                                        <Badge onClick={() => this.toggleActive(user)}>Pending</Badge>
-                                    )}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                )}
-                <Row>
-                    {!!currentRole && (
-                    <Col sm="6">
-                        <h6>Add {currentRole.get('description')}</h6>
-                        <Form onSubmit={e => this.onSubmit(e)}>
-                            <FormGroup>
-                                <InputGroup>
-                                    <Input
-                                        name="email"
-                                        placeholder="name@example.com"
-                                        value={this.state.email}
-                                        onChange={e => this.onChange(e)}
-                                    />
-                                    <InputGroupButton>
-                                        <Button color="primary">Invite</Button>
-                                    </InputGroupButton>
-                                </InputGroup>
-                            </FormGroup>
-                        </Form>
-                    </Col>
-                    )}
-                </Row>
-            </div>
-        )
-    }
+    return (
+      <div>
+        <Nav tabs>
+          {roles.map(([id, role]) => (
+            <NavItem key={role.get('id')}>
+              <NavLink
+                className={classnames({
+                  pointer: true,
+                  active: this.state.activeRole === id,
+                })}
+                onClick={() => this.onToggle(id)}
+              >
+                {`${role.get('description')}s`}
+              </NavLink>
+            </NavItem>
+          ))}
+        </Nav>
+        <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
+          <TabPane tabId={4}>
+            <Row>
+              <Col sm="12">
+                <p>
+                Can create additional CompanyAdmin Users.
+                <br />
+                CompanyAdmin users can disable other CompanyAdmin users.
+                <br />
+                CompanyAdmin cannot disable himself.
+                <br />
+                All CompanyAdmins receive notification the invoice,
+                and all have the ability to pay.
+                <br />
+                Also have CompanyAssociate permissions.
+                <br /><br />
+                </p>
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId={5}>
+            <Row>
+              <Col sm="12">
+                <p>
+                Can create/edit/view all sites within the company.
+                <br />
+                Can create site groups.
+                <br />
+                Can add project managers and technicians to each site group.
+                <br /><br />
+                </p>
+              </Col>
+            </Row>
+          </TabPane>
+        </TabContent>
+        <UsersTable users={users} />
+        <Row>
+        <UserForm
+          currentRole={currentRole}
+          onSubmit={this.onSubmit} />
+        </Row>
+      </div>
+    )
+  }
 }
 
-const mapStateToProps = store => ({
-    users: store.get('users'),
-    roles: store.get('roles'),
-    currentUserRole: currentUserRole(store, 100),
-    companies: store.get('companies'),
-})
+const mapStateToProps = (store, ownProps) => {
+  const cURole = currentUserRole(store, 100)
+
+  const roles = store.get('roles')
+    .filter(role => role.get('id') === 4 || role.get('id') === 5)
+    .filter(role => role.get('id') >= cURole.get('id'))
+    .sort((a, b) => a.get('id') - b.get('id'))
+
+  const companyId = ownProps.currentCompany.get('id')
+  const company = store.get('companies').get(companyId)
+
+  const users = store.get('users')
+    .filter((user) => user.get('company_ids').includes(companyId))
+
+  return {
+    currentUserRole: cURole,
+    users,
+    roles,
+    company,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-    fetchCompany: id => dispatch(fetchCompany(id)),
-    fetchUsers: filters => dispatch(fetchUsers(filters)),
-    createUser: user => dispatch(createUser(user)),
-    editUser: (id, user) => dispatch(editUser(id, user)),
+  fetchCompany: id => dispatch(fetchCompany(id)),
+  fetchUsers: filters => dispatch(fetchUsers(filters)),
+  createUser: user => dispatch(createUser(user)),
+  editUser: (id, user) => dispatch(editUser(id, user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUsers)

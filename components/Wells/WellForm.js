@@ -7,7 +7,7 @@ import {
 } from 'reactstrap'
 
 import { Field, reduxForm } from 'redux-form/immutable'
-import IndividualFormGroup from '../shared/ReduxFormHelpers/IndividualFormGroup'
+import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
 
 import { msgFromError } from '../../util'
 
