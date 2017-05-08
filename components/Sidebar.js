@@ -45,9 +45,6 @@ class Sidebar extends React.Component {
     }
   }
 
-  componentWillReceiveProps () {
-  }
-
   toggle () {
     this.setState({
       open: !this.state.open,
@@ -55,10 +52,7 @@ class Sidebar extends React.Component {
   }
 
   sideBarStatus () {
-    if (this.state.open) {
-      return 'open'
-    }
-    return 'closed'
+    return (this.state.open ? 'open' : 'closed')
   }
 
   render () {
