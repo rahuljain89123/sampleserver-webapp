@@ -90,8 +90,6 @@ class Header extends React.Component {
                     </div>
                 ) : ''}
                 <Navbar
-                    color="faded"
-                    light
                     className="flex-row justify-content-end"
                     style={{ marginBottom: 20 }}
                 >
