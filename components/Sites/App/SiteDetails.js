@@ -19,6 +19,7 @@ import SiteMap from 'components/Sites/SiteDetails/SiteMaps/SiteMap'
 import NewSiteMap from 'components/Sites/SiteDetails/SiteMaps/NewSiteMap'
 import LabDataUpload from 'components/Sites/LabDataUpload'
 import FieldDataUpload from 'components/Sites/FieldDataUpload'
+import QAQCForm from 'components/Sites/SiteDetails/QAQCPreferences/QAQCForm'
 
 class SiteDetails extends React.Component {
   constructor (props) {
@@ -98,6 +99,11 @@ class SiteDetails extends React.Component {
         component={props => <SiteMapsList site={site} {...props} />}
       />
 
+      <PrivateRoute
+        exact
+        path={`/app/sites/${site.get('id')}/details/qa-qc-preferences`}
+        component={props => <QAQCForm site={site} {...props} />}
+      />
 
 
       <Switch>

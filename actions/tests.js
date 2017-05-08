@@ -18,19 +18,6 @@ export const receiveTests = tests => ({
     tests,
 })
 
-export const fetchTest = id =>
-    dispatch =>
-        API.get(`/tests/${id}`)
-        .then(test => {
-            dispatch(receiveTest(test))
-        })
-
-export const fetchTests = () =>
-    dispatch =>
-        API.get('/tests/')
-        .then(tests => {
-            dispatch(receiveTests(tests))
-        })
 
 export const setEditingTest = editing => ({
     type: SET_EDITING_TEST,
@@ -45,6 +32,20 @@ export const setEditingTestError = error => ({
 export const clearEditingSampleError = () => ({
     type: CLEAR_EDITING_TEST_ERROR,
 })
+
+export const fetchTest = id =>
+    dispatch =>
+        API.get(`/tests/${id}`)
+        .then(test => {
+            dispatch(receiveTest(test))
+        })
+        
+export const fetchTests = () =>
+    dispatch =>
+        API.get('/tests/')
+        .then(tests => {
+            dispatch(receiveTests(tests))
+        })
 
 export const editTest = (id, test) =>
     dispatch => {
