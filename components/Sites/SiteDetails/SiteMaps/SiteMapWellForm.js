@@ -11,7 +11,7 @@ import {
   change,
 } from 'redux-form/immutable'
 
-import SelectFormGroup from 'components/shared/ReduxFormHelpers/SelectFormGroup'
+import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
 
 const FORM_NAME = 'siteMapWellForm'
 

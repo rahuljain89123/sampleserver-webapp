@@ -12,7 +12,7 @@ import {
   formValueSelector,
 } from 'redux-form/immutable'
 
-import IndividualFormGroup from 'components/shared/ReduxFormHelpers/IndividualFormGroup'
+import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
 
 import {
   FILESTACK_API_KEY,
