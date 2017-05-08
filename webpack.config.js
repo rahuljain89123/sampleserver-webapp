@@ -14,7 +14,10 @@ var config = {
     filename: 'bundle.js'
   },
   resolve: {
-    modules: ["node_modules", path.resolve(__dirname)]
+    modules: ["node_modules", path.resolve(__dirname)],
+    alias: {
+      SharedComponents: path.resolve(__dirname, 'components/SharedComponents/')
+    }
   },
   module: {
     rules: [

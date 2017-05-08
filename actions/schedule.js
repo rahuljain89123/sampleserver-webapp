@@ -32,7 +32,6 @@ export const fetchSchedule = id =>
     dispatch =>
         API.get(`/schedules/${id}`)
         .then(schedule => {
-            console.log(schedule)
             dispatch(receiveSchedule(schedule))
         })
 
@@ -102,11 +101,11 @@ export const clearEditingScheduleError = () => ({
     type: CLEAR_EDITING_SCHEDULE_ERROR,
 })
 
-export const editSchedule = (id, schedule) =>
+export const editSchedule = (id, scheduleParams) =>
     dispatch => {
         dispatch(setEditingSchedule(true))
 
-        return API.patch(`/schedules/${id}`, schedule)
+        return API.patch(`/schedules/${id}`, scheduleParams)
         .then(json => {
             dispatch(setEditingSchedule(false))
             dispatch(receiveSchedule(json))

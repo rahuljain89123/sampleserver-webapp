@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+
 import { Link } from 'react-router-dom'
 import {
   Button,
@@ -9,7 +10,12 @@ import {
   FormFeedback,
   Label,
   Input,
+  Row,
+  Col,
 } from 'reactstrap'
+
+import SiteActivityReportForm from './SiteActivityReportForm'
+
 import {
   createSchedule,
   editSchedule,
@@ -18,27 +24,31 @@ import {
 } from 'actions/schedule'
 import { fetchWells } from 'actions/wells'
 import { fetchTests } from 'actions/tests'
-
-import { msgFromError } from 'util'
-
 import {
     fetchScheduleWellTests,
     createScheduleWellTest,
     editScheduleWellTest,
     deleteScheduleWellTest,
 } from 'actions/scheduleWellTests'
-import includes from 'lodash/includes'
+import { flashMessage } from 'actions/global'
 
+import { msgFromError } from 'util'
+import includes from 'lodash/includes'
+import moment from 'moment'
+
+/*****************************************************************************
+ * CLASS DEFINITION
+ *****************************************************************************/
 
 class WellRow extends React.Component {
   render () {
-    return <div>
+    return (<div>
       {this.props.well.get('title')}
       <input type="checkbox" />
       <input type="checkbox" />
       <input type="checkbox" />
       <input type="checkbox" />
-    </div>
+    </div>)
   }
 }
 
@@ -51,21 +61,15 @@ class EditSchedule extends React.Component {
       scheduleId,
       test: 0,
     }
+
+    this.editSchedule = this.editSchedule.bind(this)
   }
 
   componentDidMount () {
-    this.props.fetchTests().then((tests) => {
-      console.log(this.props.tests)
-    })
-    this.props.fetchWells({ site_id: this.props.site.get('id') }).then((wells) => {
-      console.log(this.props.wells)
-    })
-    this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
-      console.log(this.props.schedules)
-    })
-    this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId }).then(() => {
-      console.log(this.props.scheduleWellTests.toObject())
-    })
+    this.props.fetchTests()
+    this.props.fetchWells({ site_id: this.props.site.get('id') })
+    this.props.fetchSchedule(this.state.scheduleId)
+    this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId })
   }
 
   onChange (e) {
@@ -73,7 +77,6 @@ class EditSchedule extends React.Component {
       test: e.target.value,
     })
   }
-
 
   addTest (e) {
     this.props.editSchedule(this.state.scheduleId, {
@@ -110,7 +113,7 @@ class EditSchedule extends React.Component {
       }
   }
 
-  toggleGuagedWell (e, wellId) {
+  toggleGaugedWell (e, wellId) {
       if (e.target.checked) {
           this.props.editSchedule(this.state.scheduleId, {
               gauged_wells: {
@@ -141,7 +144,7 @@ class EditSchedule extends React.Component {
       return false
   }
 
-  toGuage (wellId) {
+  toGauge (wellId) {
       if (this.props.schedules.size) {
           const schedule = this.props.schedules.get(this.state.scheduleId)
           if (includes(schedule.get('gauged_well_ids'), wellId)) {
@@ -151,17 +154,28 @@ class EditSchedule extends React.Component {
       return false
   }
 
+  editSchedule (scheduleParams) {
+    this.props.editSchedule(this.state.scheduleId, scheduleParams)
+      .then(this.props.flashMessage('success', 'Site Activity Report Updated'))
+  }
+
   render () {
-    const { wells, site, schedules } = this.props
+    const { site, schedules } = this.props
     const siteStateId = parseInt(site.get('state_id'))
     const tests = this.props.tests.filter((test) => test.get('state_id') === siteStateId)
+      .valueSeq()
+    const wells = this.props.wells.valueSeq()
+
 
     if (wells && site && schedules.size > 0 && tests.size > 0) {
       const schedule = this.props.schedules.get(this.state.scheduleId)
-
+      const formattedDate = moment(schedule.get('date')).utc().format('YYYY-MM-DD')
+      const siteActivityReport = schedule.delete('test_ids')
+        .delete('gauged_well_ids')
+        .set('date', formattedDate)
       return (
           <div className="sample-schedule">
-            <h2>Edit Schedule</h2>
+            <h2>Edit Schedule: {formattedDate} </h2>
 
             <select name="tests" onChange={e => this.onChange(e)}>
               {tests.map(test => (
@@ -172,28 +186,30 @@ class EditSchedule extends React.Component {
             <button className="btn btn-primary" onClick={e => this.addTest(e)}>Add Test</button>
             <table className="table table-striped">
               <thead>
-                <td>&nbsp;</td>
-                <td>Gauge Only</td>
-                {schedule.get('test_ids').map(testId => (
-                  <td key={testId}>
-                    {tests.get(testId).get('title')}
-                    <i
-                      className="fa fa-times pointer"
-                      onClick={e => this.deleteTest(e, testId)}
-                    />
-                  </td>
-                ))}
+                <tr>
+                  <th>&nbsp;</th>
+                  <th>Gauge Only</th>
+                  {schedule.get('test_ids').map(testId => (
+                    <th key={testId}>
+                      {this.props.tests.get(testId).get('title')}
+                      <i
+                        className="fa fa-times pointer"
+                        onClick={e => this.deleteTest(e, testId)}
+                      />
+                    </th>
+                  ))}
+                </tr>
               </thead>
               <tbody>
-                {this.props.wells.map(well => (
+                {wells.map(well => (
                     <tr key={well.get('id')}>
                       <td>{well.get('title')}</td>
                       <td>
                         <input
                           type="checkbox"
                           className="gauge-only"
-                          onClick={e => this.toggleGuagedWell(e, well.get('id'))}
-                          checked={this.toGuage(well.get('id'))}
+                          onClick={e => this.toggleGaugedWell(e, well.get('id'))}
+                          checked={this.toGauge(well.get('id'))}
                         />
                       </td>
                       {schedule.get('test_ids').map(testId => (
@@ -209,6 +225,15 @@ class EditSchedule extends React.Component {
                   ))}
                 </tbody>
             </table>
+            <Row>
+              <Col sm={6}>
+                <h3> Site Activity Report </h3>
+                <SiteActivityReportForm
+                  initialValues={siteActivityReport}
+                  onSubmit={this.editSchedule}
+                />
+              </Col>
+            </Row>
           </div>
       )
     } else {
@@ -218,6 +243,10 @@ class EditSchedule extends React.Component {
     }
   }
 }
+
+/*****************************************************************************
+ * REDUX MAP TO PROPS
+ *****************************************************************************/
 
 const mapStateToProps = store => ({
   wells: store.get('wells'),
@@ -235,6 +264,11 @@ const mapDispatchToProps = dispatch => ({
   createScheduleWellTest: schedulewelltest => dispatch(createScheduleWellTest(schedulewelltest)),
   editScheduleWellTest: (id, schedulewelltest) => dispatch(editScheduleWellTest(id, schedulewelltest)),
   deleteScheduleWellTest: id => dispatch(deleteScheduleWellTest(id)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 })
+
+/*****************************************************************************
+ * EXPORT
+ *****************************************************************************/
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSchedule)

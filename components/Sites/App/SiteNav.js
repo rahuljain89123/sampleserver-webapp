@@ -158,12 +158,6 @@ const SiteNav = (props) => {
             >Sample Schedule</NavLink>
             <NavLink
               exact
-              to={`/app/sites/${site.get('id')}/details/site-activity-report`}
-              className="nav-link"
-              activeClassName="active"
-            >Site Activity Report Info - MI</NavLink>
-            <NavLink
-              exact
               to={`/app/sites/${site.get('id')}/details/qa-qc-preferences`}
               className="nav-link"
               activeClassName="active"
