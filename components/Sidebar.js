@@ -29,63 +29,72 @@ import { fetchSite } from '../actions/sites'
 
 
 class Sidebar extends React.Component {
-    constructor (props) {
-        super(props)
-        const siteId = parseInt(props.match.params.id, 10)
+  constructor (props) {
+    super(props)
+    const siteId = parseInt(props.match.params.id, 10)
 
-        this.state = {
-            open: false,
-            siteId,
-        }
+    this.state = {
+      open: true,
+      siteId,
     }
+  }
 
-    toggle () {
-        this.setState({
-            open: !this.state.open,
-        })
+  componentDidMount () {
+    if (!this.props.sites.get(this.state.siteId)) {
+      this.props.fetchSite(this.state.siteId)
     }
+  }
 
-    componentDidMount () {
-      if (!this.props.sites.get(this.state.siteId)) {
-        this.props.fetchSite(this.state.siteId)
-      }
+  componentWillReceiveProps () {
+  }
+
+  toggle () {
+    this.setState({
+      open: !this.state.open,
+    })
+  }
+
+  sideBarStatus () {
+    if (this.state.open) {
+      return 'open'
     }
+    return 'closed'
+  }
 
-    componentWillReceiveProps () {
-    }
+  render () {
+    const site = this.props.sites.get(this.state.siteId)
+    if (!site) { return null }
 
-    render () {
-        const site = this.props.sites.get(this.state.siteId)
-        if (!site) { return null }
-
-        return (
-            <div className="sidebar-container">
-                <div className="sidebar">
-                    <div className="content">
-                        <h1>Sidebar</h1>
-                        <SiteNav site={site} />
-                    </div>
-                    <div className="content-closed">
-                        <span>its closed</span>
-                        <img className="app-logo" src="/static/img/applogo.png" alt=""/>
-                    </div>
-                </div>
-            </div>
-        )
-    }
+    return (
+      <div className="sidebar-container">
+        <div className={`sidebar ${this.sideBarStatus()}`}>
+          <div className="content">
+            <h1>Sidebar</h1>
+            <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
+            <SiteNav site={site} />
+          </div>
+          <div className="content-closed">
+            <span>its closed</span>
+            <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
+            <img className="app-logo" src="/static/img/applogo.png" alt="" />
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = store => ({
-    sites: store.get('sites'),
-    user: currentUser(store),
-    labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
-    userEmail: safeGet(currentUser(store), 'email', ''),
-    roleDescription: safeGet(currentUserRole(store), 'description', ''),
-    company: currentCompany(store),
+  sites: store.get('sites'),
+  user: currentUser(store),
+  labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
+  userEmail: safeGet(currentUser(store), 'email', ''),
+  roleDescription: safeGet(currentUserRole(store), 'description', ''),
+  company: currentCompany(store),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchSite: id => dispatch(fetchSite(id)),
+  fetchSite: id => dispatch(fetchSite(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

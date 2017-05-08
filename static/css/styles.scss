@@ -368,9 +368,13 @@ section {
         text-align: center;
     }
 }
-
+#root {
+    height: 100%;
+}
 .wrapper {
+    height: 100%;
     .wrapper-inner {
+        height: 100%;
         display: flex;
         justify-content: space-around;
         align-items: stretch;
@@ -379,6 +383,7 @@ section {
 
         .sidebar-container {
             overflow: hidden;
+            height: 100%;
         }
         .main-container {
             overflow: hidden;
@@ -396,6 +401,7 @@ section {
         flex: 0 0 100px;
         .content {
             display: none;
+            height: 100%;
         }
         .content-closed {
             display: block;
