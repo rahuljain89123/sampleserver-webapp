@@ -13,132 +13,50 @@ const SiteNav = (props) => {
     <nav className="nav nav-pills flex-column">
       <NavLink
         to={`/app/sites/${site.get('id')}/lab-data-list`}
-        className="nav-link"
+        className="nav-link nav-parent"
         activeClassName="active"
       >Downloads</NavLink>
       <NavLink
-        to={`/app/sites/${site.get('id')}/pre-sampling`}
-        className="nav-link"
-        activeClassName="active"
-      >Pre-Sampling Reports</NavLink>
-      <PrivateRoute
-        path={`/app/sites/${site.get('id')}/pre-sampling`}
-        component={() => (
-          <nav className="nav nav-pills flex-column" style={{ marginLeft: 20 }}>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/scope`}
-              className="nav-link"
-              activeClassName="active"
-            >Work Scope</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/sample-bottle-request`}
-              className="nav-link"
-              activeClassName="active"
-            >Sample Bottle Request Report</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/site-map`}
-              className="nav-link"
-              activeClassName="active"
-            >Site Map</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/on-site-activity`}
-              className="nav-link"
-              activeClassName="active"
-            >Notice of On-site Work Activity</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/chain-custody`}
-              className="nav-link"
-              activeClassName="active"
-            >Chain of Custody</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/sample-bottle-labels`}
-              className="nav-link"
-              activeClassName="active"
-            >Sample Bottle Labels</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/pre-sampling/field-data-form`}
-              className="nav-link"
-              activeClassName="active"
-            >Field Data Form</NavLink>
-          </nav>
-        )}
-      />
-      <NavLink
         to={`/app/sites/${site.get('id')}/reports`}
-        className="nav-link"
+        className="nav-link nav-parent"
         activeClassName="active"
       >Regulatory Reports</NavLink>
       <PrivateRoute
         path={`/app/sites/${site.get('id')}/reports`}
         component={() => (
-          <nav className="nav nav-pills flex-column" style={{ marginLeft: 20 }}>
+          <nav className="nav nav-pills nav-children flex-column">
             <NavLink
-              to={`/app/sites/${site.get('id')}/reports/history`}
+              to={`/app/sites/${site.get('id')}/reports/analytical-boxmaps`}
               className="nav-link"
               activeClassName="active"
-            >Site History</NavLink>
+            >Analytical Boxmaps</NavLink>
             <NavLink
-              to={`/app/sites/${site.get('id')}/reports/field-data-table`}
+              to={`/app/sites/${site.get('id')}/reports/isochemical-contours`}
               className="nav-link"
               activeClassName="active"
-            >Field Data Results Table</NavLink>
+            >Isochemical Contours</NavLink>
             <NavLink
-              to={`/app/sites/${site.get('id')}/reports/field-data-graph`}
+              to={`/app/sites/${site.get('id')}/reports/groundwater-contours`}
               className="nav-link"
               activeClassName="active"
-            >Field Data Results Graph</NavLink>
+            >Groundwater Contours</NavLink>
             <NavLink
-              to={`/app/sites/${site.get('id')}/reports/groundwater-elevation`}
+              to={`/app/sites/${site.get('id')}/reports/free-product-contours`}
               className="nav-link"
               activeClassName="active"
-            >Groundwater Elevation</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/analytical-results-map`}
-              className="nav-link"
-              activeClassName="active"
-            >Analytical Results Map</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/analytical-results-table`}
-              className="nav-link"
-              activeClassName="active"
-            >Analytical Results Table</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/analytical-results-graph`}
-              className="nav-link"
-              activeClassName="active"
-            >Analytical Results Graph</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/groundwater-map`}
-              className="nav-link"
-              activeClassName="active"
-            >Groundwater Elevation Map</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/thickness`}
-              className="nav-link"
-              activeClassName="active"
-            >Free Product Thickness</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/groundwater`}
-              className="nav-link"
-              activeClassName="active"
-            >Free Product Groundwater</NavLink>
-            <NavLink
-              to={`/app/sites/${site.get('id')}/reports/wells`}
-              className="nav-link"
-              activeClassName="active"
-            >Well Construction/Location</NavLink>
+            >Free Product Contours</NavLink>
           </nav>
         )}
       />
       <NavLink
         to={`/app/sites/${site.get('id')}/details/info`}
-        className="nav-link"
+        className="nav-link nav-parent"
         activeClassName="active"
       >Site Details</NavLink>
       <PrivateRoute
         path={`/app/sites/${site.get('id')}/details`}
         component={() => (
-          <nav className="nav nav-pills flex-column" style={{ marginLeft: 20 }}>
+          <nav className="nav nav-pills flex-column nav-children">
             <NavLink
               exact
               to={`/app/sites/${site.get('id')}/details/info`}
@@ -173,7 +91,7 @@ const SiteNav = (props) => {
               to={`/app/sites/${site.get('id')}/details/executive-summary`}
               className="nav-link"
               activeClassName="active"
-            >Executive Summary, Site History and Background Information</NavLink>
+            >Executive Summary+</NavLink>
             <NavLink
               exact
               to={`/app/sites/${site.get('id')}/details/field-data-input`}
@@ -191,18 +109,18 @@ const SiteNav = (props) => {
               to={`/app/sites/${site.get('id')}/details/state-specific-info`}
               className="nav-link"
               activeClassName="active"
-            >State Specific Required Information - MI</NavLink>
+            >State Specific Info</NavLink>
           </nav>
         )}
       />
       <NavLink
         to={`/app/sites/${site.get('id')}/users`}
-        className="nav-link"
+        className="nav-link nav-parent"
         activeClassName="active"
       >Technicians</NavLink>
       <NavLink
         to={`/app/sites/${site.get('id')}/contacts`}
-        className="nav-link"
+        className="nav-link nav-parent"
         activeClassName="active"
       >Contacts</NavLink>
     </nav>

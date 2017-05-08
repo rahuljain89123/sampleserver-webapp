@@ -65,16 +65,25 @@ class Sidebar extends React.Component {
     const site = this.props.sites.get(this.state.siteId)
     if (!site) { return null }
 
+    let firstnameSpan = null
+
+    if (this.props.user) {
+      firstnameSpan = (<span className="name">{this.props.user.get('firstname')}</span>)
+    }
+
     return (
       <div className="sidebar-container">
         <div className={`sidebar ${this.sideBarStatus()}`}>
           <div className="content">
-            <h1>Sidebar</h1>
+            <div className="avatar-container">
+              <img className="profile-image" src="/static/img/blank-avatar.png" />
+              {firstnameSpan}
+            </div>
             <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
             <SiteNav site={site} />
           </div>
           <div className="content-closed">
-            <span>its closed</span>
+            <div className="avatar-container" />
             <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
             <img className="app-logo" src="/static/img/applogo.png" alt="" />
           </div>
