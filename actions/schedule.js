@@ -113,13 +113,12 @@ export const editSchedule = (id, scheduleParams) =>
         })
         .catch(e => {
             dispatch(setEditingSchedule(false))
-
             e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
-                    return dispatch(setEditingScheduleError(json.errors[0]))
+                    dispatch(setEditingScheduleError(json.errors[0]))
                 }
 
-                return dispatch(setEditingScheduleError({
+                dispatch(setEditingScheduleError({
                     msg: 'Unable to update schedule.',
                 }))
             })

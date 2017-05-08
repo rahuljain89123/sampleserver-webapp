@@ -20,12 +20,17 @@ import DraftJSFormGroup from 'SharedComponents/ReduxFormHelpers/DraftJSFormGroup
 import { msgFromError } from 'util'
 
 class EditExecutiveSummaryForm extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.onSuccess = this.onSuccess.bind(this)
+  }
 
   submitForm (siteParams) {
     this.props.editSite(
       this.props.site.get('id'),
       siteParams
-    ).then(this.onSuccess())
+    ).then(this.onSuccess)
   }
 
   onSuccess (params) {

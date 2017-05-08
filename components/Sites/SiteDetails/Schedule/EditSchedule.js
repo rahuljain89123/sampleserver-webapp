@@ -156,7 +156,8 @@ class EditSchedule extends React.Component {
 
   editSchedule (scheduleParams) {
     this.props.editSchedule(this.state.scheduleId, scheduleParams)
-      .then(this.props.flashMessage('success', 'Site Activity Report Updated'))
+      .then(() => {this.props.flashMessage('success', 'Site Activity Report Updated')})
+      .catch(() => {this.props.flashMessage('danger', 'There was an error')})
   }
 
   render () {

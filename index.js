@@ -23,7 +23,7 @@ ReactDOM.render((
         <Router>
             <div className="wrapper">
                 <div className="wrapper-inner">
-                    <Route path="/app/sites/" component={Sidebar} />
+                    <Route path="/app/sites/:id/" component={Sidebar} />
                     <div className="main-container">
                         <Route component={Header} />
                         <div className="container-fluid">

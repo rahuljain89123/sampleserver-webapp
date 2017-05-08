@@ -32,7 +32,6 @@ class Sidebar extends React.Component {
     constructor (props) {
         super(props)
         const siteId = parseInt(props.match.params.id, 10)
-        console.log(siteId)
 
         this.state = {
             open: false,

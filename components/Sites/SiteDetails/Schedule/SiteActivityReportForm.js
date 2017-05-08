@@ -72,5 +72,4 @@ const SiteActivityReportForm = (props) => {
   </Form>)
 }
 
-
 export default reduxForm({form: 'site_activity_report'})(SiteActivityReportForm)
