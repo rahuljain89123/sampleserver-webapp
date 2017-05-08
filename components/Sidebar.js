@@ -77,15 +77,21 @@ class Sidebar extends React.Component {
           <div className="content">
             <div className="avatar-container">
               <img className="profile-image" src="/static/img/blank-avatar.png" />
-              {firstnameSpan}
+                {firstnameSpan}
             </div>
             <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
             <SiteNav site={site} />
+            <div className="app-logo-container">
+              <img className="app-logo" src="/static/img/applogo.png" alt="" />
+              &copy; SampleServe
+            </div>
           </div>
           <div className="content-closed">
             <div className="avatar-container" />
             <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
-            <img className="app-logo" src="/static/img/applogo.png" alt="" />
+            <div className="app-logo-container">
+              <img className="app-logo" src="/static/img/applogo.png" alt="" />
+            </div>
           </div>
         </div>
       </div>
