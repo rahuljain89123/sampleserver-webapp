@@ -14,10 +14,40 @@ import {
 import {
     Button,
     Form,
+    FormGroup,
+    Label,
+    InputGroup,
+    InputGroupAddon,
 } from 'reactstrap'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
+import IndividualInput from 'SharedComponents/ReduxFormHelpers/IndividualInput'
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
 import RadioFormGroup from 'SharedComponents/ReduxFormHelpers/RadioFormGroup'
+
+const REPORT_TYPES = [
+  "Requested Supporting Documentation",
+  "Solid or Groundwater Investigation Monitoring",
+  "Corrective Active Plan Monitoring",
+  "Operative and Maintenance",
+  "Soil Vapor Monitoring",
+  "LNAPL",
+  "Other"
+]
+const RADIO_BOOLEANS = [
+  'contamination_migrated_off_site',
+  'impacted_parties_notified',
+  'vapors_in_confined_space',
+  'mobile_napl_present_currently',
+  'mobile_napl_present_previously',
+  'mobile_napl_present_recovered',
+  'migrating_napl_present_currently',
+  'migrating_napl_actions_taken',
+  'drinking_water_affected_currently',
+  'drinking_water_affected_previously',
+  'surface_water_contaminated',
+  'wellhead_protection_zone',
+  'contact_qc'
+]
 
 /**
  * MISSING FIELDS
@@ -45,10 +75,7 @@ class StateSpecificInfoForm extends React.Component {
 
   onSubmit (siteDataParams) {
     const { siteData, site, createSiteData, editSiteData } = this.props
-    siteDataParams = siteDataParams.set(
-      'michigan_rbca_site_classification',
-      parseInt(siteDataParams.get('michigan_rbca_site_classification'))
-    )
+
     if (!siteData) {
       siteDataParams = siteDataParams.set('site_id', site.get('id'))
       createSiteData(siteDataParams)
@@ -61,10 +88,21 @@ class StateSpecificInfoForm extends React.Component {
     const {
       handleSubmit,
       editingSiteData,
+      contact_qc,
       contamination_migrated_off_site,
       impacted_parties_notified,
-      michigan_rbca_site_classification,
+      type_of_rbca_evaluation,
       vapors_in_confined_space,
+      mobile_napl_present_currently,
+      mobile_napl_present_previously,
+      mobile_napl_present_recovered,
+      migrating_napl_present_currently,
+      migrating_napl_actions_taken,
+      drinking_water_affected_currently,
+      drinking_water_affected_previously,
+      surface_water_contaminated,
+      wellhead_protection_zone,
+      report_type,
     } = this.props
     const error = this.props.editingSiteDataError
     const generalError = error && error.msg ? error.msg : null
@@ -74,10 +112,23 @@ class StateSpecificInfoForm extends React.Component {
 
     const selectOptions= [1, 2, 3, 4].map((i) => (<option>{i}</option>))
 
-    const rbcaClassificationOptions = [1, 2, 3].map((i) => ({ value: i, title: `Tier ${i}`}))
-    const booleanOptions = [{ value: true, title: 'YES' }, { value: false, title: 'NO' }]
+    const rbcaClassificationOptions = ["Tier 1", "Tier 2", "Tier 3"].map((i) => ({ value: i, title: i}))
+    const booleanOptions = [{ value: 'true', title: 'YES' }, { value: 'false', title: 'NO' }]
+    const siteClassificationOptions = [null, 1, 2, 3, 4].map((i) => <option key={i} value={i}>{i}</option>)
+
+    const reportTypeOptions = REPORT_TYPES.map((reportType) => ({ value: reportType, title: reportType }))
 
     return (<Form onSubmit={handleSubmit(this.onSubmit)}>
+
+      <Field
+        props={{ error: errors.contact_qc, label: 'Permission is given for the Department of Environmental Quality to contact the QC:' }}
+        name='contact_qc'
+        id='contact_qc'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={contact_qc}
+      />
+
       <Field
         props={{ error: errors.date_release_discovered, label: 'Date(s) Release(s) Discovered' }}
         name='date_release_discovered'
@@ -95,13 +146,74 @@ class StateSpecificInfoForm extends React.Component {
       />
 
       <Field
-        props={{ error: errors.michigan_rbca_site_classification, label: 'Type of RBCA Evaluation' }}
-        name='michigan_rbca_site_classification'
-        id='michigan_rbca_site_classification'
+        props={{ error: errors.site_classification, label: 'Site Classification (1-4)' }}
+        name='site_classification'
+        id='site_classification'
+        component={SelectFormGroup}
+        options={siteClassificationOptions}
+      />
+
+      <Field
+        props={{ error: errors.previous_classification, label: 'Previous Classification (1-4)' }}
+        name='previous_classification'
+        id='previous_classification'
+        component={SelectFormGroup}
+        options={siteClassificationOptions}
+      />
+
+      <Field
+        props={{ error: errors.type_of_rbca_evaluation, label: 'Type of RBCA Evaluation' }}
+        name='type_of_rbca_evaluation'
+        id='type_of_rbca_evaluation'
         component={RadioFormGroup}
         options={rbcaClassificationOptions}
-        mValue={michigan_rbca_site_classification}
+        mValue={type_of_rbca_evaluation}
       />
+
+      <FormGroup tag='fieldset'>
+        <h3> Substances Released </h3>
+        <Field
+          props={{ error: errors.substances_released_gasoline, label: 'Gasoline' }}
+          name='substances_released_gasoline'
+          id='substances_released_gasoline'
+          component={IndividualFormGroup}
+          type='checkbox' />
+        <Field
+          props={{ error: errors.substances_released_diesel, label: 'Diesel' }}
+          name='substances_released_diesel'
+          id='substances_released_diesel'
+          component={IndividualFormGroup}
+          type='checkbox' />
+
+        <Field
+          props={{ error: errors.substances_released_ethanol, label: 'Ethanol' }}
+          name='substances_released_ethanol'
+          id='substances_released_ethanol'
+          component={IndividualFormGroup}
+          type='checkbox' />
+
+        <Field
+          props={{ error: errors.substances_released_ethanol_e10, label: 'E-10' }}
+          name='substances_released_ethanol_e10'
+          id='substances_released_ethanol_e10'
+          component={IndividualFormGroup}
+          type='checkbox' />
+
+        <Field
+          props={{ error: errors.substances_released_ethanol, label: 'E-85' }}
+          name='substances_released_ethanol_e85'
+          id='substances_released_ethanol_e85'
+          component={IndividualFormGroup}
+          type='checkbox' />
+
+        <Field
+          props={{ error: errors.substances_released_other, label: 'Other' }}
+          name='substances_released_other'
+          id='substances_released_other'
+          component={IndividualFormGroup}
+          type='text' />
+      </FormGroup>
+
 
       <Field
         props={{ error: errors.contamination_migrated_off_site, label: 'Has contamination migrated off-site above Tier 1 Residential RBSLs?' }}
@@ -130,12 +242,76 @@ class StateSpecificInfoForm extends React.Component {
       />
 
       <Field
-        props={{ error: errors.groundwater_flow_direction, label: 'Predominant groundwater flow direction:' }}
-        name='groundwater_flow_direction'
-        id='groundwater_flow_direction'
+        props={{ error: errors.depth_to_groundwater, label: 'Depth to groundwater:' }}
+        name='depth_to_groundwater'
+        id='depth_to_groundwater'
         component={IndividualFormGroup}
         type='text'
       />
+
+      <h3> Is mobile NAPL present? </h3>
+
+      <Field
+        props={{ error: errors.mobile_napl_present_currently, label: 'Currently?' }}
+        name='mobile_napl_present_currently'
+        id='mobile_napl_present_currently'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={mobile_napl_present_currently}
+      />
+
+      <Field
+        props={{ error: errors.mobile_napl_present_previously, label: 'Previously?' }}
+        name='mobile_napl_present_previously'
+        id='mobile_napl_present_previously'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={mobile_napl_present_previously}
+      />
+
+      <Field
+        props={{ error: errors.mobile_napl_present_recovered, label: 'If present, was it recovered?' }}
+        name='mobile_napl_present_recovered'
+        id='mobile_napl_present_recovered'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={mobile_napl_present_recovered}
+      />
+
+      <Field
+        props={{ error: errors.mobile_napl_present_recovered_gallons, label: 'If Recoverable, total gallons recovered since last report:' }}
+        name='mobile_napl_present_recovered_gallons'
+        id='mobile_napl_present_recovered_gallons'
+        component={IndividualFormGroup}
+        type='text' />
+
+      <Field
+        props={{ error: errors.mobile_napl_present_recovered_date, label: 'To date:' }}
+        name='mobile_napl_present_recovered_date'
+        id='mobile_napl_present_recovered_date'
+        component={IndividualFormGroup}
+        type='text' />
+
+      <br />
+
+      <Field
+        props={{ error: errors.migrating_napl_present_currently, label: 'Is migrating NAPL present:' }}
+        name='migrating_napl_present_currently'
+        id='migrating_napl_present_currently'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={migrating_napl_present_currently}
+      />
+
+      <Field
+        props={{ error: errors.migrating_napl_actions_taken, label: 'If YES, have actions been taken to prevent migration?' }}
+        name='migrating_napl_actions_taken'
+        id='migrating_napl_actions_taken'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={migrating_napl_actions_taken}
+      />
+
 
       <h3> Since Last Report </h3>
 
@@ -182,6 +358,78 @@ class StateSpecificInfoForm extends React.Component {
         mValue={vapors_in_confined_space}
       />
 
+      <h3> Drinking water supply affected? </h3>
+
+      <Field
+        props={{ error: errors.drinking_water_affected_currently, label: 'Currently:' }}
+        name='drinking_water_affected_currently'
+        id='drinking_water_affected_currently'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={drinking_water_affected_currently}
+      />
+
+      <Field
+        props={{ error: errors.drinking_water_affected_previously, label: 'Previously:' }}
+        name='drinking_water_affected_previously'
+        id='drinking_water_affected_previously'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={drinking_water_affected_previously}
+      />
+      <h3> Indicate type and # of wells affected: </h3>
+
+      <InputGroup>
+        <Field
+          name='drinking_water_affected_private'
+          id='drinking_water_affected_private'
+          component={IndividualInput}
+          type='checkbox' />
+        <InputGroupAddon> Private # </InputGroupAddon>
+        <Field
+          name='drinking_water_affected_private_num_wells'
+          id='drinking_water_affected_private_num_wells'
+          type='text'
+          component={IndividualInput} />
+      </InputGroup>
+
+      <InputGroup>
+        <Field
+          name='drinking_water_affected_public'
+          id='drinking_water_affected_public'
+          component={IndividualInput}
+          type='checkbox' />
+        <InputGroupAddon> Public Type II/III # </InputGroupAddon>
+        <Field
+          name='drinking_water_affected_public_num_wells'
+          id='drinking_water_affected_public_num_wells'
+          type='text'
+          component={IndividualInput} />
+      </InputGroup>
+
+      <InputGroup>
+        <Field
+          name='drinking_water_affected_municiple'
+          id='drinking_water_affected_municiple'
+          component={IndividualInput}
+          type='checkbox' />
+        <InputGroupAddon> Municipal # </InputGroupAddon>
+        <Field
+          name='drinking_water_affected_municiple_num_wells'
+          id='drinking_water_affected_municiple_num_wells'
+          type='text'
+          component={IndividualInput} />
+      </InputGroup>
+
+      <Field
+        props={{ error: errors.surface_water_contaminated, label: 'Has surface water / wetlands been contaminated?' }}
+        name='surface_water_contaminated'
+        id='surface_water_contaminated'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={surface_water_contaminated}
+      />
+
       <h3> Estimated distance and direction from point of release to nearest: </h3>
 
       <Field
@@ -208,6 +456,33 @@ class StateSpecificInfoForm extends React.Component {
         type='text'
       />
 
+      <Field
+        props={{ error: errors.wellhead_protection_zone, label: 'Is site within a wellhead protection zone?' }}
+        name='wellhead_protection_zone'
+        id='wellhead_protection_zone'
+        component={RadioFormGroup}
+        options={booleanOptions}
+        mValue={wellhead_protection_zone}
+      />
+
+      <Field
+        props={{ error: errors.report_type, label: 'Type of report:' }}
+        name='report_type'
+        id='report_type'
+        component={RadioFormGroup}
+        options={reportTypeOptions}
+        mValue={report_type}
+      />
+
+      <Field
+        props={{ error: errors.report_type_other, label: 'If Other, please specify:' }}
+        name='report_type_other'
+        id='report_type_other'
+        component={IndividualFormGroup}
+        type='text'
+      />
+
+
       <Button
         color="primary"
         disabled={editingSiteData}
@@ -226,20 +501,41 @@ const selector = formValueSelector(FORM_NAME)
 const mapStateToProps = (state, ownProps) => {
   const site = ownProps.site
   const siteData = state.get('siteDatas').filter((siteData) => siteData.get('site_id') === site.get('id')).first()
+  let initialValues = siteData
+  // const initialValues = siteData ? siteData.set('contamination_migrated_off_site', siteData.get('contamination_migrated_off_site').toString()) : siteData
 
-  const initialValues = siteData ? siteData.set('contamination_migrated_off_site', siteData.get('contamination_migrated_off_site').toString()) : siteData
+   if (initialValues) {
+     RADIO_BOOLEANS.forEach((key) => {
+       initialValues = initialValues.set(key, initialValues.get(key) ? initialValues.get(key).toString() : '')
+     })
+   }
 
   return {
     siteData,
     siteDataId: siteData ? siteData.get('id') : null,
     initialValues,
-    contamination_migrated_off_site: selector(state, 'contamination_migrated_off_site') === 'true',
-    michigan_rbca_site_classification: parseInt(selector(state, 'michigan_rbca_site_classification')),
-    impacted_parties_notified: selector(state, 'impacted_parties_notified') === 'true',
-    vapors_in_confined_space: selector(state, 'vapors_in_confined_space') === 'true',
+    contamination_migrated_off_site: selector(state, 'contamination_migrated_off_site'),
+    type_of_rbca_evaluation: selector(state, 'type_of_rbca_evaluation'),
+    impacted_parties_notified: selector(state, 'impacted_parties_notified'),
+    vapors_in_confined_space: selector(state, 'vapors_in_confined_space'),
+    mobile_napl_present_currently: selector(state, 'mobile_napl_present_currently'),
+    mobile_napl_present_previously: selector(state, 'mobile_napl_present_previously'),
+    mobile_napl_present_recovered: selector(state, 'mobile_napl_present_recovered'),
+
+    migrating_napl_present_currently: selector(state, 'migrating_napl_present_currently'),
+    migrating_napl_actions_taken: selector(state, 'migrating_napl_actions_taken'),
+
+    drinking_water_affected_currently: selector(state, 'drinking_water_affected_currently'),
+    drinking_water_affected_previously: selector(state, 'drinking_water_affected_previously'),
+
+    surface_water_contaminated: selector(state, 'surface_water_contaminated'),
+    wellhead_protection_zone: selector(state, 'wellhead_protection_zone'),
+    report_type: selector(state, 'report_type'),
+
+    contact_qc: selector(state, 'contact_qc'),
 
     editingSiteData: state.get('editingSiteData'),
-    editingSiteDataError: state.get('editingSiteDataError')
+    editingSiteDataError: state.get('editingSiteDataError'),
   }
 }
 
