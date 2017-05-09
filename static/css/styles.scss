@@ -1,7 +1,7 @@
 
 html, body {
     height: 100%;
-    font-family: 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-family: GothamHTF, 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
 }
 h1 {
     font-weight: normal;
@@ -11,7 +11,7 @@ h1 {
     font-weight: 200;
 }
 h1, h2, h3, h4 {
-    font-family: 'proxima-nova-400', 'Open Sans', 'Gill Sans MT', 'Gill Sans', Corbel,Arial,sans-serif;
+    font-family: GothamHTF, 'Open Sans', 'Gill Sans MT', 'Gill Sans', Corbel,Arial,sans-serif;
 }
 
 #wrapper {
@@ -48,16 +48,37 @@ body {
 }
 
 .navbar {
-    height: 69px;
+    height: 46px;
     /* col: */
     background: #FFFFFF;
     box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
     margin-bottom: 0;
+    padding: 20px 30px;
+    position: relative;
+
     .navbar-brand {
-        a {
-            color: #333;
-            text-decoration: none;
+        /* Gazorpazorp: */
+        color: #575C61;
+        opacity: 0.5;
+        font-family: GothamHTF;
+
+        &.navbar-sidebar {
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 0.43px;
+            line-height: 12px;
         }
+    }
+    .site-name {
+        /* Outpost #7: */
+        font-family: GothamHTF;
+        font-size: 20px;
+        color: #575C61;
+        letter-spacing: 0.71px;
+        position: absolute;
+        z-index: 10;
+        left: 30px;
+        top: 36px;
     }
 }
 .lab-logos {
@@ -401,6 +422,21 @@ section {
     display: none;
 }
 .sidebar {
+    font-family: 'GothamHTF';
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    color: #AAADB3;
+    position: relative;
+    width: 280px;
+    flex: 0 0 280px;
+    height: 100%;
+    min-height: 950px;
+    background: #575C61;
+    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
+    overflow: hidden;
+    top: 0;
+    bottom: 0;
+
     .fa-bars {
         color: #FFF;
         font-size: 24px;
@@ -487,20 +523,6 @@ section {
             }
         }
     }
-
-    font-family: 'GothamHTF';
-    letter-spacing: 0.08em;
-    font-size: 12px;
-    color: #AAADB3;
-    position: relative;
-    width: 280px;
-    flex: 0 0 280px;
-    height: 100%;
-    background: #575C61;
-    box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
-    overflow: hidden;
-    top: 0;
-    bottom: 0;
 }
 
 

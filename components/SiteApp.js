@@ -46,48 +46,46 @@ class SiteApp extends React.Component {
     if (!site) { return null }
 
     return (
-      <div className="card">
-        <div className="card-block">
-          <SiteDetails site={site} />
+      <div className="app">
+        <SiteDetails site={site} />
 
-          <PrivateRoute
-            exact
-            path={`/app/sites/${site.get('id')}/lab-data-list`}
-            component={props => <LabDataList site={site} {...props} />}
-          />
-          <PrivateRoute
-            exact
-            path={`/app/sites/${site.get('id')}/users`}
-            component={props => <ProjectSiteUsers site={site} {...props} />}
-          />
-          <PrivateRoute
-            exact
-            path={`/app/sites/${site.get('id')}/contacts`}
-            component={props => <SiteContacts site={site} {...props} />}
-          />
-          <PrivateRoute
-            exact
-            path={`/app/sites/${site.get('id')}/contacts/new`}
-            component={props => (
-              <NewSiteContact
-                site={site}
-                onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
-                {...props}
-              />
-            )}
-          />
-          <PrivateRoute
-            exact
-            path={`/app/sites/${site.get('id')}/contacts/:id`}
-            component={props => (
-              <EditSiteContact
-                site={site}
-                onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
-                {...props}
-              />
-            )}
-          />
-        </div>
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/lab-data-list`}
+          component={props => <LabDataList site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/users`}
+          component={props => <ProjectSiteUsers site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/contacts`}
+          component={props => <SiteContacts site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/contacts/new`}
+          component={props => (
+            <NewSiteContact
+              site={site}
+              onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
+              {...props}
+            />
+          )}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/contacts/:id`}
+          component={props => (
+            <EditSiteContact
+              site={site}
+              onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
+              {...props}
+            />
+          )}
+        />
       </div>
     )
   }
