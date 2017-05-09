@@ -73,7 +73,7 @@ class Sidebar extends React.Component {
               <img className="profile-image" src="/static/img/blank-avatar.png" />
                 {firstnameSpan}
             </div>
-            <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
+            <i className="material-icons" onClick={e => this.toggle(e)}>menu</i>
             <SiteNav site={site} />
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
@@ -82,7 +82,7 @@ class Sidebar extends React.Component {
           </div>
           <div className="content-closed">
             <div className="avatar-container" />
-            <i className="fa fa-bars" aria-hidden="true" onClick={e => this.toggle(e)} />
+            <i className="material-icons" onClick={e => this.toggle(e)}>menu</i>
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
             </div>

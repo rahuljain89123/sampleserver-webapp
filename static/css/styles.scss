@@ -437,9 +437,9 @@ section {
     top: 0;
     bottom: 0;
 
-    .fa-bars {
+    .fa-bars, .material-icons {
         color: #FFF;
-        font-size: 24px;
+        font-size: 22px;
         position: absolute;
         top: 32px;
         right: 28px;
@@ -454,7 +454,7 @@ section {
         .content-closed {
             display: block;
         }
-        .fa-bars {
+        .fa-bars, .material-icons {
             color: #1FC7C8;
             right: 41px;
         }
