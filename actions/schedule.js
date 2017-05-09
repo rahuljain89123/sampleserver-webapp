@@ -101,11 +101,11 @@ export const clearEditingScheduleError = () => ({
     type: CLEAR_EDITING_SCHEDULE_ERROR,
 })
 
-export const editSchedule = (id, schedule) =>
+export const editSchedule = (id, scheduleParams) =>
     dispatch => {
         dispatch(setEditingSchedule(true))
 
-        return API.patch(`/schedules/${id}`, schedule)
+        return API.patch(`/schedules/${id}`, scheduleParams)
         .then(json => {
             dispatch(setEditingSchedule(false))
             dispatch(receiveSchedule(json))
@@ -113,13 +113,12 @@ export const editSchedule = (id, schedule) =>
         })
         .catch(e => {
             dispatch(setEditingSchedule(false))
-
             e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
-                    return dispatch(setEditingScheduleError(json.errors[0]))
+                    dispatch(setEditingScheduleError(json.errors[0]))
                 }
 
-                return dispatch(setEditingScheduleError({
+                dispatch(setEditingScheduleError({
                     msg: 'Unable to update schedule.',
                 }))
             })

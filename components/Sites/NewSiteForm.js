@@ -261,42 +261,6 @@ class NewSiteForm extends React.Component {
                     />
                     <FormFeedback>{errors.start_sampling_on}</FormFeedback>
                 </FormGroup>
-                <FormGroup color={errors.history ? 'danger' : ''}>
-                    <Label for="history">History</Label>
-                    <Input
-                        state={errors.history ? 'danger' : ''}
-                        type="textarea"
-                        name="history"
-                        id="history"
-                        value={this.state.history}
-                        onChange={e => this.onChange(e)}
-                    />
-                    <FormFeedback>{errors.history}</FormFeedback>
-                </FormGroup>
-                <FormGroup color={errors.background ? 'danger' : ''}>
-                    <Label for="background">Background</Label>
-                    <Input
-                        state={errors.background ? 'danger' : ''}
-                        type="textarea"
-                        name="background"
-                        id="background"
-                        value={this.state.background}
-                        onChange={e => this.onChange(e)}
-                    />
-                    <FormFeedback>{errors.background}</FormFeedback>
-                </FormGroup>
-                <FormGroup color={errors.summary ? 'danger' : ''}>
-                    <Label for="summary">Summary</Label>
-                    <Input
-                        state={errors.summary ? 'danger' : ''}
-                        type="textarea"
-                        name="summary"
-                        id="summary"
-                        value={this.state.summary}
-                        onChange={e => this.onChange(e)}
-                    />
-                    <FormFeedback>{errors.summary}</FormFeedback>
-                </FormGroup>
                 <Button
                     color="primary"
                     disabled={this.props.creatingSite}
