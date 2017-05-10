@@ -62,6 +62,13 @@ import {
     editingScheduleError,
 } from 'reducers/schedules'
 import {
+    siteDatas,
+    creatingSiteData,
+    creatingSiteDataError,
+    editingSiteData,
+    editingSiteDataError,
+} from 'reducers/siteDatas'
+import {
     scheduleWellTests,
     creatingscheduleWellTest,
     creatingscheduleWellTestError,
@@ -167,6 +174,12 @@ const appReducer = combineReducers({
     siteMaps,
     siteMapWells,
     addingSiteMapWell,
+
+    siteDatas,
+    creatingSiteData,
+    creatingSiteDataError,
+    editingSiteData,
+    editingSiteDataError,
 
     schedules,
     creatingSchedule,

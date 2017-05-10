@@ -1,19 +1,20 @@
  
 import React from 'react'
-
 import { connect } from 'react-redux'
-import { editSite, clearEditingSiteError } from 'actions/sites'
-import { flashMessage } from 'actions/global'
 
 import {
   Row,
   Col,
 } from 'reactstrap'
-
 import {
   Button,
   Form,
 } from 'reactstrap'
+
+import { editSite, clearEditingSiteError } from 'actions/sites'
+import { flashMessage } from 'actions/global'
+
+
 
 import { Field, reduxForm } from 'redux-form/immutable'
 import DraftJSFormGroup from 'SharedComponents/ReduxFormHelpers/DraftJSFormGroup'

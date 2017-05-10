@@ -104,12 +104,12 @@ const SiteNav = (props) => {
               className="nav-link"
               activeClassName="active"
             >Lab Data Input</NavLink>
-            <NavLink
+            {site.get('state_id') === 35 && <NavLink
               exact
               to={`/app/sites/${site.get('id')}/details/state-specific-info`}
               className="nav-link"
-              activeClassName="active"
-            >State Specific Info</NavLink>
+              activeClassName="active">
+              State Specific Info</NavLink>}
           </nav>
         )}
       />

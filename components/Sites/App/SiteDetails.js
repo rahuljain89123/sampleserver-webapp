@@ -19,6 +19,7 @@ import SiteMap from 'components/Sites/SiteDetails/SiteMaps/SiteMap'
 import NewSiteMap from 'components/Sites/SiteDetails/SiteMaps/NewSiteMap'
 import LabDataUpload from 'components/Sites/LabDataUpload'
 import FieldDataUpload from 'components/Sites/FieldDataUpload'
+import StateSpecificInfoForm from 'components/Sites/SiteDetails/StateSpecificInfo/StateSpecificInfoForm'
 
 class SiteDetails extends React.Component {
   constructor (props) {
@@ -97,8 +98,11 @@ class SiteDetails extends React.Component {
         path={`/app/sites/${site.get('id')}/details/site-maps`}
         component={props => <SiteMapsList site={site} {...props} />}
       />
-
-
+      <PrivateRoute
+        exact
+        path={`/app/sites/${site.get('id')}/details/state-specific-info`}
+        component={props => <StateSpecificInfoForm site={site} {...props} />}
+      />
 
       <Switch>
         <PrivateRoute
