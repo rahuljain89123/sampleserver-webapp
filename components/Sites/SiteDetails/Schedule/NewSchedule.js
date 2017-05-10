@@ -40,9 +40,6 @@ class NewSchedule extends React.Component {
         this.props.fetchSchedules({site_id: this.props.site.get('id')})
     }
 
-    componentDidMount () {
-    }
-
     onChange (e) {
         if (this.props.creatingScheduleError) {
             this.props.clearCreatingScheduleError()

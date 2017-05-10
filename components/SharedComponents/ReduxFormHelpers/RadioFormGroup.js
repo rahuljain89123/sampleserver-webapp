@@ -15,8 +15,8 @@ const SelectFormGroup = (field) => {
             {...field.input}
             type='radio'
             value={option.value}
-            checked={option.value === field.mValue} />
-
+            checked={option.value === field.mValue}
+          />{' '}
           {option.title}
         </Label>
     </FormGroup>))

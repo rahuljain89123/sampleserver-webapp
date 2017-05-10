@@ -7,7 +7,10 @@ import {
 } from 'reactstrap'
 
 const IndividualFormGroup = (field) => (
-  <FormGroup check={field.type === 'checkbox'} color={field.error ? 'danger' : ''}>
+  <FormGroup
+    check={field.type === 'checkbox'}
+    color={field.error ? 'danger' : ''}
+    className={field.type === 'checkbox' ? 'pl-4': ''}>
     { field.type !== 'checkbox' && <Label for={field.id}> {field.label} </Label> }
     <Input
       { ...field.input}
