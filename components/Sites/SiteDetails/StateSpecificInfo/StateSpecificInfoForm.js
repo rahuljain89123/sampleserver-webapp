@@ -219,14 +219,14 @@ class StateSpecificInfoForm extends React.Component {
           mValue={contamination_migrated_off_site}
         />
 
-        {contamination_migrated_off_site && <Field
+        {contamination_migrated_off_site === 'true' && <div className='pl-4'><Field
           props={{ error: errors.impacted_parties_notified, label: 'If YES, have off-site impacted parties been notified per Section 21309a(3) of Part 213?' }}
           name='impacted_parties_notified'
           id='impacted_parties_notified'
           component={RadioFormGroup}
           options={booleanOptions}
           mValue={impacted_parties_notified}
-        />}
+        /></div>}
 
         <Field
           props={{ error: errors.groundwater_flow_direction, label: 'Predominant groundwater flow direction:' }}
