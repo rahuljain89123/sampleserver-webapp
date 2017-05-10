@@ -69,6 +69,10 @@ import {
     editingSiteDataError,
 } from 'reducers/siteDatas'
 import {
+    substances,
+    substanceGroups,
+} from 'reducers/substances'
+import {
     scheduleWellTests,
     creatingscheduleWellTest,
     creatingscheduleWellTestError,
@@ -180,6 +184,9 @@ const appReducer = combineReducers({
     creatingSiteDataError,
     editingSiteData,
     editingSiteDataError,
+
+    substances,
+    substanceGroups,
 
     schedules,
     creatingSchedule,
