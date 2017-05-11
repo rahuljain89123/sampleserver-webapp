@@ -6,8 +6,8 @@ import {
     SET_EDITING_SAMPLE,
     SET_EDITING_SAMPLE_ERROR,
     CLEAR_EDITING_SAMPLE_ERROR,
-} from '../constants/SampleActionTypes'
-import API from '../API'
+} from 'constants/SampleActionTypes'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

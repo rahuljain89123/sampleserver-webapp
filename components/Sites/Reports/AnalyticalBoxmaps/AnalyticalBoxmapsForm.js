@@ -14,10 +14,13 @@ import {
 } from 'actions/substances'
 import { fetchSiteMaps } from 'actions/siteMaps'
 import { fetchSamples } from 'actions/samples'
+import { fetchCriterias } from 'actions/criterias'
+
 class AnalyticalBoxmapsForm extends React.Component {
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
+    this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
   }
@@ -27,12 +30,17 @@ class AnalyticalBoxmapsForm extends React.Component {
       substances,
       substanceGroups,
       dates,
+      criterias,
     } =  this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>)
 
-    const dateOptions = dates.map((date, i) => <option key={i}>{date.format('YYYY-MM-DD')}</option>)
+    const dateOptions = dates.map((date, i) =>
+      <option key={i}>{date.format('YYYY-MM-DD')}</option>)
+
+    const criteriaOptions = criterias.map((criteria) =>
+      <option key={criteria.get('id')} value={criteria.get('id')}>{criteria.get('title')}</option>)
     return (
       <div>
 
@@ -42,22 +50,37 @@ class AnalyticalBoxmapsForm extends React.Component {
           name='sitemap'
           id='sitemap'
           options={siteMapOptions}
-          component={SelectFormGroup}/>
+          component={SelectFormGroup}
+        />
 
         <Field
           props={{label: 'Start Date'}}
           name='start_date'
           id='start_date'
           options={dateOptions}
-          component={SelectFormGroup} />
+          component={SelectFormGroup}
+         />
 
         <Field
           props={{label: 'End Date'}}
           name='end_date'
           id='end_date'
           options={dateOptions}
-          component={SelectFormGroup} />
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'Comparison Criteria'}}
+          name='criteria_id'
+          id='criteria_id'
+          options={criteriaOptions}
+          component={SelectFormGroup}
+        />
       </Form>
+        Criterias
+        <ul>
+          {this.props.criterias.valueSeq().map((sub) => <li key={sub.get('id')}>{sub.get('title')}</li>)}
+        </ul>
         Samples
         <ul>
           {this.props.dates.valueSeq().map((sub, i) => <li key={i}>{sub.format('YYYY-MM-DD')}</li>)}
@@ -84,6 +107,7 @@ AnalyticalBoxmapsForm = reduxForm({form: 'AnalyticalBoxmapsForm'})(AnalyticalBox
 const mapStateToProps = (state) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
+  criterias: state.get('criterias'),
   dates: state.get('samples')
     .valueSeq()
     .map((sample) => moment(sample.get('date_collected'))),
@@ -95,6 +119,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
   fetchSamples: filters => dispatch(fetchSamples(filters)),
+  fetchCriterias: filters => dispatch(fetchCriterias(filters))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnalyticalBoxmapsForm)
