@@ -1,38 +1,100 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Field, reduxForm } from 'redux-form/immutable'
+import moment from 'moment'
+import {
+  Form,
+} from 'reactstrap'
+
+import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
 
 import {
   fetchSubstances,
   fetchSubstanceGroups,
 } from 'actions/substances'
-
+import { fetchSiteMaps } from 'actions/siteMaps'
+import { fetchSamples } from 'actions/samples'
 class AnalyticalBoxmapsForm extends React.Component {
   componentDidMount () {
+    this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
+    this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
   }
   render () {
-    // if (!this.props.substances) { return null }
+    const {
+      siteMaps,
+      substances,
+      substanceGroups,
+      dates,
+    } =  this.props
+
+    const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
+      <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>)
+
+    const dateOptions = dates.map((date, i) => <option key={i}>{date.format('YYYY-MM-DD')}</option>)
     return (
-      <div><ul>
-        {this.props.substances.valueSeq().map((sub) => <li key={sub.get('id')}>{sub.get('title')}</li>)}
-      </ul>
-      hi
-      <ul>
-        {this.props.substanceGroups.valueSeq().map((sub) => <li key={sub.get('id')}>{sub.get('title')}</li>)}
-      </ul></div>
+      <div>
+
+      <Form>
+        <Field
+          props={{label: 'Site Map'}}
+          name='sitemap'
+          id='sitemap'
+          options={siteMapOptions}
+          component={SelectFormGroup}/>
+
+        <Field
+          props={{label: 'Start Date'}}
+          name='start_date'
+          id='start_date'
+          options={dateOptions}
+          component={SelectFormGroup} />
+
+        <Field
+          props={{label: 'End Date'}}
+          name='end_date'
+          id='end_date'
+          options={dateOptions}
+          component={SelectFormGroup} />
+      </Form>
+        Samples
+        <ul>
+          {this.props.dates.valueSeq().map((sub, i) => <li key={i}>{sub.format('YYYY-MM-DD')}</li>)}
+        </ul>
+        Substances
+        <ul>
+          {this.props.substances.valueSeq().map((sub) => <li key={sub.get('id')}>{sub.get('title')}</li>)}
+        </ul>
+        Substance Groups
+        <ul>
+          {this.props.substanceGroups.valueSeq().map((sub) => <li key={sub.get('id')}>{sub.get('title')}</li>)}
+        </ul>
+        SiteMaps
+        <ul>
+          {this.props.siteMaps.valueSeq().map((sitemap) => <li key={sitemap.get('id')}>{sitemap.get('title')}</li>)}
+        </ul>
+      </div>
     )
   }
 }
 
+AnalyticalBoxmapsForm = reduxForm({form: 'AnalyticalBoxmapsForm'})(AnalyticalBoxmapsForm)
+
 const mapStateToProps = (state) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
+  dates: state.get('samples')
+    .valueSeq()
+    .map((sample) => moment(sample.get('date_collected'))),
+  siteMaps: state.get('siteMaps'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
+  fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
+  fetchSamples: filters => dispatch(fetchSamples(filters)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnalyticalBoxmapsForm)

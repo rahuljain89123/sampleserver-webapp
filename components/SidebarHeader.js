@@ -129,7 +129,6 @@ class Header extends React.Component {
     }
 
     if (this.props.sites) {
-      console.log(this.props.sites)
       if (this.props.sites.size) {
         siteTitle = this.props.sites.get(this.state.siteId).get('title')
       }
