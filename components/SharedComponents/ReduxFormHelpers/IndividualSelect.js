@@ -1,7 +1,6 @@
 import { Input } from 'reactstrap'
 
 const IndividualSelect = (field) => {
-  // debugger
   if (field.mValue) { field.input.value = field.mValue }
   return <Input
     { ...field.input}
