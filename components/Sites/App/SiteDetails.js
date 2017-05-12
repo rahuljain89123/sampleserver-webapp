@@ -22,13 +22,9 @@ import FieldDataUpload from 'components/Sites/FieldDataUpload'
 import StateSpecificInfoForm from 'components/Sites/SiteDetails/StateSpecificInfo/StateSpecificInfoForm'
 
 class SiteDetails extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
   render () {
     const { site } = this.props
-    if (!site) { return null; }
+    if (!site) { return null }
 
     return (
       <div>

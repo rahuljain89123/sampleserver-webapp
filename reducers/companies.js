@@ -11,7 +11,7 @@ import {
     SET_EDITING_COMPANY_ERROR,
     CLEAR_EDITING_COMPANY_ERROR,
     REMOVE_COMPANY,
-} from '../constants/CompanyActionTypes'
+} from 'constants/CompanyActionTypes'
 
 export const companies = (state = Immutable.Map(), action) => {
     switch (action.type) {

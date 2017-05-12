@@ -16,7 +16,8 @@ var config = {
   resolve: {
     modules: ["node_modules", path.resolve(__dirname)],
     alias: {
-      SharedComponents: path.resolve(__dirname, 'components/SharedComponents/')
+      SharedComponents: path.resolve(__dirname, 'components/SharedComponents/'),
+      Sites: path.resolve(__dirname, 'components/Sites/')
     }
   },
   module: {

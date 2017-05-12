@@ -3,7 +3,7 @@ import {
   SET_PAGE_ERRORS,
   SET_FLASH,
   CLEAR_FLASH,
-} from '../constants/GlobalActionTypes'
+} from 'constants/GlobalActionTypes'
 
 /*****************************************************************************
  * ACTION CREATORS

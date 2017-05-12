@@ -69,12 +69,16 @@ import {
     editingSiteDataError,
 } from 'reducers/siteDatas'
 import {
+    substances,
+    substanceGroups,
+} from 'reducers/substances'
+import {
     scheduleWellTests,
     creatingscheduleWellTest,
     creatingscheduleWellTestError,
     editingscheduleWellTest,
     editingscheduleWellTestError,
-} from './reducers/scheduleWellTests'
+} from 'reducers/scheduleWellTests'
 import {
     projects,
     creatingProject,
@@ -104,6 +108,7 @@ import {
     editingWellError,
 } from 'reducers/wells'
 import { wellImages } from 'reducers/wellImages'
+import { criterias } from 'reducers/criterias'
 
 import { roles } from 'reducers/roles'
 import {
@@ -181,6 +186,9 @@ const appReducer = combineReducers({
     editingSiteData,
     editingSiteDataError,
 
+    substances,
+    substanceGroups,
+
     schedules,
     creatingSchedule,
     creatingScheduleError,
@@ -218,6 +226,8 @@ const appReducer = combineReducers({
     editingWellError,
     wellImages,
 
+    criterias,
+    
     roles,
 
     samples,
