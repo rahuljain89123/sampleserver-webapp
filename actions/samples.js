@@ -1,4 +1,5 @@
 
+import qs from 'qs'
 import {
     RECEIVE_SAMPLE,
     RECEIVE_SAMPLES,
@@ -6,7 +7,7 @@ import {
     SET_EDITING_SAMPLE_ERROR,
     CLEAR_EDITING_SAMPLE_ERROR,
 } from 'constants/SampleActionTypes'
-import API from '../API'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS
@@ -47,9 +48,9 @@ export const fetchSample = id =>
             dispatch(receiveSample(sample))
         })
 
-export const fetchSamples = () =>
+export const fetchSamples = (filters = {}) =>
     dispatch =>
-        API.get('/samples/')
+        API.get(`/samples/?${qs.stringify(filters)}`)
         .then(samples => {
             dispatch(receiveSamples(samples))
         })

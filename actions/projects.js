@@ -9,7 +9,7 @@ import {
     SET_EDITING_PROJECT_ERROR,
     CLEAR_EDITING_PROJECT_ERROR,
 } from 'constants/ProjectActionTypes'
-import API from '../API'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

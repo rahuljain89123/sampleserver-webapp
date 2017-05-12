@@ -23,7 +23,7 @@ import {
     SET_RESET_ERROR,
     CLEAR_RESET_ERROR,
 } from 'constants/UserActionTypes'
-import API from '../API'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

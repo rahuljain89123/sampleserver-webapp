@@ -11,7 +11,7 @@ import {
     SET_EDITING_SCHEDULE_ERROR,
     CLEAR_EDITING_SCHEDULE_ERROR,
 } from 'constants/ScheduleActionTypes'
-import API from '../API'
+import API from 'API'
 import pickBy from 'lodash/pickBy'
 
 /*****************************************************************************

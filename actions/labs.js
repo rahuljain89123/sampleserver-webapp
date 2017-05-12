@@ -10,7 +10,7 @@ import {
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
 } from 'constants/LabActionTypes'
-import API from '../API'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

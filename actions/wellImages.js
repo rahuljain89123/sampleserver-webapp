@@ -1,6 +1,6 @@
 
 import $q from 'q'
-import API from '../API'
+import API from 'API'
 
 import {
   RECEIVE_WELL_IMAGES,

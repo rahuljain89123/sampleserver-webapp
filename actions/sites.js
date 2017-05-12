@@ -11,7 +11,7 @@ import {
     SET_EDITING_SITE_ERROR,
     CLEAR_EDITING_SITE_ERROR,
 } from 'constants/SiteActionTypes'
-import API from '../API'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS
@@ -26,20 +26,6 @@ export const receiveSites = sites => ({
     type: RECEIVE_SITES,
     sites,
 })
-
-export const fetchSite = id =>
-    dispatch =>
-        API.get(`/sites/${id}`)
-        .then(site => {
-            dispatch(receiveSite(site))
-        })
-
-export const fetchSites = (filters = {}) =>
-    dispatch =>
-        API.get(`/sites/?${qs.stringify(filters)}`)
-        .then(sites => {
-            dispatch(receiveSites(sites))
-        })
 
 export const setCreatingSite = creating => ({
     type: SET_CREATING_SITE,
@@ -58,6 +44,20 @@ export const clearCreatingSiteError = () => ({
 /*****************************************************************************
  * THUNK ACTION CREATORS
  *****************************************************************************/
+
+export const fetchSite = id =>
+   dispatch =>
+       API.get(`/sites/${id}`)
+       .then(site => {
+           dispatch(receiveSite(site))
+       })
+
+export const fetchSites = (filters = {}) =>
+   dispatch =>
+       API.get(`/sites/?${qs.stringify(filters)}`)
+       .then(sites => {
+           dispatch(receiveSites(sites))
+       })
 
 export const createSite = site =>
     dispatch => {

@@ -12,7 +12,7 @@ import {
     CLEAR_EDITING_CONTACT_ERROR,
     REMOVE_CONTACT,
 } from 'constants/ContactActionTypes'
-import API from '../API'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS
