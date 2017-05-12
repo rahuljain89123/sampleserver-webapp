@@ -10,7 +10,7 @@ import {
     SET_EDITING_SITE,
     SET_EDITING_SITE_ERROR,
     CLEAR_EDITING_SITE_ERROR,
-} from '../constants/SiteActionTypes'
+} from 'constants/SiteActionTypes'
 
 export const sites = (state = Immutable.Map(), action) => {
     switch (action.type) {

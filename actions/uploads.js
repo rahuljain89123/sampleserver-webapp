@@ -1,5 +1,5 @@
 
-import { RECEIVE_UPLOAD, RECEIVE_UPLOADS, REMOVE_UPLOAD } from '../constants/UploadActionTypes'
+import { RECEIVE_UPLOAD, RECEIVE_UPLOADS, REMOVE_UPLOAD } from 'constants/UploadActionTypes'
 import API from '../API'
 import { setPageErrors } from './global'
 

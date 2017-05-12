@@ -7,16 +7,16 @@ import {
     SET_EDITING_SAMPLE,
     SET_EDITING_SAMPLE_ERROR,
     CLEAR_EDITING_SAMPLE_ERROR,
-} from '../constants/SampleActionTypes'
+} from 'constants/SampleActionTypes'
 
 export const samples = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_SAMPLE:
-        return state.set(action.sample.id, Immutable.Map(action.sample))
+        return state.set(action.sample.id, Immutable.fromJS(action.sample))
     case RECEIVE_SAMPLES:
         let tempState = state
         action.samples.forEach(sample => {
-            tempState = tempState.set(sample.id, Immutable.Map(sample))
+            tempState = tempState.set(sample.id, Immutable.fromJS(sample))
         })
         return tempState
     default:

@@ -5,7 +5,7 @@ import {
     SET_EDITING_TEST,
     SET_EDITING_TEST_ERROR,
     CLEAR_EDITING_TEST_ERROR,
-} from '../constants/TestActionTypes'
+} from 'constants/TestActionTypes'
 import API from '../API'
 
 export const receiveTest = test => ({

@@ -22,7 +22,7 @@ import {
     SET_RESETTING,
     SET_RESET_ERROR,
     CLEAR_RESET_ERROR,
-} from '../constants/UserActionTypes'
+} from 'constants/UserActionTypes'
 import API from '../API'
 
 /*****************************************************************************

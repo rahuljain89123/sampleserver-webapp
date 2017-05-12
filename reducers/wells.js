@@ -11,16 +11,16 @@ import {
     SET_EDITING_WELL_ERROR,
     CLEAR_EDITING_WELL_ERROR,
     REMOVE_WELL,
-} from '../constants/WellActionTypes'
+} from 'constants/WellActionTypes'
 
 export const wells = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_WELL:
-        return state.set(action.well.id, Immutable.Map(action.well))
+        return state.set(action.well.id, Immutable.fromJS(action.well))
     case RECEIVE_WELLS:
         let tempState = state
         action.wells.forEach(well => {
-            tempState = tempState.set(well.id, Immutable.Map(well))
+            tempState = tempState.set(well.id, Immutable.fromJS(well))
         })
         return tempState
     case REMOVE_WELL:

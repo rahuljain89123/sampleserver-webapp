@@ -7,16 +7,16 @@ import {
     SET_EDITING_TEST,
     SET_EDITING_TEST_ERROR,
     CLEAR_EDITING_TEST_ERROR,
-} from '../constants/TestActionTypes'
+} from 'constants/TestActionTypes'
 
 export const tests = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_TEST:
-        return state.set(action.test.id, Immutable.Map(action.test))
+        return state.set(action.test.id, Immutable.fromJS(action.test))
     case RECEIVE_TESTS:
         let tempState = state
         action.tests.forEach(test => {
-            tempState = tempState.set(test.id, Immutable.Map(test))
+            tempState = tempState.set(test.id, Immutable.fromJS(test))
         })
         return tempState
     default:

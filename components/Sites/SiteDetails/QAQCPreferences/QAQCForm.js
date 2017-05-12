@@ -24,9 +24,13 @@ import { fetchWells } from 'actions/wells'
 import { fetchTests } from 'actions/tests'
 
 const renderTests= ({ fields, options }) => {
+  const addTest = (e) => {
+    e.preventDefault()
+    fields.push({})
+  }
   return (<ul>
     {fields.map((test, index, fields) => {
-      const onClick = (e) => {
+      const removeTest = (e) => {
         e.preventDefault()
         fields.remove(index)
       }
@@ -38,14 +42,14 @@ const renderTests= ({ fields, options }) => {
             options={options}
             />
           <InputGroupButton>
-            <Button onClick={onClick}>Remove</Button>
+            <Button onClick={removeTest}>Remove</Button>
           </InputGroupButton>
         </InputGroup>
       </li>
     })}
 
     <li>
-      <button type="button" onClick={() => fields.push()}>Add Test</button>
+      <Button onClick={addTest}>Add Test</Button>
     </li>
   </ul>)
 }

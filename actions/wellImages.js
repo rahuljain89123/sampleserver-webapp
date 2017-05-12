@@ -5,7 +5,7 @@ import API from '../API'
 import {
   RECEIVE_WELL_IMAGES,
   REMOVE_WELL_IMAGE,
-} from '../constants/WellImageActionTypes'
+} from 'constants/WellImageActionTypes'
 
 /*****************************************************************************
  * ACTION CREATORS

@@ -11,7 +11,7 @@ import {
     SET_EDITING_CONTACT_ERROR,
     CLEAR_EDITING_CONTACT_ERROR,
     REMOVE_CONTACT,
-} from '../constants/ContactActionTypes'
+} from 'constants/ContactActionTypes'
 import API from '../API'
 
 /*****************************************************************************

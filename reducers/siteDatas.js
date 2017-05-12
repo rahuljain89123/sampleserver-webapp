@@ -10,16 +10,16 @@ import {
     SET_EDITING_SITE_DATA,
     SET_EDITING_SITE_DATA_ERROR,
     CLEAR_EDITING_SITE_DATA_ERROR,
-} from '../constants/SiteDataActionTypes'
+} from 'constants/SiteDataActionTypes'
 
 export const siteDatas = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_SITE_DATA:
-        return state.set(action.siteData.id, Immutable.Map(action.siteData))
+        return state.set(action.siteData.id, Immutable.fromJS(action.siteData))
     case RECEIVE_SITE_DATAS:
         let tempState = state
         action.siteDatas.forEach(siteData => {
-            tempState = tempState.set(siteData.id, Immutable.Map(siteData))
+            tempState = tempState.set(siteData.id, Immutable.fromJS(siteData))
         })
         return tempState
     default:

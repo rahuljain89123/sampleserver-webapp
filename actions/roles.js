@@ -2,7 +2,7 @@
 import {
     RECEIVE_ROLE,
     RECEIVE_ROLES,
-} from '../constants/RoleActionTypes'
+} from 'constants/RoleActionTypes'
 import API from '../API'
 
 /*****************************************************************************

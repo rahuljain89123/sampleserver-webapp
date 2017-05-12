@@ -11,16 +11,16 @@ import {
     SET_EDITING_LAB,
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
-} from '../constants/LabActionTypes'
+} from 'constants/LabActionTypes'
 
 export const labs = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_LAB:
-        return state.set(action.lab.id, Immutable.Map(action.lab))
+        return state.set(action.lab.id, Immutable.fromJS(action.lab))
     case RECEIVE_LABS:
         let tempState = state
         action.labs.forEach(lab => {
-            tempState = tempState.set(lab.id, Immutable.Map(lab))
+            tempState = tempState.set(lab.id, Immutable.fromJS(lab))
         })
         return tempState
     default:

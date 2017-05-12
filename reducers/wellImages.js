@@ -3,7 +3,7 @@ import Immutable from 'immutable'
 import {
   RECEIVE_WELL_IMAGES,
   REMOVE_WELL_IMAGE,
-} from '../constants/WellImageActionTypes'
+} from 'constants/WellImageActionTypes'
 
 export const wellImages = (state = Immutable.Map(), action) => {
   switch (action.type) {

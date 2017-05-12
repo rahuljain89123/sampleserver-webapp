@@ -11,16 +11,16 @@ import {
     SET_EDITING_COMPANY_ERROR,
     CLEAR_EDITING_COMPANY_ERROR,
     REMOVE_COMPANY,
-} from '../constants/CompanyActionTypes'
+} from 'constants/CompanyActionTypes'
 
 export const companies = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_COMPANY:
-        return state.set(action.company.id, Immutable.Map(action.company))
+        return state.set(action.company.id, Immutable.fromJS(action.company))
     case RECEIVE_COMPANIES:
         let tempState = state
         action.companies.forEach(company => {
-            tempState = tempState.set(company.id, Immutable.Map(company))
+            tempState = tempState.set(company.id, Immutable.fromJS(company))
         })
         return tempState
     case REMOVE_COMPANY:

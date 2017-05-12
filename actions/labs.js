@@ -9,7 +9,7 @@ import {
     SET_EDITING_LAB,
     SET_EDITING_LAB_ERROR,
     CLEAR_EDITING_LAB_ERROR,
-} from '../constants/LabActionTypes'
+} from 'constants/LabActionTypes'
 import API from '../API'
 
 /*****************************************************************************
