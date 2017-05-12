@@ -5,7 +5,7 @@ import {
   SET_PAGE_ERRORS,
   SET_FLASH,
   CLEAR_FLASH,
-} from '../constants/GlobalActionTypes'
+} from 'constants/GlobalActionTypes'
 
 export const pageErrors = (state = null, action) => {
     switch (action.type) {

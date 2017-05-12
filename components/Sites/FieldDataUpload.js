@@ -36,7 +36,6 @@ class FieldDataUpload extends React.Component {
 
     componentDidMount () {
         this.props.fetchUploads()
-        console.log(this.props.site.toObject())
     }
 
     onNewUpload () {

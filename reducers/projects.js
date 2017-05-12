@@ -10,16 +10,16 @@ import {
     SET_EDITING_PROJECT,
     SET_EDITING_PROJECT_ERROR,
     CLEAR_EDITING_PROJECT_ERROR,
-} from '../constants/ProjectActionTypes'
+} from 'constants/ProjectActionTypes'
 
 export const projects = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_PROJECT:
-        return state.set(action.project.id, Immutable.Map(action.project))
+        return state.set(action.project.id, Immutable.fromJS(action.project))
     case RECEIVE_PROJECTS:
         let tempState = state
         action.projects.forEach(project => {
-            tempState = tempState.set(project.id, Immutable.Map(project))
+            tempState = tempState.set(project.id, Immutable.fromJS(project))
         })
         return tempState
     default:

@@ -8,8 +8,8 @@ import {
     SET_EDITING_PROJECT,
     SET_EDITING_PROJECT_ERROR,
     CLEAR_EDITING_PROJECT_ERROR,
-} from '../constants/ProjectActionTypes'
-import API from '../API'
+} from 'constants/ProjectActionTypes'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

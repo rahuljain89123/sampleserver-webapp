@@ -10,8 +10,8 @@ import {
     SET_EDITING_SITE_DATA,
     SET_EDITING_SITE_DATA_ERROR,
     CLEAR_EDITING_SITE_DATA_ERROR,
-} from '../constants/SiteDataActionTypes'
-import API from '../API'
+} from 'constants/SiteDataActionTypes'
+import API from 'API'
 import pickBy from 'lodash/pickBy'
 
 /*****************************************************************************

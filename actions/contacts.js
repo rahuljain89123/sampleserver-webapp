@@ -11,8 +11,8 @@ import {
     SET_EDITING_CONTACT_ERROR,
     CLEAR_EDITING_CONTACT_ERROR,
     REMOVE_CONTACT,
-} from '../constants/ContactActionTypes'
-import API from '../API'
+} from 'constants/ContactActionTypes'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

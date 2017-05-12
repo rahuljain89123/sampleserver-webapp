@@ -11,8 +11,8 @@ import {
     SET_EDITING_SCHEDULE_WELL_TEST_ERROR,
     CLEAR_EDITING_SCHEDULE_WELL_TEST_ERROR,
     REMOVE_SCHEDULE_WELL_TEST,
-} from '../constants/ScheduleWellTestActionTypes'
-import API from '../API'
+} from 'constants/ScheduleWellTestActionTypes'
+import API from 'API'
 import pickBy from 'lodash/pickBy'
 
 
@@ -30,7 +30,6 @@ export const fetchScheduleWellTest = id =>
     dispatch =>
         API.get(`/schedulewelltests/${id}`)
         .then(schedulewelltest => {
-            console.log(schedulewelltest)
             dispatch(receiveScheduleWellTest(schedulewelltest))
         })
 

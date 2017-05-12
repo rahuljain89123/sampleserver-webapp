@@ -20,11 +20,11 @@ import {
 export const siteMaps = (state = Immutable.Map(), action) => {
   switch (action.type) {
   case RECEIVE_SITE_MAP:
-    return state.set(action.siteMap.id, Immutable.Map(action.siteMap))
+    return state.set(action.siteMap.id, Immutable.fromJS(action.siteMap))
   case RECEIVE_SITE_MAPS:
     let tempState = state
     action.siteMaps.forEach(siteMap => {
-      tempState = tempState.set(siteMap.id, Immutable.Map(siteMap))
+      tempState = tempState.set(siteMap.id, Immutable.fromJS(siteMap))
     })
     return tempState
   case REMOVE_SITE_MAP:

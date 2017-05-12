@@ -11,8 +11,8 @@ import {
     SET_EDITING_COMPANY_ERROR,
     CLEAR_EDITING_COMPANY_ERROR,
     REMOVE_COMPANY,
-} from '../constants/CompanyActionTypes'
-import API from '../API'
+} from 'constants/CompanyActionTypes'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

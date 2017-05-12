@@ -11,17 +11,17 @@ import {
     SET_EDITING_SCHEDULE_WELL_TESTS_ERROR,
     CLEAR_EDITING_SCHEDULE_WELL_TESTS_ERROR,
     REMOVE_SCHEDULE_WELL_TEST,
-} from '../constants/ScheduleWellTestActionTypes'
+} from 'constants/ScheduleWellTestActionTypes'
 
 
 export const scheduleWellTests = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_SCHEDULE_WELL_TEST:
-        return state.set(action.schedulewelltest.id, Immutable.Map(action.schedulewelltest))
+        return state.set(action.schedulewelltest.id, Immutable.fromJS(action.schedulewelltest))
     case RECEIVE_SCHEDULE_WELL_TESTS:
         let tempState = state
         action.schedulewelltests.forEach(schedulewelltest => {
-            tempState = tempState.set(schedulewelltest.id, Immutable.Map(schedulewelltest))
+            tempState = tempState.set(schedulewelltest.id, Immutable.fromJS(schedulewelltest))
         })
         return tempState
     case REMOVE_SCHEDULE_WELL_TEST:

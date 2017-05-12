@@ -10,8 +10,8 @@ import {
     SET_EDITING_SITE,
     SET_EDITING_SITE_ERROR,
     CLEAR_EDITING_SITE_ERROR,
-} from '../constants/SiteActionTypes'
-import API from '../API'
+} from 'constants/SiteActionTypes'
+import API from 'API'
 
 /*****************************************************************************
  * ACTION CREATORS

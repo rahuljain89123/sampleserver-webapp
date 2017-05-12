@@ -51,7 +51,6 @@ class NewSchedule extends React.Component {
     }
 
     changeDate(date) {
-      console.log
       this.setState({
         date: date
       })

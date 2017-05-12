@@ -20,16 +20,16 @@ import {
     SET_RESETTING,
     SET_RESET_ERROR,
     CLEAR_RESET_ERROR,
-} from '../constants/UserActionTypes'
+} from 'constants/UserActionTypes'
 
 export const users = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_USER:
-        return state.set(action.user.id, Immutable.Map(action.user))
+        return state.set(action.user.id, Immutable.fromJS(action.user))
     case RECEIVE_USERS:
         let tempState = state
         action.users.forEach(user => {
-            tempState = tempState.set(user.id, Immutable.Map(user))
+            tempState = tempState.set(user.id, Immutable.fromJS(user))
         })
         return tempState
     default:

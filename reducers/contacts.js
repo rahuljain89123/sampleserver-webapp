@@ -11,16 +11,16 @@ import {
     SET_EDITING_CONTACT_ERROR,
     CLEAR_EDITING_CONTACT_ERROR,
     REMOVE_CONTACT,
-} from '../constants/ContactActionTypes'
+} from 'constants/ContactActionTypes'
 
 export const contacts = (state = Immutable.Map(), action) => {
     switch (action.type) {
     case RECEIVE_CONTACT:
-        return state.set(action.contact.id, Immutable.Map(action.contact))
+        return state.set(action.contact.id, Immutable.fromJS(action.contact))
     case RECEIVE_CONTACTS:
         let tempState = state
         action.contacts.forEach(contact => {
-            tempState = tempState.set(contact.id, Immutable.Map(contact))
+            tempState = tempState.set(contact.id, Immutable.fromJS(contact))
         })
         return tempState
     case REMOVE_CONTACT:
