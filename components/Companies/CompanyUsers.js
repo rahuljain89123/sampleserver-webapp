@@ -13,8 +13,8 @@ import {
   Col,
 } from 'reactstrap'
 
-import UsersTable from 'SharedComponents/team/UsersTable'
-import UserForm from 'SharedComponents/team/UserForm'
+import UsersTable from 'SharedComponents/Team/UsersTable'
+import UserForm from 'SharedComponents/Team/UserForm'
 
 import { fetchCompany } from 'actions/companies'
 import { createUser, fetchUsers, editUser } from 'actions/users'

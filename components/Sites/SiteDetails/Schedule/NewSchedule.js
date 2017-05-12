@@ -18,8 +18,8 @@ import {
     createSchedule,
     clearCreatingScheduleError,
     fetchSchedules,
-} from '../../../../actions/schedule'
-import { msgFromError } from '../../../../util'
+} from 'actions/schedule'
+import { msgFromError } from 'util'
 
 
 class NewSchedule extends React.Component {
@@ -40,9 +40,6 @@ class NewSchedule extends React.Component {
         this.props.fetchSchedules({site_id: this.props.site.get('id')})
     }
 
-    componentDidMount () {
-    }
-
     onChange (e) {
         if (this.props.creatingScheduleError) {
             this.props.clearCreatingScheduleError()
@@ -54,7 +51,6 @@ class NewSchedule extends React.Component {
     }
 
     changeDate(date) {
-      console.log
       this.setState({
         date: date
       })

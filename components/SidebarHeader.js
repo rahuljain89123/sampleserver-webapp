@@ -128,6 +128,14 @@ class Header extends React.Component {
       )
     }
 
+    if (this.props.sites) {
+      if (this.props.sites.size) {
+        siteTitle = this.props.sites.get(this.state.siteId).get('title')
+      }
+    } else {
+      siteTitle = ''
+    }
+
     return (
       <div className="navbar-container">
         {flashAlert}
@@ -135,7 +143,8 @@ class Header extends React.Component {
           className="flex-row justify-content-end"
           style={{ marginBottom: 20 }}
         >
-          <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
+          <Link to="/app" className="mr-auto navbar-brand navbar-sidebar">{this.getAppTitle()}</Link>
+          <div className="site-name">{siteTitle}</div>
           {userDropdown}
         </Navbar>
       </div>

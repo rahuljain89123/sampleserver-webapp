@@ -15,7 +15,7 @@ import {
 } from 'actions/schedule'
 import { msgFromError } from 'util'
 
-class ListSchedules extends React.Component {
+class SchedulesList extends React.Component {
     constructor (props) {
         super(props)
     }
@@ -72,4 +72,4 @@ const mapDispatchToProps = dispatch => ({
     fetchSchedules: filters => dispatch(fetchSchedules(filters)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ListSchedules)
+export default connect(mapStateToProps, mapDispatchToProps)(SchedulesList)

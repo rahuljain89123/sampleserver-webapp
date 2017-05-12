@@ -1,19 +1,20 @@
  
 import React from 'react'
-
 import { connect } from 'react-redux'
-import { editSite, clearEditingSiteError } from '../../../../actions/sites'
-import { flashMessage } from '../../../../actions/global'
 
 import {
   Row,
   Col,
 } from 'reactstrap'
-
 import {
-    Button,
-    Form,
+  Button,
+  Form,
 } from 'reactstrap'
+
+import { editSite, clearEditingSiteError } from 'actions/sites'
+import { flashMessage } from 'actions/global'
+
+
 
 import { Field, reduxForm } from 'redux-form/immutable'
 import DraftJSFormGroup from 'SharedComponents/ReduxFormHelpers/DraftJSFormGroup'
@@ -21,14 +22,16 @@ import { msgFromError } from 'util'
 
 class EditExecutiveSummaryForm extends React.Component {
   constructor (props) {
-      super(props)
+    super(props)
+
+    this.onSuccess = this.onSuccess.bind(this)
   }
 
   submitForm (siteParams) {
     this.props.editSite(
       this.props.site.get('id'),
       siteParams
-    ).then(this.onSuccess())
+    ).then(this.onSuccess)
   }
 
   onSuccess (params) {

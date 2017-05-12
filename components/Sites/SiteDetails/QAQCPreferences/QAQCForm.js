@@ -1,4 +1,5 @@
 import React from 'react'
+import Immutable from 'immutable'
 import { connect } from 'react-redux'
 import {
   Field,
@@ -24,7 +25,7 @@ import { fetchTests } from 'actions/tests'
 
 const renderTests= ({ fields, options }) => {
   return (<ul>
-    {fields.map((test, index) => {
+    {fields.map((test, index, fields) => {
       const onClick = (e) => {
         e.preventDefault()
         fields.remove(index)
@@ -51,36 +52,34 @@ const renderTests= ({ fields, options }) => {
 
 
 const renderWells= ({ fields, options }) => {
-  const addButton = (e) => {
+  const addWell = (e) => {
     e.preventDefault()
-    fields.push()
+    fields.push({})
   }
-  console.log(fields.length)
   return (<ul>
-    {fields.map((well, index) => {
-      const removeButton = (e) => {
+    {fields.map((well, index, fields) => {
+      const removeWell = (e) => {
         e.preventDefault()
         fields.remove(index)
       }
 
-
+      // debugger
       return <li key={index}>
         <InputGroup>
           <Field
             name={well}
             component={IndividualSelect}
             options={options}
-
             />
           <InputGroupButton>
-            <Button onClick={removeButton}>Remove</Button>
+            <Button onClick={removeWell}>Remove</Button>
           </InputGroupButton>
         </InputGroup>
       </li>
     })}
 
     <li>
-      <Button onClick={addButton}>Add Well</Button>
+      <Button onClick={addWell}>Add Well</Button>
     </li>
   </ul>)
 }
@@ -320,17 +319,23 @@ const FORM_NAME = 'QAQCForm'
 QAQCForm = reduxForm({ form: FORM_NAME })(QAQCForm)
 
 const selector = formValueSelector(FORM_NAME)
-const mapStateToProps = (state, ownProps) => ({
-  initialValues: ownProps.site,
-  qaqcDuplicates: selector(state, 'qaqc_duplicates'),
-  qaqcMSMSDS: selector(state, 'qaqc_msmsds'),
-  qaqcFieldBlanks: selector(state, 'qaqc_fieldblanks'),
-  qaqcTripBlanks: selector(state, 'qaqc_tripblanks'),
-  qaqcEquipmentBlanks: selector(state, 'qaqc_equipmentblanks'),
+const mapStateToProps = (state, ownProps) => {
+  const { site } = ownProps
+  // const initialValues = site
+  //   .set('qaqc_duplicates_test_ids', Immutable.List(site.get('qaqc_duplicates_test_ids')))
+  //   .set('qaqc_duplicates_well_ids', Immutable.List(site.get('qaqc_duplicates_well_ids')))
+  return {
+    initialValues: site,
+    qaqcDuplicates: selector(state, 'qaqc_duplicates'),
+    qaqcMSMSDS: selector(state, 'qaqc_msmsds'),
+    qaqcFieldBlanks: selector(state, 'qaqc_fieldblanks'),
+    qaqcTripBlanks: selector(state, 'qaqc_tripblanks'),
+    qaqcEquipmentBlanks: selector(state, 'qaqc_equipmentblanks'),
 
-  wells: state.get('wells'),
-  tests: state.get('tests'),
-})
+    wells: state.get('wells'),
+    tests: state.get('tests'),
+  }
+}
 
 const mapDispatchToProps = (dispatch) => ({
   fetchWells: () => dispatch(fetchWells()),

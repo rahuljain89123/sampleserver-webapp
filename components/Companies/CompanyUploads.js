@@ -54,7 +54,6 @@ class CompanyUploads extends React.Component {
                 dry_run: 'true',
             }).catch(e => {
                 e.response.json().then(error => {
-                    console.log(error)
                     this.setState({
                         error: error.message
                     })

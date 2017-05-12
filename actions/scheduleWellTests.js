@@ -30,7 +30,6 @@ export const fetchScheduleWellTest = id =>
     dispatch =>
         API.get(`/schedulewelltests/${id}`)
         .then(schedulewelltest => {
-            console.log(schedulewelltest)
             dispatch(receiveScheduleWellTest(schedulewelltest))
         })
 

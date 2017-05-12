@@ -8,9 +8,9 @@ import { connect } from 'react-redux'
 import PrivateRoute from 'components/Auth'
 import EditSite from 'components/Sites/EditSite'
 import Wells from 'components/Sites/SiteDetails/Wells/list'
-import ListSchedules from 'components/Sites/SiteDetails/Schedule/list'
-import NewSchedule from 'components/Sites/SiteDetails/Schedule/new'
-import EditSchedule from 'components/Sites/SiteDetails/Schedule/edit'
+import SchedulesList from 'components/Sites/SiteDetails/Schedule/SchedulesList'
+import NewSchedule from 'components/Sites/SiteDetails/Schedule/NewSchedule'
+import EditSchedule from 'components/Sites/SiteDetails/Schedule/EditSchedule'
 import EditExecutiveSummaryForm from 'components/Sites/SiteDetails/ExecutiveSummary/EditExecutiveSummaryForm'
 import EditWell from 'components/Wells/EditWell'
 import NewWell from 'components/Wells/NewWell'
@@ -20,6 +20,7 @@ import NewSiteMap from 'components/Sites/SiteDetails/SiteMaps/NewSiteMap'
 import LabDataUpload from 'components/Sites/LabDataUpload'
 import FieldDataUpload from 'components/Sites/FieldDataUpload'
 import QAQCForm from 'components/Sites/SiteDetails/QAQCPreferences/QAQCForm'
+import StateSpecificInfoForm from 'components/Sites/SiteDetails/StateSpecificInfo/StateSpecificInfoForm'
 
 class SiteDetails extends React.Component {
   constructor (props) {
@@ -59,7 +60,7 @@ class SiteDetails extends React.Component {
       <PrivateRoute
         exact
         path={`/app/sites/${site.get('id')}/details/sample-schedule`}
-        component={props => <ListSchedules site={site} {...props} />}
+        component={props => <SchedulesList site={site} {...props} />}
       />
       <PrivateRoute
         exact
@@ -105,6 +106,11 @@ class SiteDetails extends React.Component {
         component={props => <QAQCForm site={site} {...props} />}
       />
 
+      <PrivateRoute
+        exact
+        path={`/app/sites/${site.get('id')}/details/state-specific-info`}
+        component={props => <StateSpecificInfoForm site={site} {...props} />}
+      />
 
       <Switch>
         <PrivateRoute
