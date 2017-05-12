@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form/immutable'
 import moment from 'moment'
 import {
   Form,
+  Input,
 } from 'reactstrap'
 
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
@@ -26,6 +27,7 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
   render () {
     const {
+      site,
       siteMaps,
       substances,
       substanceGroups,
@@ -41,9 +43,30 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     const criteriaOptions = criterias.map((criteria) =>
       <option key={criteria.get('id')} value={criteria.get('id')}>{criteria.get('title')}</option>)
+
+    const groupedSubstances = substanceGroups.map((substanceGroup) =>
+      substances.filter((substance) => (substance.get('substance_group_id') === substanceGroup.get('id')))
+    )
+
+    // debugger
+
+    // if (substances.size) { debugger }
+
+    const groupedSubstanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
+      <optgroup key={substanceGroupId} label={substanceGroups.get(substanceGroupId).get('title')}>
+        {substances.valueSeq().map(substance =>
+          (<option value={substance.get('id')}>{substance.get('title')}</option>))}
+      </optgroup>
+    ).valueSeq()
+
+    const siteSubstances = site.get('substance_ids').map((id) =>
+      <li key={id}>
+        {substance.get(id).get('title')}
+        <a href='#'> X </a>
+      </li>
+    )
     return (
       <div>
-
       <Form>
         <Field
           props={{label: 'Site Map'}}
@@ -76,6 +99,15 @@ class AnalyticalBoxmapsForm extends React.Component {
           options={criteriaOptions}
           component={SelectFormGroup}
         />
+
+        Substances
+        <ul>
+          {siteSubstances}
+        </ul>
+
+        <Input type='select'>
+          {groupedSubstanceOptions}
+        </Input>
       </Form>
         Criterias
         <ul>
