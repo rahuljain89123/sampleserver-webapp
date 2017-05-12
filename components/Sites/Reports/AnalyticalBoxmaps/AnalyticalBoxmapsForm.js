@@ -65,8 +65,10 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     const groupedSubstanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
       <optgroup key={substanceGroupId} label={substanceGroups.get(substanceGroupId).get('title')}>
-        {substances.valueSeq().map(substance =>
-          (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>))}
+        {substances.valueSeq().map(substance => {
+          if (site.get('substance_ids').includes(substance.get('id'))) { return null }
+          return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
+        })}
       </optgroup>
     ).valueSeq()
 
@@ -77,6 +79,7 @@ class AnalyticalBoxmapsForm extends React.Component {
         <a href='#' onClick={(e) => this.removeSubstance(id)}> X </a>
       </li>)
     })
+
     return (
       <div>
         <Form>
@@ -112,14 +115,15 @@ class AnalyticalBoxmapsForm extends React.Component {
             component={SelectFormGroup}
           />
 
-          Substances
+          Substances (no more than 13)
           <ul>
             {siteSubstances}
           </ul>
 
-          <Input type='select' onChange={this.addSubstance.bind(this)}>
-            {groupedSubstanceOptions}
-          </Input>
+          { siteSubstances.length < 13 && <Input type='select' onChange={this.addSubstance.bind(this)}>
+              {groupedSubstanceOptions}
+            </Input>
+          }
 
           <Button
             color="primary"
