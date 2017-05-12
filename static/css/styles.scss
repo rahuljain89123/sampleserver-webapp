@@ -1,7 +1,24 @@
+$tdk: #282B2F;
+$tdk-lt: #575B61;
+
+$storm: #6E6D79;
+$storm-lt: #A6AEB6;
+
+$maxx: #7B53FC;
+$maxx-lt: #9A7AFF;
+
+$cayman: #1FC7C8;
+$cayman-lt: #41E3E5;
+
+$gecko: #02BE67;
+$gecko-lt: #12CF79;
+
+$ss-font-family: 'Gotham HTF','Open Sans', helvetica, arial, sans-serif;
+
 
 html, body {
     height: 100%;
-    font-family: GothamHTF, 'Open Sans', 'lucida grande', 'Segoe UI', arial, verdana, 'lucida sans unicode', tahoma, sans-serif;
+    font-family: $ss-font-family;
 }
 h1 {
     font-weight: normal;
@@ -11,7 +28,7 @@ h1 {
     font-weight: 200;
 }
 h1, h2, h3, h4 {
-    font-family: GothamHTF, 'Open Sans', 'Gill Sans MT', 'Gill Sans', Corbel,Arial,sans-serif;
+    font-family: $ss-font-family
 }
 
 #wrapper {
@@ -524,10 +541,15 @@ section {
         }
     }
 }
-
-
-
-
+.add-test {
+    margin-bottom: 20px;
+}
+@media (min-width: 1200px) {
+    .container-fluid {
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+}
 
 
 
