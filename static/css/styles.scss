@@ -68,16 +68,13 @@ body {
 
 .navbar {
     height: 46px;
-    /* col: */
     background: #FFFFFF;
     box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
-    margin-bottom: 0;
     padding: 20px 30px;
     position: relative;
     margin-bottom: 35px;
 
     .navbar-brand {
-        /* Gazorpazorp: */
         color: #575C61;
         opacity: 0.5;
         font-family: GothamHTF;
@@ -90,7 +87,6 @@ body {
         }
     }
     .site-name {
-        /* Outpost #7: */
         font-family: GothamHTF;
         font-size: 20px;
         color: #575C61;
@@ -672,7 +668,7 @@ section {
     }
 }
 form {
-    margin: 20px 10px;
+    margin: 0 10px 10px 10px;
     label {
         /* Project: */
         opacity: 0.65;
@@ -707,14 +703,28 @@ form {
     }
 }
 .app {
-    h4 {
+    .flex-row {
+        border-bottom: 1px solid #E1E3E6;
+        padding-bottom: 30px;
+        margin-bottom: 25px;
+        h2 {
+            margin-bottom: 0;
+        }
+
+    }
+    h2 {
         /* New Site: */
         font-family: GothamHTF;
         font-size: 24px;
         color: #282B2F;
         letter-spacing: 0.5px;
-        border-bottom: 1px solid #E1E3E6;
-        padding-bottom: 35px;
+        margin-bottom: 25px;
+        line-height: 38px;
+
+        &.border-bottom {
+            border-bottom: 1px solid #E1E3E6;
+            padding-bottom: 30px;
+        }
     }
 }
 
