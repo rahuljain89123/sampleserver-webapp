@@ -73,9 +73,11 @@ export const fetchWell = id =>
     })
 
 export const fetchWells = (filters = {}) =>
-  dispatch =>
-    API.get(`/wells/?${qs.stringify(filters)}`)
+  dispatch => {
+    if (!filters.per_page) { filters.per_page = 50 }
+    return API.get(`/wells/?${qs.stringify(filters)}`)
     .then(wells => dispatch(receiveWells(wells)))
+  }
 
 export const createWell = well =>
   dispatch => {

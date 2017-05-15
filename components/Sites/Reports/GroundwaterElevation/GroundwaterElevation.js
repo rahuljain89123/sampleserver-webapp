@@ -31,40 +31,9 @@ import {
   flashMessage
 } from 'actions/global'
 
-import IsochemicalContoursForm from './IsochemicalContoursForm'
 import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
 
-const SelectSubstances = ({ fields, options, substances }) => {
-
-  const addSubstance = (e) => {
-    fields.push(e.target.value)
-  }
-
-  return (
-    <ul style={{listStyle: 'none'}}>
-      <li> <Label>Substances</Label></li>
-      {fields.map(
-        (substance, index, fields) => {
-          const remove = (e) => {
-            e.preventDefault()
-            fields.remove(index)
-          }
-          return (<li key={index}>
-            {substances.get(parseInt(fields.get(index))).get('title')}{' '}
-            <a href='#' onClick={remove}>X</a>
-          </li>)
-        }
-      )}
-      <li>
-        <Input type='select' onChange={addSubstance}>
-            {options}
-        </Input>
-      </li>
-    </ul>
-  )
-}
-
-class IsochemicalContours extends React.Component {
+class GroundwaterElevation extends React.Component {
   constructor (props) {
     super(props)
     this.drawWellMarker = this.drawWellMarker.bind(this)
@@ -73,7 +42,7 @@ class IsochemicalContours extends React.Component {
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.fetchSubstances()
-    this.props.fetchWells({ site_id: this.props.site.get('id') })
+
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
   }
 
@@ -97,8 +66,7 @@ class IsochemicalContours extends React.Component {
 
   drawWellMarker (well, ctx, loc) {
     const { x, y, scale } = loc
-    debugger
-    const val = this.props.date ? 100.0 : this.props.wells.get(well.get('well_id')).get('title');
+    const val = 100.0;
     const color = 'black'
     const fontSize = 15 * scale
     const width = 100 * scale
@@ -115,7 +83,6 @@ class IsochemicalContours extends React.Component {
     ctx.fillStyle = 'white'
     ctx.textAlign = 'center'
     ctx.textBaseline='middle'
-
     ctx.fillText(val, x, y)
   }
 
@@ -168,14 +135,6 @@ class IsochemicalContours extends React.Component {
           options={siteMapOptions}
         />
 
-        <FieldArray
-          name='substance_ids'
-          id='substance_ids'
-          component={SelectSubstances}
-          options={substanceOptions}
-          substances={this.props.substances}
-        />
-
         <Field
           props={{label: 'Date'}}
           name='date'
@@ -222,9 +181,9 @@ class IsochemicalContours extends React.Component {
   }
 }
 
-IsochemicalContours = reduxForm({ form: 'IsochemicalContoursForm' })(IsochemicalContours)
+GroundwaterElevation = reduxForm({ form: 'GroundwaterElevation' })(GroundwaterElevation)
 
-const selector = formValueSelector('IsochemicalContoursForm')
+const selector = formValueSelector('GroundwaterElevation')
 
 const mapStateToProps = (state, props) => ({
   siteMaps: state.get('siteMaps'),
@@ -235,7 +194,6 @@ const mapStateToProps = (state, props) => ({
   dates: state.get('samples')
     .valueSeq()
     .map((sample) => moment(sample.get('date_collected'))),
-  groupedSampleValues: state.get('groupedSampleValues'),
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
   date: selector(state, 'date'),
@@ -254,4 +212,4 @@ const mapDispatchToProps = dispatch => ({
   fetchWells: (filters) => dispatch(fetchWells(filters)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(IsochemicalContours)
+export default connect(mapStateToProps, mapDispatchToProps)(GroundwaterElevation)

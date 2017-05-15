@@ -12,6 +12,10 @@ import {
 } from 'actions/siteData'
 
 import {
+  flashMessage,
+} from 'actions/global'
+
+import {
     Button,
     Form,
     FormGroup,
@@ -64,13 +68,23 @@ class StateSpecificInfoForm extends React.Component {
   }
 
   onSubmit (siteDataParams) {
-    const { siteData, site, createSiteData, editSiteData } = this.props
+    const {
+      siteData,
+      site,
+      createSiteData,
+      editSiteData,
+      flashMessage,
+    } = this.props
 
     if (!siteData) {
       siteDataParams = siteDataParams.set('site_id', site.get('id'))
       createSiteData(siteDataParams)
+        .then((e) => flashMessage('success', 'State Specific Info Updated!'))
+        .catch((e) => flashMessage('danger', 'Sorry, there was an error'))
     } else {
       editSiteData(siteData.get('id'), siteDataParams)
+        .then((e) => flashMessage('success', 'State Specific Info Updated!'))
+        .catch((e) => flashMessage('danger', 'Sorry, there was an error'))
     }
   }
 
@@ -96,13 +110,13 @@ class StateSpecificInfoForm extends React.Component {
       siteData,
     } = this.props
 
-    if (!siteData) { return null }
+    // if (!siteData) { return null }
     const error = this.props.editingSiteDataError
     const generalError = error && error.msg ? error.msg : null
     const errors = error && error.key ? {
         [error.key]: msgFromError(error),
     } : {}
-
+    // debugger
     const selectOptions= [1, 2, 3, 4].map((i) => (<option>{i}</option>))
 
     const rbcaClassificationOptions = ["Tier 1", "Tier 2", "Tier 3"].map((i) => ({ value: i, title: i}))
@@ -128,7 +142,7 @@ class StateSpecificInfoForm extends React.Component {
           props={{ error: errors.date_release_discovered, label: 'Date Release Discovered' }}
           name='date_release_discovered'
           id='date_release_discovered'
-          component={DatePickerFormGroup}
+          component={IndividualFormGroup}
           type='text'
         />
 
@@ -535,6 +549,7 @@ const mapDispatchToProps = (dispatch) => ({
   createSiteData: (siteDataParams) => dispatch(createSiteData(siteDataParams)),
   editSiteData: (id, siteDataParams) => dispatch(editSiteData(id, siteDataParams)),
   fetchSiteDatas: (filters) => dispatch(fetchSiteDatas(filters)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StateSpecificInfoForm)
