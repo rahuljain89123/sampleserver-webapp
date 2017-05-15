@@ -72,6 +72,19 @@ class SiteMapRenderer extends React.Component {
     img.src = this.props.imageUrl
   }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.imageUrl !== this.props.imageUrl) {
+      const img = new Image()
+      const setImage = this.setImage
+
+      img.onload = function() {
+        createImageBitmap(this).then(setImage)
+      }
+
+      img.src = nextProps.imageUrl
+    }
+  }
+
   /**
    * Takes a loaded img element and stores it into an ImageBitmap, and
    * updates the state with the appropriate x and y coordinate so that the image
@@ -253,7 +266,7 @@ class SiteMapRenderer extends React.Component {
     }
 
     return (
-      <div className='site-map-image'>
+      <div className='site-map-image' style={overlayStyles}>
         <div className="zoom-controls">
           <i className="material-icons" onClick={(e) => this.scaleBy(0.2)}>add</i>
           <div className="zoom-level">{parseInt(scale * 100)}%</div>
