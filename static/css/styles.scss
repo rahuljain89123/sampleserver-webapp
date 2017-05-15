@@ -74,6 +74,7 @@ body {
     margin-bottom: 0;
     padding: 20px 30px;
     position: relative;
+    margin-bottom: 35px;
 
     .navbar-brand {
         /* Gazorpazorp: */
@@ -433,7 +434,7 @@ section {
             overflow: scroll;
             // width: 100%;
             flex: 1;
-            background: #F7F7F6;
+            background: #FAFBFD;
         }
     }
 }
@@ -460,7 +461,7 @@ section {
         color: #FFF;
         font-size: 22px;
         position: absolute;
-        top: 32px;
+        top: 35px;
         right: 28px;
     }
     &.closed {
@@ -670,7 +671,52 @@ section {
         }
     }
 }
-
+form {
+    margin: 20px 10px;
+    label {
+        /* Project: */
+        opacity: 0.65;
+        font-family: GothamHTF-Medium;
+        font-size: 14px;
+        color: #282B2F;
+        letter-spacing: 0.4px;
+        display: inline-block;
+        width: 150px;
+        vertical-align: middle;
+    }
+    .form-control {
+        padding: 1rem 1.5rem;
+        display: inline-block;
+        vertical-align: middle;
+        width: 50%;
+        background: #FFFFFF;
+        border: 1px solid rgba(166,174,182,0.80);
+        box-shadow: inset 0 1px 5px 0 rgba(0,0,0,0.10);
+        border-radius: 3px;
+        /* Rick Sanchez: */
+        font-family: GothamHTF;
+        font-size: 14px;
+        color: #282B2F;
+        letter-spacing: 0.4px;
+    }
+    textarea {
+        height: 66px;
+    }
+    .form-group {
+        margin-bottom: 28px;
+    }
+}
+.app {
+    h4 {
+        /* New Site: */
+        font-family: GothamHTF;
+        font-size: 24px;
+        color: #282B2F;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid #E1E3E6;
+        padding-bottom: 35px;
+    }
+}
 
 
 

@@ -134,7 +134,6 @@ class Header extends React.Component {
         {flashAlert}
         <Navbar
           className="flex-row justify-content-end"
-          style={{ marginBottom: 20 }}
         >
           <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
           {userDropdown}
