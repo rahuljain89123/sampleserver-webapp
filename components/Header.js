@@ -100,9 +100,10 @@ class Header extends React.Component {
     if (user) {
       userDropdown = (
         <Nav className="">
-          <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
-            <DropdownToggle caret className="pointer">
-              {`${userEmail}`}
+          <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="dark">
+            <DropdownToggle className="pointer avatar-container">
+              <img className="profile-image" src="/static/img/blank-avatar.png" alt="avatar" />
+              <span className="name">{user.get('firstname')}</span>
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header>{roleDescription}</DropdownItem>

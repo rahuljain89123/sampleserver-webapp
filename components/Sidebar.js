@@ -36,6 +36,7 @@ class Sidebar extends React.Component {
     this.state = {
       open: true,
       siteId,
+      dropdownOpen: false,
     }
   }
 
@@ -45,9 +46,15 @@ class Sidebar extends React.Component {
     }
   }
 
-  toggle () {
+  toggleSidebar () {
     this.setState({
       open: !this.state.open,
+    })
+  }
+
+  toggle () {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
     })
   }
 
@@ -57,6 +64,7 @@ class Sidebar extends React.Component {
 
   render () {
     const site = this.props.sites.get(this.state.siteId)
+    const roleDescription = this.props.roleDescription
     if (!site) { return null }
 
     let firstnameSpan = null
@@ -69,11 +77,23 @@ class Sidebar extends React.Component {
       <div className="sidebar-container">
         <div className={`sidebar ${this.sideBarStatus()}`}>
           <div className="content">
-            <div className="avatar-container">
-              <img className="profile-image" src="/static/img/blank-avatar.png" />
-                {firstnameSpan}
-            </div>
-            <i className="material-icons" onClick={e => this.toggle(e)}>menu</i>
+            <Nav className="avatar-dropdown">
+              <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="light">
+                <DropdownToggle className="pointer avatar-container">
+                  <img className="profile-image" src="/static/img/blank-avatar.png" alt="avatar" />
+                  {firstnameSpan}
+                </DropdownToggle>
+                <DropdownMenu right>
+                  <DropdownItem header>{roleDescription}</DropdownItem>
+                  <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
+                  <DropdownItem
+                    onClick={e => this.onSignout(e)}
+                    className="pointer"
+                  >Sign Out</DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            </Nav>
+            <i className="material-icons" onClick={e => this.toggleSidebar(e)}>menu</i>
             <SiteNav site={site} />
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
@@ -82,7 +102,7 @@ class Sidebar extends React.Component {
           </div>
           <div className="content-closed">
             <div className="avatar-container" />
-            <i className="material-icons" onClick={e => this.toggle(e)}>menu</i>
+            <i className="material-icons" onClick={e => this.toggleSidebar(e)}>menu</i>
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
             </div>

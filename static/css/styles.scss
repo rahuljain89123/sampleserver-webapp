@@ -13,7 +13,7 @@ $cayman-lt: #41E3E5;
 $gecko: #02BE67;
 $gecko-lt: #12CF79;
 
-$ss-font-family: 'Gotham HTF','Open Sans', helvetica, arial, sans-serif;
+$ss-font-family: GothamHTF, 'Open Sans', helvetica, arial, sans-serif;
 
 
 html, body {
@@ -28,9 +28,11 @@ h1 {
     font-weight: 200;
 }
 h1, h2, h3, h4 {
-    font-family: $ss-font-family
+    font-family: $ss-font-family;
 }
-
+.btn {
+    font-family: $ss-font-family;
+}
 #wrapper {
     min-height: 100%;
     margin: 0 auto -60px;
@@ -486,11 +488,14 @@ section {
             padding-right: 10px;
         }
     }
+    .avatar-dropdown {
+        margin: 25px 25px 10px 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(225,227,230,0.20);
+    }
     .avatar-container {
-        margin: 25px 20px;
         height: 40px;
         padding-bottom: 20px;
-        border-bottom: 1px solid rgba(225,227,230,0.20);
         // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
 
         img {
@@ -514,7 +519,7 @@ section {
         .nav-link {
             line-height: 40px;
             border-radius: 0;
-            padding: 0.5em 1.5em;
+            padding: 10px 25px;
             &.nav-parent {
                 line-height: 20px;
                 margin: 10px 0;
@@ -551,7 +556,120 @@ section {
     }
 }
 
+.dropdown {
+    &.dark {
+        &::before {
+            border-bottom: 10px solid #575C61;
+        }
+        .dropdown-menu {
+            background: #575C61;
+            .dropdown-header {
+                color: #AAADB3;
+            }
+            .dropdown-item {
+                color: #AAADB3;
+                border-bottom: 1px solid rgba(225, 227, 230, 0.2);
+                &:hover {
+                    color: #FFFFFF;
+                    background: #575C61;
+                }
+            }
+            &::before {
+                border-bottom: 10px solid #575C61;
+            }
+        }
+    }
+    &.light {
+        &::before {
+        }
+    }
+    .dropdown-menu {
+        .dropdown-header {
+            /* Company Admin: */
+            // opacity: 0.4;
+            font-family: GothamHTF;
+            font-size: 11px;
+            color: rgba(40, 43, 47, 0.4);
+            letter-spacing: 0.39px;
+            text-transform: uppercase;
+            padding: 15px 30px;
 
+        }
+        .dropdown-item {
+            /* Account: */
+            // opacity: 0.6;
+            font-family: GothamHTF;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(40, 43, 47, 0.6);
+            letter-spacing: 0.43px;
+            line-height: 59px;
+            padding: 0 30px;
+            width: 170px;
+            /* col: */
+            border-bottom: 1px solid rgba(225,227,230,0.70);
+            // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
+            cursor: pointer;
+            &:last-child {
+                border-bottom: none;
+            }
+
+        }
+        /* Rectangle 4: */
+        // overflow: hidden;
+        border: none;
+        background: #FFFFFF;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.40);
+        border-radius: 3px;
+        font-family: GothamHTF;
+        width: 230px;
+        margin-top: 10px;
+        // position: relative;
+        &::before {
+            border-bottom: 10px solid #FFFFFF;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            content: "";
+            display: inline-block;
+            left: 10px;
+            top: -10px;
+            position: absolute;
+            z-index: 9999;
+            // box-shadow: 0 2px 12px 0 rgba(0,0,0,0.40);
+        }
+    }
+    .avatar-container {
+        height: 40px;
+        // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
+        &.btn-secondary {
+            /* Downloads: */
+            font-family: GothamHTF-Medium;
+            font-size: 11px;
+            color: #AAADB3;
+            letter-spacing: 0.39px;
+            border-color: transparent;
+            padding: 0;
+            width: 230px;
+            text-align: left;
+            border: none;
+            margin: 0;
+            box-shadow: none;
+            background: none;
+            &:hover, &:focus {
+                background: none;
+                outline: none;
+                border: none;
+                box-shadow: none;
+            }
+        }
+        img {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+    }
+}
 
 
 
