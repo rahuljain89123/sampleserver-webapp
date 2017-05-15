@@ -7,6 +7,8 @@ const CANVAS_WIDTH = '800'
 class SiteMapImage extends React.Component {
   constructor (props) {
     super(props)
+
+    this.drawWellMarker = this.drawWellMarker.bind(this)
   }
 
 
@@ -58,7 +60,8 @@ class SiteMapImage extends React.Component {
       props: { imageUrl, addSiteMapWell, siteMapWells, addingSiteMapWell }
     } = this
 
-    const allWells = addingSiteMapWell ? siteMapWells.valueSeq().concat(addingSiteMapWell) : siteMapWells.valueSeq()
+
+    const allWells = addingSiteMapWell ? siteMapWells.set('adding', addingSiteMapWell).valueSeq() : siteMapWells.valueSeq()
 
     return (
       <SiteMapRenderer
