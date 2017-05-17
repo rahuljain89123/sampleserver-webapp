@@ -120,7 +120,7 @@ class AnalyticalBoxmapsForm extends React.Component {
             {siteSubstances}
           </ul>
 
-          { siteSubstances.length < 13 && <Input type='select' onChange={this.addSubstance.bind(this)}>
+          { siteSubstances.size < 13 && <Input type='select' onChange={this.addSubstance.bind(this)}>
               {groupedSubstanceOptions}
             </Input>
           }

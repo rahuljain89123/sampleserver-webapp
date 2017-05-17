@@ -68,6 +68,7 @@ class IsochemicalContours extends React.Component {
   constructor (props) {
     super(props)
     this.drawWellMarker = this.drawWellMarker.bind(this)
+    this.processClickEvent = this.processClickEvent.bind(this)
   }
 
   componentDidMount () {
@@ -95,9 +96,13 @@ class IsochemicalContours extends React.Component {
     }
   }
 
+  processClickEvent (xpos, ypos, evt) {
+    console.log(evt.region)
+  }
+
   drawWellMarker (well, ctx, loc) {
     const { x, y, scale } = loc
-    debugger
+
     const val = this.props.date ? 100.0 : this.props.wells.get(well.get('well_id')).get('title');
     const color = 'black'
     const fontSize = 15 * scale
@@ -108,7 +113,6 @@ class IsochemicalContours extends React.Component {
     ctx.globalAlpha = 0.8
     ctx.beginPath()
     ctx.fillRect(x-width/2, y-height/2, width, height)
-    ctx.closePath()
     ctx.globalAlpha = 1.0
 
     ctx.font = `bold ${fontSize}px Arial`
@@ -117,6 +121,9 @@ class IsochemicalContours extends React.Component {
     ctx.textBaseline='middle'
 
     ctx.fillText(val, x, y)
+
+    // ctx.addHitRegion({ id: well.get('id') })
+    ctx.closePath()
   }
 
   render () {
@@ -153,7 +160,7 @@ class IsochemicalContours extends React.Component {
       siteMapComponent = <SiteMapRenderer
         imageUrl={currentSiteMap.get('url')}
         wells={siteMapWells}
-        onClick={() => { /* */}}
+        onClick={this.processClickEvent}
         drawWellMarker={this.drawWellMarker}
         />
     }

@@ -152,22 +152,6 @@ class GroundwaterElevation extends React.Component {
         />
 
         <Field
-          props={{label: 'Heatmap'}}
-          name='heatmap'
-          id='heatmap'
-          options={booleanOptions}
-          component={SelectFormGroup}
-        />
-
-        <Field
-          props={{label: 'Scale'}}
-          name='scale'
-          id='scale'
-          options={scaleOptions}
-          component={SelectFormGroup}
-        />
-
-        <Field
           props={{label: 'Title'}}
           name='title'
           id='title'

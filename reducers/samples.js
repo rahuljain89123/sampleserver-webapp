@@ -8,6 +8,7 @@ import {
   SET_EDITING_SAMPLE_ERROR,
   CLEAR_EDITING_SAMPLE_ERROR,
   RECEIVE_GROUPED_SAMPLE_VALUES,
+  RECEIVE_SAMPLE_DATES,
 } from 'constants/SampleActionTypes'
 
 export const samples = (state = Immutable.Map(), action) => {
@@ -50,6 +51,15 @@ export const groupedSampleValues = (state = Immutable.Map(), action) => {
   switch (action.type) {
   case RECEIVE_GROUPED_SAMPLE_VALUES:
     return Immutable.fromJS(action.groupedSampleValues)
+  default:
+    return state
+  }
+}
+
+export const sampleDates = (state = Immutable.Map(), action) => {
+  switch (action.type) {
+  case RECEIVE_SAMPLE_DATES:
+    return state.set(action.siteId, Immutable.fromJS(action.sampleDates))
   default:
     return state
   }
