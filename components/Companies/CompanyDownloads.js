@@ -27,7 +27,7 @@ class CompanyDownloads extends React.Component {
 
         return (
             <div>
-                <h4>Downloads</h4>
+                <h2 className="border-bottom">Downloads</h2>
                 <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                     <thead>
                         <tr>

@@ -34,7 +34,7 @@ class SiteDetails extends React.Component {
         path={`/app/sites/${site.get('id')}/details/info`}
         component={props => (
           <div>
-            <h4 style={{ marginBottom: 20 }}>Site Details</h4>
+            <h2 className="border-bottom">Site Details</h2>
             <EditSite
               site={site}
               onSuccess={() => {}}

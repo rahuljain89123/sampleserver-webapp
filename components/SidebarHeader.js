@@ -1,16 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  Navbar,
-  Nav,
-  NavItem,
-  NavLink,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-} from 'reactstrap'
+import { Navbar } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
 import { fetchCurrentUser, signout, reset } from '../actions/users'
@@ -25,7 +16,7 @@ import {
   currentCompany,
 } from '../normalizers'
 
-class Header extends React.Component {
+class SidebarHeader extends React.Component {
   constructor (props) {
     super(props)
 
@@ -79,15 +70,11 @@ class Header extends React.Component {
 
   render () {
     const {
-      user,
-      userEmail,
-      roleDescription,
       flash,
     } = this.props
 
     let siteTitle = null
     let flashAlert = null
-    let userDropdown = null
 
     if (flash) {
       flashAlert = (
@@ -97,43 +84,10 @@ class Header extends React.Component {
       )
     }
 
-    if (user) {
-      userDropdown = (
-        <Nav className="">
-          <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()}>
-            <DropdownToggle caret className="pointer">
-              {`${userEmail}`}
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem header>{roleDescription}</DropdownItem>
-              <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
-              <DropdownItem
-                onClick={e => this.onSignout(e)}
-                className="pointer"
-              >Sign Out</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </Nav>
-      )
-    } else {
-      userDropdown = (
-        <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink
-              href="/"
-              onClick={e => this.onSignin(e)}
-            >Sign In</NavLink>
-          </NavItem>
-        </Nav>
-      )
-    }
-
     if (this.props.sites) {
-      if (this.props.sites.size) {
-        siteTitle = this.props.sites.get(this.state.siteId).get('title')
+      if (this.props.sites.size && this.props.sites.get(this.state.siteId)) {
+        siteTitle = this.props.sites.getIn([this.state.siteId, 'title'])
       }
-    } else {
-      siteTitle = ''
     }
 
     return (
@@ -141,11 +95,10 @@ class Header extends React.Component {
         {flashAlert}
         <Navbar
           className="flex-row justify-content-end"
-          style={{ marginBottom: 20 }}
         >
-          <Link to="/app" className="mr-auto navbar-brand navbar-sidebar">{this.getAppTitle()}</Link>
+          <Link to="/app" className="mr-auto navbar-brand navbar-sidebar">
+            {this.getAppTitle()}</Link>
           <div className="site-name">{siteTitle}</div>
-          {userDropdown}
         </Navbar>
       </div>
     )
@@ -172,4 +125,4 @@ const mapDispatchToProps = dispatch => ({
   reset: () => dispatch(reset()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(SidebarHeader)

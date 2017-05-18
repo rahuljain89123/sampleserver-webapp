@@ -48,39 +48,42 @@ class EditExecutiveSummaryForm extends React.Component {
     const { handleSubmit } = this.props
 
     return (
-      <Row>
-        <Col sm={8}>
-          <Form onSubmit={handleSubmit(this.submitForm.bind(this))}>
+      <div>
+        <h2 className="border-bottom">Executive Summary+</h2>
+        <Row>
+          <Col sm={8}>
+            <Form onSubmit={handleSubmit(this.submitForm.bind(this))}>
 
-            <Field
-              props={{ error: errors.summary, label: 'Executive Summary' }}
-              name="summary"
-              id="summary"
-              component={DraftJSFormGroup}
-            />
+              <Field
+                props={{ error: errors.summary, label: 'Executive Summary' }}
+                name="summary"
+                id="summary"
+                component={DraftJSFormGroup}
+              />
 
-            <Field
-              props={{ error: errors.history, label: 'History' }}
-              name="history"
-              id="history"
-              component={DraftJSFormGroup}
-            />
+              <Field
+                props={{ error: errors.history, label: 'History' }}
+                name="history"
+                id="history"
+                component={DraftJSFormGroup}
+              />
 
-            <Field
-              props={{ error: errors.background, label: 'Background' }}
-              name="background"
-              id="background"
-              component={DraftJSFormGroup}
-            />
+              <Field
+                props={{ error: errors.background, label: 'Background' }}
+                name="background"
+                id="background"
+                component={DraftJSFormGroup}
+              />
 
-            <Button
-              color="primary"
-              disabled={this.props.editingSite}
-            >Save</Button>
+              <Button
+                color="primary"
+                disabled={this.props.editingSite}
+              >Save</Button>
 
-          </Form>
-        </Col>
-      </Row>
+            </Form>
+          </Col>
+        </Row>
+      </div>
     )
   }
 }

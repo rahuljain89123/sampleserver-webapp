@@ -13,7 +13,7 @@ $cayman-lt: #41E3E5;
 $gecko: #02BE67;
 $gecko-lt: #12CF79;
 
-$ss-font-family: 'Gotham HTF','Open Sans', helvetica, arial, sans-serif;
+$ss-font-family: GothamHTF, 'Open Sans', helvetica, arial, sans-serif;
 
 
 html, body {
@@ -28,9 +28,11 @@ h1 {
     font-weight: 200;
 }
 h1, h2, h3, h4 {
-    font-family: $ss-font-family
+    font-family: $ss-font-family;
 }
-
+.btn {
+    font-family: $ss-font-family;
+}
 #wrapper {
     min-height: 100%;
     margin: 0 auto -60px;
@@ -65,16 +67,14 @@ body {
 }
 
 .navbar {
-    height: 46px;
-    /* col: */
+    height: 40px;
     background: #FFFFFF;
     box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
-    margin-bottom: 0;
     padding: 20px 30px;
     position: relative;
+    margin-bottom: 35px;
 
     .navbar-brand {
-        /* Gazorpazorp: */
         color: #575C61;
         opacity: 0.5;
         font-family: GothamHTF;
@@ -87,7 +87,6 @@ body {
         }
     }
     .site-name {
-        /* Outpost #7: */
         font-family: GothamHTF;
         font-size: 20px;
         color: #575C61;
@@ -431,7 +430,7 @@ section {
             overflow: scroll;
             // width: 100%;
             flex: 1;
-            background: #F7F7F6;
+            background: #FAFBFD;
         }
     }
 }
@@ -458,7 +457,7 @@ section {
         color: #FFF;
         font-size: 22px;
         position: absolute;
-        top: 32px;
+        top: 35px;
         right: 28px;
     }
     &.closed {
@@ -486,11 +485,14 @@ section {
             padding-right: 10px;
         }
     }
+    .avatar-dropdown {
+        margin: 25px 25px 10px 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(225,227,230,0.20);
+    }
     .avatar-container {
-        margin: 25px 20px;
         height: 40px;
         padding-bottom: 20px;
-        border-bottom: 1px solid rgba(225,227,230,0.20);
         // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
 
         img {
@@ -514,7 +516,7 @@ section {
         .nav-link {
             line-height: 40px;
             border-radius: 0;
-            padding: 0.5em 1.5em;
+            padding: 10px 25px;
             &.nav-parent {
                 line-height: 20px;
                 margin: 10px 0;
@@ -551,10 +553,215 @@ section {
     }
 }
 
+.dropdown {
+    &.dark {
+        &::before {
+            border-bottom: 10px solid #575C61;
+        }
+        .dropdown-menu {
+            background: #575C61;
+            .dropdown-header {
+                color: #AAADB3;
+            }
+            .dropdown-item {
+                color: #AAADB3;
+                border-bottom: 1px solid rgba(225, 227, 230, 0.2);
+                &:hover {
+                    color: #FFFFFF;
+                    background: #575C61;
+                }
+            }
+            &::before {
+                border-bottom: 10px solid #575C61;
+            }
+        }
+    }
+    &.light {
+        &::before {
+        }
+    }
+    .dropdown-menu {
+        .dropdown-header {
+            /* Company Admin: */
+            // opacity: 0.4;
+            font-family: GothamHTF;
+            font-size: 11px;
+            color: rgba(40, 43, 47, 0.4);
+            letter-spacing: 0.39px;
+            text-transform: uppercase;
+            padding: 15px 30px;
 
+        }
+        .dropdown-item {
+            /* Account: */
+            // opacity: 0.6;
+            font-family: GothamHTF;
+            font-size: 12px;
+            font-weight: 500;
+            color: rgba(40, 43, 47, 0.6);
+            letter-spacing: 0.43px;
+            line-height: 59px;
+            padding: 0 30px;
+            width: 170px;
+            /* col: */
+            border-bottom: 1px solid rgba(225,227,230,0.70);
+            // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
+            cursor: pointer;
+            &:last-child {
+                border-bottom: none;
+            }
 
+        }
+        /* Rectangle 4: */
+        // overflow: hidden;
+        border: none;
+        background: #FFFFFF;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,0.40);
+        border-radius: 3px;
+        font-family: GothamHTF;
+        width: 230px;
+        margin-top: 10px;
+        // position: relative;
+        &::before {
+            border-bottom: 10px solid #FFFFFF;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            content: "";
+            display: inline-block;
+            left: 10px;
+            top: -10px;
+            position: absolute;
+            z-index: 9999;
+            // box-shadow: 0 2px 12px 0 rgba(0,0,0,0.40);
+        }
+    }
+    .avatar-container {
+        height: 40px;
+        // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
+        &.btn-secondary {
+            /* Downloads: */
+            font-family: GothamHTF-Medium;
+            font-size: 11px;
+            color: #AAADB3;
+            letter-spacing: 0.39px;
+            border-color: transparent;
+            padding: 0;
+            width: 230px;
+            text-align: left;
+            border: none;
+            margin: 0;
+            box-shadow: none;
+            background: none;
+            &:hover, &:focus {
+                background: none;
+                outline: none;
+                border: none;
+                box-shadow: none;
+            }
+        }
+        img {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+    }
+}
+form {
+    margin: 0 10px 10px 10px;
+    label {
+        /* Project: */
+        opacity: 0.65;
+        font-family: GothamHTF-Medium;
+        font-size: 14px;
+        color: #282B2F;
+        letter-spacing: 0.4px;
+        display: inline-block;
+        width: 150px;
+        vertical-align: middle;
+    }
+    .form-control {
+        padding: 1rem 1.5rem;
+        display: inline-block;
+        vertical-align: middle;
+        width: 50%;
+        background: #FFFFFF;
+        border: 1px solid rgba(166,174,182,0.80);
+        box-shadow: inset 0 1px 5px 0 rgba(0,0,0,0.10);
+        border-radius: 3px;
+        /* Rick Sanchez: */
+        font-family: GothamHTF;
+        font-size: 14px;
+        color: #282B2F;
+        letter-spacing: 0.4px;
+    }
+    textarea {
+        height: 66px;
+    }
+    .form-group {
+        margin-bottom: 28px;
+    }
+}
+.app {
+    .flex-row {
+        border-bottom: 1px solid #E1E3E6;
+        padding-bottom: 30px;
+        margin-bottom: 25px;
+        h2 {
+            margin-bottom: 0;
+        }
 
+    }
+    h2 {
+        /* New Site: */
+        font-family: GothamHTF;
+        font-size: 24px;
+        color: #282B2F;
+        letter-spacing: 0.5px;
+        margin-bottom: 25px;
+        line-height: 38px;
 
+        &.border-bottom {
+            border-bottom: 1px solid #E1E3E6;
+            padding-bottom: 30px;
+        }
+    }
+}
+.table {
+    /* Rectangle 4: */
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    border-radius: 3px;
+    th {
+        font-weight: normal;
+    }
+    thead th {
+        /* Name: */
+        color: rgba(40,43,47, 0.4);
+        font-family: GothamHTF;
+        font-size: 12px;
+        letter-spacing: 0.43px;
+        padding: 30px 40px;
+        border-bottom: 1px solid rgba(225,227,230,1);
+    }
+    td {
+        padding: 30px 40px;
+        border-bottom: 1px solid rgba(225,227,230,0.70);
+        /* Eyeholes Man: */
+        color: rgba(40,43,47, 0.4);
+        font-family: GothamHTF;
+        font-size: 14px;
+        color: #A9AAAC;
+        letter-spacing: 0.5px;
+        a {
+            opacity: 0.9;
+            font-family: GothamHTF;
+            font-size: 14px;
+            color: #1FC7C8;
+            letter-spacing: 0.5px;
+        }
+    }
+}
 
 
 

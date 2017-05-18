@@ -254,67 +254,67 @@ class QAQCForm extends React.Component {
     }
 
 
-    return (<Form onSubmit={handleSubmit(this.onSubmit)}>
-      <hr />
-        <h3> Duplicates </h3>
-        <Field
-          props={{ label: 'Collect Duplicates' }}
-          name='qaqc_duplicates'
-          id='qaqc_duplicates'
-          component={IndividualFormGroup}
-          type='checkbox'
-          />
-        {duplicatesForm}
+    return (
+      <div>
+        <h2 className="border-bottom">QA/QC Preferences+</h2>
+        <Form onSubmit={handleSubmit(this.onSubmit)}>
+            <h3> Duplicates </h3>
+            <Field
+              props={{ label: 'Collect Duplicates' }}
+              name='qaqc_duplicates'
+              id='qaqc_duplicates'
+              component={IndividualFormGroup}
+              type='checkbox'
+              />
+            {duplicatesForm}
 
-      <hr />
-      <h3> MS/MSDs </h3>
-      <Field
-        props={{ label: 'Collect MS/MSDs' }}
-        name='qaqc_msmsds'
-        id='qaqc_msmsds'
-        component={IndividualFormGroup}
-        type='checkbox'
-        />
-      {msmsdsForm}
+          <h3> MS/MSDs </h3>
+          <Field
+            props={{ label: 'Collect MS/MSDs' }}
+            name='qaqc_msmsds'
+            id='qaqc_msmsds'
+            component={IndividualFormGroup}
+            type='checkbox'
+            />
+          {msmsdsForm}
 
-      <hr />
-      <h3> Field Blanks </h3>
-      <Field
-        props={{ label: 'Collect Field Blanks' }}
-        name='qaqc_fieldblanks'
-        id='qaqc_fieldblanks'
-        component={IndividualFormGroup}
-        type='checkbox'
-        />
-      {fieldBlanksForm}
+          <h3> Field Blanks </h3>
+          <Field
+            props={{ label: 'Collect Field Blanks' }}
+            name='qaqc_fieldblanks'
+            id='qaqc_fieldblanks'
+            component={IndividualFormGroup}
+            type='checkbox'
+            />
+          {fieldBlanksForm}
 
-      <hr />
-      <h3> Trip Blanks </h3>
-      <Field
-        props={{ label: 'Collect Trip Blanks' }}
-        name='qaqc_tripblanks'
-        id='qaqc_tripblanks'
-        component={IndividualFormGroup}
-        type='checkbox'
-        />
-      {tripBlanksForm}
+          <h3> Trip Blanks </h3>
+          <Field
+            props={{ label: 'Collect Trip Blanks' }}
+            name='qaqc_tripblanks'
+            id='qaqc_tripblanks'
+            component={IndividualFormGroup}
+            type='checkbox'
+            />
+          {tripBlanksForm}
 
-      <hr />
-      <h3> Equipment Blanks (when applicable) </h3>
-      <Field
-        props={{ label: 'Collect Equipment Blanks' }}
-        name='qaqc_equipmentblanks'
-        id='qaqc_equipmentblanks'
-        component={IndividualFormGroup}
-        type='checkbox'
-        />
-      {equipmentBlanksForm}
+          <h3> Equipment Blanks (when applicable) </h3>
+          <Field
+            props={{ label: 'Collect Equipment Blanks' }}
+            name='qaqc_equipmentblanks'
+            id='qaqc_equipmentblanks'
+            component={IndividualFormGroup}
+            type='checkbox'
+            />
+          {equipmentBlanksForm}
 
-      <Button
-        color="primary"
-        disabled={this.props.editingSite}
-      >Save</Button>
-    </Form>)
+          <Button
+            color="primary"
+            disabled={this.props.editingSite}
+          >Save</Button>
+        </Form>
+      </div>
+    )
   }
 }
 
