@@ -25,8 +25,9 @@ const SelectSubstances = ({ fields, options, substances }) => {
         }
       )}
       <li>
-        <Input type='select' onChange={addSubstance}>
-            {options}
+        <Input type='select' style={{width: '100%'}} onChange={addSubstance}>
+          <option value=''> Add a Substance </option>
+          {options}
         </Input>
       </li>
     </ul>

@@ -7,7 +7,13 @@ import {
   formValueSelector,
   change,
 } from 'redux-form/immutable'
-import { Form, Input, Label } from 'reactstrap'
+import {
+  Form,
+  Input,
+  Label,
+  Row,
+  Col,
+} from 'reactstrap'
 import Immutable from 'immutable'
 import moment from 'moment'
 
@@ -18,14 +24,10 @@ import SelectSubstances from 'Sites/Reports/Shared/SelectSubstances'
 
 import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
 
-
 import {
   fetchSiteMap,
   fetchSiteMaps,
   fetchSiteMapWells,
-  createSiteMapWell,
-  setAddingSiteMapWell,
-  deleteSiteMapWell,
 } from 'actions/siteMaps'
 
 import {
@@ -122,9 +124,10 @@ class IsochemicalContours extends React.Component {
     ))
   }
 
-  substanceIdInDate (substanceId) {
-    const { date, sampleDates } = this.props
-    return contouringFn.substanceIdInDate(substanceId, date, sampleDates)
+  shouldShowSubstanceId (substanceId) {
+    const { date, sampleDates, substanceIds } = this.props
+    return contouringFn.substanceIdInDate(substanceId, date, sampleDates) &&
+      ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
   }
 
   drawWellMarker (well, ctx, loc) {
@@ -143,7 +146,7 @@ class IsochemicalContours extends React.Component {
     const groupedSubstances = this.props.substanceGroups.map((substanceGroup) =>
       this.props.substances.filter((substance) => (
         substance.get('substance_group_id') === substanceGroup.get('id') &&
-        this.substanceIdInDate(substance.get('id'))
+        this.shouldShowSubstanceId(substance.get('id'))
       ))
     ).filter(substances => substances.size)
 
@@ -171,7 +174,10 @@ class IsochemicalContours extends React.Component {
         parseInt(this.props.siteMapId)
       )
 
-      const siteMapWells = this.props.siteMapWells.filter((smw) => smw.get('site_map_id') === parseInt(this.props.siteMapId))
+      const siteMapWells = this.props.siteMapWells.filter((smw) =>
+        smw.get('site_map_id') === parseInt(this.props.siteMapId)
+      )
+
       siteMapComponent = <SiteMapRenderer
         imageUrl={currentSiteMap.get('url')}
         wells={siteMapWells}
@@ -180,67 +186,70 @@ class IsochemicalContours extends React.Component {
         />
     }
 
-    return (<div>
-      <Form>
-        <Field
-          props={{label: 'Sitemap'}}
-          name='sitemap_id'
-          id='sitemap_id'
-          component={SelectFormGroup}
-          options={siteMapOptions}
-        />
+    return (<Row>
+      <Col sm={3}>
+        <Form className='contouring-form'>
+          <Field
+            props={{label: 'Sitemap'}}
+            name='sitemap_id'
+            id='sitemap_id'
+            component={SelectFormGroup}
+            options={siteMapOptions}
+          />
 
-        <Field
-          props={{label: 'Date'}}
-          name='date'
-          id='date'
-          options={dateOptions}
-          component={SelectFormGroup}
-        />
+          <Field
+            props={{label: 'Select Date'}}
+            name='date'
+            id='date'
+            options={dateOptions}
+            component={SelectFormGroup}
+          />
 
-        <FieldArray
-          name='substance_ids'
-          id='substance_ids'
-          component={SelectSubstances}
-          options={substanceOptions}
-          substances={this.props.substances}
-        />
+          <FieldArray
+            name='substance_ids'
+            id='substance_ids'
+            component={SelectSubstances}
+            options={substanceOptions}
+            substances={this.props.substances}
+          />
 
-        <Field
-          props={{label: 'Zero Line'}}
-          name='zero_line'
-          id='zero_line'
-          options={booleanOptions}
-          component={SelectFormGroup}
-        />
+          <Field
+            props={{label: 'Zero Line?'}}
+            name='zero_line'
+            id='zero_line'
+            options={booleanOptions}
+            component={SelectFormGroup}
+          />
 
-        <Field
-          props={{label: 'Heatmap'}}
-          name='heatmap'
-          id='heatmap'
-          options={booleanOptions}
-          component={SelectFormGroup}
-        />
+          <Field
+            props={{label: 'Heatmap?'}}
+            name='heatmap'
+            id='heatmap'
+            options={booleanOptions}
+            component={SelectFormGroup}
+          />
 
-        <Field
-          props={{label: 'Scale'}}
-          name='scale'
-          id='scale'
-          options={scaleOptions}
-          component={SelectFormGroup}
-        />
+          <Field
+            props={{label: 'Scale'}}
+            name='scale'
+            id='scale'
+            options={scaleOptions}
+            component={SelectFormGroup}
+          />
 
-        <Field
-          props={{label: 'Title'}}
-          name='title'
-          id='title'
-          type='text'
-          component={IndividualFormGroup}
-        />
-      </Form>
-
-      {siteMapComponent}
-    </div>)
+          <Field
+            props={{label: 'Title'}}
+            name='title'
+            id='title'
+            type='text'
+            component={IndividualFormGroup}
+          />
+        </Form>
+      </Col>
+      <Col sm={8}>
+        {siteMapComponent}
+      </Col>
+    </Row>)
   }
 }
 

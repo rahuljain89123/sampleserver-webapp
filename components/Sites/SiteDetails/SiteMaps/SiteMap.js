@@ -140,7 +140,7 @@ class SiteMap extends React.Component {
     const wellNames = siteMapWells.valueSeq().map((smw) => {
       const well = this.props.wells.get(smw.get('well_id'))
       return (
-        <li key={smw.get('id')} className='well'>
+        <li key={smw.get('id')} className='well list-group-item'>
           {well.get('title')}
           <a href='#' onClick={(e) => this.props.deleteSiteMapWell(smw.get('id'))}> x </a>
         </li>)
@@ -166,7 +166,7 @@ class SiteMap extends React.Component {
             wells={this.props.wells}
             addingSiteMapWell={this.props.addingSiteMapWell}
             addSiteMapWell={this.addSiteMapWell} />
-          <ul className='well-names'>
+          <ul className='well-names list-group'>
             {wellNames}
           </ul>
 
