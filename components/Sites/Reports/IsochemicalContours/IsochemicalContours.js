@@ -186,8 +186,10 @@ class IsochemicalContours extends React.Component {
         />
     }
 
-    return (<Row>
-      <Col sm={3}>
+    return (
+      <Row>
+      <Col sm={3} className='contouring-sidebar'>
+        <h4 > Configure </h4>
         <Form className='contouring-form'>
           <Field
             props={{label: 'Sitemap'}}
