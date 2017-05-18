@@ -1,19 +1,34 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Field, FieldArray, reduxForm, formValueSelector, change } from 'redux-form/immutable'
-import { Form, Input, Label } from 'reactstrap'
+import {
+  Field,
+  FieldArray,
+  reduxForm,
+  formValueSelector,
+  change,
+} from 'redux-form/immutable'
+import {
+  Form,
+  Input,
+  Label,
+  Row,
+  Col,
+  Button,
+} from 'reactstrap'
+import Immutable from 'immutable'
 import moment from 'moment'
 
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
+import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
+import SelectSubstances from 'Sites/Reports/Shared/SelectSubstances'
+
+import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
 
 import {
   fetchSiteMap,
   fetchSiteMaps,
   fetchSiteMapWells,
-  createSiteMapWell,
-  setAddingSiteMapWell,
-  deleteSiteMapWell,
 } from 'actions/siteMaps'
 
 import {
@@ -25,25 +40,46 @@ import {
   fetchSubstanceGroups,
 } from 'actions/substances'
 import { fetchSamples } from 'actions/samples'
-import { fetchGroupedSampleValues } from 'actions/sampleValues'
+import {
+  fetchGroupedSampleValues,
+  fetchSampleDates,
+} from 'actions/sampleValues'
 
 import {
   flashMessage
 } from 'actions/global'
 
-import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
+import {
+  CHECKED,
+  UNCHECKED
+} from 'Sites/Reports/Shared/assets'
+
+const WELL_MARKER_HEIGHT = 25
+const WELL_MARKER_WIDTH = 100
+
+const FORM_NAME = 'GroundwaterElevationForm'
 
 class GroundwaterElevation extends React.Component {
   constructor (props) {
     super(props)
     this.drawWellMarker = this.drawWellMarker.bind(this)
+    this.processClickEvent = this.processClickEvent.bind(this)
+    this.toggleWell = this.toggleWell.bind(this)
+    this.setSelectedWells = this.setSelectedWells.bind(this)
   }
 
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.fetchSubstances()
-
+    this.props.fetchSubstanceGroups()
+    this.props.fetchWells({ site_id: this.props.site.get('id') }).then(this.setSelectedWells)
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
+    this.props.fetchSampleDates(this.props.site.get('id'))
+
+    this.checkedImage = new Image()
+    this.checkedImage.src = CHECKED
+    this.uncheckedImage = new Image()
+    this.uncheckedImage.src = UNCHECKED
   }
 
   componentWillReceiveProps (nextProps) {
@@ -51,39 +87,51 @@ class GroundwaterElevation extends React.Component {
       this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
     }
 
-    if (nextProps.substanceIds
-      && !nextProps.substanceIds.equals(this.props.substanceIds)
-      && nextProps.siteMapId
-      && nextProps.date) {
-      this.props.fetchGroupedSampleValues({
-        date: nextProps.date,
-        sitemap_id: nextProps.siteMapId,
-        substance_ids: nextProps.substanceIds,
-        site_id: nextProps.site.get('id')
-      })
-    }
+    // const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
+    // const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
+    // const dateChanged = nextProps.date !== this.props.dates
+    //
+    //
+    // if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
+    //   this.props.fetchGroupedSampleValues({
+    //     date: nextProps.date,
+    //     sitemap_id: parseInt(nextProps.siteMapId),
+    //     substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
+    //     site_id: parseInt(nextProps.site.get('id')),
+    //   })
+    // }
+  }
+
+  processClickEvent (xpos, ypos) {
+    const { siteMapWells } = this.props
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
+  }
+
+  setSelectedWells () {
+    let tmpState = Immutable.Map()
+    this.props.wells.forEach((well) => {
+      tmpState = tmpState.set(well.get('id'), false)
+    })
+
+    this.props.dispatch(change(FORM_NAME, 'selectedWells', tmpState))
+  }
+
+  toggleWell (wellId) {
+    this.props.dispatch(change(
+      FORM_NAME,
+      'selectedWells',
+      this.props.selectedWells.set(wellId, !this.props.selectedWells.get(wellId))
+    ))
+  }
+
+  shouldShowSubstanceId (substanceId) {
+    const { date, sampleDates, substanceIds } = this.props
+    return contouringFn.substanceIdInDate(substanceId, date, sampleDates) &&
+      ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
   }
 
   drawWellMarker (well, ctx, loc) {
-    const { x, y, scale } = loc
-    const val = 100.0;
-    const color = 'black'
-    const fontSize = 15 * scale
-    const width = 100 * scale
-    const height = 25 * scale
-    // const .
-    ctx.fillStyle = color
-    ctx.globalAlpha = 0.8
-    ctx.beginPath()
-    ctx.fillRect(x-width/2, y-height/2, width, height)
-    ctx.closePath()
-    ctx.globalAlpha = 1.0
-
-    ctx.font = `bold ${fontSize}px Arial`
-    ctx.fillStyle = 'white'
-    ctx.textAlign = 'center'
-    ctx.textBaseline='middle'
-    ctx.fillText(val, x, y)
+    contouringFn.drawWellMarker(well, ctx, loc, this.props, this.checkedImage, this.uncheckedImage)
   }
 
   render () {
@@ -92,12 +140,9 @@ class GroundwaterElevation extends React.Component {
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
 
-    const dateOptions = this.props.dates.valueSeq().map((date, i) =>
-      <option key={i}>{date.format('YYYY-MM-DD')}</option>)
+    const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
+      <option key={date.get('id')}>{date.get('date_collected')}</option>)
 
-    const substanceOptions = this.props.substances.valueSeq().map((substance) =>
-      <option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>
-    )
 
     const booleanOptions = [
       { value: 'true', title: 'ON' },
@@ -115,72 +160,86 @@ class GroundwaterElevation extends React.Component {
         parseInt(this.props.siteMapId)
       )
 
+      const siteMapWells = this.props.siteMapWells.filter((smw) =>
+        smw.get('site_map_id') === parseInt(this.props.siteMapId)
+      )
 
-      const siteMapWells = this.props.siteMapWells.filter((smw) => smw.get('site_map_id') === parseInt(this.props.siteMapId))
       siteMapComponent = <SiteMapRenderer
         imageUrl={currentSiteMap.get('url')}
         wells={siteMapWells}
-        onClick={() => { /* */}}
+        onClick={this.processClickEvent}
         drawWellMarker={this.drawWellMarker}
         />
     }
 
-    return (<div>
-      <Form>
-        <Field
-          props={{label: 'Sitemap'}}
-          name='sitemap_id'
-          id='sitemap_id'
-          component={SelectFormGroup}
-          options={siteMapOptions}
-        />
+    return (
+      <Row>
+      <Col sm={3} className='contouring-sidebar'>
+        <h4 > Configure </h4>
+        <Form className='contouring-form'>
+          <Field
+            props={{label: 'Sitemap'}}
+            name='sitemap_id'
+            id='sitemap_id'
+            component={SelectFormGroup}
+            options={siteMapOptions}
+          />
 
-        <Field
-          props={{label: 'Date'}}
-          name='date'
-          id='date'
-          options={dateOptions}
-          component={SelectFormGroup}
-        />
+          <Field
+            props={{label: 'Select Date'}}
+            name='date'
+            id='date'
+            options={dateOptions}
+            component={SelectFormGroup}
+          />
 
-        <Field
-          props={{label: 'Zero Line'}}
-          name='zero_line'
-          id='zero_line'
-          options={booleanOptions}
-          component={SelectFormGroup}
-        />
+          <Field
+            props={{label: 'Flow Lines?'}}
+            name='zero_line'
+            id='zero_line'
+            options={booleanOptions}
+            component={SelectFormGroup}
+          />
 
-        <Field
-          props={{label: 'Title'}}
-          name='title'
-          id='title'
-          type='text'
-          component={IndividualFormGroup}
-        />
-      </Form>
+          <Field
+            props={{label: 'Title'}}
+            name='title'
+            id='title'
+            type='text'
+            component={IndividualFormGroup}
+          />
 
-      {siteMapComponent}
-    </div>)
+          <div className='centered-btn'>
+            <Button
+              color="primary"
+            >Contour</Button>
+          </div>
+        </Form>
+      </Col>
+      <Col sm={8}>
+        {siteMapComponent}
+      </Col>
+    </Row>)
   }
 }
 
-GroundwaterElevation = reduxForm({ form: 'GroundwaterElevation' })(GroundwaterElevation)
+GroundwaterElevation = reduxForm({ form: FORM_NAME })(GroundwaterElevation)
 
-const selector = formValueSelector('GroundwaterElevation')
+const selector = formValueSelector(FORM_NAME)
 
 const mapStateToProps = (state, props) => ({
   siteMaps: state.get('siteMaps'),
   siteMapWells: state.get('siteMapWells'),
   substances: state.get('substances'),
+  substanceGroups: state.get('substanceGroups'),
   wells: state.get('wells'),
   samples: state.get('samples'),
-  dates: state.get('samples')
-    .valueSeq()
-    .map((sample) => moment(sample.get('date_collected'))),
+  sampleDates: state.get('sampleDates'),
+  groupedSampleValues: state.get('groupedSampleValues'),
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
   date: selector(state, 'date'),
+  selectedWells: selector(state, 'selectedWells')
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -190,8 +249,10 @@ const mapDispatchToProps = dispatch => ({
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
   fetchSamples: filters => dispatch(fetchSamples(filters)),
   fetchGroupedSampleValues: params => dispatch(fetchGroupedSampleValues(params)),
+  fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   fetchSubstances: (filters) => dispatch(fetchSubstances(filters)),
+  fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
 
   fetchWells: (filters) => dispatch(fetchWells(filters)),
 })

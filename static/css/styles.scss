@@ -706,7 +706,7 @@ form {
 form.contouring-form {
   .form-control {
     width: 100%;
-    padding: 0.5rem 0.75rem;
+    padding: 0.5rem 0rem 0.5rem 0.5rem;
   }
   ul {
     padding-left: 0px;
@@ -714,11 +714,21 @@ form.contouring-form {
 }
 
 .contouring-sidebar {
-  
+
   h4 {
     font-size: 14px;
     font-weight: bold;
     color: lightgray;
+  }
+
+  .centered-btn {
+    width: 100%;
+    text-align: center;
+  }
+  button {
+    margin: auto;
+    width: 80%;
+    border-radius: 0px;
   }
 }
 
