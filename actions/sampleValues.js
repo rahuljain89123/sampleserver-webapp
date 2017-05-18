@@ -35,7 +35,7 @@ export const receiveSampleDates = (sampleDates) => ({
    dispatch =>
      API.post('/reports/query-well-data', params)
      .then(groupedSampleValues =>
-       dispatch(receiveGroupedSampleValues(groupedSampleValues))
+       dispatch(receiveGroupedSampleValues(groupedSampleValues.my_wells))
      )
 
 
