@@ -96,13 +96,13 @@ class IsochemicalContours extends React.Component {
   processClickEvent (xpos, ypos, evt) {
     const { siteMapWells } = this.props
 
-    // siteMapWells.forEach(siteMapWell => {
-    //
-    //   if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
-    //       Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
-    //     this.toggleWell(siteMapWell.get('well_id'))
-    //   }
-    // })
+    siteMapWells.forEach(siteMapWell => {
+
+      if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
+          Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
+        this.toggleWell(siteMapWell.get('well_id'))
+      }
+    })
   }
 
   setSelectedWells () {
@@ -115,11 +115,11 @@ class IsochemicalContours extends React.Component {
   }
 
   toggleWell (wellId) {
-    change(
+    this.props.dispatch(change(
       FORM_NAME,
       'selectedWells',
       this.props.selectedWells.set(wellId, !this.props.selectedWells.get(wellId))
-    )
+    ))
   }
 
   substanceIdInDate (substanceId) {
@@ -152,7 +152,7 @@ class IsochemicalContours extends React.Component {
     const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
     const checkboxImage = this.props.selectedWells.get(well.get('well_id')) ? this.checkedImage : this.uncheckedImage
     // const .
-    
+
     ctx.fillStyle = color
     ctx.globalAlpha = 0.8
     ctx.beginPath()
