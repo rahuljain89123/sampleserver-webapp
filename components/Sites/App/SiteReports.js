@@ -9,6 +9,8 @@ import PrivateRoute from 'components/Auth'
 import AnalyticalBoxmapsForm from 'Sites/Reports/AnalyticalBoxmaps/AnalyticalBoxmapsForm'
 import IsochemicalContours from 'Sites/Reports/IsochemicalContours/IsochemicalContours'
 import GroundwaterElevation from 'Sites/Reports/GroundwaterElevation/GroundwaterElevation'
+import FreeProduct from 'Sites/Reports/FreeProduct/FreeProduct'
+
 
 class SiteReports extends React.Component {
 
@@ -32,6 +34,12 @@ class SiteReports extends React.Component {
           exact
           path={`/app/sites/${site.get('id')}/reports/groundwater-contours`}
           component={props => <GroundwaterElevation site={site} {...props} />}
+        />
+
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/reports/free-product-contours`}
+          component={props => <FreeProduct site={site} {...props} />}
         />
       </div>
     )

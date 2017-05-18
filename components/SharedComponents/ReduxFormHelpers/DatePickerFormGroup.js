@@ -15,6 +15,12 @@ class DatePickerFormGroup extends React.Component {
     }
   }
 
+  componentDidMount () {
+    if (this.state.value) {
+      this.props.input.onChange(this.state.value.format('YYYY-MM-DD hh:mm:ss'))
+    }
+  }
+
   handleChange (value) {
     this.setState({ value })
     this.props.input.onChange(value.format('YYYY-MM-DD hh:mm:ss'))
