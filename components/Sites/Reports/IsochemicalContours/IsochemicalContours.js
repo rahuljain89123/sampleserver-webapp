@@ -80,10 +80,12 @@ class IsochemicalContours extends React.Component {
       this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
     }
 
-    if (nextProps.substanceIds
-      && !nextProps.substanceIds.equals(this.props.substanceIds)
-      && nextProps.siteMapId
-      && nextProps.date) {
+    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
+    const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
+    const dateChanged = nextProps.date !== this.props.dates
+
+
+    if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
       this.props.fetchGroupedSampleValues({
         date: nextProps.date,
         sitemap_id: parseInt(nextProps.siteMapId),
@@ -97,7 +99,6 @@ class IsochemicalContours extends React.Component {
     const { siteMapWells } = this.props
 
     siteMapWells.forEach(siteMapWell => {
-
       if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
           Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
         this.toggleWell(siteMapWell.get('well_id'))
@@ -146,9 +147,7 @@ class IsochemicalContours extends React.Component {
     const { date, wells, groupedSampleValues } = this.props
     const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
 
-    const val = gsvWell ?
-      gsvWell.get('substance_sum') :
-      wells.getIn([well.get('well_id'), 'title'])
+    const val = gsvWell ? gsvWell.get('substance_sum') : wells.getIn([well.get('well_id'), 'title'])
     const color = 'black'
     const fontSize = 15 * scale
     const width = WELL_MARKER_WIDTH * scale
