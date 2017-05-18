@@ -71,7 +71,7 @@ export const createSite = site =>
         })
         .catch(e => {
             dispatch(setCreatingSite(false))
-
+            
             e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
                     return dispatch(setCreatingSiteError(json.errors[0]))

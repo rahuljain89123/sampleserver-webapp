@@ -27,6 +27,14 @@ class Sites extends React.Component {
         this.props.fetchSites()
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+      if (nextProps.path === this.props.path) {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
     render () {
         const sites = this.props.sites
             .filter(

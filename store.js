@@ -115,6 +115,8 @@ import {
     samples,
     editingSample,
     editingSampleError,
+    groupedSampleValues,
+    sampleDates,
 } from 'reducers/samples'
 import { uploads } from 'reducers/uploads'
 import {
@@ -227,12 +229,14 @@ const appReducer = combineReducers({
     wellImages,
 
     criterias,
-    
+
     roles,
 
     samples,
     editingSample,
     editingSampleError,
+    groupedSampleValues,
+    sampleDates,
 
     tests,
     editingTest,

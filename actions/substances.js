@@ -25,15 +25,19 @@ export const receiveSubstanceGroups = substanceGroups => ({
  *****************************************************************************/
 
 export const fetchSubstances = (filters = {}) =>
-  dispatch =>
-    API.get(`/substances/?${qs.stringify(filters)}`)
+  dispatch => {
+    filters.per_page = 300
+    return API.get(`/substances/?${qs.stringify(filters)}`)
     .then(substances => {
       dispatch(receiveSubstances(substances))
     })
+  }
 
 export const fetchSubstanceGroups = (filters = {}) =>
-  dispatch =>
-    API.get(`/substancegroups/?${qs.stringify(filters)}`)
+  dispatch => {
+    filters.per_page = 100
+    return API.get(`/substancegroups/?${qs.stringify(filters)}`)
     .then(substanceGroups => {
       dispatch(receiveSubstanceGroups(substanceGroups))
     })
+  }

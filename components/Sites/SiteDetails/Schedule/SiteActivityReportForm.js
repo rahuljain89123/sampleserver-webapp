@@ -6,6 +6,7 @@ import {
   Form,
 } from 'reactstrap'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
+import DatePickerFormGroup from 'SharedComponents/ReduxFormHelpers/DatePickerFormGroup'
 
 const SiteActivityReportForm = (props) => {
   const { handleSubmit, onSubmit } = props
@@ -19,7 +20,7 @@ const SiteActivityReportForm = (props) => {
       props={{ error: errors.date, label: 'Date' }}
       name='date'
       id='date'
-      component={IndividualFormGroup}
+      component={DatePickerFormGroup}
       type='text'
     />
 

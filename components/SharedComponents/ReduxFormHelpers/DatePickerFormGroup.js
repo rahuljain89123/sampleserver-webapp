@@ -11,7 +11,7 @@ class DatePickerFormGroup extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      value: moment(this.props.input.value)
+      value: this.props.input.value ? moment(this.props.input.value) : ''
     }
   }
 
