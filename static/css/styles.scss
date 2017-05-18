@@ -727,8 +727,41 @@ form {
         }
     }
 }
-
-
+.table {
+    /* Rectangle 4: */
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    border-radius: 3px;
+    th {
+        font-weight: normal;
+    }
+    thead th {
+        /* Name: */
+        color: rgba(40,43,47, 0.8);
+        font-family: GothamHTF;
+        font-size: 12px;
+        letter-spacing: 0.43px;
+        padding: 30px 40px;
+        border-bottom: 1px solid rgba(225,227,230,1);
+    }
+    td {
+        padding: 30px 40px;
+        border-bottom: 1px solid rgba(225,227,230,0.70);
+        /* Eyeholes Man: */
+        color: rgba(40,43,47, 0.4);
+        font-family: GothamHTF;
+        font-size: 14px;
+        color: #A9AAAC;
+        letter-spacing: 0.5px;
+        a {
+            opacity: 0.9;
+            font-family: GothamHTF;
+            font-size: 14px;
+            color: #1FC7C8;
+            letter-spacing: 0.5px;
+        }
+    }
+}
 
 
 
