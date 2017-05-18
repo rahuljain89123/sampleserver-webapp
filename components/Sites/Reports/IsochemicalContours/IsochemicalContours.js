@@ -16,6 +16,9 @@ import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFor
 import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
 import SelectSubstances from 'Sites/Reports/Shared/SelectSubstances'
 
+import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
+
+
 import {
   fetchSiteMap,
   fetchSiteMaps,
@@ -58,6 +61,7 @@ class IsochemicalContours extends React.Component {
     super(props)
     this.drawWellMarker = this.drawWellMarker.bind(this)
     this.processClickEvent = this.processClickEvent.bind(this)
+    this.toggleWell = this.toggleWell.bind(this)
     this.setSelectedWells = this.setSelectedWells.bind(this)
   }
 
@@ -95,15 +99,10 @@ class IsochemicalContours extends React.Component {
     }
   }
 
-  processClickEvent (xpos, ypos, evt) {
+  processClickEvent (xpos, ypos) {
     const { siteMapWells } = this.props
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
 
-    siteMapWells.forEach(siteMapWell => {
-      if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
-          Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
-        this.toggleWell(siteMapWell.get('well_id'))
-      }
-    })
   }
 
   setSelectedWells () {
@@ -124,65 +123,52 @@ class IsochemicalContours extends React.Component {
   }
 
   substanceIdInDate (substanceId) {
-    const { date: t_date, sampleDates } = this.props
-    if (!t_date) { return false; }
-    const selectedDate = moment(t_date)
-
-    let isPresent = false
-
-    sampleDates.forEach((date) => {
-      const d = moment(date.get('date_collected'))
-      if (d.isSame(selectedDate) &&
-          date.get('substance_ids').includes(substanceId)) {
-        isPresent = true
-      }
-
-    })
-
-    return isPresent
+    const { date, sampleDates } = this.props
+    return contouringFn.substanceIdInDate(substanceId, date, sampleDates)
   }
 
   drawWellMarker (well, ctx, loc) {
-    const { x, y, scale } = loc
-    const { date, wells, groupedSampleValues } = this.props
-    const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
-
-    const val = gsvWell ? gsvWell.get('substance_sum') : wells.getIn([well.get('well_id'), 'title'])
-    const color = 'black'
-    const fontSize = 15 * scale
-    const width = WELL_MARKER_WIDTH * scale
-    const height = WELL_MARKER_HEIGHT * scale
-    const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
-    const checkboxImage = this.props.selectedWells.get(well.get('well_id')) ? this.checkedImage : this.uncheckedImage
-    // const .
-
-    ctx.fillStyle = color
-    ctx.globalAlpha = 0.8
-    ctx.beginPath()
-    ctx.fillRect(x-width/2, y-height/2, width, height)
-    ctx.globalAlpha = 1.0
-
-    ctx.font = `bold ${fontSize}px Arial`
-    ctx.fillStyle = 'white'
-    ctx.textAlign = 'center'
-    ctx.textBaseline='middle'
-
-    ctx.fillText(val, x, y)
-
-    ctx.closePath()
-
-    ctx.beginPath()
-    ctx.fillStyle = 'white'
-    ctx.strokeStyle = 'white'
-    ctx.arc(x - width*.45 + checkboxSize/2, y, checkboxSize/2 - 1, 0, 2*Math.PI)
-    ctx.stroke()
-    ctx.closePath()
-    ctx.fill()
-
-    ctx.drawImage(checkboxImage, x - width*.45, y - checkboxSize/2, checkboxSize, checkboxSize)
-
-    // ctx.addHitRegion({ id: well.get('id') })
-    ctx.closePath()
+    contouringFn.drawWellMarker(well, ctx, loc, this.props, this.checkedImage, this.uncheckedImage)
+    // const { x, y, scale } = loc
+    // const { date, wells, groupedSampleValues, selectedWells } = this.props
+    // const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
+    //
+    // const val = gsvWell ? gsvWell.get('substance_sum') : wells.getIn([well.get('well_id'), 'title'])
+    // const color = 'black'
+    // const fontSize = 15 * scale
+    // const width = WELL_MARKER_WIDTH * scale
+    // const height = WELL_MARKER_HEIGHT * scale
+    // const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
+    // const checkboxImage = selectedWells.get(well.get('well_id')) ? this.checkedImage : this.uncheckedImage
+    // // const .
+    //
+    // ctx.fillStyle = color
+    // ctx.globalAlpha = 0.8
+    // ctx.beginPath()
+    // ctx.fillRect(x-width/2, y-height/2, width, height)
+    // ctx.globalAlpha = 1.0
+    //
+    // ctx.font = `bold ${fontSize}px Arial`
+    // ctx.fillStyle = 'white'
+    // ctx.textAlign = 'center'
+    // ctx.textBaseline='middle'
+    //
+    // ctx.fillText(val, x, y)
+    //
+    // ctx.closePath()
+    //
+    // ctx.beginPath()
+    // ctx.fillStyle = 'white'
+    // ctx.strokeStyle = 'white'
+    // ctx.arc(x - width*.45 + checkboxSize/2, y, checkboxSize/2 - 1, 0, 2*Math.PI)
+    // ctx.stroke()
+    // ctx.closePath()
+    // ctx.fill()
+    //
+    // ctx.drawImage(checkboxImage, x - width*.45, y - checkboxSize/2, checkboxSize, checkboxSize)
+    //
+    // // ctx.addHitRegion({ id: well.get('id') })
+    // ctx.closePath()
   }
 
   render () {
