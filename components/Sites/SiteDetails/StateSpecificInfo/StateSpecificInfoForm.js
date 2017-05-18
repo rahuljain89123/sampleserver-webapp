@@ -96,7 +96,7 @@ class StateSpecificInfoForm extends React.Component {
       siteData,
     } = this.props
 
-    // if (!siteData) { return null }
+    if (!siteData) { return null }
     const error = this.props.editingSiteDataError
     const generalError = error && error.msg ? error.msg : null
     const errors = error && error.key ? {
