@@ -13,13 +13,10 @@ export const receiveGroupedSampleValues = groupedSampleValues => ({
   groupedSampleValues,
 })
 
-export const receiveSampleDates = (sampleDates, siteId) => ({
+export const receiveSampleDates = (sampleDates) => ({
   type: RECEIVE_SAMPLE_DATES,
   sampleDates,
-  siteId,
 })
-
-
 
 /*****************************************************************************
  * THUNK ACTION CREATORS
@@ -45,6 +42,6 @@ export const receiveSampleDates = (sampleDates, siteId) => ({
 export const fetchSampleDates = (siteId) =>
   dispatch =>
     API.get(`/reports/get-sample-dates/${siteId}`)
-    .then(sampleDates => 
-      dispatch(receiveSampleDates(sampleDates, siteId))
+    .then(res =>
+      dispatch(receiveSampleDates(res.sample_dates))
     )

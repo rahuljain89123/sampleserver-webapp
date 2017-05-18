@@ -1,6 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Field, reduxForm } from 'redux-form/immutable'
+import {
+  Field,
+  reduxForm,
+  formValueSelector,
+} from 'redux-form/immutable'
 import moment from 'moment'
 import {
   Form,
@@ -16,6 +20,7 @@ import {
 } from 'actions/substances'
 import { fetchSiteMaps } from 'actions/siteMaps'
 import { fetchSamples } from 'actions/samples'
+import { fetchSampleDates } from 'actions/sampleValues'
 import { fetchCriterias } from 'actions/criterias'
 import { editSite } from 'actions/sites'
 
@@ -23,6 +28,7 @@ class AnalyticalBoxmapsForm extends React.Component {
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
+    this.props.fetchSampleDates(this.props.site.get('id'))
     this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
@@ -40,11 +46,32 @@ class AnalyticalBoxmapsForm extends React.Component {
     })
   }
 
+  substanceIdInDateRange(substanceId) {
+    const { sampleDates, start_date: t_start_date, end_date: t_end_date } = this.props
+    if (!t_start_date || !t_end_date) { return false }
+    const start_date = moment(t_start_date)
+    const end_date = moment(t_end_date)
+    let isPresent = false
+
+    sampleDates.forEach((date) => {
+      const d = moment(date.get('date_collected'))
+      // debugger
+      if ((d.isBetween(start_date, end_date) || d.isSame(start_date) || d.isSame(end_date)) &&
+          date.get('substance_ids').includes(substanceId)) {
+        isPresent = true
+      }
+
+    })
+
+    return isPresent
+  }
+
   render () {
     const {
       site,
       siteMaps,
       substances,
+      sampleDates,
       substanceGroups,
       dates,
       criterias,
@@ -53,8 +80,9 @@ class AnalyticalBoxmapsForm extends React.Component {
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>)
 
-    const dateOptions = dates.valueSeq().map((date, i) =>
-      <option key={i}>{date.format('YYYY-MM-DD')}</option>)
+
+    const dateOptions = sampleDates.valueSeq().map((date, i) =>
+      <option key={date.get('id')} value={date.get('date_collected')}>{date.get('date_collected')}</option>)
 
     const criteriaOptions = criterias.valueSeq().map((criteria) =>
       <option key={criteria.get('id')} value={criteria.get('id')}>{criteria.get('title')}</option>)
@@ -66,11 +94,14 @@ class AnalyticalBoxmapsForm extends React.Component {
     const groupedSubstanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
       <optgroup key={substanceGroupId} label={substanceGroups.get(substanceGroupId).get('title')}>
         {substances.valueSeq().map(substance => {
-          if (site.get('substance_ids').includes(substance.get('id'))) { return null }
+          if (site.get('substance_ids').includes(substance.get('id')) ||
+            substanceIdInDateRange(substance.get('id'))
+          ) { return null }
           return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
         })}
       </optgroup>
-    ).valueSeq()
+    ).filter((substanceGroup) => substanceGroup.props.children.size).valueSeq()
+
 
     const siteSubstances = site.get('substance_ids').map((id) => {
       if (!substances.size) { return null }
@@ -120,7 +151,8 @@ class AnalyticalBoxmapsForm extends React.Component {
             {siteSubstances}
           </ul>
 
-          { siteSubstances.size < 13 && <Input type='select' onChange={this.addSubstance.bind(this)}>
+          { siteSubstances.size < 13 &&
+            <Input type='select' onChange={this.addSubstance.bind(this)}>
               {groupedSubstanceOptions}
             </Input>
           }
@@ -134,16 +166,18 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
 }
 
-AnalyticalBoxmapsForm = reduxForm({form: 'AnalyticalBoxmapsForm'})(AnalyticalBoxmapsForm)
+AnalyticalBoxmapsForm = reduxForm({form: 'AnalyticalBoxmapsForm', destroyOnUnmount: false })(AnalyticalBoxmapsForm)
 
-const mapStateToProps = (state) => ({
+const selector = formValueSelector('AnalyticalBoxmapsForm')
+const mapStateToProps = (state, ownProps) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
   criterias: state.get('criterias'),
-  dates: state.get('samples')
-    .valueSeq()
-    .map((sample) => moment(sample.get('date_collected'))),
+
+  sampleDates: state.get('sampleDates'),
   siteMaps: state.get('siteMaps'),
+  start_date: selector(state, 'start_date'),
+  end_date: selector(state, 'end_date'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -151,6 +185,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
   fetchSamples: filters => dispatch(fetchSamples(filters)),
+  fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
   fetchCriterias: filters => dispatch(fetchCriterias(filters)),
 
   editSite: (id, siteParams) => dispatch(editSite(id, siteParams))

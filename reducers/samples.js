@@ -59,7 +59,11 @@ export const groupedSampleValues = (state = Immutable.Map(), action) => {
 export const sampleDates = (state = Immutable.Map(), action) => {
   switch (action.type) {
   case RECEIVE_SAMPLE_DATES:
-    return state.set(action.siteId, Immutable.fromJS(action.sampleDates))
+    let tempState = state
+    action.sampleDates.forEach(sampleDate => {
+      tempState = tempState.set(sampleDate.id, Immutable.fromJS(sampleDate))
+    })
+    return tempState
   default:
     return state
   }

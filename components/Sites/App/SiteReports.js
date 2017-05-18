@@ -11,6 +11,7 @@ import IsochemicalContours from 'Sites/Reports/IsochemicalContours/IsochemicalCo
 import GroundwaterElevation from 'Sites/Reports/GroundwaterElevation/GroundwaterElevation'
 
 class SiteReports extends React.Component {
+
   render () {
     const { site } = this.props
     if (!site) { return null }
