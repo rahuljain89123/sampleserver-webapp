@@ -85,11 +85,9 @@ class SidebarHeader extends React.Component {
     }
 
     if (this.props.sites) {
-      if (this.props.sites.size) {
-        siteTitle = this.props.sites.get(this.state.siteId).get('title')
+      if (this.props.sites.size && this.props.sites.get(this.state.siteId)) {
+        siteTitle = this.props.sites.getIn([this.state.siteId, 'title'])
       }
-    } else {
-      siteTitle = ''
     }
 
     return (
