@@ -70,6 +70,12 @@ class SiteMapRenderer extends React.Component {
     }
 
     img.src = this.props.imageUrl
+    this.fitCanvasToContainer()
+  }
+
+  fitCanvasToContainer () {
+    this.canvasEl.width = this.canvasEl.offsetWidth
+    this.canvasEl.height = this.canvasEl.offsetHeight
   }
 
   componentWillReceiveProps (nextProps) {
@@ -94,8 +100,8 @@ class SiteMapRenderer extends React.Component {
     this.setState({
       img,
       centerVals: {
-        x: this.centerVal(img.width, CANVAS_WIDTH),
-        y: this.centerVal(img.height, CANVAS_HEIGHT),
+        x: this.centerVal(img.width, this.canvasEl.width),
+        y: this.centerVal(img.height, this.canvasEl.height),
       },
       scale: 1,
     })
@@ -159,8 +165,8 @@ class SiteMapRenderer extends React.Component {
       return {
         scale: newScale,
         centerVals: {
-          x: this.centerVal(prevState.img.width, CANVAS_WIDTH, newScale),
-          y: this.centerVal(prevState.img.height, CANVAS_HEIGHT, newScale),
+          x: this.centerVal(prevState.img.width, this.canvasEl.width, newScale),
+          y: this.centerVal(prevState.img.height, this.canvasEl.height, newScale),
         }
       }
     })
@@ -261,8 +267,8 @@ class SiteMapRenderer extends React.Component {
     } = this
 
     const overlayStyles = {
-      width: `${CANVAS_WIDTH}px`,
-      height: `${CANVAS_HEIGHT}px`,
+      width: this.props.width || `100%`,
+      height: this.props.height || `100%`,
     }
 
     return (
@@ -275,8 +281,7 @@ class SiteMapRenderer extends React.Component {
         <div className='img-and-canvas-overlay' style={overlayStyles}>
 
           <canvas
-            height={CANVAS_HEIGHT}
-            width={CANVAS_WIDTH}
+            style={overlayStyles}
             ref={(canvas) => {this.canvasEl = canvas}}
             onMouseDown={initDrag}
             onMouseMove={processDrag}

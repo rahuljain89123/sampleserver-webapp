@@ -702,6 +702,36 @@ form {
         margin-bottom: 28px;
     }
 }
+
+form.contouring-form {
+  .form-control {
+    width: 100%;
+    padding: 0.5rem 0rem 0.5rem 0.5rem;
+  }
+  ul {
+    padding-left: 0px;
+  }
+}
+
+.contouring-sidebar {
+
+  h4 {
+    font-size: 14px;
+    font-weight: bold;
+    color: lightgray;
+  }
+
+  .centered-btn {
+    width: 100%;
+    text-align: center;
+  }
+  button {
+    margin: auto;
+    width: 80%;
+    border-radius: 0px;
+  }
+}
+
 .app {
     .flex-row {
         border-bottom: 1px solid #E1E3E6;
@@ -762,13 +792,3 @@ form {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-

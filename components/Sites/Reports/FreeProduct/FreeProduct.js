@@ -57,9 +57,9 @@ import {
 const WELL_MARKER_HEIGHT = 25
 const WELL_MARKER_WIDTH = 100
 
-const FORM_NAME = 'IsochemicalContoursForm'
+const FORM_NAME = 'FreeProductForm'
 
-class IsochemicalContours extends React.Component {
+class FreeProduct extends React.Component {
   constructor (props) {
     super(props)
     this.drawWellMarker = this.drawWellMarker.bind(this)
@@ -87,25 +87,24 @@ class IsochemicalContours extends React.Component {
       this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
     }
 
-    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
-    const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
-    const dateChanged = nextProps.date !== this.props.dates
-
-
-    if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
-      this.props.fetchGroupedSampleValues({
-        date: nextProps.date,
-        sitemap_id: parseInt(nextProps.siteMapId),
-        substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
-        site_id: parseInt(nextProps.site.get('id')),
-      })
-    }
+    // const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
+    // const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
+    // const dateChanged = nextProps.date !== this.props.dates
+    //
+    //
+    // if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
+    //   this.props.fetchGroupedSampleValues({
+    //     date: nextProps.date,
+    //     sitemap_id: parseInt(nextProps.siteMapId),
+    //     substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
+    //     site_id: parseInt(nextProps.site.get('id')),
+    //   })
+    // }
   }
 
   processClickEvent (xpos, ypos) {
     const { siteMapWells } = this.props
     contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
-
   }
 
   setSelectedWells () {
@@ -144,20 +143,6 @@ class IsochemicalContours extends React.Component {
     const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
       <option key={date.get('id')}>{date.get('date_collected')}</option>)
 
-    const groupedSubstances = this.props.substanceGroups.map((substanceGroup) =>
-      this.props.substances.filter((substance) => (
-        substance.get('substance_group_id') === substanceGroup.get('id') &&
-        this.shouldShowSubstanceId(substance.get('id'))
-      ))
-    ).filter(substances => substances.size)
-
-    const substanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
-      <optgroup key={substanceGroupId} label={this.props.substanceGroups.get(substanceGroupId).get('title')}>
-        {substances.valueSeq().map(substance => {
-          return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
-        })}
-      </optgroup>
-    ).filter((substanceGroup) => substanceGroup.props.children.size).valueSeq()
 
     const booleanOptions = [
       { value: 'true', title: 'ON' },
@@ -208,35 +193,11 @@ class IsochemicalContours extends React.Component {
             component={SelectFormGroup}
           />
 
-          <FieldArray
-            name='substance_ids'
-            id='substance_ids'
-            component={SelectSubstances}
-            options={substanceOptions}
-            substances={this.props.substances}
-          />
-
           <Field
             props={{label: 'Zero Line?'}}
             name='zero_line'
             id='zero_line'
             options={booleanOptions}
-            component={SelectFormGroup}
-          />
-
-          <Field
-            props={{label: 'Heatmap?'}}
-            name='heatmap'
-            id='heatmap'
-            options={booleanOptions}
-            component={SelectFormGroup}
-          />
-
-          <Field
-            props={{label: 'Scale'}}
-            name='scale'
-            id='scale'
-            options={scaleOptions}
             component={SelectFormGroup}
           />
 
@@ -262,7 +223,7 @@ class IsochemicalContours extends React.Component {
   }
 }
 
-IsochemicalContours = reduxForm({ form: FORM_NAME })(IsochemicalContours)
+FreeProduct = reduxForm({ form: FORM_NAME })(FreeProduct)
 
 const selector = formValueSelector(FORM_NAME)
 
@@ -296,4 +257,4 @@ const mapDispatchToProps = dispatch => ({
   fetchWells: (filters) => dispatch(fetchWells(filters)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(IsochemicalContours)
+export default connect(mapStateToProps, mapDispatchToProps)(FreeProduct)
