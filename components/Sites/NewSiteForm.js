@@ -12,8 +12,8 @@ import {
 
 import { fetchProjects } from '../../actions/projects'
 import { createSite, clearCreatingSiteError } from '../../actions/sites'
-import { msgFromError } from '../../util'
-import { currentLab } from '../../normalizers'
+import { msgFromError } from 'util'
+import { currentLab } from 'normalizers'
 import STATES from 'helpers/states'
 
 class NewSiteForm extends React.Component {
@@ -89,6 +89,7 @@ class NewSiteForm extends React.Component {
 
         const error = this.props.creatingSiteError
         const generalError = error && error.msg ? error.msg : null
+        debugger
         const errors = error && error.key ? {
             [error.key]: msgFromError(error),
         } : {}

@@ -12,8 +12,8 @@ import {
 import STATES from 'helpers/states'
 
 import { editSite, clearEditingSiteError } from 'actions/sites'
-import { msgFromError } from 'util'
-
+import { flashMessage } from 'actions/global'
+import { msgFromError } from 'helpers/util'
 
 class EditSiteForm extends React.Component {
   constructor (props) {
@@ -75,12 +75,14 @@ class EditSiteForm extends React.Component {
       background: this.state.background,
       summary: this.state.summary,
     })
-    .then(this.props.onSuccess)
+    .then(() => this.props.flashMessage('success', 'Site updated successfully'))
+    .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error'))
   }
 
   render () {
     const error = this.props.editingSiteError
     const generalError = error && error.msg ? error.msg : null
+
     const errors = error && error.key ? {
       [error.key]: msgFromError(error),
     } : {}
@@ -257,6 +259,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
   editSite: (id, site) => dispatch(editSite(id, site)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSiteForm)

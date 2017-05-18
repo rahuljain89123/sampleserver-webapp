@@ -24,7 +24,7 @@ export const msgFromError = error => {
         return `That ${error.key} is already taken. Try another.`
     } else if (error.validator === 'minLength') {
         return `That ${error.key} is too short.`
-    } else if (error.validator === 'pattern') {
+    } else if (error.validator === 'pattern' || error.validator === 'type') {
         return `That does not appear to be a valid ${error.key}.`
     }
 

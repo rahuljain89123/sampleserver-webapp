@@ -2,7 +2,7 @@
 import React from 'react'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
-import { omit } from '../util'
+import { omit } from 'helpers/util'
 
 const Breadcrumbs = (props, context) => {
     const onClick = e => {

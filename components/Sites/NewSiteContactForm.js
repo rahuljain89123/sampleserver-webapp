@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { createContact, clearCreatingContactError } from '../../actions/contacts'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class NewContactForm extends React.Component {

@@ -14,7 +14,7 @@ import PrivateRoute from '../Auth'
 import { fetchCompanies } from '../../actions/companies'
 import { editProject, clearEditingProjectError } from '../../actions/projects'
 import { currentLab } from '../../normalizers'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class EditProjectForm extends React.Component {

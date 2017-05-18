@@ -12,7 +12,6 @@ const EditSite = props => (
     <Col sm={6}>
       <EditSiteForm
         site={props.site}
-        onSuccess={props.onSuccess}
       />
     </Col>
   </Row>

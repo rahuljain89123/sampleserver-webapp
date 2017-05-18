@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { editUser, clearEditingUserError } from '../../actions/users'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 import { FormSuccessMessage } from './FormMessages'
 import { safeGet } from '../../normalizers'
 
