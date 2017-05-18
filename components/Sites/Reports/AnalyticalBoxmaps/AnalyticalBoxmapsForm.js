@@ -95,7 +95,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       <optgroup key={substanceGroupId} label={substanceGroups.get(substanceGroupId).get('title')}>
         {substances.valueSeq().map(substance => {
           if (site.get('substance_ids').includes(substance.get('id')) ||
-            substanceIdInDateRange(substance.get('id'))
+            this.substanceIdInDateRange(substance.get('id'))
           ) { return null }
           return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
         })}

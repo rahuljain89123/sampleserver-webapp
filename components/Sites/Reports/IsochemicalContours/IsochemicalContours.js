@@ -1,7 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Field, FieldArray, reduxForm, formValueSelector, change } from 'redux-form/immutable'
+import {
+  Field,
+  FieldArray,
+  reduxForm,
+  formValueSelector,
+  change,
+} from 'redux-form/immutable'
 import { Form, Input, Label } from 'reactstrap'
+import Immutable from 'immutable'
 import moment from 'moment'
 
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
@@ -36,20 +43,36 @@ import {
   flashMessage
 } from 'actions/global'
 
+import {
+  CHECKED,
+  UNCHECKED
+} from 'Sites/Reports/Shared/assets'
+
+const WELL_MARKER_HEIGHT = 25
+const WELL_MARKER_WIDTH = 100
+
+const FORM_NAME = 'IsochemicalContoursForm'
+
 class IsochemicalContours extends React.Component {
   constructor (props) {
     super(props)
     this.drawWellMarker = this.drawWellMarker.bind(this)
     this.processClickEvent = this.processClickEvent.bind(this)
+    this.setSelectedWells = this.setSelectedWells.bind(this)
   }
 
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
-    this.props.fetchWells({ site_id: this.props.site.get('id') })
+    this.props.fetchWells({ site_id: this.props.site.get('id') }).then(this.setSelectedWells)
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
+
+    this.checkedImage = new Image()
+    this.checkedImage.src = CHECKED
+    this.uncheckedImage = new Image()
+    this.uncheckedImage.src = UNCHECKED
   }
 
   componentWillReceiveProps (nextProps) {
@@ -63,15 +86,40 @@ class IsochemicalContours extends React.Component {
       && nextProps.date) {
       this.props.fetchGroupedSampleValues({
         date: nextProps.date,
-        sitemap_id: nextProps.siteMapId,
-        substance_ids: nextProps.substanceIds,
-        site_id: nextProps.site.get('id')
+        sitemap_id: parseInt(nextProps.siteMapId),
+        substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
+        site_id: parseInt(nextProps.site.get('id')),
       })
     }
   }
 
   processClickEvent (xpos, ypos, evt) {
-    // console.log(evt.region)
+    const { siteMapWells } = this.props
+
+    // siteMapWells.forEach(siteMapWell => {
+    //
+    //   if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
+    //       Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
+    //     this.toggleWell(siteMapWell.get('well_id'))
+    //   }
+    // })
+  }
+
+  setSelectedWells () {
+    let tmpState = Immutable.Map()
+    this.props.wells.forEach((well) => {
+      tmpState = tmpState.set(well.get('id'), false)
+    })
+
+    this.props.dispatch(change(FORM_NAME, 'selectedWells', tmpState))
+  }
+
+  toggleWell (wellId) {
+    change(
+      FORM_NAME,
+      'selectedWells',
+      this.props.selectedWells.set(wellId, !this.props.selectedWells.get(wellId))
+    )
   }
 
   substanceIdInDate (substanceId) {
@@ -91,19 +139,20 @@ class IsochemicalContours extends React.Component {
     })
 
     return isPresent
-
-    return true
   }
 
   drawWellMarker (well, ctx, loc) {
     const { x, y, scale } = loc
 
     const val = this.props.date ? 100.0 : this.props.wells.get(well.get('well_id')).get('title');
-    const color = 'black'
+    const color = 'gray'
     const fontSize = 15 * scale
-    const width = 100 * scale
-    const height = 25 * scale
+    const width = WELL_MARKER_WIDTH * scale
+    const height = WELL_MARKER_HEIGHT * scale
+    const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
+    const checkboxImage = this.props.selectedWells.get(well.get('well_id')) ? this.checkedImage : this.uncheckedImage
     // const .
+    
     ctx.fillStyle = color
     ctx.globalAlpha = 0.8
     ctx.beginPath()
@@ -111,11 +160,15 @@ class IsochemicalContours extends React.Component {
     ctx.globalAlpha = 1.0
 
     ctx.font = `bold ${fontSize}px Arial`
-    ctx.fillStyle = 'white'
+    ctx.fillStyle = 'black'
     ctx.textAlign = 'center'
     ctx.textBaseline='middle'
 
     ctx.fillText(val, x, y)
+
+
+    ctx.drawImage(checkboxImage, x - width*.45, y - checkboxSize/2, checkboxSize, checkboxSize)
+
 
     // ctx.addHitRegion({ id: well.get('id') })
     ctx.closePath()
@@ -131,13 +184,15 @@ class IsochemicalContours extends React.Component {
       <option key={date.get('id')}>{date.get('date_collected')}</option>)
 
     const groupedSubstances = this.props.substanceGroups.map((substanceGroup) =>
-      this.props.substances.filter((substance) => (substance.get('substance_group_id') === substanceGroup.get('id')))
-    )
+      this.props.substances.filter((substance) => (
+        substance.get('substance_group_id') === substanceGroup.get('id') &&
+        this.substanceIdInDate(substance.get('id'))
+      ))
+    ).filter(substances => substances.size)
 
     const substanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
       <optgroup key={substanceGroupId} label={this.props.substanceGroups.get(substanceGroupId).get('title')}>
-        {this.props.substances.valueSeq().map(substance => {
-          if (!this.substanceIdInDate(substance.get('id'))) { return null }
+        {substances.valueSeq().map(substance => {
           return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
         })}
       </optgroup>
@@ -232,9 +287,9 @@ class IsochemicalContours extends React.Component {
   }
 }
 
-IsochemicalContours = reduxForm({ form: 'IsochemicalContoursForm' })(IsochemicalContours)
+IsochemicalContours = reduxForm({ form: FORM_NAME })(IsochemicalContours)
 
-const selector = formValueSelector('IsochemicalContoursForm')
+const selector = formValueSelector(FORM_NAME)
 
 const mapStateToProps = (state, props) => ({
   siteMaps: state.get('siteMaps'),
@@ -248,6 +303,7 @@ const mapStateToProps = (state, props) => ({
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
   date: selector(state, 'date'),
+  selectedWells: selector(state, 'selectedWells')
 })
 
 const mapDispatchToProps = dispatch => ({
