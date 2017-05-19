@@ -85,7 +85,11 @@ class SiteMap extends React.Component {
    */
   createSiteMapWell (wellParams) {
     this.props.createSiteMapWell(wellParams)
-    .then(this.props.setAddingSiteMapWell(null))
+    .then(() => {
+      this.props.flashMessage('success', 'Well Marker successfully saved.')
+      this.props.setAddingSiteMapWell(null)
+    })
+    .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   /**
@@ -94,6 +98,8 @@ class SiteMap extends React.Component {
    */
   deleteSiteMapWell (siteMapWellId) {
     this.props.deleteSiteMapWell(siteMapWellId)
+    .then(() => this.props.flashMessage('success', 'Well Marker successfully deleted.'))
+    .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   /**
@@ -142,7 +148,7 @@ class SiteMap extends React.Component {
       return (
         <li key={smw.get('id')} className='well list-group-item'>
           {well.get('title')}
-          <a href='#' onClick={(e) => this.props.deleteSiteMapWell(smw.get('id'))}> x </a>
+          <a href='#' onClick={(e) => this.deleteSiteMapWell(smw.get('id'))}> x </a>
         </li>)
     })
 
@@ -186,7 +192,7 @@ const mapStateToProps = (store, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  flashMessage: (type, message) => dispatch(flashMessage(type, heading)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
 
