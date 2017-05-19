@@ -32,6 +32,36 @@ export const receiveSiteMaps = siteMaps => ({
   siteMaps,
 })
 
+
+export const setEditingSiteMap = editing => ({
+    type: SET_EDITING_SITE_MAP,
+    editing,
+})
+
+export const setEditingSiteMapError = error => ({
+    type: SET_EDITING_SITE_MAP_ERROR,
+    error,
+})
+
+export const clearEditingSiteMapError = () => ({
+    type: CLEAR_EDITING_SITE_MAP_ERROR,
+})
+
+
+export const setCreatingSiteMap = creating => ({
+    type: SET_CREATING_SITE_MAP,
+    creating,
+})
+
+export const setCreatingSiteMapError = error => ({
+    type: SET_CREATING_SITE_MAP_ERROR,
+    error,
+})
+
+export const clearCreatingSiteMapError = () => ({
+    type: CLEAR_CREATING_SITE_MAP_ERROR,
+})
+
 export const removeSiteMap = id => ({
   type: REMOVE_SITE_MAP,
   id,
@@ -84,6 +114,33 @@ export const createSiteMap = (siteMapParams) =>
       return Promise.reject()
     })
 
+export const createSite = site =>
+  dispatch => {
+    dispatch(setCreatingSiteMapMap(true))
+
+    return API.post('/sites/', site)
+    .then(json => {
+      dispatch(setCreatingSiteMapMap(false))
+      dispatch(receiveSiteMap(json))
+      return Promise.resolve(json.id)
+    })
+    .catch(e => {
+      dispatch(setCreatingSiteMapMap(false))
+
+      e.response.json().then(json => {
+        if (json.errors && json.errors.length) {
+          return dispatch(setCreatingSiteMapMapError(json.errors[0]))
+        }
+
+        return dispatch(setCreatingSiteMapMapError({
+          msg: 'Unable to create site.',
+        }))
+      })
+      return Promise.reject()
+    })
+  }
+
+
 export const editSiteMap = (id, siteMapParams) =>
   dispatch => {
 
@@ -107,6 +164,7 @@ export const fetchSiteMapWells = (filters) =>
   dispatch =>
     API.get(`/sitemapwells/?${qs.stringify(filters)}`)
     .then(siteMapWells => dispatch(receiveSiteMapWells(siteMapWells)))
+
 
 export const createSiteMapWell = (siteMapWellParams) =>
   dispatch =>

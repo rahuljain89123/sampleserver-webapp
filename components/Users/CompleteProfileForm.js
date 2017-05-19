@@ -12,7 +12,7 @@ import {
 
 import { editUser, clearEditingUserError } from '../../actions/users'
 import { currentUser, safeGet } from '../../normalizers'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 import UpdateProfileImage from './UpdateProfileImage'
 
 

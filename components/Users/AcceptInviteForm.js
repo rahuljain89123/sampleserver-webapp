@@ -17,7 +17,7 @@ import {
     signin,
     clearAcceptInviteError,
 } from '../../actions/users'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class AcceptInviteForm extends React.Component {

@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { editLab, clearEditingLabError } from '../../actions/labs'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class EditLabForm extends React.Component {

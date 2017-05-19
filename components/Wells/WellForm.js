@@ -9,7 +9,7 @@ import {
 import { Field, reduxForm } from 'redux-form/immutable'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
 
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 class WellForm extends React.Component {
 

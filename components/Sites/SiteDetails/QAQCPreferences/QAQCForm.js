@@ -22,6 +22,7 @@ import IndividualSelect from 'SharedComponents/ReduxFormHelpers/IndividualSelect
 import { editSite }   from 'actions/sites'
 import { fetchWells } from 'actions/wells'
 import { fetchTests } from 'actions/tests'
+import { flashMessage } from 'actions/global'
 
 const renderTests= ({ fields, options }) => {
   const addTest = (e) => {
@@ -67,7 +68,6 @@ const renderWells= ({ fields, options }) => {
         fields.remove(index)
       }
 
-      // debugger
       return <li key={index}>
         <InputGroup>
           <Field
@@ -102,6 +102,8 @@ class QAQCForm extends React.Component {
 
   onSubmit (qaqcParams) {
     this.props.editSite(this.props.site.get('id'), qaqcParams)
+      .then(() => this.props.flashMessage('success', 'QA/QC Preferences successfully saved'))
+      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
   render () {
@@ -344,7 +346,8 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   fetchWells: () => dispatch(fetchWells()),
   fetchTests: () => dispatch(fetchTests()),
-  editSite:   (id, siteParams) => dispatch(editSite(id, siteParams))
+  editSite:   (id, siteParams) => dispatch(editSite(id, siteParams)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(QAQCForm)

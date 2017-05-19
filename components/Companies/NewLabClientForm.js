@@ -13,7 +13,7 @@ import {
 import { createCompany, clearCreatingCompanyError } from '../../actions/companies'
 import { createUser, clearCreatingUserError } from '../../actions/users'
 import { currentLab } from '../../normalizers'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class NewLabClientForm extends React.Component {

@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { editSample, clearEditingSampleError } from '../../actions/samples'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class EditSampleForm extends React.Component {

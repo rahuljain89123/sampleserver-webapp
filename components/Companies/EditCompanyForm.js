@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { editCompany, clearEditingCompanyError } from '../../actions/companies'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class EditCompanyForm extends React.Component {

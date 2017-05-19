@@ -11,7 +11,6 @@ import {
   createWell,
   clearCreatingWellError,
 } from 'actions/wells'
-
 import { flashMessage } from 'actions/global'
 
 import WellForm from './WellForm'
@@ -32,6 +31,7 @@ class NewWell extends React.Component {
         this.props.flashMessage('success', 'Well created successfully')
         this.props.push(`/app/sites/${siteId}/details/wells`)
       })
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   render () {
@@ -66,6 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
   flashMessage: (type, message) =>
     dispatch(flashMessage(type, message)),
 
+  clearCreatingWellError: () => dispatch(clearCreatingWellError()),
   createWell: (wellParams) => dispatch(createWell(wellParams)),
 })
 

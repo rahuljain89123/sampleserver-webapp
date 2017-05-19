@@ -27,6 +27,21 @@ export const receiveSites = sites => ({
     sites,
 })
 
+export const setEditingSite = editing => ({
+    type: SET_EDITING_SITE,
+    editing,
+})
+
+export const setEditingSiteError = error => ({
+    type: SET_EDITING_SITE_ERROR,
+    error,
+})
+
+export const clearEditingSiteError = () => ({
+    type: CLEAR_EDITING_SITE_ERROR,
+})
+
+
 export const setCreatingSite = creating => ({
     type: SET_CREATING_SITE,
     creating,
@@ -71,7 +86,7 @@ export const createSite = site =>
         })
         .catch(e => {
             dispatch(setCreatingSite(false))
-            
+
             e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
                     return dispatch(setCreatingSiteError(json.errors[0]))
@@ -85,19 +100,6 @@ export const createSite = site =>
         })
     }
 
-export const setEditingSite = editing => ({
-    type: SET_EDITING_SITE,
-    editing,
-})
-
-export const setEditingSiteError = error => ({
-    type: SET_EDITING_SITE_ERROR,
-    error,
-})
-
-export const clearEditingSiteError = () => ({
-    type: CLEAR_EDITING_SITE_ERROR,
-})
 
 export const editSite = (id, site) =>
     dispatch => {

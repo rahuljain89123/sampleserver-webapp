@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { createLab, clearCreatingLabError } from '../../actions/labs'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class NewLabForm extends React.Component {

@@ -6,7 +6,7 @@ import {
 export default (props) => {
   const { users } = props
   if (!users.size) { return null }
-
+  
   const usersRows = users.map(([id, user]) => (
     <tr key={id}>
       <td>{user.get('name') || '-'}</td>

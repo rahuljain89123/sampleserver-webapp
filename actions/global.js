@@ -29,6 +29,10 @@ export const clearFlash = () => ({
 
 export const flashMessage = (type, message) =>
   dispatch => {
+    if (type === 'STANDARD_ERROR') {
+      type = 'danger'
+      message = 'Sorry, there was an error.'
+    }
     dispatch(setFlash({
       type,
       message,

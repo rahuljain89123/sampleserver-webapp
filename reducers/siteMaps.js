@@ -35,6 +35,47 @@ export const siteMaps = (state = Immutable.Map(), action) => {
 }
 
 
+export const creatingSiteMap = (state = false, action) => {
+    switch (action.type) {
+    case SET_CREATING_SITE_MAP:
+        return action.creating
+    default:
+        return state
+    }
+}
+
+export const creatingSiteMapError = (state = null, action) => {
+    switch (action.type) {
+    case SET_CREATING_SITE_MAP_ERROR:
+        return action.error
+    case CLEAR_CREATING_SITE_MAP_ERROR:
+        return null
+    default:
+        return state
+    }
+}
+
+export const editingSiteMap = (state = false, action) => {
+    switch (action.type) {
+    case SET_EDITING_SITE_MAP:
+        return action.editing
+    default:
+        return state
+    }
+}
+
+export const editingSiteMapError = (state = null, action) => {
+    switch (action.type) {
+    case SET_EDITING_SITE_MAP_ERROR:
+        return action.error
+    case CLEAR_EDITING_SITE_MAP_ERROR:
+        return null
+    default:
+        return state
+    }
+}
+
+
 export const siteMapWells = (state = Immutable.Map(), action) => {
   switch (action.type) {
   case RECEIVE_SITE_MAP_WELL:

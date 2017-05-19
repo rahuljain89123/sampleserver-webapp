@@ -45,6 +45,7 @@ class EditWell extends React.Component {
         this.props.flashMessage('success', 'Well Deleted Successfully')
         this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
       })
+      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
   onSubmitWellForm (wellParams) {
@@ -53,6 +54,7 @@ class EditWell extends React.Component {
         this.props.flashMessage('success', 'Well Updated Successfully')
         this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
       })
+      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
   onUploadWellImages (wellImages) {

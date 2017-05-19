@@ -28,7 +28,7 @@ const CompanyApp = () => (
             component={props => (
                 <div>
                     <h4>New Site</h4>
-                    <NewSite onSuccess={() => props.push('/app')} />
+                    <NewSite push={props.push} />
                 </div>
             )}
         />

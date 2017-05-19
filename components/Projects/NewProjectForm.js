@@ -11,7 +11,7 @@ import {
 } from 'reactstrap'
 
 import { createProject, clearCreatingProjectError } from '../../actions/projects'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 import { currentCompany } from '../../normalizers'
 import { fetchCompanies } from '../../actions/companies'
 

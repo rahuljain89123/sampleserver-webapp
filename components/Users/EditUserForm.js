@@ -13,7 +13,7 @@ import {
 import { fetchLabs } from '../../actions/labs'
 import { fetchRoles } from '../../actions/roles'
 import { editUser, clearEditingUserError } from '../../actions/users'
-import { msgFromError } from '../../util'
+import { msgFromError } from 'helpers/util'
 
 
 class EditUserForm extends React.Component {

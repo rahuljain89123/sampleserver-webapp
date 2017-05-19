@@ -127,6 +127,7 @@ export const editWell = (id, well) =>
           msg: 'Unable to update well.',
         }))
       })
+      
       return Promise.reject()
     })
   }

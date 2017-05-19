@@ -61,12 +61,6 @@ class CompanyUsers extends React.Component {
     this.props.createUser(user)
   }
 
-  toggleActive (user) {
-    this.props.editUser(user.get('id'), {
-      active: !user.get('active'),
-    })
-  }
-
   render () {
     const { activeRole } = this.state
     const currentRole = this.props.roles.size ? this.props.roles.get(activeRole) : null
