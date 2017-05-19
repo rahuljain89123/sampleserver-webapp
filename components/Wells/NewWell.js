@@ -11,7 +11,6 @@ import {
   createWell,
   clearCreatingWellError,
 } from 'actions/wells'
-
 import { flashMessage } from 'actions/global'
 
 import WellForm from './WellForm'
@@ -67,6 +66,7 @@ const mapDispatchToProps = (dispatch) => ({
   flashMessage: (type, message) =>
     dispatch(flashMessage(type, message)),
 
+  clearCreatingWellError: () => dispatch(clearCreatingWellError()),
   createWell: (wellParams) => dispatch(createWell(wellParams)),
 })
 
