@@ -86,7 +86,7 @@ class EditSchedule extends React.Component {
       },
     })
   }
-
+  
   deleteTest (e, testId) {
     this.props.editSchedule(this.state.scheduleId, {
       tests: {
@@ -96,6 +96,9 @@ class EditSchedule extends React.Component {
     })
   }
 
+  /**
+   * Toggle the given test for the well.
+   */
   toggleTest (e, testId, wellId, scheduleId) {
     if (e.target.checked) {
       // Checked, enable the test!
@@ -124,6 +127,10 @@ class EditSchedule extends React.Component {
     }
   }
 
+  /**
+   * Mark the well as one that should only be gauged
+   *  also removes all tests for that particular well.
+   */
   toggleGaugedWell (e, wellId) {
     if (e.target.checked) {
       this.props.editSchedule(this.state.scheduleId, {
@@ -149,29 +156,10 @@ class EditSchedule extends React.Component {
     }
   }
 
-  isChecked (testId, wellId, scheduleId) {
-    if (this.props.scheduleWellTests.size) {
-      const mycheck = this.props.scheduleWellTests
-        .filter(schedulewelltest => schedulewelltest.get('well_id') === wellId)
-        .filter(schedulewelltest => schedulewelltest.get('test_id') === testId)
-        .first()
-      if (mycheck) {
-        return true
-      }
-    }
-    return false
-  }
-
-  toGauge (wellId) {
-    if (this.props.schedules.size) {
-      const schedule = this.props.schedules.get(this.state.scheduleId)
-      if (includes(schedule.get('gauged_well_ids'), wellId)) {
-        return true
-      }
-    }
-    return false
-  }
-
+  /**
+   * Mark the selected wellId as a well that should explicitly not be gauged/tested.
+   *  also removes all tests for that particular well.
+   */
   toggleSkipWell (e, wellId) {
     if (e.target.checked) {
       this.props.editSchedule(this.state.scheduleId, {
@@ -195,6 +183,9 @@ class EditSchedule extends React.Component {
     }
   }
 
+  /**
+   * Remove all tests for a well.
+   */
   removeTestsFromWell (wellId) {
     // Find all the well tests for a paricular well
     const myWellTests = this.props.scheduleWellTests
@@ -205,16 +196,45 @@ class EditSchedule extends React.Component {
     })
   }
 
-  skippedWell (wellId) {
+  /**
+   * @return true if the well is supposed to be gauged
+   */
+  toGauge (wellId) {
     if (this.props.schedules.size) {
       const schedule = this.props.schedules.get(this.state.scheduleId)
-      if (includes(schedule.get('skipped_well_ids'), wellId)) {
+      if (schedule.get('gauged_well_ids').includes(wellId)) {
         return true
       }
     }
     return false
   }
 
+  /**
+   * @return true if the well is marked as 'Do not sample or gauge'
+   */
+  skippedWell (wellId) {
+    if (!this.props.schedules.size) { return false }
+
+    const schedule = this.props.schedules.get(this.state.scheduleId)
+    return schedule.get('skipped_well_ids').includes(wellId)
+  }
+
+  /**
+   * @return true if the well is supposed to be tested for the given testId
+   */
+  isChecked (testId, wellId) {
+    if (this.props.scheduleWellTests.size) {
+      const mycheck = this.props.scheduleWellTests
+        .filter(schedulewelltest =>
+          (schedulewelltest.get('well_id') === wellId &&
+          schedulewelltest.get('test_id') === testId)
+        )
+        .first()
+
+      if (mycheck) { return true }
+    }
+    return false
+  }
 
   editSchedule (scheduleParams) {
     this.props.editSchedule(this.state.scheduleId, scheduleParams)
@@ -234,8 +254,9 @@ class EditSchedule extends React.Component {
       const schedule = this.props.schedules.get(this.state.scheduleId)
       const formattedDate = moment(schedule.get('date')).utc().format('YYYY-MM-DD')
       const siteActivityReport = schedule.delete('test_ids')
-      .delete('gauged_well_ids')
-      .set('date', formattedDate)
+        .delete('gauged_well_ids')
+        .set('date', formattedDate)
+
       return (
         <div className="sample-schedule">
           <h2>Edit Schedule: {formattedDate}</h2>
