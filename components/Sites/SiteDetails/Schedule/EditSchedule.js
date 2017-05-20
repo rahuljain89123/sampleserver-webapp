@@ -165,7 +165,7 @@ class EditSchedule extends React.Component {
   toGauge (wellId) {
     if (this.props.schedules.size) {
       const schedule = this.props.schedules.get(this.state.scheduleId)
-      if (includes(schedule.get('gauged_well_ids'), wellId)) {
+      if (schedule.get('gauged_well_ids').includes(wellId)) {
         return true
       }
     }
@@ -208,7 +208,7 @@ class EditSchedule extends React.Component {
   skippedWell (wellId) {
     if (this.props.schedules.size) {
       const schedule = this.props.schedules.get(this.state.scheduleId)
-      if (includes(schedule.get('skipped_well_ids'), wellId)) {
+      if (schedule.get('skipped_well_ids').includes(wellId)) {
         return true
       }
     }
@@ -234,8 +234,9 @@ class EditSchedule extends React.Component {
       const schedule = this.props.schedules.get(this.state.scheduleId)
       const formattedDate = moment(schedule.get('date')).utc().format('YYYY-MM-DD')
       const siteActivityReport = schedule.delete('test_ids')
-      .delete('gauged_well_ids')
-      .set('date', formattedDate)
+        .delete('gauged_well_ids')
+        .set('date', formattedDate)
+
       return (
         <div className="sample-schedule">
           <h2>Edit Schedule: {formattedDate}</h2>
