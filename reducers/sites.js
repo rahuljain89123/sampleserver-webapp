@@ -10,6 +10,7 @@ import {
     SET_EDITING_SITE,
     SET_EDITING_SITE_ERROR,
     CLEAR_EDITING_SITE_ERROR,
+    REMOVE_SITE,
 } from 'constants/SiteActionTypes'
 
 export const sites = (state = Immutable.Map(), action) => {
@@ -22,6 +23,8 @@ export const sites = (state = Immutable.Map(), action) => {
             tempState = tempState.set(site.id, Immutable.fromJS(site))
         })
         return tempState
+    case REMOVE_SITE:
+      return state.delete(action.id)
     default:
         return state
     }

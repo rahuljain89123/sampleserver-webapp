@@ -4,10 +4,15 @@ import { connect } from 'react-redux'
 import {
   Row,
   Col,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalFooter,
 } from 'reactstrap'
 
 import {
   editSite,
+  deleteSite,
   clearEditingSiteError,
   setEditingSite,
 } from 'actions/sites'
@@ -20,6 +25,31 @@ class EditSite extends React.Component {
     super(props)
 
     this.onSubmitSiteForm = this.onSubmitSiteForm.bind(this)
+    this.confirmDelete = this.confirmDelete.bind(this)
+    this.onDelete = this.onDelete.bind(this)
+    this.hideModal = this.hideModal.bind(this)
+    this.state = {
+      confirmingDelete: false,
+    }
+  }
+
+  confirmDelete () {
+    this.setState({ confirmingDelete: true })
+  }
+
+  onDelete () {
+    this.props.deleteSite(this.props.site.get('id'))
+      .then(() => {
+        this.props.flashMessage('success', 'Site deleted')
+        this.props.push('/app')
+      })
+      .catch(() => {
+        this.props.flashMessage('STANDARD_ERROR')
+      })
+  }
+
+  hideModal () {
+    this.setState( { confirmingDelete: false })
   }
 
   onSubmitSiteForm (siteParams) {
@@ -41,17 +71,35 @@ class EditSite extends React.Component {
     if (!site) { return null }
 
     return (
-      <Row>
-        <Col sm={6}>
-          <SiteForm
-            initialValues={site}
-            siteError={editingSiteError}
-            clearSiteError={clearEditingSiteError}
-            submittingForm={editingSite}
-            submitForm={this.onSubmitSiteForm}
-          />
-        </Col>
-      </Row>
+      <div>
+        <div className="border-bottom">
+          <h2>Site Details</h2>
+          <Button
+            onClick={() => this.confirmDelete()}
+            className="ml-auto"
+            role="button"
+            color="danger"
+          >Delete Site</Button>
+        </div>
+        <Row>
+          <Col sm={6}>
+            <SiteForm
+              initialValues={site}
+              siteError={editingSiteError}
+              clearSiteError={clearEditingSiteError}
+              submittingForm={editingSite}
+              submitForm={this.onSubmitSiteForm}
+            />
+          </Col>
+        </Row>
+        <Modal isOpen={this.state.confirmingDelete} toggle={this.hideModal}>
+          <ModalHeader toggle={this.hideModal}>Are you sure you want to delete this site?</ModalHeader>
+          <ModalFooter>
+            <Button color='secondary' onClick={this.hideModal}>No</Button>{' '}
+            <Button color='danger' onClick={this.onDelete}>Yes</Button>
+          </ModalFooter>
+        </Modal>
+      </div>
     )
   }
 
@@ -67,6 +115,7 @@ const mapDispatchToProps = dispatch => ({
 
   editSite: (siteId, siteParams) => dispatch(editSite(siteId, siteParams)),
   setEditingSite: (editing) => dispatch(setEditingSite(editing)),
+  deleteSite: (siteId) => dispatch(deleteSite(siteId)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
 })
 
