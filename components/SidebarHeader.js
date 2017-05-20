@@ -50,17 +50,7 @@ class SidebarHeader extends React.Component {
     e.preventDefault()
     this.props.push('/')
   }
-
-  onSignout (e) {
-    e.preventDefault()
-    this.props.signout()
-      .then(() => {
-        this.props.reset()
-        this.props.fetchCurrentLab()
-        this.props.push('/')
-      })
-  }
-
+  
   getAppTitle () {
     if (this.props.company) {
       return this.props.company.get('title')
