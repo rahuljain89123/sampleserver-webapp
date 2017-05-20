@@ -102,12 +102,13 @@ class Header extends React.Component {
         <Nav className="">
           <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="dark">
             <DropdownToggle className="pointer avatar-container">
-              <img className="profile-image" src="/static/img/blank-avatar.png" alt="avatar" />
-              <span className="name">{user.get('firstname')}</span>
+              <img className="profile-image" src={user.get('photo_url')} alt="avatar" />
+              <span className="name">{user.get('name')}</span>
             </DropdownToggle>
             <DropdownMenu right>
               <DropdownItem header>{roleDescription}</DropdownItem>
               <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
+              <DropdownItem onClick={() => this.props.push('/complete-profile')}>Edit Profile </DropdownItem>
               <DropdownItem
                 onClick={e => this.onSignout(e)}
                 className="pointer"

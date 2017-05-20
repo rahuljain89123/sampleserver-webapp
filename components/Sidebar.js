@@ -2,27 +2,27 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-    Navbar,
-    Nav,
-    NavItem,
-    NavLink,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
+  Navbar,
+  Nav,
+  NavItem,
+  NavLink,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-import { fetchCurrentUser, signout, reset } from '../actions/users'
-import { fetchCurrentLab } from '../actions/labs'
-import { fetchRoles } from '../actions/roles'
-import { fetchCompanies } from '../actions/companies'
+import { fetchCurrentUser, signout, reset } from 'actions/users'
+import { fetchCurrentLab } from 'actions/labs'
+import { fetchRoles } from 'actions/roles'
+import { fetchCompanies } from 'actions/companies'
 import {
-    currentUser,
-    currentUserRole,
-    currentLab,
-    safeGet,
-    currentCompany,
+  currentUser,
+  currentUserRole,
+  currentLab,
+  safeGet,
+  currentCompany,
 } from '../normalizers'
 import SiteNav from 'components/Sites/App/SiteNav'
 import { fetchSite } from '../actions/sites'
@@ -58,6 +58,16 @@ class Sidebar extends React.Component {
     })
   }
 
+  onSignout (e) {
+    e.preventDefault()
+    this.props.signout()
+      .then(() => {
+        this.props.reset()
+        this.props.fetchCurrentLab()
+        this.props.push('/')
+      })
+  }
+
   sideBarStatus () {
     return (this.state.open ? 'open' : 'closed')
   }
@@ -67,10 +77,14 @@ class Sidebar extends React.Component {
     const roleDescription = this.props.roleDescription
     if (!site) { return null }
 
-    let firstnameSpan = null
+    let nameSpan = null
+    let profileImgSrc = null
 
     if (this.props.user) {
-      firstnameSpan = (<span className="name">{this.props.user.get('firstname')}</span>)
+      nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
+      profileImgSrc = this.props.user.get('photo_url')
+    } else {
+      profileImgSrc = '/static/img/blank-avatar.png'
     }
 
     return (
@@ -80,12 +94,14 @@ class Sidebar extends React.Component {
             <Nav className="avatar-dropdown">
               <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="light">
                 <DropdownToggle className="pointer avatar-container">
-                  <img className="profile-image" src="/static/img/blank-avatar.png" alt="avatar" />
-                  {firstnameSpan}
+                  <img className="profile-image" src={profileImgSrc} alt="avatar" />
+                  {nameSpan}
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem header>{roleDescription}</DropdownItem>
                   <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
+                  <DropdownItem onClick={() => this.props.push('/complete-profile')}>Edit Profile </DropdownItem>
+
                   <DropdownItem
                     onClick={e => this.onSignout(e)}
                     className="pointer"
@@ -124,6 +140,9 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSite: id => dispatch(fetchSite(id)),
+  fetchCurrentLab: () => dispatch(fetchCurrentLab()),
+  signout: () => dispatch(signout()),
+  reset: () => dispatch(reset()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
