@@ -33,14 +33,11 @@ class SiteDetails extends React.Component {
         exact
         path={`/app/sites/${site.get('id')}/details/info`}
         component={props => (
-          <div>
-            <h2 className="border-bottom">Site Details</h2>
-            <EditSite
-              site={site}
-              onSuccess={() => {}}
-              {...props}
-            />
-          </div>
+          <EditSite
+            site={site}
+            onSuccess={() => {}}
+            {...props}
+          />
         )}
       />
       <PrivateRoute
