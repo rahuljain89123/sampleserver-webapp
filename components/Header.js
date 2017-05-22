@@ -24,6 +24,8 @@ import {
   safeGet,
   currentCompany,
 } from 'normalizers'
+import { TitleApp } from 'components/TitleApp'
+
 
 class Header extends React.Component {
   constructor (props) {
@@ -70,6 +72,7 @@ class Header extends React.Component {
     let siteTitle = null
     let flashAlert = null
     let userDropdown = null
+    let appTitle = null
 
     if (flash) {
       flashAlert = (
@@ -78,45 +81,39 @@ class Header extends React.Component {
         </div>
       )
     }
+
+    appTitle = this.getAppTitle()
+
     return (
       <div className="navbar-container">
         {flashAlert}
-
-          <PrivateRoute
-            path="/app"
-            component={() => (
-              <Navbar className="d-flex flex-row justify-content-between">
-                <div className="navbar-brand">{this.getAppTitle()}</div>
-              </Navbar>
-            )}
-            authorized={['LabAdmin', 'LabAssociate']}
-          />
-          <PrivateRoute
-            path="/app"
-            component={() => (
-              <Navbar className="d-flex flex-row justify-content-between">
-                <div className="navbar-brand">{this.getAppTitle()}</div>
-                <div className="actions">
-                  <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
-                  <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
-                </div>
-              </Navbar>
-            )}
-            authorized={['CompanyAdmin', 'CompanyAssociate']}
-          />
-          <PrivateRoute
-            path="/app"
-            component={() => (
-              <Navbar className="d-flex flex-row justify-content-between">
-                <div className="navbar-brand">{this.getAppTitle()}</div>
-                <div className="actions">
-                  <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
-                  <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
-                </div>
-              </Navbar>
-            )}
-            authorized={['ProjectManager']}
-          />
+        <PrivateRoute
+          path="/app"
+          component={() => (
+            <Navbar className="d-flex flex-row justify-content-between">
+              <TitleApp title={appTitle} />
+            </Navbar>
+          )}
+          authorized={['LabAdmin', 'LabAssociate']}
+        />
+        <PrivateRoute
+          path="/app"
+          component={() => (
+            <Navbar className="d-flex flex-row justify-content-between">
+              <TitleApp title={appTitle} />
+            </Navbar>
+          )}
+          authorized={['CompanyAdmin', 'CompanyAssociate']}
+        />
+        <PrivateRoute
+          path="/app"
+          component={() => (
+            <Navbar className="d-flex flex-row justify-content-between">
+              <TitleApp title={appTitle} />
+            </Navbar>
+          )}
+          authorized={['ProjectManager']}
+        />
       </div>
     )
   }
