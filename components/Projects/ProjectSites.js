@@ -115,7 +115,7 @@ class ProjectSites extends React.Component {
                                 {projectSites.get(id).map(([siteId, site]) => (
                                     <ListGroupItem key={siteId}>
                                         <a
-                                            href={`/app/sites/${siteId}`}
+                                            href={`/app/sites/${siteId}/lab-data-list`}
                                             onClick={e => this.onClick(e)}
                                         >
                                             {site.get('title')}

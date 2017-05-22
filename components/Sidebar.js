@@ -10,7 +10,8 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-import { Link, NavLink } from 'react-router-dom'
+import { Route, Link, NavLink, Switch } from 'react-router-dom'
+import PrivateRoute from './Auth'
 
 import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
@@ -24,26 +25,19 @@ import {
   currentCompany,
 } from '../normalizers'
 import SiteNav from 'components/Sites/App/SiteNav'
-import { fetchSite } from '../actions/sites'
+import { fetchSite } from 'actions/sites'
 
 
-class SiteSidebar extends React.Component {
+class Sidebar extends React.Component {
   constructor (props) {
     super(props)
-    const siteId = parseInt(props.match.params.id, 10)
 
     this.state = {
       open: true,
-      siteId,
       dropdownOpen: false,
     }
   }
 
-  componentDidMount () {
-    if (!this.props.sites.get(this.state.siteId)) {
-      this.props.fetchSite(this.state.siteId)
-    }
-  }
 
   toggleSidebar () {
     this.setState({
@@ -72,7 +66,7 @@ class SiteSidebar extends React.Component {
   }
 
   render () {
-    const site = this.props.sites.get(this.state.siteId)
+    // const site = this.props.sites.get(this.state.siteId)
     const roleDescription = this.props.roleDescription
     // if (!site) { return null }
 
@@ -85,23 +79,6 @@ class SiteSidebar extends React.Component {
       profileImgSrc = this.props.user.get('photo_url')
     } else {
       profileImgSrc = '/static/img/blank-avatar.png'
-    }
-
-    if (site) {
-      myNav = (
-        <SiteNav site={site} />
-      )
-    } else {
-      myNav = (
-        <nav className="nav nav-pills flex-column">
-          <NavLink
-            exact
-            to={`/app/`}
-            className="nav-link nav-parent"
-            activeClassName="active"
-          >Dashboard</NavLink>
-        </nav>
-      )
     }
 
     return (
@@ -127,7 +104,61 @@ class SiteSidebar extends React.Component {
               </Dropdown>
             </Nav>
             <i className="material-icons" onClick={e => this.toggleSidebar(e)}>menu</i>
-            {myNav}
+
+            <PrivateRoute
+              path="/app"
+              component={() => (
+                <nav className="nav nav-pills flex-column">
+                  <NavLink
+                    exact
+                    to={`/app/`}
+                    className="nav-link nav-parent"
+                    activeClassName="active"
+                  >Dashboard</NavLink>
+                </nav>
+              )}
+              authorized={['LabAdmin', 'LabAssociate']} />
+            <PrivateRoute
+              exact
+              path="/app/"
+              component={() => (
+                <nav className="nav nav-pills flex-column">
+                  <NavLink
+                    exact
+                    to={`/app/`}
+                    className="nav-link nav-parent"
+                    activeClassName="active"
+                  >Dashboard</NavLink>
+                </nav>
+              )}
+              authorized={['CompanyAdmin', 'CompanyAssociate']}
+            />
+            <PrivateRoute
+              path="/app/sites/:id"
+              component={SiteNav}
+              authorized={['CompanyAdmin', 'CompanyAssociate']}
+            />
+            <PrivateRoute
+              exact
+              path="/app/"
+              component={() => (
+                <nav className="nav nav-pills flex-column">
+                  <NavLink
+                    exact
+                    to={`/app/`}
+                    className="nav-link nav-parent"
+                    activeClassName="active"
+                  >Dashboard</NavLink>
+                </nav>
+              )}
+              authorized={['ProjectManager']}
+            />
+            <PrivateRoute
+              path="/app/sites/:id"
+              component={SiteNav}
+              authorized={['ProjectManager']}
+            />
+
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
               &copy; SampleServe
@@ -162,4 +193,4 @@ const mapDispatchToProps = dispatch => ({
   reset: () => dispatch(reset()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteSidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)

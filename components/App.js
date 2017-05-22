@@ -27,19 +27,6 @@ import {
 class App extends React.Component {
     constructor (props) {
       super(props)
-
-      const siteId = parseInt(props.match.params.id, 10)
-
-      this.state = {
-        dropdownOpen: false,
-        siteId,
-      }
-    }
-
-    toggle () {
-      this.setState({
-        dropdownOpen: !this.state.dropdownOpen,
-      })
     }
 
     componentDidMount () {
@@ -54,21 +41,6 @@ class App extends React.Component {
       }
     }
 
-    onSignin (e) {
-      e.preventDefault()
-      this.props.push('/')
-    }
-
-    onSignout (e) {
-      e.preventDefault()
-      this.props.signout()
-        .then(() => {
-          this.props.reset()
-          this.props.fetchCurrentLab()
-          this.props.push('/')
-        })
-    }
-
     getAppTitle () {
       if (this.props.company) {
         return this.props.company.get('title')
@@ -77,40 +49,12 @@ class App extends React.Component {
     }
 
     render () {
-        if (this.props.sites && this.state.siteId) {
-            const site = this.props.sites.get(this.state.siteId)
-        }
-
         return (
             <div className="wrapper app">
                 <div className="wrapper-inner">
                     <Route component={Sidebar} />
                     <div className="main-container">
-                        <Switch>
-                            <PrivateRoute
-                                component={Header}
-                                path={`/app/sites/:id`}
-                                authorized={['LabAdmin', 'LabAssociate']}
-                            />
-                            <PrivateRoute
-                                component={Header}
-                                path={`/app/sites/:id`}
-                                authorized={['CompanyAdmin', 'CompanyAssociate']}
-                            />
-                            <PrivateRoute
-                                component={Header}
-                                authorized={['CompanyAdmin', 'CompanyAssociate']}
-                            />
-                            <PrivateRoute
-                                component={Header}
-                                path={`/app/sites/:id`}
-                                authorized={['ProjectManager']}
-                            />
-                            <PrivateRoute
-                                component={Header}
-                                authorized={['ProjectManager']}
-                            />
-                        </Switch>
+                        <Route component={Header} appTitle={this.getAppTitle()} />
                         <div className="container-fluid">
                             <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
                             <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />

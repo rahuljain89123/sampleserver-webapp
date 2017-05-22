@@ -29,11 +29,8 @@ class Header extends React.Component {
   constructor (props) {
     super(props)
 
-    const siteId = parseInt(props.match.params.id, 10)
-
     this.state = {
       dropdownOpen: false,
-      siteId,
     }
   }
 
