@@ -93,7 +93,6 @@ class Sidebar extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem header>{roleDescription}</DropdownItem>
-                  <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
                   <DropdownItem onClick={() => this.props.push('/complete-profile')}>Edit Profile </DropdownItem>
 
                   <DropdownItem
@@ -105,59 +104,31 @@ class Sidebar extends React.Component {
             </Nav>
             <i className="material-icons" onClick={e => this.toggleSidebar(e)}>menu</i>
 
-            <PrivateRoute
-              path="/app"
-              component={() => (
-                <nav className="nav nav-pills flex-column">
-                  <NavLink
-                    exact
-                    to={`/app/`}
-                    className="nav-link nav-parent"
-                    activeClassName="active"
-                  >Dashboard</NavLink>
-                </nav>
-              )}
-              authorized={['LabAdmin', 'LabAssociate']} />
-            <PrivateRoute
-              exact
-              path="/app/"
-              component={() => (
-                <nav className="nav nav-pills flex-column">
-                  <NavLink
-                    exact
-                    to={`/app/`}
-                    className="nav-link nav-parent"
-                    activeClassName="active"
-                  >Dashboard</NavLink>
-                </nav>
-              )}
-              authorized={['CompanyAdmin', 'CompanyAssociate']}
-            />
-            <PrivateRoute
-              path="/app/sites/:id"
-              component={SiteNav}
-              authorized={['CompanyAdmin', 'CompanyAssociate']}
-            />
-            <PrivateRoute
-              exact
-              path="/app/"
-              component={() => (
-                <nav className="nav nav-pills flex-column">
-                  <NavLink
-                    exact
-                    to={`/app/`}
-                    className="nav-link nav-parent"
-                    activeClassName="active"
-                  >Dashboard</NavLink>
-                </nav>
-              )}
-              authorized={['ProjectManager']}
-            />
-            <PrivateRoute
-              path="/app/sites/:id"
-              component={SiteNav}
-              authorized={['ProjectManager']}
-            />
+            <Switch>
+              <Route
+                path="/app/sites/:id"
+                component={SiteNav}
+              />
+              <Route
+                path="/app"
+                component={() => (
+                  <nav className="nav nav-pills flex-column">
+                    <NavLink
+                      exact
+                      to={`/app/`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Dashboard</NavLink>
+                    <NavLink
+                      exact
+                      to={`/app/team`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Manage Team</NavLink>
+                  </nav>
+                )}
+              />
+            </Switch>
 
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
