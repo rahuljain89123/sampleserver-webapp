@@ -11,6 +11,7 @@ import {
   DropdownItem,
 } from 'reactstrap'
 import { Route, Link, NavLink, Switch } from 'react-router-dom'
+import PrivateRoute from './Auth'
 
 import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
@@ -31,7 +32,6 @@ class Header extends React.Component {
     this.state = {
       dropdownOpen: false,
     }
-    console.log(props.title)
   }
 
   toggle () {
@@ -44,7 +44,6 @@ class Header extends React.Component {
     this.props.fetchCurrentLab()
     this.props.fetchCurrentUser()
     this.props.fetchCompanies()
-    console.log(this.props.title)
   }
 
   componentWillReceiveProps (nextProps) {
@@ -82,6 +81,42 @@ class Header extends React.Component {
     return (
       <div className="navbar-container">
         {flashAlert}
+
+          <PrivateRoute
+            path="/app"
+            component={() => (
+              <Navbar className="d-flex flex-row justify-content-between">
+                <div className="navbar-brand">{this.getAppTitle()}</div>
+              </Navbar>
+            )}
+            authorized={['LabAdmin', 'LabAssociate']}
+          />
+          <PrivateRoute
+            path="/app"
+            component={() => (
+              <Navbar className="d-flex flex-row justify-content-between">
+                <div className="navbar-brand">{this.getAppTitle()}</div>
+                <div className="actions">
+                  <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
+                  <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
+                </div>
+              </Navbar>
+            )}
+            authorized={['CompanyAdmin', 'CompanyAssociate']}
+          />
+          <PrivateRoute
+            path="/app"
+            component={() => (
+              <Navbar className="d-flex flex-row justify-content-between">
+                <div className="navbar-brand">{this.getAppTitle()}</div>
+                <div className="actions">
+                  <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
+                  <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
+                </div>
+              </Navbar>
+            )}
+            authorized={['ProjectManager']}
+          />
       </div>
     )
   }

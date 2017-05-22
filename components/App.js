@@ -7,7 +7,6 @@ import PrivateRoute from './Auth'
 import ProjectApp from './ProjectApp'
 import LabApp from './LabApp'
 import CompanyApp from './CompanyApp'
-import AdminApp from './AdminApp'
 import Sidebar from 'components/Sidebar'
 import Header from 'components/Header'
 
@@ -25,48 +24,37 @@ import {
 
 
 class App extends React.Component {
-    constructor (props) {
-      super(props)
-    }
+  constructor (props) {
+    super(props)
+  }
 
-    componentDidMount () {
-      this.props.fetchCurrentLab()
-      this.props.fetchCurrentUser()
-      this.props.fetchCompanies()
-    }
+  componentDidMount () {
+    this.props.fetchCurrentLab()
+    this.props.fetchCurrentUser()
+    this.props.fetchCompanies()
+  }
 
-    componentWillReceiveProps (nextProps) {
-      if (!nextProps.roles.size && nextProps.user) {
-        this.props.fetchRoles()
-      }
+  componentWillReceiveProps (nextProps) {
+    if (!nextProps.roles.size && nextProps.user) {
+      this.props.fetchRoles()
     }
+  }
 
-    getAppTitle () {
-      if (this.props.company) {
-        return this.props.company.get('title')
-      }
-      return this.props.labTitle
-    }
-
-    render () {
-        let appTitle = null
-        appTitle = this.getAppTitle()
-        // console.log(appTitle)
-
-        return (
-            <div className="wrapper app">
-                <div className="wrapper-inner">
-                    <Route component={Sidebar} appTitle={appTitle} />
-                    <div className="main-container">
-                        <Route component={Header} appTitle={appTitle} />
-                        <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
-                        <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
-                        <PrivateRoute path="/app" component={ProjectApp} authorized={['ProjectManager']} />
-                    </div>
-                </div>
-            </div>
-        )
-    }
+  render () {
+    return (
+      <div className="wrapper app">
+        <div className="wrapper-inner">
+          <Route component={Sidebar} />
+          <div className="main-container">
+            <Route component={Header} />
+            <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
+            <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
+            <PrivateRoute path="/app" component={ProjectApp} authorized={['ProjectManager']} />
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = store => ({
