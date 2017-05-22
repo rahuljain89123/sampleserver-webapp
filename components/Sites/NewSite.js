@@ -11,6 +11,7 @@ import {
   clearCreatingSiteError,
   setCreatingSite,
 } from 'actions/sites'
+import { fetchProjects } from 'actions/projects'
 import { flashMessage } from 'actions/global'
 
 import SiteForm from './SiteForm'
@@ -22,6 +23,10 @@ class NewSite extends React.Component {
 
     this.onSubmitSiteForm = this.onSubmitSiteForm.bind(this)
     this.onSuccess = this.onSuccess.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.fetchProjects()
   }
 
   onSubmitSiteForm (siteParams) {
@@ -49,6 +54,7 @@ class NewSite extends React.Component {
       <Row>
         <Col sm={6}>
           <SiteForm
+            projectOptions = {this.props.projects}
             siteError={creatingSiteError}
             clearSiteError={clearCreatingSiteError}
             submittingForm={creatingSite}
@@ -63,10 +69,12 @@ class NewSite extends React.Component {
 const mapStateToProps = (state, props) => ({
   creatingSite: state.get('creatingSite'),
   creatingSiteError: state.get('creatingSiteError'),
+  projects: state.get('projects'),
 })
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  fetchProjects: () => dispatch(fetchProjects()),
   createSite: (siteId, siteParams) => dispatch(createSite(siteId, siteParams)),
   setCreatingSite: (editing) => dispatch(setCreatingSite(editing)),
   clearCreatingSiteError: () => dispatch(clearCreatingSiteError()),
