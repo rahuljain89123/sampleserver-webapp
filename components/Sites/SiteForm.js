@@ -31,10 +31,28 @@ class SiteForm extends React.Component {
       <option key={state.state_id} value={state.state_id}>{state.title}</option>)
     )
 
+    let projectField = null
+    if (this.props.projectOptions) {
+      const projectOptions = this.props.projectOptions.valueSeq().map((project) =>
+        <option key={project.get('id')} value={project.get('id')}>
+          {project.get('name')}
+        </option>)
+
+
+      projectField = <Field
+        props={{ error: errors.project_id, label: 'Project', placeholder: 'Choose a project...' }}
+        name='project_id'
+        id='project_id'
+        component={SelectFormGroup}
+        options={projectOptions} />
+    }
+
     const { handleSubmit, submitForm } = this.props
 
     return (
       <Form onSubmit={handleSubmit(submitForm)}>
+        {projectField}
+
         <Field
           props={{ error: errors.title, label: 'Site Name'}}
           name='title'
@@ -92,9 +110,10 @@ class SiteForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.state_id, label: 'Choose a state...' }}
+          props={{ error: errors.state_id, label: 'State', placeholder: 'Choose a state...' }}
           name='state_id'
           id='state_id'
+          showLabel={true}
           component={SelectFormGroup}
           options={stateOptions}
         />
