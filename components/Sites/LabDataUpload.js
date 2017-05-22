@@ -10,16 +10,21 @@ import {
   createUpload,
   patchUpload,
   deleteUpload,
-} from '../../actions/uploads'
-import { currentLab } from '../../normalizers'
+} from 'actions/uploads'
 
+import Spinner from 'SharedComponents/Spinner'
+
+import { currentLab } from '../../normalizers'
 import {
   FILESTACK_API_KEY,
-} from '../../helpers/filestack'
+} from 'helpers/filestack'
 
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
   fromSources: ['local_file_system', 'dropbox'],
+  storeTo: {
+    location: 's3'
+  },
 }
 
 class LabDataUpload extends React.Component {
@@ -133,6 +138,7 @@ class LabDataUpload extends React.Component {
       <div className="lab-data-uploads">
         {errorDisplay}
         <div className="d-flex flex-row">
+          <Spinner show={this.props.uploading} />
           <h2>Lab Data Upload</h2>
           <Button
             color="secondary"
@@ -149,6 +155,7 @@ class LabDataUpload extends React.Component {
 
 const mapStateToProps = store => ({
   uploads: store.get('uploads'),
+  uploading: store.get('uploading'),
   lab: currentLab(store),
 })
 
