@@ -34,7 +34,6 @@ class NewSite extends React.Component {
 
   onSuccess () {
     this.props.flashMessage('success', 'Site updated successfully')
-    debugger
     this.props.push('/app')
   }
 
