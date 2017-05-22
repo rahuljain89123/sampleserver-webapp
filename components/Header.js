@@ -94,47 +94,11 @@ class Header extends React.Component {
       )
     }
 
-    if (user) {
-      userDropdown = (
-        <Nav className="">
-          <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="dark">
-            <DropdownToggle className="pointer avatar-container">
-              <img className="profile-image" src={user.get('photo_url')} alt="avatar" />
-              <span className="name">{user.get('name')}</span>
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem header>{roleDescription}</DropdownItem>
-              <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
-              <DropdownItem onClick={() => this.props.push('/complete-profile')}>Edit Profile </DropdownItem>
-              <DropdownItem
-                onClick={e => this.onSignout(e)}
-                className="pointer"
-              >Sign Out</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </Nav>
-      )
-    } else {
-      userDropdown = (
-        <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink
-              href="/"
-              onClick={e => this.onSignin(e)}
-            >Sign In</NavLink>
-          </NavItem>
-        </Nav>
-      )
-    }
-
     return (
       <div className="navbar-container">
         {flashAlert}
-        <Navbar
-          className="flex-row justify-content-end"
-        >
+        <Navbar className="flex-row justify-content-end">
           <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
-          {userDropdown}
         </Navbar>
       </div>
     )

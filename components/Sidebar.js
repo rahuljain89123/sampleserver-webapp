@@ -76,7 +76,7 @@ class Sidebar extends React.Component {
 
     if (this.props.user) {
       nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
-      profileImgSrc = this.props.user.get('photo_url')
+      profileImgSrc = this.props.user.get('photo_url') ? this.props.user.get('photo_url') : '/static/img/blank-avatar.png'
     } else {
       profileImgSrc = '/static/img/blank-avatar.png'
     }
