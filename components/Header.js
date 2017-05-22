@@ -5,13 +5,12 @@ import {
   Navbar,
   Nav,
   NavItem,
-  NavLink,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Route, Link, NavLink, Switch } from 'react-router-dom'
 
 import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
@@ -32,6 +31,7 @@ class Header extends React.Component {
     this.state = {
       dropdownOpen: false,
     }
+    console.log(props.title)
   }
 
   toggle () {
@@ -44,27 +44,13 @@ class Header extends React.Component {
     this.props.fetchCurrentLab()
     this.props.fetchCurrentUser()
     this.props.fetchCompanies()
+    console.log(this.props.title)
   }
 
   componentWillReceiveProps (nextProps) {
     if (!nextProps.roles.size && nextProps.user) {
       this.props.fetchRoles()
     }
-  }
-
-  onSignin (e) {
-    e.preventDefault()
-    this.props.push('/')
-  }
-
-  onSignout (e) {
-    e.preventDefault()
-    this.props.signout()
-      .then(() => {
-        this.props.reset()
-        this.props.fetchCurrentLab()
-        this.props.push('/')
-      })
   }
 
   getAppTitle () {
@@ -93,13 +79,9 @@ class Header extends React.Component {
         </div>
       )
     }
-
     return (
       <div className="navbar-container">
         {flashAlert}
-        <Navbar className="flex-row justify-content-end">
-          <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
-        </Navbar>
       </div>
     )
   }

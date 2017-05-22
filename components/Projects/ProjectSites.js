@@ -5,11 +5,14 @@ import {
     ListGroup,
     ListGroupItem,
     ButtonDropdown,
+    Dropdown,
     DropdownToggle,
     DropdownMenu,
     DropdownItem,
+    Navbar,
+    Nav,
+    NavItem,
 } from 'reactstrap'
-
 import { fetchSites } from '../../actions/sites'
 import { fetchProjects } from '../../actions/projects'
 
@@ -76,56 +79,57 @@ class ProjectSites extends React.Component {
                 .entrySeq())
 
         return (
-            <div>
-                <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
-                    <ButtonDropdown
-                        className="ml-auto"
-                        isOpen={this.state.dropdownOpen}
-                        toggle={() => this.onToggle()}
-                    >
-                        <DropdownToggle className="pointer">
-                            <i className="fa fa-plus" />
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                            <DropdownItem className="pointer" onClick={() => this.onNewProject()}>
-                                New Project
-                            </DropdownItem>
-                            <DropdownItem className="pointer" onClick={() => this.onNewSite()}>
-                                New Site
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </ButtonDropdown>
-                </div>
-                {projects.map(([id, project]) => (
-                    <div style={{ marginBottom: 40 }} key={id}>
-                        <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
-                            <h4>{project.get('name')}</h4>
-                            <h4 style={{ marginLeft: 15 }}>
-                                <a
-                                    href={`/app/projects/${id}`}
-                                    onClick={e => this.onClick(e)}
-                                    style={{ color: '#aaa' }}
-                                >
-                                    <i className="fa fa-gear" href={`/app/projects/${id}`} />
-                                </a>
-                            </h4>
+            <div className="project-sites">
+                <div className="navbar-container">
+                    <Navbar className="d-flex flex-row justify-content-between">
+                        <div className="navbar-brand">Dashboard</div>
+                        <div className="actions">
+                            <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
+                            <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
                         </div>
-                        {projectSites.get(id) ? (
-                            <ListGroup>
-                                {projectSites.get(id).map(([siteId, site]) => (
-                                    <ListGroupItem key={siteId}>
-                                        <a
-                                            href={`/app/sites/${siteId}/lab-data-list`}
-                                            onClick={e => this.onClick(e)}
-                                        >
-                                            {site.get('title')}
-                                        </a>
-                                    </ListGroupItem>
-                                ))}
-                            </ListGroup>
-                        ) : null }
-                    </div>
-                ))}
+                    </Navbar>
+                </div>
+                <div className="container-fluid">
+                    {projects.map(([id, project]) => (
+                        <div className="project" key={id}>
+                            <div className="project-header d-flex flex-row justify-content-between">
+                                <div className="project-details">
+                                    <h5>Project Detail</h5>
+                                    <h2 className="project-name">{project.get('name')}</h2>
+                                </div>
+                                <div className="edit-project">
+                                    <a href={`/app/projects/${id}`} onClick={e => this.onClick(e)}>
+                                        <i className="material-icons">settings</i>
+                                        Edit Project
+                                    </a>
+                                </div>
+                            </div>
+                            {projectSites.get(id) ? (
+                                <div className="sites-list">
+                                    {projectSites.get(id).map(([siteId, site]) => (
+                                        <div className="site d-flex flex-row justify-content-between" key={siteId}>
+                                            <div className="site-title">
+                                                <i className="material-icons">layers</i>
+                                                <a
+                                                    href={`/app/sites/${siteId}/lab-data-list`}
+                                                    onClick={e => this.onClick(e)}
+                                                >
+                                                    {site.get('title')}
+                                                </a>
+                                            </div>
+                                            <div className="site-details">
+                                                <div className="site-metadata">
+                                                    {site.get('city')}, {site.get('state')}
+                                                </div>
+                                                <i className="material-icons">more_horiz</i>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : null }
+                        </div>
+                    ))}
+                </div>
             </div>
         )
     }

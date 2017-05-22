@@ -49,17 +49,19 @@ class App extends React.Component {
     }
 
     render () {
+        let appTitle = null
+        appTitle = this.getAppTitle()
+        // console.log(appTitle)
+
         return (
             <div className="wrapper app">
                 <div className="wrapper-inner">
-                    <Route component={Sidebar} />
+                    <Route component={Sidebar} appTitle={appTitle} />
                     <div className="main-container">
-                        <Route component={Header} appTitle={this.getAppTitle()} />
-                        <div className="container-fluid">
-                            <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
-                            <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
-                            <PrivateRoute path="/app" component={ProjectApp} authorized={['ProjectManager']} />
-                        </div>
+                        <Route component={Header} appTitle={appTitle} />
+                        <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
+                        <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
+                        <PrivateRoute path="/app" component={ProjectApp} authorized={['ProjectManager']} />
                     </div>
                 </div>
             </div>
