@@ -12,6 +12,7 @@ import {
   setCreatingSite,
 } from 'actions/sites'
 import { flashMessage } from 'actions/global'
+import PageHeader from 'components/PageHeader'
 
 import SiteForm from './SiteForm'
 
@@ -47,16 +48,21 @@ class NewSite extends React.Component {
 
 
     return (
-      <Row>
-        <Col sm={6}>
-          <SiteForm
-            siteError={creatingSiteError}
-            clearSiteError={clearCreatingSiteError}
-            submittingForm={creatingSite}
-            submitForm={this.onSubmitSiteForm}
-          />
-        </Col>
-      </Row>
+      <div className="new-site">
+        <PageHeader
+          pageTitle={'New Site'}
+        />
+        <div className="row">
+          <div className="col-md-6">
+            <SiteForm
+              siteError={creatingSiteError}
+              clearSiteError={clearCreatingSiteError}
+              submittingForm={creatingSite}
+              submitForm={this.onSubmitSiteForm}
+            />
+          </div>
+        </div>
+      </div>
     )
   }
 }

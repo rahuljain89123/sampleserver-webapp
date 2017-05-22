@@ -8,10 +8,13 @@ import {
 } from 'reactstrap'
 
 import NewProjectForm from './NewProjectForm'
+import PageHeader from 'components/PageHeader'
 
 const NewProject = props => (
     <div>
-        <h4>New Project</h4>
+        <PageHeader
+          pageTitle={'New Project'}
+        />
         <Row>
             <Col sm={6}>
                 <NewProjectForm push={props.push} />

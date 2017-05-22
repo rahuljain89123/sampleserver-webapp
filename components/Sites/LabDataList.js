@@ -5,6 +5,7 @@ import { Button, Table } from 'reactstrap'
 import timeago from 'timeago.js'
 
 import { fetchUploads } from '../../actions/uploads'
+import PageHeader from 'components/PageHeader'
 
 
 class LabDataList extends React.Component {
@@ -23,7 +24,9 @@ class LabDataList extends React.Component {
     if (uploads.size > 0) {
       return (
         <div className="lab-data-list">
-          <h2 className="border-bottom">Lab Data</h2>
+          <PageHeader
+            pageTitle={'Lab Data'}
+          />
           <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
             <thead>
               <tr>
@@ -56,7 +59,9 @@ class LabDataList extends React.Component {
       )
     } else {
       return <div className="lab-data-list">
-        <h2 className="border-bottom">Lab Data</h2>
+        <PageHeader
+          pageTitle={'Lab Data'}
+        />
         <p>The lab has not yet uploaded any data.</p>
       </div>
     }

@@ -13,8 +13,9 @@ import {
   Nav,
   NavItem,
 } from 'reactstrap'
-import { fetchSites } from '../../actions/sites'
-import { fetchProjects } from '../../actions/projects'
+import { fetchSites } from 'actions/sites'
+import { fetchProjects } from 'actions/projects'
+import PageHeader from 'components/PageHeader'
 
 
 class ProjectSites extends React.Component {
@@ -80,7 +81,16 @@ class ProjectSites extends React.Component {
 
     return (
       <div className="project-sites">
-        <div className="container-fluid">
+        <PageHeader
+          pageTitle={'Dashboard'}
+          pageButtons={(
+            <div className="actions">
+              <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
+              <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
+            </div>
+          )}
+        />
+        <div className="projects">
           {projects.map(([id, project]) => (
             <div className="project" key={id}>
               <div className="project-header d-flex flex-row justify-content-between">

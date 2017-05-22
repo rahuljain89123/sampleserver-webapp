@@ -24,7 +24,6 @@ import {
   safeGet,
   currentCompany,
 } from 'normalizers'
-import { TitleApp } from 'components/TitleApp'
 
 
 class Header extends React.Component {
@@ -87,33 +86,6 @@ class Header extends React.Component {
     return (
       <div className="navbar-container">
         {flashAlert}
-        <PrivateRoute
-          path="/app"
-          component={() => (
-            <Navbar className="d-flex flex-row justify-content-between">
-              <TitleApp title={appTitle} />
-            </Navbar>
-          )}
-          authorized={['LabAdmin', 'LabAssociate']}
-        />
-        <PrivateRoute
-          path="/app"
-          component={() => (
-            <Navbar className="d-flex flex-row justify-content-between">
-              <TitleApp title={appTitle} />
-            </Navbar>
-          )}
-          authorized={['CompanyAdmin', 'CompanyAssociate']}
-        />
-        <PrivateRoute
-          path="/app"
-          component={() => (
-            <Navbar className="d-flex flex-row justify-content-between">
-              <TitleApp title={appTitle} />
-            </Navbar>
-          )}
-          authorized={['ProjectManager']}
-        />
       </div>
     )
   }

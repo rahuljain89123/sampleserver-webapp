@@ -19,6 +19,7 @@ import UserForm from 'SharedComponents/Team/UserForm'
 import { fetchCompany } from 'actions/companies'
 import { createUser, fetchUsers, editUser } from 'actions/users'
 import { currentUserRole } from 'normalizers'
+import PageHeader from 'components/PageHeader'
 
 
 class CompanyUsers extends React.Component {
@@ -77,6 +78,9 @@ class CompanyUsers extends React.Component {
 
     return (
       <div>
+        <PageHeader
+          pageTitle={'Manage Team'}
+        />
         <Nav tabs>
           {roles.map(([id, role]) => (
             <NavItem key={role.get('id')}>

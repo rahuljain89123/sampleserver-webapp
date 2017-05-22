@@ -106,6 +106,26 @@ class Sidebar extends React.Component {
 
             <Switch>
               <Route
+                exact
+                path="/app/sites/new"
+                component={() => (
+                  <nav className="nav nav-pills flex-column">
+                    <NavLink
+                      exact
+                      to={`/app/`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Dashboard</NavLink>
+                    <NavLink
+                      exact
+                      to={`/app/team`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Manage Team</NavLink>
+                  </nav>
+                )}
+              />
+              <Route
                 path="/app/sites/:id"
                 component={SiteNav}
               />
