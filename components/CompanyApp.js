@@ -14,7 +14,7 @@ import SiteApp from './SiteApp'
 import TeamCompanyUsers from './Companies/TeamCompanyUsers'
 
 const CompanyApp = () => (
-    <div>
+    <div className="company-app">
         <PrivateRoute exact path="/app" component={ProjectSites} />
         <PrivateRoute path="/app/team" component={TeamCompanyUsers} />
 

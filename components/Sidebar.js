@@ -5,13 +5,12 @@ import {
   Navbar,
   Nav,
   NavItem,
-  NavLink,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
@@ -28,7 +27,7 @@ import SiteNav from 'components/Sites/App/SiteNav'
 import { fetchSite } from '../actions/sites'
 
 
-class Sidebar extends React.Component {
+class SiteSidebar extends React.Component {
   constructor (props) {
     super(props)
     const siteId = parseInt(props.match.params.id, 10)
@@ -75,16 +74,34 @@ class Sidebar extends React.Component {
   render () {
     const site = this.props.sites.get(this.state.siteId)
     const roleDescription = this.props.roleDescription
-    if (!site) { return null }
+    // if (!site) { return null }
 
     let nameSpan = null
     let profileImgSrc = null
+    let myNav = null
 
     if (this.props.user) {
       nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
       profileImgSrc = this.props.user.get('photo_url')
     } else {
       profileImgSrc = '/static/img/blank-avatar.png'
+    }
+
+    if (site) {
+      myNav = (
+        <SiteNav site={site} />
+      )
+    } else {
+      myNav = (
+        <nav className="nav nav-pills flex-column">
+          <NavLink
+            exact
+            to={`/app/`}
+            className="nav-link nav-parent"
+            activeClassName="active"
+          >Dashboard</NavLink>
+        </nav>
+      )
     }
 
     return (
@@ -110,7 +127,7 @@ class Sidebar extends React.Component {
               </Dropdown>
             </Nav>
             <i className="material-icons" onClick={e => this.toggleSidebar(e)}>menu</i>
-            <SiteNav site={site} />
+            {myNav}
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
               &copy; SampleServe
@@ -145,4 +162,4 @@ const mapDispatchToProps = dispatch => ({
   reset: () => dispatch(reset()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar)
+export default connect(mapStateToProps, mapDispatchToProps)(SiteSidebar)

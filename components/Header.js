@@ -13,17 +13,17 @@ import {
 } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-import { fetchCurrentUser, signout, reset } from '../actions/users'
-import { fetchCurrentLab } from '../actions/labs'
-import { fetchRoles } from '../actions/roles'
-import { fetchCompanies } from '../actions/companies'
+import { fetchCurrentUser, signout, reset } from 'actions/users'
+import { fetchCurrentLab } from 'actions/labs'
+import { fetchRoles } from 'actions/roles'
+import { fetchCompanies } from 'actions/companies'
 import {
   currentUser,
   currentUserRole,
   currentLab,
   safeGet,
   currentCompany,
-} from '../normalizers'
+} from 'normalizers'
 
 class Header extends React.Component {
   constructor (props) {
