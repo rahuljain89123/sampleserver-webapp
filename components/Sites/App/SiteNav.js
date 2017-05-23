@@ -44,7 +44,6 @@ class SiteNav extends React.Component {
 
   render () {
     const site = this.props.sites.get(this.state.siteId)
-    console.log(site)
     if (!site) { return null }
 
     return (
@@ -188,4 +187,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteNav)
-

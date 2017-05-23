@@ -25,7 +25,7 @@ import {
   currentCompany,
 } from 'normalizers'
 
-import HeaderButtonLookupTable from './HeaderButtonLookupTable'
+import HeaderButtonLookupTable from './HeaderButtons/HeaderButtonLookupTable'
 
 
 class Header extends React.Component {

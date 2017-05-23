@@ -7,11 +7,12 @@ import timeago from 'timeago.js'
 
 import {
   fetchUploads,
-  createUpload,
   patchUpload,
   deleteUpload,
+  clearUploadingError,
 } from 'actions/uploads'
-import { currentLab } from '../../normalizers'
+import { flashMessage, setHeaderInfo } from 'actions/global'
+import { currentLab } from 'normalizers'
 
 import {
   FILESTACK_API_KEY,
@@ -24,44 +25,20 @@ const FILESTACK_OPTIONS = {
 }
 
 class FieldDataUpload extends React.Component {
-  constructor (props) {
-    super(props)
-
-    this.client = filestack.init(FILESTACK_API_KEY)
-    this.state = {
-      sent: false,
-      error: false,
-      site: this.props.site,
-    }
-  }
-
   componentDidMount () {
     this.props.fetchUploads()
-  }
 
-  onNewUpload () {
-    this.client
-      .pick(FILESTACK_OPTIONS)
-      .then(res => this.onUpload(res))
-  }
-
-  onUpload (res) {
-    res.filesUploaded.map(file =>
-      this.props.createUpload({
-        filename: file.filename,
-        url: file.url,
-        lab_id: this.props.lab.get('id'),
-        company_id: this.props.site.get('company_id'),
-        site_id: this.props.site.get('id'),
-        upload_type: 'field_data',
-      }).catch(e => {
-        e.response.json().then(error => {
-          console.log(error)
-          this.setState({
-            error: error.message
-          })
-        })
-      })
+    this.props.setHeaderInfo(
+      'Field Data Upload',
+      [{
+        component: 'DataUploadHeaderButton',
+        props: {
+          labId: this.props.lab.get('id'),
+          companyId: this.props.site.get('company_id'),
+          siteId: this.props.site.get('id'),
+          uploadType: 'field_data',
+        }
+      }]
     )
   }
 
@@ -74,9 +51,7 @@ class FieldDataUpload extends React.Component {
   }
 
   clearError () {
-    this.setState({
-      error: false,
-    })
+    this.props.clearUploadingError()
   }
 
   render () {
@@ -119,13 +94,13 @@ class FieldDataUpload extends React.Component {
     }
 
 
-    if (this.state.error) {
+    if (this.props.uploadingError) {
       errorDisplay = (
         <div className="alert alert-danger alert-dismissible fade show" role="alert">
           <button type="button" className="close" onClick={() => this.clearError()}>
             <span aria-hidden="true">&times;</span>
           </button>
-          <strong>Upload Error</strong> {this.state.error}
+          <strong>Upload Error</strong> {this.props.uploadingError}
         </div>
       )
     }
@@ -135,12 +110,7 @@ class FieldDataUpload extends React.Component {
         {errorDisplay}
         <div className="d-flex flex-row">
           <h2>Field Data Upload</h2>
-          <Button
-            color="secondary"
-            role="button"
-            className="ml-auto"
-            onClick={() => this.onNewUpload()}
-          >New Upload</Button>
+
         </div>
         {uploadsTable}
       </div>
@@ -150,15 +120,16 @@ class FieldDataUpload extends React.Component {
 
 const mapStateToProps = store => ({
   uploads: store.get('uploads'),
-  uploading: store.get('uploading'),
+  uploadingError: store.get('uploadingError'),
   lab: currentLab(store),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchUploads: () => dispatch(fetchUploads()),
-  createUpload: upload => dispatch(createUpload(upload)),
   patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
+  clearUploadingError: () => dispatch(clearUploadingError()),
   deleteUpload: id => dispatch(deleteUpload(id)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FieldDataUpload)

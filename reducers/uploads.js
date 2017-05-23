@@ -5,7 +5,8 @@ import {
   RECEIVE_UPLOAD,
   RECEIVE_UPLOADS,
   REMOVE_UPLOAD,
-  SET_UPLOADING,
+  SET_UPLOADING_ERROR,
+  CLEAR_UPLOADING_ERROR,
 } from 'constants/UploadActionTypes'
 
 export const uploads = (state = Immutable.Map(), action) => {
@@ -23,4 +24,15 @@ export const uploads = (state = Immutable.Map(), action) => {
     default:
         return state
     }
+}
+
+export const uploadingError = (state = null, action) => {
+  switch (action.type) {
+    case SET_UPLOADING_ERROR:
+      return action.error
+    case CLEAR_UPLOADING_ERROR:
+      return null
+    default:
+      return state
+  }
 }
