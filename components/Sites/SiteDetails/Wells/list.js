@@ -23,6 +23,7 @@ import {
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
   fromSources: ['local_file_system', 'dropbox'],
+  storeTo: { location: 's3' },
 }
 
 class Wells extends React.Component {
