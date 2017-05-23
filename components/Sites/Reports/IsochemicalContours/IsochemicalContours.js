@@ -87,14 +87,14 @@ class IsochemicalContours extends React.Component {
       this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
     }
 
-    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
+    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date_collected
     const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
-    const dateChanged = nextProps.date !== this.props.dates
+    const dateChanged = nextProps.date_collected !== this.props.date_collected
 
 
     if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
       this.props.fetchGroupedSampleValues({
-        date: nextProps.date,
+        date_collected: nextProps.date_collected,
         sitemap_id: parseInt(nextProps.siteMapId),
         substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
         site_id: parseInt(nextProps.site.get('id')),
@@ -111,7 +111,7 @@ class IsochemicalContours extends React.Component {
   setSelectedWells () {
     let tmpState = Immutable.Map()
     this.props.wells.forEach((well) => {
-      tmpState = tmpState.set(well.get('id'), false)
+      tmpState = tmpState.set(well.get('id'), true)
     })
 
     this.props.dispatch(change(FORM_NAME, 'selectedWells', tmpState))
@@ -126,8 +126,8 @@ class IsochemicalContours extends React.Component {
   }
 
   shouldShowSubstanceId (substanceId) {
-    const { date, sampleDates, substanceIds } = this.props
-    return contouringFn.substanceIdInDate(substanceId, date, sampleDates) &&
+    const { date_collected, sampleDates, substanceIds } = this.props
+    return contouringFn.substanceIdInDate(substanceId, date_collected, sampleDates) &&
       ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
   }
 
@@ -202,8 +202,8 @@ class IsochemicalContours extends React.Component {
 
           <Field
             props={{placeholder: 'Select Date'}}
-            name='date'
-            id='date'
+            name='date_collected'
+            id='date_collected'
             options={dateOptions}
             component={SelectFormGroup}
           />
@@ -277,7 +277,7 @@ const mapStateToProps = (state, props) => ({
   groupedSampleValues: state.get('groupedSampleValues'),
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
-  date: selector(state, 'date'),
+  date_collected: selector(state, 'date_collected'),
   selectedWells: selector(state, 'selectedWells')
 })
 

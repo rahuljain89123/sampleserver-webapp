@@ -110,7 +110,7 @@ class FreeProduct extends React.Component {
   setSelectedWells () {
     let tmpState = Immutable.Map()
     this.props.wells.forEach((well) => {
-      tmpState = tmpState.set(well.get('id'), false)
+      tmpState = tmpState.set(well.get('id'), true)
     })
 
     this.props.dispatch(change(FORM_NAME, 'selectedWells', tmpState))

@@ -34,7 +34,9 @@ export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedIma
   const { date, wells, groupedSampleValues, selectedWells } = props
   const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
 
-  const val = gsvWell ? gsvWell.get('substance_sum') : wells.getIn([well.get('well_id'), 'title'])
+  const val = groupedSampleValues.size ?
+    (gsvWell ? gsvWell.get('substance_sum') : 0) :
+    wells.getIn([well.get('well_id'), 'title'])
   const color = 'black'
   const fontSize = 15 * scale
   const width = WELL_MARKER_WIDTH * scale
