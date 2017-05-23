@@ -25,42 +25,16 @@ class EditSite extends React.Component {
     super(props)
 
     this.onSubmitSiteForm = this.onSubmitSiteForm.bind(this)
-    this.confirmDelete = this.confirmDelete.bind(this)
-    this.onDelete = this.onDelete.bind(this)
-    this.hideModal = this.hideModal.bind(this)
-    this.state = {
-      confirmingDelete: false,
-    }
   }
 
   componentDidMount () {
     this.props.setHeaderInfo(
       'Edit Site',
       [{
-        text: 'Delete Site',
-        iconName: 'remove_circle_outline',
-        className: 'warning',
+        component: 'DeleteSiteHeaderButton',
+        props: { siteId: this.props.site.get('id') },
       }],
     )
-  }
-
-  confirmDelete () {
-    this.setState({ confirmingDelete: true })
-  }
-
-  onDelete () {
-    this.props.deleteSite(this.props.site.get('id'))
-      .then(() => {
-        this.props.flashMessage('success', 'Site deleted')
-        this.props.push('/app')
-      })
-      .catch(() => {
-        this.props.flashMessage('STANDARD_ERROR')
-      })
-  }
-
-  hideModal () {
-    this.setState( { confirmingDelete: false })
   }
 
   onSubmitSiteForm (siteParams) {
@@ -84,12 +58,6 @@ class EditSite extends React.Component {
     return (
       <div>
         <div className="border-bottom">
-          <Button
-            onClick={() => this.confirmDelete()}
-            className="ml-auto"
-            role="button"
-            color="danger"
-          >Delete Site</Button>
         </div>
         <Row>
           <Col sm={6}>
@@ -102,13 +70,7 @@ class EditSite extends React.Component {
             />
           </Col>
         </Row>
-        <Modal isOpen={this.state.confirmingDelete} toggle={this.hideModal}>
-          <ModalHeader toggle={this.hideModal}>Are you sure you want to delete this site?</ModalHeader>
-          <ModalFooter>
-            <Button color='secondary' onClick={this.hideModal}>No</Button>{' '}
-            <Button color='danger' onClick={this.onDelete}>Yes</Button>
-          </ModalFooter>
-        </Modal>
+        
       </div>
     )
   }
@@ -124,7 +86,6 @@ const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   editSite: (siteId, siteParams) => dispatch(editSite(siteId, siteParams)),
   setEditingSite: (editing) => dispatch(setEditingSite(editing)),
-  deleteSite: (siteId) => dispatch(deleteSite(siteId)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })

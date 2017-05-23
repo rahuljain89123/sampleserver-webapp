@@ -25,11 +25,13 @@ import {
   currentCompany,
 } from 'normalizers'
 
+import HeaderButtonLookupTable from './HeaderButtonLookupTable'
+
 
 class Header extends React.Component {
   constructor (props) {
     super(props)
-
+    this.buttonToComponent = this.buttonToComponent.bind(this)
     this.state = {
       dropdownOpen: false,
     }
@@ -58,6 +60,25 @@ class Header extends React.Component {
       return this.props.company.get('title')
     }
     return this.props.labTitle
+  }
+
+  buttonToComponent (button, index) {
+    if (button.get('component')) {
+
+      const Component = HeaderButtonLookupTable[button.get('component')]
+      return <Component
+        {...button.get('props').toJS()}
+        key={index}
+        push={this.props.push}
+      />
+    } else {
+      return (
+        <button key={index} className="btn btn-default" onClick={() => this.props.push(button.get('onClick'))}>
+          {button.get('iconName') ? <i className={`material-icons ${button.get('className')}`}>{button.get('iconName')}</i> : ''}
+          {button.get('text')}
+        </button>
+      )
+    }
   }
 
   render () {
@@ -103,12 +124,7 @@ class Header extends React.Component {
               <Navbar className="d-flex flex-row justify-content-between">
                 <div className="navbar-brand">{headerInfo.get('title')}</div>
                 <div className="actions">
-                  {buttons && buttons.map(button => (
-                    <button key={button.get('title')} className="btn btn-default" onClick={() => this.props.push(button.get('onClick'))}>
-                      {button.get('iconName') ? <i className={`material-icons ${button.get('className')}`}>{button.get('iconName')}</i> : ''}
-                      {button.get('text')}
-                    </button>
-                  ))}
+                  {buttons && buttons.map(this.buttonToComponent)}
                 </div>
               </Navbar>
             </div>
