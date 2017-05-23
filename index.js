@@ -3,6 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { ImmutableLoadingBar as LoadingBar } from 'react-redux-loading-bar'
 
 import './index.scss'
 import './static/css/styles.scss'
@@ -23,6 +24,8 @@ ReactDOM.render((
   <Provider store={store}>
     <Router>
       <div className="wrapper">
+        <LoadingBar style={{zIndex: '100', backgroundColor: '#1FC7C8'}}/>
+
         <div className="wrapper-inner">
           <Route path="/app/sites/:id/" component={Sidebar} />
           <div className="main-container">

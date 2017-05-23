@@ -50,7 +50,7 @@ class SidebarHeader extends React.Component {
     e.preventDefault()
     this.props.push('/')
   }
-  
+
   getAppTitle () {
     if (this.props.company) {
       return this.props.company.get('title')
@@ -82,6 +82,7 @@ class SidebarHeader extends React.Component {
 
     return (
       <div className="navbar-container">
+
         {flashAlert}
         <Navbar
           className="flex-row justify-content-end"

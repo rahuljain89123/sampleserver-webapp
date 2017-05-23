@@ -10,16 +10,19 @@ import {
   createUpload,
   patchUpload,
   deleteUpload,
-} from '../../actions/uploads'
-import { currentLab } from '../../normalizers'
+} from 'actions/uploads'
 
+import { currentLab } from '../../normalizers'
 import {
   FILESTACK_API_KEY,
-} from '../../helpers/filestack'
+} from 'helpers/filestack'
 
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
   fromSources: ['local_file_system', 'dropbox'],
+  storeTo: {
+    location: 's3'
+  },
 }
 
 class LabDataUpload extends React.Component {
@@ -149,6 +152,7 @@ class LabDataUpload extends React.Component {
 
 const mapStateToProps = store => ({
   uploads: store.get('uploads'),
+  uploading: store.get('uploading'),
   lab: currentLab(store),
 })
 
