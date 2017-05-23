@@ -122,7 +122,6 @@ const mapDispatchToProps = dispatch => ({
   createUpload: upload => dispatch(createUpload(upload)),
   patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
   clearUploadingError: () => dispatch(clearUploadingError()),
-
   deleteUpload: id => dispatch(deleteUpload(id)),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })

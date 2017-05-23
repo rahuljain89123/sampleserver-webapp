@@ -8,9 +8,12 @@ import timeago from 'timeago.js'
 import {
     fetchUploads,
     createUpload,
+    clearUploadingError,
     patchUpload,
     deleteUpload,
-} from '../../actions/uploads'
+} from 'actions/uploads'
+
+import { setHeaderInfo } from 'actions/global'
 import { currentLab } from '../../normalizers'
 
 import {
@@ -35,33 +38,25 @@ class CompanyUploads extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUploads()
+      this.props.fetchUploads()
+
+      this.props.setHeaderInfo(
+        'Uploads',
+        [{
+          component: 'DataUploadHeaderButton',
+          props: {
+            uploadParams: {
+              lab_id: this.props.lab.get('id'),
+              company_id: this.props.company.get('id'),
+              upload_type: 'lab_data',
+              dry_run: 'true',
+            },
+          }
+        }]
+      )
     }
 
-    onNewUpload () {
-        this.client
-            .pick(FILESTACK_OPTIONS)
-            .then(res => this.onUpload(res))
-    }
 
-    onUpload (res) {
-        res.filesUploaded.map(file =>
-            this.props.createUpload({
-                filename: file.filename,
-                url: file.url,
-                lab_id: this.props.lab.get('id'),
-                company_id: this.props.company.get('id'),
-                upload_type: 'lab_data',
-                dry_run: 'true',
-            }).catch(e => {
-                e.response.json().then(error => {
-                    this.setState({
-                        error: error.message
-                    })
-                })
-            })
-        )
-    }
 
     onSend (upload) {
         this.props.patchUpload(upload.get('id'), { sent: true })
@@ -72,9 +67,7 @@ class CompanyUploads extends React.Component {
     }
 
     clearError () {
-        this.setState({
-            error: false
-        })
+      this.props.clearUploadingError()
     }
 
     render () {
@@ -85,22 +78,17 @@ class CompanyUploads extends React.Component {
 
         return (
             <div className="lab-uploads">
-                {this.state.error ? (
+                {this.props.uploadingError ? (
                     <div className="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" className="close" onClick={() => this.clearError()}>
                             <span aria-hidden="true">&times;</span>
                         </button>
-                        <strong>Upload Error</strong> {this.state.error}
+                        <strong>Upload Error</strong> {this.props.uploadingError}
                     </div>
                 ): ''}
                 <div className="d-flex flex-row">
                     <h4>Uploads</h4>
-                    <Button
-                        color="secondary"
-                        role="button"
-                        className="ml-auto"
-                        onClick={() => this.onNewUpload()}
-                    >New Upload</Button>
+
                 </div>
                 <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                     <thead>
@@ -156,6 +144,7 @@ class CompanyUploads extends React.Component {
 
 const mapStateToProps = store => ({
     uploads: store.get('uploads'),
+    uploadingError: store.get('uploadingError'),
     lab: currentLab(store),
 })
 
@@ -163,7 +152,9 @@ const mapDispatchToProps = dispatch => ({
     fetchUploads: () => dispatch(fetchUploads()),
     createUpload: upload => dispatch(createUpload(upload)),
     patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
+    clearUploadingError: () => dispatch(clearUploadingError()),
     deleteUpload: id => dispatch(deleteUpload(id)),
+    setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUploads)
