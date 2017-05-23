@@ -3,8 +3,7 @@ import {
   SET_PAGE_ERRORS,
   SET_FLASH,
   CLEAR_FLASH,
-  SET_HEADER_TITLE,
-  SET_HEADER_BUTTONS,
+  SET_HEADER_INFO,
 } from 'constants/GlobalActionTypes'
 
 /*****************************************************************************
@@ -25,15 +24,13 @@ export const clearFlash = () => ({
   type: CLEAR_FLASH,
 })
 
-export const setHeaderTitle = (title) => ({
-  type: SET_HEADER_TITLE,
-  title,
-})
-
-// buttons = [{text: ‘’, onClick: () => { doSomething(); }]
-export const setHeaderButtons = (buttons) => ({
-  type: SET_HEADER_BUTTONS,
-  buttons,
+/**
+ * @param title [Text|React.Element]
+ * @param buttons [Array<{text:<String>, onClick:<function>}]
+ */
+export const setHeaderInfo = (title, buttons) => ({
+  type: SET_HEADER_INFO,
+  headerInfo: { title, buttons },
 })
 
 /*****************************************************************************

@@ -5,8 +5,7 @@ import {
   SET_PAGE_ERRORS,
   SET_FLASH,
   CLEAR_FLASH,
-  SET_HEADER_TITLE,
-  SET_HEADER_BUTTONS,
+  SET_HEADER_INFO,
 } from 'constants/GlobalActionTypes'
 
 export const pageErrors = (state = null, action) => {
@@ -31,10 +30,8 @@ export const flash = (state = null, action) => {
 
 export const headerInfo = (state = Immutable.Map(), action) => {
   switch (action.type) {
-  case SET_HEADER_TITLE:
-    return state.set('title', action.title)
-  case SET_HEADER_BUTTONS:
-    return state.set('buttons', action.buttons)
+  case SET_HEADER_INFO:
+    return Immutable.fromJS(action.headerInfo)
   default:
     return state
   }

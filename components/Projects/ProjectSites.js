@@ -13,6 +13,8 @@ import {
   Nav,
   NavItem,
 } from 'reactstrap'
+
+import { setHeaderInfo } from 'actions/global'
 import { fetchSites } from 'actions/sites'
 import { fetchProjects } from 'actions/projects'
 
@@ -32,7 +34,7 @@ class ProjectSites extends React.Component {
   componentDidMount () {
     this.props.fetchProjects()
     this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
-    this.props.headerInfo({ title: "Dashboard" })
+    this.props.setHeaderInfo('Dashboard', [{text: 'button', onClick: () => {} }])
   }
 
   componentWillReceiveProps (nextProps) {
@@ -136,6 +138,8 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
   fetchProjects: () => dispatch(fetchProjects()),
   fetchSites: filters => dispatch(fetchSites(filters)),
+
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectSites)

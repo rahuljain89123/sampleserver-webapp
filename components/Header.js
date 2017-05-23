@@ -66,6 +66,7 @@ class Header extends React.Component {
       userEmail,
       roleDescription,
       flash,
+      headerInfo,
     } = this.props
 
     let siteTitle = null
@@ -82,17 +83,17 @@ class Header extends React.Component {
     }
 
     appTitle = this.getAppTitle()
-    const buttons = this.props.headerInfo.get('buttons')
+    const buttons = headerInfo.get('buttons')
 
     return (
       <div className="navbar-container">
         {flashAlert}
         <Navbar className="d-flex flex-row justify-content-between">
-          <div className="navbar-brand">{this.props.headerInfo.get('title')}</div>
+          <div className="navbar-brand">{headerInfo.get('title')}</div>
 
           {buttons && buttons.map(button => (
-            <button className="btn btn-default" onClick={button.onClick}>
-              {button.text}
+            <button className="btn btn-default" onClick={button.get('onClick')}>
+              {button.get('text')}
             </button>
           ))}
 
