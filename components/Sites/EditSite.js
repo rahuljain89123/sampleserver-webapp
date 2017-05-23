@@ -16,7 +16,7 @@ import {
   clearEditingSiteError,
   setEditingSite,
 } from 'actions/sites'
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 import SiteForm from './SiteForm'
 
@@ -31,6 +31,17 @@ class EditSite extends React.Component {
     this.state = {
       confirmingDelete: false,
     }
+  }
+
+  componentDidMount () {
+    this.props.setHeaderInfo(
+      'Edit Site',
+      [{
+        text: 'Delete Site',
+        iconName: 'remove_circle_outline',
+        className: 'warning',
+      }],
+    )
   }
 
   confirmDelete () {
@@ -73,7 +84,6 @@ class EditSite extends React.Component {
     return (
       <div>
         <div className="border-bottom">
-          <h2>Site Details</h2>
           <Button
             onClick={() => this.confirmDelete()}
             className="ml-auto"
@@ -112,11 +122,11 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
-
   editSite: (siteId, siteParams) => dispatch(editSite(siteId, siteParams)),
   setEditingSite: (editing) => dispatch(setEditingSite(editing)),
   deleteSite: (siteId) => dispatch(deleteSite(siteId)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSite)

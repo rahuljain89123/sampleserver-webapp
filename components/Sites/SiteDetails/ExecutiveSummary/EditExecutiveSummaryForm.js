@@ -1,24 +1,17 @@
- 
 import React from 'react'
 import { connect } from 'react-redux'
-
 import {
   Row,
   Col,
-} from 'reactstrap'
-import {
   Button,
   Form,
 } from 'reactstrap'
-
 import { editSite, clearEditingSiteError } from 'actions/sites'
-import { flashMessage } from 'actions/global'
-
-
-
+import { flashMessage, setHeaderInfo } from 'actions/global'
 import { Field, reduxForm } from 'redux-form/immutable'
 import DraftJSFormGroup from 'SharedComponents/ReduxFormHelpers/DraftJSFormGroup'
 import { msgFromError } from 'util'
+
 
 class EditExecutiveSummaryForm extends React.Component {
   constructor (props) {
@@ -27,10 +20,16 @@ class EditExecutiveSummaryForm extends React.Component {
     this.onSuccess = this.onSuccess.bind(this)
   }
 
+  componentDidMount () {
+    this.props.setHeaderInfo(
+      'Executive Summary+',
+    )
+  }
+
   submitForm (siteParams) {
     this.props.editSite(
       this.props.site.get('id'),
-      siteParams
+      siteParams,
     ).then(this.onSuccess)
   }
 
@@ -49,7 +48,6 @@ class EditExecutiveSummaryForm extends React.Component {
 
     return (
       <div>
-        <h2 className="border-bottom">Executive Summary+</h2>
         <Row>
           <Col sm={8}>
             <Form onSubmit={handleSubmit(this.submitForm.bind(this))}>
@@ -108,6 +106,7 @@ const mapDispatchToProps = (dispatch, props) => ({
   editSite: (id, site) => dispatch(editSite(id, site)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 EditExecutiveSummaryForm = connect(mapStateToProps, mapDispatchToProps)(EditExecutiveSummaryForm)

@@ -51,6 +51,10 @@ h1, h2, h3, h4 {
         font-size: 22px;
         letter-spacing: 0.79px;
         color: #1FC7C8;
+        margin-right: 5px;
+        &.warning {
+            color: #d9534f;
+        }
     }
 }
 .btn + .btn {

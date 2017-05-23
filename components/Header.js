@@ -86,19 +86,35 @@ class Header extends React.Component {
     const buttons = headerInfo.get('buttons')
 
     return (
-      <div className="navbar-container">
-        {flashAlert}
-        <Navbar className="d-flex flex-row justify-content-between">
-          <div className="navbar-brand">{headerInfo.get('title')}</div>
-
-          {buttons && buttons.map(button => (
-            <button className="btn btn-default" onClick={button.get('onClick')}>
-              {button.get('text')}
-            </button>
-          ))}
-
-        </Navbar>
-      </div>
+      <Switch>
+        <Route
+          path={'/app/sites/:id/reports'}
+          component={() => (
+            <div className="navbar-container">
+              {flashAlert}
+            </div>
+          )}
+        />
+        <Route
+          path="/"
+          component={() => (
+            <div className="navbar-container">
+              {flashAlert}
+              <Navbar className="d-flex flex-row justify-content-between">
+                <div className="navbar-brand">{headerInfo.get('title')}</div>
+                <div className="actions">
+                  {buttons && buttons.map(button => (
+                    <button key={button.get('title')} className="btn btn-default" onClick={() => this.props.push(button.get('onClick'))}>
+                      {button.get('iconName') ? <i className={`material-icons ${button.get('className')}`}>{button.get('iconName')}</i> : ''}
+                      {button.get('text')}
+                    </button>
+                  ))}
+                </div>
+              </Navbar>
+            </div>
+          )}
+        />
+      </Switch>
     )
   }
 }

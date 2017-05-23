@@ -3,14 +3,16 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
 import timeago from 'timeago.js'
-
-import { fetchUploads } from '../../actions/uploads'
-import PageHeader from 'components/PageHeader'
+import { fetchUploads } from 'actions/uploads'
+import { setHeaderInfo } from 'actions/global'
 
 
 class LabDataList extends React.Component {
   componentDidMount () {
     this.props.fetchUploads({ site_id: this.props.site.get('id') })
+    this.props.setHeaderInfo(
+      'Lab Data',
+    )
   }
 
   render () {
@@ -24,9 +26,6 @@ class LabDataList extends React.Component {
     if (uploads.size > 0) {
       return (
         <div className="lab-data-list">
-          <PageHeader
-            pageTitle={'Lab Data'}
-          />
           <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
             <thead>
               <tr>
@@ -59,9 +58,6 @@ class LabDataList extends React.Component {
       )
     } else {
       return <div className="lab-data-list">
-        <PageHeader
-          pageTitle={'Lab Data'}
-        />
         <p>The lab has not yet uploaded any data.</p>
       </div>
     }
@@ -74,6 +70,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchUploads: filters => dispatch(fetchUploads(filters)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabDataList)

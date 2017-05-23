@@ -19,7 +19,7 @@ import UserForm from 'SharedComponents/Team/UserForm'
 import { fetchCompany } from 'actions/companies'
 import { createUser, fetchUsers, editUser } from 'actions/users'
 import { currentUserRole } from 'normalizers'
-import PageHeader from 'components/PageHeader'
+import { setHeaderInfo } from 'actions/global'
 
 
 class CompanyUsers extends React.Component {
@@ -42,6 +42,20 @@ class CompanyUsers extends React.Component {
     if (!this.state.company) {
       this.props.fetchCompany(this.state.companyId)
     }
+
+    this.props.setHeaderInfo(
+      'Dashboard',
+      [{
+        text: 'Project',
+        onClick: '/app/projects/new',
+        iconName: 'add_circle_outline',
+      },
+      {
+        text: 'Site',
+        onClick: '/app/sites/new',
+        iconName: 'add_circle_outline',
+      }],
+    )
   }
 
   onToggle (activeRole) {
@@ -78,9 +92,6 @@ class CompanyUsers extends React.Component {
 
     return (
       <div>
-        <PageHeader
-          pageTitle={'Manage Team'}
-        />
         <Nav tabs>
           {roles.map(([id, role]) => (
             <NavItem key={role.get('id')}>
@@ -169,6 +180,7 @@ const mapDispatchToProps = dispatch => ({
   fetchUsers: filters => dispatch(fetchUsers(filters)),
   createUser: user => dispatch(createUser(user)),
   editUser: (id, user) => dispatch(editUser(id, user)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CompanyUsers)

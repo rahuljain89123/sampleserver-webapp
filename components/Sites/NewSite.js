@@ -1,19 +1,8 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import {
-  Row,
-  Col,
-} from 'reactstrap'
-
-import {
-  createSite,
-  clearCreatingSiteError,
-  setCreatingSite,
-} from 'actions/sites'
-import { flashMessage } from 'actions/global'
-import PageHeader from 'components/PageHeader'
-
+import { createSite, clearCreatingSiteError, setCreatingSite } from 'actions/sites'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 import SiteForm from './SiteForm'
 
 
@@ -23,6 +12,17 @@ class NewSite extends React.Component {
 
     this.onSubmitSiteForm = this.onSubmitSiteForm.bind(this)
     this.onSuccess = this.onSuccess.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.setHeaderInfo(
+      'New Site',
+      [{
+        text: 'Project',
+        onClick: '/app/projects/new',
+        iconName: 'add_circle_outline',
+      }],
+    )
   }
 
   onSubmitSiteForm (siteParams) {
@@ -49,9 +49,6 @@ class NewSite extends React.Component {
 
     return (
       <div className="new-site">
-        <PageHeader
-          pageTitle={'New Site'}
-        />
         <div className="row">
           <div className="col-md-6">
             <SiteForm
@@ -77,6 +74,7 @@ const mapDispatchToProps = dispatch => ({
   createSite: (siteId, siteParams) => dispatch(createSite(siteId, siteParams)),
   setCreatingSite: (editing) => dispatch(setCreatingSite(editing)),
   clearCreatingSiteError: () => dispatch(clearCreatingSiteError()),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSite)
