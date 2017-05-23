@@ -12,8 +12,6 @@ import {
   deleteUpload,
 } from 'actions/uploads'
 
-import Spinner from 'SharedComponents/Spinner'
-
 import { currentLab } from '../../normalizers'
 import {
   FILESTACK_API_KEY,
@@ -138,7 +136,6 @@ class LabDataUpload extends React.Component {
       <div className="lab-data-uploads">
         {errorDisplay}
         <div className="d-flex flex-row">
-          <Spinner show={this.props.uploading} />
           <h2>Lab Data Upload</h2>
           <Button
             color="secondary"
