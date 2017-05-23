@@ -27,17 +27,9 @@ const FILESTACK_OPTIONS = {
 }
 
 class CompanyUploads extends React.Component {
-    constructor (props) {
-        super(props)
-
-        this.client = filestack.init(FILESTACK_API_KEY)
-        this.state = {
-            sent: false,
-            error: false
-        }
-    }
-
     componentDidMount () {
+      if (this.props.uploadingError) { this.props.clearUploadingError() }
+
       this.props.fetchUploads()
 
       this.props.setHeaderInfo(
@@ -56,14 +48,12 @@ class CompanyUploads extends React.Component {
       )
     }
 
-
-
     onSend (upload) {
-        this.props.patchUpload(upload.get('id'), { sent: true })
+      this.props.patchUpload(upload.get('id'), { sent: true })
     }
 
     removeItem (upload) {
-        this.props.deleteUpload(upload.get('id'))
+      this.props.deleteUpload(upload.get('id'))
     }
 
     clearError () {
@@ -86,10 +76,7 @@ class CompanyUploads extends React.Component {
                         <strong>Upload Error</strong> {this.props.uploadingError}
                     </div>
                 ): ''}
-                <div className="d-flex flex-row">
-                    <h4>Uploads</h4>
 
-                </div>
                 <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
                     <thead>
                         <tr>

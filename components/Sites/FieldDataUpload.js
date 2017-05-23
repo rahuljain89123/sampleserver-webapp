@@ -111,10 +111,7 @@ class FieldDataUpload extends React.Component {
     return (
       <div className="field-data-uploads">
         {errorDisplay}
-        <div className="d-flex flex-row">
-          <h2>Field Data Upload</h2>
 
-        </div>
         {uploadsTable}
       </div>
     )

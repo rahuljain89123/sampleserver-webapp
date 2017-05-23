@@ -21,6 +21,7 @@ class LabDataUpload extends React.Component {
   componentDidMount () {
     if (this.props.uploadingError) { this.props.clearUploadingError() }
     this.props.fetchUploads()
+
     this.props.setHeaderInfo(
       'Lab Data Upload',
       [{
@@ -102,9 +103,7 @@ class LabDataUpload extends React.Component {
     return (
       <div className="lab-data-uploads">
         {errorDisplay}
-        <div className="d-flex flex-row">
-          <h2>Lab Data Upload</h2>
-        </div>
+
         {uploadsTable}
       </div>
     )
