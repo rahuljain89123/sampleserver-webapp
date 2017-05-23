@@ -178,7 +178,7 @@ class FreeProduct extends React.Component {
         <h4 > Configure </h4>
         <Form className='contouring-form'>
           <Field
-            props={{label: 'Sitemap'}}
+            props={{placeholder: 'Sitemap'}}
             name='sitemap_id'
             id='sitemap_id'
             component={SelectFormGroup}
@@ -186,7 +186,7 @@ class FreeProduct extends React.Component {
           />
 
           <Field
-            props={{label: 'Select Date'}}
+            props={{placeholder: 'Select Date'}}
             name='date'
             id='date'
             options={dateOptions}
@@ -194,7 +194,7 @@ class FreeProduct extends React.Component {
           />
 
           <Field
-            props={{label: 'Zero Line?'}}
+            props={{placeholder: 'Zero Line?'}}
             name='zero_line'
             id='zero_line'
             options={booleanOptions}

@@ -8,12 +8,13 @@ import {
 
 const SelectFormGroup = (field) => (
   <FormGroup color={field.error ? 'danger' : ''}>
+    {field.label && <Label for={field.id}>{field.label}</Label>}
     <Input
       { ...field.input}
       type='select'
       state={field.state}
       id={field.id}>
-      <option value=''>{field.label}</option>
+      {field.placeholder && <option value=''>{field.placeholder}</option>}
       {field.options}
     </Input>
     <FormFeedback> {field.error} </FormFeedback>
