@@ -89,16 +89,23 @@ class IsochemicalContours extends React.Component {
 
     const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date_collected
     const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
-    const dateChanged = nextProps.date_collected !== this.props.date_collected
+    const dateChanged = nextProps.date_collected !== this.props.date_collected ||
+      nextProps.date_collected_range_end !== this.props.date_collected_range_end
 
 
     if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
-      this.props.fetchGroupedSampleValues({
+      let params = {
         date_collected: nextProps.date_collected,
         sitemap_id: parseInt(nextProps.siteMapId),
         substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
         site_id: parseInt(nextProps.site.get('id')),
-      })
+      }
+
+      if (nextProps.date_collected_range_end) {
+        params.date_collected_range_end = nextProps.date_collected_range_end
+      }
+
+      this.props.fetchGroupedSampleValues(params)
     }
   }
 
@@ -126,8 +133,14 @@ class IsochemicalContours extends React.Component {
   }
 
   shouldShowSubstanceId (substanceId) {
-    const { date_collected, sampleDates, substanceIds } = this.props
-    return contouringFn.substanceIdInDate(substanceId, date_collected, sampleDates) &&
+    const {
+      date_collected,
+      date_collected_range_end,
+      sampleDates,
+      substanceIds,
+    } = this.props
+
+    return contouringFn.substanceIdInDate(substanceId, sampleDates, date_collected, date_collected_range_end) &&
       ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
   }
 
@@ -208,6 +221,14 @@ class IsochemicalContours extends React.Component {
             component={SelectFormGroup}
           />
 
+          <Field
+            props={{placeholder: 'Select End Date (optional)'}}
+            name='date_collected_range_end'
+            id='date_collected_range_end'
+            options={dateOptions}
+            component={SelectFormGroup}
+          />
+
           <FieldArray
             name='substance_ids'
             id='substance_ids'
@@ -278,6 +299,7 @@ const mapStateToProps = (state, props) => ({
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
   date_collected: selector(state, 'date_collected'),
+  date_collected_range_end: selector(state, 'date_collected_range_end'),
   selectedWells: selector(state, 'selectedWells')
 })
 

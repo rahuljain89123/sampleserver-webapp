@@ -12,16 +12,22 @@ export const processClick = (xpos, ypos, siteMapWells, toggleWell) => {
   })
 }
 
-export const substanceIdInDate = (substanceId, t_date, sampleDates) => {
+const compareDateToDateOrDateRange = (date, startDate, endDate)  => {
+  if (!endDate) { return startDate.isSame(date) }
+  if (endDate.isBefore(startDate)) { return false }
+  return date.isBetween(startDate, endDate) || date.isSame(startDate) || date.isSame(endDate)
+}
+
+export const substanceIdInDate = (substanceId, sampleDates, t_date, t_date_end) => {
 
   if (!t_date) { return false; }
-  const selectedDate = moment(t_date)
-
+  const startDate = moment(t_date)
+  const endDate = t_date_end ? moment(t_date_end) : null
   let isPresent = false
 
   return sampleDates.some((date) => {
     const d = moment(date.get('date_collected'))
-    if (d.isSame(selectedDate) &&
+    if (compareDateToDateOrDateRange(d, startDate, endDate) &&
         date.get('substance_ids').includes(substanceId)) {
       return true
     }
