@@ -266,7 +266,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  flashMessage: (type, message) => dispatch(flashMessage(type, heading)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),

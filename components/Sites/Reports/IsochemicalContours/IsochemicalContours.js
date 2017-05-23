@@ -49,6 +49,8 @@ import {
   flashMessage
 } from 'actions/global'
 
+import { createContour } from 'actions/reports'
+
 import {
   CHECKED,
   UNCHECKED
@@ -66,6 +68,7 @@ class IsochemicalContours extends React.Component {
     this.processClickEvent = this.processClickEvent.bind(this)
     this.toggleWell = this.toggleWell.bind(this)
     this.setSelectedWells = this.setSelectedWells.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount () {
@@ -112,7 +115,34 @@ class IsochemicalContours extends React.Component {
   processClickEvent (xpos, ypos) {
     const { siteMapWells } = this.props
     contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
+  }
 
+  onSubmit (formParams) {
+    const selectedWells = formParams.get('selectedWells').filter(selected => selected)
+
+    let params = {
+      site_id: this.props.site.get('id'),
+      date_collected: formParams.get('date_collected'),
+      sitemap_id: parseInt(formParams.get('sitemap_id')),
+      substance_ids: formParams.get('substance_ids'),
+      wells: selectedWells.map((selected, well_id) => {
+        const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
+        return {
+          well_id: well_id,
+          x_pos: gsvWell.get('xpos'),
+          y_pos: gsvWell.get('ypos'),
+          substance_sum: gsvWell.get('substance_sum'),
+        }
+      }).valueSeq(),
+      title_wildcard: formParams.get('title_wildcard'),
+      remove_zero_contour: formParams.get('zero_line') === 'false',
+      logarithmic_contours: formParams.get('scale') === 'Logarithmic',
+      heatmap: formParams.get('heatmap') === 'true'
+    }
+
+    this.props.createContour(params)
+      .then(() => this.props.flashMessage('success', 'good schema'))
+      .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
   setSelectedWells () {
@@ -157,7 +187,7 @@ class IsochemicalContours extends React.Component {
   }
 
   render () {
-
+    const { handleSubmit } = this.props
     const siteMapOptions = this.props.siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
@@ -212,7 +242,7 @@ class IsochemicalContours extends React.Component {
       <Row>
       <Col sm={3} className='contouring-sidebar'>
         <h4 > Configure </h4>
-        <Form className='contouring-form'>
+        <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             props={{placeholder: 'Sitemap'}}
             name='sitemap_id'
@@ -271,8 +301,8 @@ class IsochemicalContours extends React.Component {
 
           <Field
             props={{label: 'Title'}}
-            name='title'
-            id='title'
+            name='title_wildcard'
+            id='title_wildcard'
             type='text'
             component={IndividualFormGroup}
           />
@@ -312,7 +342,7 @@ const mapStateToProps = (state, props) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  flashMessage: (type, message) => dispatch(flashMessage(type, heading)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
@@ -322,8 +352,9 @@ const mapDispatchToProps = dispatch => ({
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   fetchSubstances: (filters) => dispatch(fetchSubstances(filters)),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
-
   fetchWells: (filters) => dispatch(fetchWells(filters)),
+
+  createContour: (contourParams) => dispatch(createContour(contourParams)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(IsochemicalContours)
