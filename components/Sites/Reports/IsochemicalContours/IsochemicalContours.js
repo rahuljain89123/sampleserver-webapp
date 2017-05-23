@@ -94,9 +94,9 @@ class IsochemicalContours extends React.Component {
     const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
     const dateChanged = nextProps.date_collected !== this.props.date_collected ||
       nextProps.date_collected_range_end !== this.props.date_collected_range_end
+    const siteMapAdded = !this.props.siteMapId
 
-
-    if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
+    if (hasNecessaryProps && (substanceIdsChanged || dateChanged || siteMapAdded)) {
       let params = {
         date_collected: nextProps.date_collected,
         sitemap_id: parseInt(nextProps.siteMapId),
@@ -118,11 +118,16 @@ class IsochemicalContours extends React.Component {
   }
 
   onSubmit (formParams) {
-    const selectedWells = formParams.get('selectedWells').filter(selected => selected)
+    const selectedWells = formParams.get('selectedWells')
+      .filter(selected => selected)
+      .filter((selected, well_id) =>
+        this.props.groupedSampleValues.get(well_id.toString()).get('substance_sum')
+      )
 
     let params = {
       site_id: this.props.site.get('id'),
       date_collected: formParams.get('date_collected'),
+      date_collected_range_end: formParams.get('date_collected_range_end'),
       sitemap_id: parseInt(formParams.get('sitemap_id')),
       substance_ids: formParams.get('substance_ids'),
       wells: selectedWells.map((selected, well_id) => {
@@ -309,6 +314,7 @@ class IsochemicalContours extends React.Component {
 
           <div className='centered-btn'>
             <Button
+              disabled={!this.props.groupedSampleValues.size}
               color="primary"
             >Contour</Button>
           </div>

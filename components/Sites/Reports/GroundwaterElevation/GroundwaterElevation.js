@@ -48,6 +48,7 @@ import {
 import {
   flashMessage
 } from 'actions/global'
+import { createContour } from 'actions/reports'
 
 import {
   CHECKED,
@@ -66,6 +67,7 @@ class GroundwaterElevation extends React.Component {
     this.processClickEvent = this.processClickEvent.bind(this)
     this.toggleWell = this.toggleWell.bind(this)
     this.setSelectedWells = this.setSelectedWells.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount () {
@@ -90,8 +92,9 @@ class GroundwaterElevation extends React.Component {
     const hasNecessaryProps = nextProps.siteMapId && nextProps.date_collected
     const dateChanged = nextProps.date_collected !== this.props.date_collected ||
       nextProps.date_collected_range_end !== this.props.date_collected_range_end
+    const siteMapAdded = !this.props.siteMapId
 
-    if (hasNecessaryProps && dateChanged) {
+      if (hasNecessaryProps && (dateChanged || siteMapAdded)) {
       let params = {
         date_collected: nextProps.date_collected,
         sitemap_id: parseInt(nextProps.siteMapId),
@@ -105,6 +108,38 @@ class GroundwaterElevation extends React.Component {
 
       this.props.fetchGroupedSampleValues(params)
     }
+  }
+
+  onSubmit (formParams) {
+    const selectedWells = formParams.get('selectedWells')
+      .filter(selected => selected)
+      .filter((selected, well_id) =>
+        this.getGroundwaterElevationValue(this.props.groupedSampleValues.get(well_id.toString()))
+      )
+
+    let params = {
+      site_id: this.props.site.get('id'),
+      date_collected: formParams.get('date_collected'),
+      date_collected_range_end: formParams.get('date_collected_range_end'),
+      sitemap_id: parseInt(formParams.get('sitemap_id')),
+      groundwater_contours: true,
+      substance_ids: [35],
+      wells: selectedWells.map((selected, well_id) => {
+        const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
+        return {
+          well_id: well_id,
+          x_pos: gsvWell.get('xpos'),
+          y_pos: gsvWell.get('ypos'),
+          substance_sum: gsvWell.get('substance_sum'),
+        }
+      }).valueSeq(),
+      title_wildcard: formParams.get('title_wildcard'),
+      flow_lines: formParams.get('flow_lines') === 'true',
+    }
+
+    this.props.createContour(params)
+      .then(() => this.props.flashMessage('success', 'good schema'))
+      .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
   processClickEvent (xpos, ypos) {
@@ -148,15 +183,17 @@ class GroundwaterElevation extends React.Component {
       this.props,
       this.checkedImage,
       this.uncheckedImage,
-      (gsvWell) => {
-        if (!gsvWell.get('substances')) { return null }
-        return parseFloat(gsvWell.get('top_of_casing')) - gsvWell.getIn(['substances', '35', 'substance_value'])
-      }
+      this.getGroundwaterElevationValue,
     )
   }
 
-  render () {
+  getGroundwaterElevationValue (gsvWell) {
+    if (!gsvWell.get('substances')) { return null }
+    return parseFloat(gsvWell.get('top_of_casing')) - gsvWell.getIn(['substances', '35', 'substance_value'])
+  }
 
+  render () {
+    const { handleSubmit } = this.props
     const siteMapOptions = this.props.siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
@@ -197,7 +234,7 @@ class GroundwaterElevation extends React.Component {
       <Row>
       <Col sm={3} className='contouring-sidebar'>
         <h4 > Configure </h4>
-        <Form className='contouring-form'>
+        <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             props={{placeholder: 'Sitemap'}}
             name='sitemap_id'
@@ -225,22 +262,23 @@ class GroundwaterElevation extends React.Component {
 
           <Field
             props={{placeholder: 'Flow Lines?'}}
-            name='zero_line'
-            id='zero_line'
+            name='flow_lines'
+            id='flow_lines'
             options={booleanOptions}
             component={SelectFormGroup}
           />
 
           <Field
             props={{label: 'Title'}}
-            name='title'
-            id='title'
+            name='title_wildcard'
+            id='title_wildcard'
             type='text'
             component={IndividualFormGroup}
           />
 
           <div className='centered-btn'>
             <Button
+              disabled={!this.props.groupedSampleValues.size}
               color="primary"
             >Contour</Button>
           </div>
@@ -284,8 +322,9 @@ const mapDispatchToProps = dispatch => ({
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   fetchSubstances: (filters) => dispatch(fetchSubstances(filters)),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
-
   fetchWells: (filters) => dispatch(fetchWells(filters)),
+
+  createContour: (contourParams) => dispatch(createContour(contourParams)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(GroundwaterElevation)
