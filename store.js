@@ -124,7 +124,7 @@ import {
     groupedSampleValues,
     sampleDates,
 } from 'reducers/samples'
-import { uploads } from 'reducers/uploads'
+import { uploads, uploadingError } from 'reducers/uploads'
 import {
     tests,
     editingTest,
@@ -133,6 +133,7 @@ import {
 import {
   pageErrors,
   flash,
+  headerInfo,
 } from 'reducers/global'
 
 
@@ -253,8 +254,11 @@ const appReducer = combineReducers({
     editingTestError,
 
     uploads,
+    uploadingError,
+    
     pageErrors,
     flash,
+    headerInfo,
     loadingBar,
 })
 

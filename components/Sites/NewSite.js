@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 import {
   Row,
   Col,
@@ -12,8 +13,6 @@ import {
   setCreatingSite,
 } from 'actions/sites'
 import { fetchProjects } from 'actions/projects'
-import { flashMessage } from 'actions/global'
-
 import SiteForm from './SiteForm'
 
 
@@ -26,6 +25,14 @@ class NewSite extends React.Component {
   }
 
   componentDidMount () {
+    this.props.setHeaderInfo(
+      'New Site',
+      [{
+        text: 'Project',
+        onClick: '/app/projects/new',
+        iconName: 'add_circle_outline',
+      }],
+    )
     this.props.fetchProjects()
   }
 
@@ -78,6 +85,7 @@ const mapDispatchToProps = dispatch => ({
   createSite: (siteId, siteParams) => dispatch(createSite(siteId, siteParams)),
   setCreatingSite: (editing) => dispatch(setCreatingSite(editing)),
   clearCreatingSiteError: () => dispatch(clearCreatingSiteError()),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSite)

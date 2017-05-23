@@ -5,13 +5,13 @@ import {
   Navbar,
   Nav,
   NavItem,
-  NavLink,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
-import { Link } from 'react-router-dom'
+import { Route, Link, NavLink, Switch } from 'react-router-dom'
+import PrivateRoute from './Auth'
 
 import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
@@ -25,26 +25,19 @@ import {
   currentCompany,
 } from '../normalizers'
 import SiteNav from 'components/Sites/App/SiteNav'
-import { fetchSite } from '../actions/sites'
+import { fetchSite } from 'actions/sites'
 
 
 class Sidebar extends React.Component {
   constructor (props) {
     super(props)
-    const siteId = parseInt(props.match.params.id, 10)
 
     this.state = {
       open: true,
-      siteId,
       dropdownOpen: false,
     }
   }
 
-  componentDidMount () {
-    if (!this.props.sites.get(this.state.siteId)) {
-      this.props.fetchSite(this.state.siteId)
-    }
-  }
 
   toggleSidebar () {
     this.setState({
@@ -73,16 +66,17 @@ class Sidebar extends React.Component {
   }
 
   render () {
-    const site = this.props.sites.get(this.state.siteId)
+    // const site = this.props.sites.get(this.state.siteId)
     const roleDescription = this.props.roleDescription
-    if (!site) { return null }
+    // if (!site) { return null }
 
     let nameSpan = null
     let profileImgSrc = null
+    let myNav = null
 
     if (this.props.user) {
       nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
-      profileImgSrc = this.props.user.get('photo_url')
+      profileImgSrc = this.props.user.get('photo_url') ? this.props.user.get('photo_url') : '/static/img/blank-avatar.png'
     } else {
       profileImgSrc = '/static/img/blank-avatar.png'
     }
@@ -99,7 +93,6 @@ class Sidebar extends React.Component {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem header>{roleDescription}</DropdownItem>
-                  <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
                   <DropdownItem onClick={() => this.props.push('/complete-profile')}>Edit Profile </DropdownItem>
 
                   <DropdownItem
@@ -110,7 +103,53 @@ class Sidebar extends React.Component {
               </Dropdown>
             </Nav>
             <i className="material-icons" onClick={e => this.toggleSidebar(e)}>menu</i>
-            <SiteNav site={site} />
+
+            <Switch>
+              <Route
+                exact
+                path="/app/sites/new"
+                component={() => (
+                  <nav className="nav nav-pills flex-column">
+                    <NavLink
+                      exact
+                      to={`/app/`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Dashboard</NavLink>
+                    <NavLink
+                      exact
+                      to={`/app/team`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Manage Team</NavLink>
+                  </nav>
+                )}
+              />
+              <Route
+                path="/app/sites/:id"
+                component={SiteNav}
+              />
+              <Route
+                path="/app"
+                component={() => (
+                  <nav className="nav nav-pills flex-column">
+                    <NavLink
+                      exact
+                      to={`/app/`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Dashboard</NavLink>
+                    <NavLink
+                      exact
+                      to={`/app/team`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    >Manage Team</NavLink>
+                  </nav>
+                )}
+              />
+            </Switch>
+
             <div className="app-logo-container">
               <img className="app-logo" src="/static/img/applogo.png" alt="" />
               &copy; SampleServe

@@ -16,7 +16,7 @@ $gecko-lt: #12CF79;
 $ss-font-family: GothamHTF, 'Open Sans', helvetica, arial, sans-serif;
 
 
-html, body {
+html, body, .index, .app {
     height: 100%;
     font-family: $ss-font-family;
 }
@@ -32,6 +32,33 @@ h1, h2, h3, h4 {
 }
 .btn {
     font-family: $ss-font-family;
+}
+.btn-default {
+    /* Rectangle 4: */
+    background: #FFFFFF;
+    border: 1px solid rgba(86,91,96,0.20);
+    box-shadow: 0 2px 5px 0 rgba(86,91,96,0.08);
+    border-radius: 3px;
+    font-family: GothamHTF;
+    font-size: 14px;
+    color: #575C61;
+    // line-height: 43px;
+    vertical-align: middle;
+    cursor: pointer;
+
+    .material-icons {
+        vertical-align: middle;
+        font-size: 22px;
+        letter-spacing: 0.79px;
+        color: #1FC7C8;
+        margin-right: 5px;
+        &.warning {
+            color: #d9534f;
+        }
+    }
+}
+.btn + .btn {
+    margin-left: 15px;
 }
 #wrapper {
     min-height: 100%;
@@ -73,11 +100,24 @@ body {
     padding: 20px 30px;
     position: relative;
     margin-bottom: 35px;
+    h1 {
+        /* New Site: */
+        font-family: GothamHTF;
+        font-size: 20px;
+        color: #575C61;
+        letter-spacing: 0.71px;
+        margin: 0;
+        line-height: 34px;
+        vertical-align: middle;
+    }
 
     .navbar-brand {
-        color: #575C61;
-        opacity: 0.5;
+        /* Dashboard: */
         font-family: GothamHTF;
+        font-size: 20px;
+        color: #575C61;
+        letter-spacing: 0.4px;
+        line-height: 32px;
 
         &.navbar-sidebar {
             font-weight: 500;
@@ -133,6 +173,7 @@ body {
     }
 }
 .index {
+    background: #FAFBFD;
     .jumbotron {
         min-height: 400px;
         position: relative;
@@ -156,6 +197,24 @@ body {
         }
     }
 }
+.standalone-form {
+    /* Rectangle 4: */
+    h2 {
+        /* Dashboard: */
+        font-family: GothamHTF;
+        font-size: 24px;
+        color: #575C61;
+        letter-spacing: 0.4px;
+        line-height: 24px;
+        margin-bottom: 50px;
+    }
+    background: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+    border-radius: 3px;
+    padding: 30px;
+    margin-top: 200px;
+}
+
 
 #remember-container label {
     position: relative;
@@ -422,10 +481,6 @@ section {
         // justify-content: space-around;
         box-sizing: initial;
 
-        .sidebar-container {
-            overflow: hidden;
-            height: 100%;
-        }
         .main-container {
             overflow: scroll;
             // width: 100%;
@@ -437,6 +492,10 @@ section {
 .content-closed {
     display: none;
 }
+.sidebar-container {
+    height: 100%;
+    overflow: scroll;
+}
 .sidebar {
     font-family: 'GothamHTF';
     letter-spacing: 0.08em;
@@ -445,19 +504,44 @@ section {
     position: relative;
     width: 280px;
     flex: 0 0 280px;
-    height: 100%;
-    min-height: 950px;
+    min-height: 100%;
     background: #575C61;
     box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
-    overflow: hidden;
+
     top: 0;
     bottom: 0;
+    // padding-bottom: 100px;
 
+
+    .site-info {
+        margin: 0 25px 10px 25px;
+        padding: 15px 0;
+        border-bottom: 1px solid rgba(225, 227, 230, 0.2);
+
+        h4 {
+            /* Gazorpazorp: */
+            opacity: 0.4;
+            font-family: GothamHTF;
+            font-size: 12px;
+            color: #FFFFFF;
+            letter-spacing: 0.43px;
+            text-transform: uppercase;
+            margin-bottom: 0px;
+        }
+        h2 {
+            /* Outpost #7: */
+            font-family: GothamHTF;
+            font-size: 20px;
+            color: #FFFFFF;
+            letter-spacing: 0.71px;
+            margin-bottom: 0;
+        }
+    }
     .fa-bars, .material-icons {
         color: #FFF;
         font-size: 22px;
         position: absolute;
-        top: 35px;
+        top: 29px;
         right: 28px;
     }
     &.closed {
@@ -479,15 +563,15 @@ section {
     .app-logo-container {
         position: absolute;
         bottom: 30px;
-        left: 30px;
+        left: 28px;
         img {
             width: 39px;
             padding-right: 10px;
         }
     }
     .avatar-dropdown {
-        margin: 25px 25px 10px 25px;
-        padding-bottom: 15px;
+        margin: 0 20px 10px 20px;
+        padding: 20px 0 19px 0;
         border-bottom: 1px solid rgba(225,227,230,0.20);
     }
     .avatar-container {
@@ -552,7 +636,11 @@ section {
         padding-left: 30px;
     }
 }
-
+.container-fluid {
+    .navbar-container {
+        margin: 0 -30px;
+    }
+}
 .dropdown {
     &.dark {
         &::before {
@@ -684,7 +772,7 @@ form {
         padding: 1rem 1.5rem;
         display: inline-block;
         vertical-align: middle;
-        width: 50%;
+        // width: 50%;
         background: #FFFFFF;
         border: 1px solid rgba(166,174,182,0.80);
         box-shadow: inset 0 1px 5px 0 rgba(0,0,0,0.10);
@@ -734,9 +822,9 @@ form.contouring-form {
 
 .app {
     .flex-row {
-        border-bottom: 1px solid #E1E3E6;
-        padding-bottom: 30px;
-        margin-bottom: 25px;
+        // border-bottom: 1px solid #E1E3E6;
+        // padding-bottom: 30px;
+        // margin-bottom: 25px;
         h2 {
             margin-bottom: 0;
         }
@@ -789,6 +877,91 @@ form.contouring-form {
             font-size: 14px;
             color: #1FC7C8;
             letter-spacing: 0.5px;
+        }
+    }
+}
+
+.project-sites {
+    .project {
+        /* Rectangle 4: */
+        background: #FFFFFF;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
+        border-radius: 3px;
+
+        .project-header {
+            /* col: */
+            border-bottom: 1px solid #E1E3E6;
+            padding: 30px;
+        }
+        .project-name {
+            /* Planet Gazorpazorp: */
+            font-family: GothamHTF;
+            font-size: 18px;
+            color: #282B2F;
+            letter-spacing: 0.64px;
+            margin: 0;
+        }
+        h5 {
+            /* Project Detail: */
+            opacity: 0.4;
+            font-family: GothamHTF-Medium;
+            font-size: 11px;
+            color: #282B2F;
+            letter-spacing: 0.39px;
+            text-transform: uppercase;
+        }
+        .edit-project {
+            /* Edit Project: */
+            opacity: 0.7;
+            font-family: GothamHTF;
+            font-size: 13px;
+            vertical-align: middle;
+            a {
+                color: #575C61;
+            }
+            .material-icons {
+                /* settings: */
+                font-size: 22px;
+                color: #1FC7C8;
+                letter-spacing: 0.79px;
+                vertical-align: middle;
+                margin-right: 5px;
+            }
+        }
+        .sites-list {
+            .site {
+                a {
+                    /* Outpost #7: */
+                    opacity: 0.9;
+                    font-family: GothamHTF;
+                    font-size: 14px;
+                    color: #1FC7C8;
+                    letter-spacing: 0.5px;
+                }
+                .material-icons {
+                    /* layers: */
+                    font-size: 24px;
+                    color: #575C61;
+                    letter-spacing: 0.86px;
+                    vertical-align: middle;
+                    margin-right: 10px;
+                }
+                .site-metadata {
+                    /* Reserved for site me: */
+                    opacity: 0.4;
+                    font-family: GothamHTF;
+                    font-size: 11px;
+                    color: #282B2F;
+                    letter-spacing: 0.39px;
+                    display: inline-block;
+                }
+                .site-details {
+                    .material-icons {
+                        margin-left: 10px;
+                    }
+                }
+                padding: 20px 30px;
+            }
         }
     }
 }

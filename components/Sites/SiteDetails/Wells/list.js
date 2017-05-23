@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { Button, Table } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
-
 import {
   fetchUploads,
   createUpload,
@@ -15,14 +14,15 @@ import {
 import { fetchSite } from 'actions/sites'
 import { fetchWells } from 'actions/wells'
 import { currentLab, currentCompany } from 'normalizers'
-
 import {
   FILESTACK_API_KEY,
 } from 'helpers/filestack'
+import { setHeaderInfo } from 'actions/global'
 
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
   fromSources: ['local_file_system', 'dropbox'],
+  storeTo: { location: 's3' },
 }
 
 class Wells extends React.Component {
@@ -36,8 +36,16 @@ class Wells extends React.Component {
     this.props.fetchUploads()
     this.props.fetchWells({
       site_id: this.props.site.get('id'),
-      per_page: 50
+      per_page: 50,
     })
+    this.props.setHeaderInfo(
+      'Edit Wells',
+      [{
+        text: 'New Well',
+        onClick: `/app/sites/${this.props.site.get('id')}/details/wells/new`,
+        iconName: 'add_circle_outline',
+      }],
+    )
   }
 
   onNewUpload () {
@@ -88,12 +96,6 @@ class Wells extends React.Component {
 
     return (
       <div className="site-details-wells">
-        <div className="d-flex flex-row justify-content-between">
-          <h2>Wells</h2>
-          <Button
-            onClick={() => this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells/new`)}
-            className='btn btn-default float-right'>New Well</Button>
-        </div>
         {wellsList}
         <div className="bulk-upload">
           <div className="row justify-content-between">
@@ -129,6 +131,7 @@ const mapDispatchToProps = dispatch => ({
   deleteUpload: id => dispatch(deleteUpload(id)),
   fetchSite: id => dispatch(fetchSite(id)),
   fetchWells: filters => dispatch(fetchWells(filters)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wells)

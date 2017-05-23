@@ -19,6 +19,8 @@ import {
     clearCreatingScheduleError,
     fetchSchedules,
 } from 'actions/schedule'
+
+import { setHeaderInfo } from 'actions/global'
 import { msgFromError } from 'util'
 
 
@@ -33,11 +35,12 @@ class NewSchedule extends React.Component {
         this.changeDate = this.changeDate.bind(this)
     }
 
-    componentWillMount () {
+    componentDidMount () {
         if (this.props.creatingScheduleError) {
             this.props.clearCreatingScheduleError()
         }
         this.props.fetchSchedules({site_id: this.props.site.get('id')})
+        this.props.setHeaderInfo('Sample Schedule')
     }
 
     onChange (e) {
@@ -85,7 +88,6 @@ class NewSchedule extends React.Component {
 
         return (
             <div className="sample-schedule">
-                <h2>Sample Schedule</h2>
                 <Form onSubmit={e => this.onSubmit(e)}>
                     <FormGroup color={errors.date ? 'danger' : ''}>
                         <Label for="date">Date</Label>
@@ -135,6 +137,7 @@ const mapDispatchToProps = dispatch => ({
     createSchedule: schedule => dispatch(createSchedule(schedule)),
     clearCreatingScheduleError: () => dispatch(clearCreatingScheduleError()),
     fetchSchedules: filters => dispatch(fetchSchedules(filters)),
+    setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSchedule)

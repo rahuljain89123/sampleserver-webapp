@@ -9,40 +9,51 @@ import './index.scss'
 import './static/css/styles.scss'
 
 import store from './store'
-import Header from './components/Header'
-import Sidebar from './components/Sidebar'
-import SidebarHeader from './components/SidebarHeader'
-import Signin from './components/Users/Signin'
-import Forgot from './components/Users/Forgot'
-import AcceptInvite from './components/Users/AcceptInvite'
-import CompleteProfile from './components/Users/CompleteProfile'
+
 import App from './components/App'
-import PrivateRoute from './components/Auth'
+import UniversalViews from './components/UniversalViews'
 
 
 ReactDOM.render((
   <Provider store={store}>
     <Router>
-      <div className="wrapper">
+      <div className="index">
         <LoadingBar style={{zIndex: '100', backgroundColor: '#1FC7C8'}}/>
 
-        <div className="wrapper-inner">
-          <Route path="/app/sites/:id/" component={Sidebar} />
-          <div className="main-container">
-            <Switch>
-              <Route path="/app/sites/:id/" component={SidebarHeader} />
-              <Route component={Header} />
-            </Switch>
-            <div className="container-fluid">
-              <Route exact path="/" component={Signin} />
-              <Route exact path="/forgot" component={Forgot} />
-              <Route exact path="/accept-invite" component={AcceptInvite} />
-              <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
-              <PrivateRoute path="/app" component={App} />
-            </div>
-          </div>
-        </div>
+        <Switch>
+          <Route
+            path="/app"
+            component={App}
+          />
+          <Route
+            path="/"
+            component={UniversalViews}
+          />
+        </Switch>
+
       </div>
     </Router>
   </Provider>
 ), window.document.querySelector('#root'))
+
+
+// =======
+//       <div className="wrapper">
+//
+//         <div className="wrapper-inner">
+//           <Route path="/app/sites/:id/" component={Sidebar} />
+//           <div className="main-container">
+//             <Switch>
+//               <Route path="/app/sites/:id/" component={SidebarHeader} />
+//               <Route component={Header} />
+//             </Switch>
+//             <div className="container-fluid">
+//               <Route exact path="/" component={Signin} />
+//               <Route exact path="/forgot" component={Forgot} />
+//               <Route exact path="/accept-invite" component={AcceptInvite} />
+//               <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
+//               <PrivateRoute path="/app" component={App} />
+//             </div>
+//           </div>
+//         </div>
+// >>>>>>> c7478154317d376cfaa089781d62f9987838cc73

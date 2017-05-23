@@ -22,6 +22,7 @@ const FILESTACK_OPTIONS = {
     accept: 'image/*',
     fromSources: ['local_file_system', 'dropbox'],
     maxFiles: 1,
+    storeTo: { location: 's3' },
 }
 
 export const FORM_NAME = 'sitemapform'

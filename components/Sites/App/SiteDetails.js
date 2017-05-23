@@ -4,7 +4,6 @@ import {
   Switch,
 } from 'react-router-dom'
 import { connect } from 'react-redux'
-
 import PrivateRoute from 'components/Auth'
 import EditSite from 'components/Sites/EditSite'
 import Wells from 'components/Sites/SiteDetails/Wells/list'
@@ -21,6 +20,8 @@ import LabDataUpload from 'components/Sites/LabDataUpload'
 import FieldDataUpload from 'components/Sites/FieldDataUpload'
 import QAQCForm from 'components/Sites/SiteDetails/QAQCPreferences/QAQCForm'
 import StateSpecificInfoForm from 'components/Sites/SiteDetails/StateSpecificInfo/StateSpecificInfoForm'
+import { fetchSite } from 'actions/sites'
+
 
 class SiteDetails extends React.Component {
   render () {
@@ -29,106 +30,106 @@ class SiteDetails extends React.Component {
 
     return (
       <div>
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/info`}
-        component={props => (
-          <EditSite
-            site={site}
-            onSuccess={() => {}}
-            {...props}
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/info`}
+          component={props => (
+            <EditSite
+              site={site}
+              onSuccess={() => {}}
+              {...props}
+            />
+          )}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/executive-summary`}
+          component={props => <EditExecutiveSummaryForm site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/wells`}
+          component={props => <Wells site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/sample-schedule`}
+          component={props => <SchedulesList site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
+          component={props => <NewSchedule site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
+          component={props => <EditSchedule site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/field-data-input`}
+          component={props => <FieldDataUpload site={site} {...props} />}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/lab-data-input`}
+          component={props => <LabDataUpload site={site} {...props} />}
+        />
+        <Switch>
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/site-maps/new`}
+            component={props => <NewSiteMap site={site} {...props} />}
           />
-        )}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/executive-summary`}
-        component={props => <EditExecutiveSummaryForm site={site} {...props} />}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/wells`}
-        component={props => <Wells site={site} {...props} />}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/sample-schedule`}
-        component={props => <SchedulesList site={site} {...props} />}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
-        component={props => <NewSchedule site={site} {...props} />}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
-        component={props => <EditSchedule site={site} {...props} />}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/field-data-input`}
-        component={props => <FieldDataUpload site={site} {...props} />}
-      />
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/lab-data-input`}
-        component={props => <LabDataUpload site={site} {...props} />}
-      />
-      <Switch>
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/site-maps/:id`}
+            component={props => <SiteMap site={site} {...props} />}
+          />
+        </Switch>
         <PrivateRoute
           exact
-          path={`/app/sites/${site.get('id')}/details/site-maps/new`}
-          component={props => <NewSiteMap site={site} {...props} />}
+          path={`/app/sites/${site.get('id')}/details/site-maps`}
+          component={props => <SiteMapsList site={site} {...props} />}
         />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/site-maps/:id`}
-          component={props => <SiteMap site={site} {...props} />}
-        />
-      </Switch>
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/site-maps`}
-        component={props => <SiteMapsList site={site} {...props} />}
-      />
 
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/qa-qc-preferences`}
-        component={props => <QAQCForm site={site} {...props} />}
-      />
-
-      <PrivateRoute
-        exact
-        path={`/app/sites/${site.get('id')}/details/state-specific-info`}
-        component={props => <StateSpecificInfoForm site={site} {...props} />}
-      />
-
-      <Switch>
         <PrivateRoute
           exact
-          path={`/app/sites/${site.get('id')}/details/wells/new`}
-          component={props => (
-            <NewWell
-              site={site}
-              onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
-              {...props}
-            />
-          )}
+          path={`/app/sites/${site.get('id')}/details/qa-qc-preferences`}
+          component={props => <QAQCForm site={site} {...props} />}
         />
+
         <PrivateRoute
           exact
-          path={`/app/sites/${site.get('id')}/details/wells/:id`}
-          component={props => (
-            <EditWell
-              site={site}
-              onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
-              {...props}
-            />
-          )}
+          path={`/app/sites/${site.get('id')}/details/state-specific-info`}
+          component={props => <StateSpecificInfoForm site={site} {...props} />}
         />
-      </Switch>
+
+        <Switch>
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/wells/new`}
+            component={props => (
+              <NewWell
+                site={site}
+                onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
+                {...props}
+              />
+            )}
+          />
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/wells/:id`}
+            component={props => (
+              <EditWell
+                site={site}
+                onSuccess={() => props.push(`/app/sites/${site.get('id')}/details/wells`)}
+                {...props}
+              />
+            )}
+          />
+        </Switch>
       </div>
     )
   }

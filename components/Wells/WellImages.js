@@ -16,9 +16,7 @@ const FILESTACK_OPTIONS = {
     transformOptions: {
       maxDimensions: [1280, 1280]
     },
-    storeTo: {
-      location: 's3'
-    },
+    storeTo: { location: 's3' },
 }
 
 class WellImages extends React.Component {

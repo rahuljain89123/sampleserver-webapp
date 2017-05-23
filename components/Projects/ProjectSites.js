@@ -2,143 +2,155 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-    ListGroup,
-    ListGroupItem,
-    ButtonDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
+  ListGroup,
+  ListGroupItem,
+  ButtonDropdown,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+  Navbar,
+  Nav,
+  NavItem,
 } from 'reactstrap'
 
-import { fetchSites } from '../../actions/sites'
-import { fetchProjects } from '../../actions/projects'
+import { setHeaderInfo } from 'actions/global'
+import { fetchSites } from 'actions/sites'
+import { fetchProjects } from 'actions/projects'
 
 
 class ProjectSites extends React.Component {
-    constructor (props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        const fetchedSites = props.projects.map(() => true)
+    const fetchedSites = props.projects.map(() => true)
 
-        this.state = {
-            fetchedSites,
-            dropdownOpen: false,
-        }
+    this.state = {
+      fetchedSites,
+      dropdownOpen: false,
     }
+  }
 
-    componentDidMount () {
-        this.props.fetchProjects()
-        this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
-    }
+  componentDidMount () {
+    this.props.fetchProjects()
+    this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
+    this.props.setHeaderInfo(
+      'Dashboard',
+      [{
+        text: 'Project',
+        onClick: '/app/projects/new',
+        iconName: 'add_circle_outline',
+      },
+      {
+        text: 'Site',
+        onClick: '/app/sites/new',
+        iconName: 'add_circle_outline',
+      }],
+    )
+  }
 
-    componentWillReceiveProps (nextProps) {
-        const fetchedSites = nextProps.projects.map(project => {
-            if (!this.state.fetchedSites.get(project.get('id'))) {
-                this.props.fetchSites({ project_id: project.get('id') })
-                return true
-            }
-            return this.state.fetchedSites.get(project.get('id'))
-        })
+  componentWillReceiveProps (nextProps) {
+    const fetchedSites = nextProps.projects.map(project => {
+      if (!this.state.fetchedSites.get(project.get('id'))) {
+        this.props.fetchSites({ project_id: project.get('id') })
+        return true
+      }
+      return this.state.fetchedSites.get(project.get('id'))
+    })
 
-        this.setState({
-            fetchedSites,
-        })
-    }
+    this.setState({
+      fetchedSites,
+    })
+  }
 
-    onToggle () {
-        this.setState({
-            dropdownOpen: !this.state.dropdownOpen,
-        })
-    }
+  onToggle () {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
+    })
+  }
 
-    onNewProject () {
-        this.props.push('/app/projects/new')
-    }
+  onNewProject () {
+    this.props.push('/app/projects/new')
+  }
 
-    onNewSite () {
-        this.props.push('/app/sites/new')
-    }
+  onNewSite () {
+    this.props.push('/app/sites/new')
+  }
 
-    onClick (e) {
-        e.preventDefault()
-        this.props.push(e.target.getAttribute('href'))
-    }
+  onClick (e) {
+    e.preventDefault()
+    this.props.push(e.target.getAttribute('href'))
+  }
 
-    render () {
-        const projects = this.props.projects
-            .sort((a, b) => a.get('id') - b.get('id'))
-            .entrySeq()
+  render () {
+    const projects = this.props.projects
+      .sort((a, b) => a.get('id') - b.get('id'))
+      .entrySeq()
 
-        const projectSites = this.props.projects.map(project =>
-            this.props.sites
-                .filter(site => site.get('project_id') === project.get('id'))
-                .sort((a, b) => a.get('id') - b.get('id'))
-                .entrySeq())
+    const projectSites = this.props.projects.map(project =>
+      this.props.sites
+        .filter(site => site.get('project_id') === project.get('id'))
+        .sort((a, b) => a.get('id') - b.get('id'))
+        .entrySeq())
 
-        return (
-            <div>
-                <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
-                    <ButtonDropdown
-                        className="ml-auto"
-                        isOpen={this.state.dropdownOpen}
-                        toggle={() => this.onToggle()}
-                    >
-                        <DropdownToggle className="pointer">
-                            <i className="fa fa-plus" />
-                        </DropdownToggle>
-                        <DropdownMenu right>
-                            <DropdownItem className="pointer" onClick={() => this.onNewProject()}>
-                                New Project
-                            </DropdownItem>
-                            <DropdownItem className="pointer" onClick={() => this.onNewSite()}>
-                                New Site
-                            </DropdownItem>
-                        </DropdownMenu>
-                    </ButtonDropdown>
+    return (
+      <div className="project-sites">
+        <div className="projects">
+          {projects.map(([id, project]) => (
+            <div className="project" key={id}>
+              <div className="project-header d-flex flex-row justify-content-between">
+                <div className="project-details">
+                  <h5>Project Detail</h5>
+                  <h2 className="project-name">{project.get('name')}</h2>
                 </div>
-                {projects.map(([id, project]) => (
-                    <div style={{ marginBottom: 40 }} key={id}>
-                        <div className="d-flex flex-row" style={{ marginBottom: 15 }}>
-                            <h4>{project.get('name')}</h4>
-                            <h4 style={{ marginLeft: 15 }}>
-                                <a
-                                    href={`/app/projects/${id}`}
-                                    onClick={e => this.onClick(e)}
-                                    style={{ color: '#aaa' }}
-                                >
-                                    <i className="fa fa-gear" href={`/app/projects/${id}`} />
-                                </a>
-                            </h4>
+                <div className="edit-project">
+                  <a href={`/app/projects/${id}`} onClick={e => this.onClick(e)}>
+                    <i className="material-icons">settings</i>
+                    Edit Project
+                  </a>
+                </div>
+              </div>
+              {projectSites.get(id) ? (
+                <div className="sites-list">
+                  {projectSites.get(id).map(([siteId, site]) => (
+                    <div className="site d-flex flex-row justify-content-between" key={siteId}>
+                      <div className="site-title">
+                        <i className="material-icons">layers</i>
+                        <a
+                          href={`/app/sites/${siteId}/lab-data-list`}
+                          onClick={e => this.onClick(e)}
+                        >
+                          {site.get('title')}
+                        </a>
+                      </div>
+                      <div className="site-details">
+                        <div className="site-metadata">
+                          {site.get('city')}, {site.get('state')}
                         </div>
-                        {projectSites.get(id) ? (
-                            <ListGroup>
-                                {projectSites.get(id).map(([siteId, site]) => (
-                                    <ListGroupItem key={siteId}>
-                                        <a
-                                            href={`/app/sites/${siteId}`}
-                                            onClick={e => this.onClick(e)}
-                                        >
-                                            {site.get('title')}
-                                        </a>
-                                    </ListGroupItem>
-                                ))}
-                            </ListGroup>
-                        ) : null }
+                        <i className="material-icons">more_horiz</i>
+                      </div>
                     </div>
-                ))}
+                  ))}
+                </div>
+              ) : null }
             </div>
-        )
-    }
+          ))}
+        </div>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = store => ({
-    projects: store.get('projects'),
-    sites: store.get('sites'),
+  projects: store.get('projects'),
+  sites: store.get('sites'),
+  headerInfo: store.get('headerInfo'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchProjects: () => dispatch(fetchProjects()),
-    fetchSites: filters => dispatch(fetchSites(filters)),
+  fetchProjects: () => dispatch(fetchProjects()),
+  fetchSites: filters => dispatch(fetchSites(filters)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectSites)

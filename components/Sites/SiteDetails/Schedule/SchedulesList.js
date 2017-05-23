@@ -13,17 +13,10 @@ import {
   clearCreatingScheduleError,
   fetchSchedules,
 } from 'actions/schedule'
+import { setHeaderInfo } from 'actions/global'
 import { msgFromError } from 'util'
 
 class SchedulesList extends React.Component {
-  constructor (props) {
-    super(props)
-  }
-
-  componentWillMount () {
-    this.props.fetchSchedules({site_id: this.props.site.get('id')})
-  }
-
   componentDidMount () {
     this.props.fetchSchedules({site_id: this.props.site.get('id')})
     .then(() => {
@@ -32,13 +25,13 @@ class SchedulesList extends React.Component {
       })
     })
 
-  }
-
-  onChange (e) {
-  }
-
-
-  onSubmit (e) {
+    this.props.setHeaderInfo(
+      'Site Details Schedule List',
+      [{
+        text: 'New Schedule',
+        onClick: `/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`
+      }]
+    )
   }
 
   render () {
@@ -57,11 +50,6 @@ class SchedulesList extends React.Component {
     return (
       <div className="sample-schedule">
         <div className="d-flex flex-row">
-          <h2>Site Details Schedule List</h2>
-          <Button
-            onClick={() => this.props.push(`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`)}
-            className="ml-auto btn btn-default"
-          >New Schedule</Button>
         </div>
         {schedules}
       </div>
@@ -75,6 +63,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSchedules: filters => dispatch(fetchSchedules(filters)),
+  setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchedulesList)

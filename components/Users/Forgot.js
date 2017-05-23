@@ -10,26 +10,28 @@ import { currentLab, safeGet } from '../../normalizers'
 const NBSPACE = '\u00a0'
 
 class Forgot extends React.Component {
-    render () {
-        const query = qs.parse(this.props.location.search.substr(1))
+  render () {
+    const query = qs.parse(this.props.location.search.substr(1))
 
-        return (
-            <div className="row justify-content-center" style={{ marginTop: 200 }}>
-                <div className="col-4">
-                    <h2 className="text-center">{this.props.labTitle}</h2>
-                    {query.code ? (
-                        <ResetForm push={this.props.push} code={query.code} />
-                    ) : (
-                        <ForgotForm push={this.props.push} />
-                    )}
-                </div>
-            </div>
-        )
-    }
+    return (
+      <div className="row justify-content-center">
+        <div className="col-4">
+          <div className="standalone-form">
+            <h2 className="text-center">{this.props.labTitle}</h2>
+            {query.code ? (
+              <ResetForm push={this.props.push} code={query.code} />
+            ) : (
+              <ForgotForm push={this.props.push} />
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = store => ({
-    labTitle: safeGet(currentLab(store), 'title', NBSPACE),
+  labTitle: safeGet(currentLab(store), 'title', NBSPACE),
 })
 
 export default connect(mapStateToProps)(Forgot)

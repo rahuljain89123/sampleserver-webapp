@@ -5,36 +5,35 @@ import {
   Navbar,
   Nav,
   NavItem,
-  NavLink,
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap'
+import { Route, Link, NavLink, Switch } from 'react-router-dom'
+import PrivateRoute from './Auth'
 
-import { Link } from 'react-router-dom'
-
-import { fetchCurrentUser, signout, reset } from '../actions/users'
-import { fetchCurrentLab } from '../actions/labs'
-import { fetchRoles } from '../actions/roles'
-import { fetchCompanies } from '../actions/companies'
+import { fetchCurrentUser, signout, reset } from 'actions/users'
+import { fetchCurrentLab } from 'actions/labs'
+import { fetchRoles } from 'actions/roles'
+import { fetchCompanies } from 'actions/companies'
 import {
   currentUser,
   currentUserRole,
   currentLab,
   safeGet,
   currentCompany,
-} from '../normalizers'
+} from 'normalizers'
+
+import HeaderButtonLookupTable from './HeaderButtons/HeaderButtonLookupTable'
+
 
 class Header extends React.Component {
   constructor (props) {
     super(props)
-
-    const siteId = parseInt(props.match.params.id, 10)
-
+    this.buttonToComponent = this.buttonToComponent.bind(this)
     this.state = {
       dropdownOpen: false,
-      siteId,
     }
   }
 
@@ -56,26 +55,30 @@ class Header extends React.Component {
     }
   }
 
-  onSignin (e) {
-    e.preventDefault()
-    this.props.push('/')
-  }
-
-  onSignout (e) {
-    e.preventDefault()
-    this.props.signout()
-      .then(() => {
-        this.props.reset()
-        this.props.fetchCurrentLab()
-        this.props.push('/')
-      })
-  }
-
   getAppTitle () {
     if (this.props.company) {
       return this.props.company.get('title')
     }
     return this.props.labTitle
+  }
+
+  buttonToComponent (button, index) {
+    if (button.get('component')) {
+
+      const Component = HeaderButtonLookupTable[button.get('component')]
+      return <Component
+        {...button.get('props').toJS()}
+        key={index}
+        push={this.props.push}
+      />
+    } else {
+      return (
+        <button key={index} className="btn btn-default" onClick={() => this.props.push(button.get('onClick'))}>
+          {button.get('iconName') ? <i className={`material-icons ${button.get('className')}`}>{button.get('iconName')}</i> : ''}
+          {button.get('text')}
+        </button>
+      )
+    }
   }
 
   render () {
@@ -84,11 +87,13 @@ class Header extends React.Component {
       userEmail,
       roleDescription,
       flash,
+      headerInfo,
     } = this.props
 
     let siteTitle = null
     let flashAlert = null
     let userDropdown = null
+    let appTitle = null
 
     if (flash) {
       flashAlert = (
@@ -98,49 +103,34 @@ class Header extends React.Component {
       )
     }
 
-    if (user) {
-      userDropdown = (
-        <Nav className="">
-          <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="dark">
-            <DropdownToggle className="pointer avatar-container">
-              <img className="profile-image" src={user.get('photo_url')} alt="avatar" />
-              <span className="name">{user.get('name')}</span>
-            </DropdownToggle>
-            <DropdownMenu right>
-              <DropdownItem header>{roleDescription}</DropdownItem>
-              <DropdownItem onClick={() => this.props.push('/app/team')}>Manage Team</DropdownItem>
-              <DropdownItem onClick={() => this.props.push('/complete-profile')}>Edit Profile </DropdownItem>
-              <DropdownItem
-                onClick={e => this.onSignout(e)}
-                className="pointer"
-              >Sign Out</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </Nav>
-      )
-    } else {
-      userDropdown = (
-        <Nav className="ml-auto" navbar>
-          <NavItem>
-            <NavLink
-              href="/"
-              onClick={e => this.onSignin(e)}
-            >Sign In</NavLink>
-          </NavItem>
-        </Nav>
-      )
-    }
+    appTitle = this.getAppTitle()
+    const buttons = headerInfo.get('buttons')
 
     return (
-      <div className="navbar-container">
-        {flashAlert}
-        <Navbar
-          className="flex-row justify-content-end"
-        >
-          <Link to="/app" className="mr-auto navbar-brand">{this.getAppTitle()}</Link>
-          {userDropdown}
-        </Navbar>
-      </div>
+      <Switch>
+        <Route
+          path={'/app/sites/:id/reports'}
+          component={() => (
+            <div className="navbar-container">
+              {flashAlert}
+            </div>
+          )}
+        />
+        <Route
+          path="/"
+          component={() => (
+            <div className="navbar-container">
+              {flashAlert}
+              <Navbar className="d-flex flex-row justify-content-between">
+                <div className="navbar-brand">{headerInfo.get('title')}</div>
+                <div className="actions">
+                  {buttons && buttons.map(this.buttonToComponent)}
+                </div>
+              </Navbar>
+            </div>
+          )}
+        />
+      </Switch>
     )
   }
 }
@@ -154,6 +144,7 @@ const mapStateToProps = store => ({
   roleDescription: safeGet(currentUserRole(store), 'description', ''),
   company: currentCompany(store),
   sites: store.get('sites'),
+  headerInfo: store.get('headerInfo'),
 })
 
 const mapDispatchToProps = dispatch => ({

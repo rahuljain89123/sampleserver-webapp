@@ -3,6 +3,8 @@ import {
   RECEIVE_UPLOAD,
   RECEIVE_UPLOADS,
   REMOVE_UPLOAD,
+  SET_UPLOADING_ERROR,
+  CLEAR_UPLOADING_ERROR,
 } from 'constants/UploadActionTypes'
 import API from 'API'
 import { setPageErrors } from './global'
@@ -24,6 +26,15 @@ export const receiveUploads = uploads => ({
 export const removeUpload = id => ({
   type: REMOVE_UPLOAD,
   id,
+})
+
+export const setUploadingError = error => ({
+  type: SET_UPLOADING_ERROR,
+  error,
+})
+
+export const clearUploadingError = () => ({
+  type: CLEAR_UPLOADING_ERROR,
 })
 
 /*****************************************************************************
@@ -48,6 +59,11 @@ export const createUpload = upload =>
     })
     .catch(e => {
       dispatch(hideLoading())
+
+      e.response.json().then(error => {
+        // console.log(error)
+        dispatch(setUploadingError(error.message))
+      })
       return Promise.reject(e)
     })
   }

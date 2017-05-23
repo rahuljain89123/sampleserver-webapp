@@ -3,6 +3,7 @@ import {
   SET_PAGE_ERRORS,
   SET_FLASH,
   CLEAR_FLASH,
+  SET_HEADER_INFO,
 } from 'constants/GlobalActionTypes'
 
 /*****************************************************************************
@@ -20,7 +21,16 @@ export const setFlash = (flash) => ({
 })
 
 export const clearFlash = () => ({
-  type: CLEAR_FLASH
+  type: CLEAR_FLASH,
+})
+
+/**
+ * @param title [Text|React.Element]
+ * @param buttons [Array<{text:<String>, onClick:<function>}]
+ */
+export const setHeaderInfo = (title, buttons=[]) => ({
+  type: SET_HEADER_INFO,
+  headerInfo: { title, buttons },
 })
 
 /*****************************************************************************
