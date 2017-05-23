@@ -1,9 +1,8 @@
-
+import { showLoading, hideLoading } from 'react-redux-loading-bar'
 import {
   RECEIVE_UPLOAD,
   RECEIVE_UPLOADS,
   REMOVE_UPLOAD,
-  SET_UPLOADING,
 } from 'constants/UploadActionTypes'
 import API from 'API'
 import { setPageErrors } from './global'
@@ -27,11 +26,6 @@ export const removeUpload = id => ({
   id,
 })
 
-export const setUploading = uploading => ({
-  type: SET_UPLOADING,
-  uploading,
-})
-
 /*****************************************************************************
  * THUNK ACTION CREATORS
  *****************************************************************************/
@@ -45,15 +39,15 @@ export const fetchUploads = () =>
 
 export const createUpload = upload =>
   dispatch => {
-    dispatch(setUploading(true))
+    dispatch(showLoading())
     return API.post('/uploads/', upload)
     .then(json => {
-      dispatch(setUploading(false))
+      dispatch(hideLoading())
       dispatch(receiveUpload(json))
       return Promise.resolve(json.id)
     })
     .catch(e => {
-      dispatch(setUploading(false))
+      dispatch(hideLoading())
       return Promise.reject(e)
     })
   }

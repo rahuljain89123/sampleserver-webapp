@@ -10,6 +10,8 @@ import {
     combineReducers,
 } from 'redux-immutable'
 
+import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar'
+
 import { reducer as form } from 'redux-form/immutable'
 
 import thunk from 'redux-thunk'
@@ -122,7 +124,7 @@ import {
     groupedSampleValues,
     sampleDates,
 } from 'reducers/samples'
-import { uploads, uploading } from 'reducers/uploads'
+import { uploads } from 'reducers/uploads'
 import {
     tests,
     editingTest,
@@ -251,9 +253,9 @@ const appReducer = combineReducers({
     editingTestError,
 
     uploads,
-    uploading,
     pageErrors,
     flash,
+    loadingBar,
 })
 
 const rootReducer = (state, action) => {

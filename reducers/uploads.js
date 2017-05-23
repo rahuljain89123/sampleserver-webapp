@@ -24,13 +24,3 @@ export const uploads = (state = Immutable.Map(), action) => {
         return state
     }
 }
-
-
-export const uploading = (state = false, action) => {
-  switch (action.type) {
-    case SET_UPLOADING:
-      return action.uploading
-    default:
-      return state
-  }
-}
