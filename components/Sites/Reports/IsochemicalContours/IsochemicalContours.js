@@ -49,6 +49,8 @@ import {
   flashMessage
 } from 'actions/global'
 
+import { createContour } from 'actions/reports'
+
 import {
   CHECKED,
   UNCHECKED
@@ -66,6 +68,7 @@ class IsochemicalContours extends React.Component {
     this.processClickEvent = this.processClickEvent.bind(this)
     this.toggleWell = this.toggleWell.bind(this)
     this.setSelectedWells = this.setSelectedWells.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   componentDidMount () {
@@ -87,31 +90,70 @@ class IsochemicalContours extends React.Component {
       this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
     }
 
-    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
+    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date_collected
     const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
-    const dateChanged = nextProps.date !== this.props.dates
+    const dateChanged = nextProps.date_collected !== this.props.date_collected ||
+      nextProps.date_collected_range_end !== this.props.date_collected_range_end
+    const siteMapAdded = !this.props.siteMapId
 
-
-    if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
-      this.props.fetchGroupedSampleValues({
-        date: nextProps.date,
+    if (hasNecessaryProps && (substanceIdsChanged || dateChanged || siteMapAdded)) {
+      let params = {
+        date_collected: nextProps.date_collected,
         sitemap_id: parseInt(nextProps.siteMapId),
         substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
         site_id: parseInt(nextProps.site.get('id')),
-      })
+      }
+
+      if (nextProps.date_collected_range_end) {
+        params.date_collected_range_end = nextProps.date_collected_range_end
+      }
+
+      this.props.fetchGroupedSampleValues(params)
     }
   }
 
   processClickEvent (xpos, ypos) {
     const { siteMapWells } = this.props
     contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
+  }
 
+  onSubmit (formParams) {
+    const selectedWells = formParams.get('selectedWells')
+      .filter(selected => selected)
+      .filter((selected, well_id) =>
+        this.props.groupedSampleValues.get(well_id.toString()).get('substance_sum')
+      )
+
+    let params = {
+      site_id: this.props.site.get('id'),
+      date_collected: formParams.get('date_collected'),
+      date_collected_range_end: formParams.get('date_collected_range_end'),
+      sitemap_id: parseInt(formParams.get('sitemap_id')),
+      substance_ids: formParams.get('substance_ids'),
+      wells: selectedWells.map((selected, well_id) => {
+        const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
+        return {
+          well_id: well_id,
+          x_pos: gsvWell.get('xpos'),
+          y_pos: gsvWell.get('ypos'),
+          substance_sum: gsvWell.get('substance_sum'),
+        }
+      }).valueSeq(),
+      title_wildcard: formParams.get('title_wildcard'),
+      remove_zero_contour: formParams.get('zero_line') === 'false',
+      logarithmic_contours: formParams.get('scale') === 'Logarithmic',
+      heatmap: formParams.get('heatmap') === 'true'
+    }
+
+    this.props.createContour(params)
+      .then(() => this.props.flashMessage('success', 'good schema'))
+      .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
   setSelectedWells () {
     let tmpState = Immutable.Map()
     this.props.wells.forEach((well) => {
-      tmpState = tmpState.set(well.get('id'), false)
+      tmpState = tmpState.set(well.get('id'), true)
     })
 
     this.props.dispatch(change(FORM_NAME, 'selectedWells', tmpState))
@@ -126,17 +168,31 @@ class IsochemicalContours extends React.Component {
   }
 
   shouldShowSubstanceId (substanceId) {
-    const { date, sampleDates, substanceIds } = this.props
-    return contouringFn.substanceIdInDate(substanceId, date, sampleDates) &&
+    const {
+      date_collected,
+      date_collected_range_end,
+      sampleDates,
+      substanceIds,
+    } = this.props
+
+    return contouringFn.substanceIdInDate(substanceId, sampleDates, date_collected, date_collected_range_end) &&
       ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
   }
 
   drawWellMarker (well, ctx, loc) {
-    contouringFn.drawWellMarker(well, ctx, loc, this.props, this.checkedImage, this.uncheckedImage)
+    contouringFn.drawWellMarker(
+      well,
+      ctx,
+      loc,
+      this.props,
+      this.checkedImage,
+      this.uncheckedImage,
+      (gsvWell) => gsvWell.get('substance_sum')
+    )
   }
 
   render () {
-
+    const { handleSubmit } = this.props
     const siteMapOptions = this.props.siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
@@ -191,7 +247,7 @@ class IsochemicalContours extends React.Component {
       <Row>
       <Col sm={3} className='contouring-sidebar'>
         <h4 > Configure </h4>
-        <Form className='contouring-form'>
+        <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             props={{placeholder: 'Sitemap'}}
             name='sitemap_id'
@@ -202,8 +258,16 @@ class IsochemicalContours extends React.Component {
 
           <Field
             props={{placeholder: 'Select Date'}}
-            name='date'
-            id='date'
+            name='date_collected'
+            id='date_collected'
+            options={dateOptions}
+            component={SelectFormGroup}
+          />
+
+          <Field
+            props={{placeholder: 'Select End Date (optional)'}}
+            name='date_collected_range_end'
+            id='date_collected_range_end'
             options={dateOptions}
             component={SelectFormGroup}
           />
@@ -242,14 +306,15 @@ class IsochemicalContours extends React.Component {
 
           <Field
             props={{label: 'Title'}}
-            name='title'
-            id='title'
+            name='title_wildcard'
+            id='title_wildcard'
             type='text'
             component={IndividualFormGroup}
           />
 
           <div className='centered-btn'>
             <Button
+              disabled={!this.props.groupedSampleValues.size}
               color="primary"
             >Contour</Button>
           </div>
@@ -277,12 +342,13 @@ const mapStateToProps = (state, props) => ({
   groupedSampleValues: state.get('groupedSampleValues'),
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
-  date: selector(state, 'date'),
+  date_collected: selector(state, 'date_collected'),
+  date_collected_range_end: selector(state, 'date_collected_range_end'),
   selectedWells: selector(state, 'selectedWells')
 })
 
 const mapDispatchToProps = dispatch => ({
-  flashMessage: (type, message) => dispatch(flashMessage(type, heading)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
 
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
@@ -292,8 +358,9 @@ const mapDispatchToProps = dispatch => ({
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   fetchSubstances: (filters) => dispatch(fetchSubstances(filters)),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
-
   fetchWells: (filters) => dispatch(fetchWells(filters)),
+
+  createContour: (contourParams) => dispatch(createContour(contourParams)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(IsochemicalContours)
