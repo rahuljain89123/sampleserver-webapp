@@ -3,6 +3,8 @@ import {
   SET_PAGE_ERRORS,
   SET_FLASH,
   CLEAR_FLASH,
+  SET_HEADER_TITLE,
+  SET_HEADER_BUTTONS,
 } from 'constants/GlobalActionTypes'
 
 /*****************************************************************************
@@ -20,7 +22,18 @@ export const setFlash = (flash) => ({
 })
 
 export const clearFlash = () => ({
-  type: CLEAR_FLASH
+  type: CLEAR_FLASH,
+})
+
+export const setHeaderTitle = (title) => ({
+  type: SET_HEADER_TITLE,
+  title,
+})
+
+// buttons = [{text: ‘’, onClick: () => { doSomething(); }]
+export const setHeaderButtons = (buttons) => ({
+  type: SET_HEADER_BUTTONS,
+  buttons,
 })
 
 /*****************************************************************************

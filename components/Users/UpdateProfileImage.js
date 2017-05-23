@@ -5,24 +5,24 @@ import filestack from 'filestack-js'
 
 import { editUser, clearEditingUserError, fetchUser } from 'actions/users'
 import { flashMessage } from 'actions/global'
-import { currentUser, safeGet } from '../../normalizers'
+import { currentUser, safeGet } from 'normalizers'
 
 import {
   FILESTACK_API_KEY,
 } from '../../helpers/filestack'
 
 const FILESTACK_OPTIONS = {
-    accept: 'image/*',
-    fromSources: ['local_file_system', 'dropbox'],
-    maxFiles: 1,
-    transformOptions: { maxDimensions: [400, 400] },
+  accept: 'image/*',
+  fromSources: ['local_file_system', 'dropbox'],
+  maxFiles: 1,
+  transformOptions: { maxDimensions: [400, 400] },
+  storeTo: { location: 's3' },
 }
 
 
 class UpdateProfileImage extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props, safeGet(this.props.user, 'photo_url', ''))
     this.client = filestack.init(FILESTACK_API_KEY)
     this.state = {
       photoURL: safeGet(this.props.user, 'photo_url', ''),

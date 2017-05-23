@@ -131,6 +131,7 @@ import {
 import {
   pageErrors,
   flash,
+  headerInfo,
 } from 'reducers/global'
 
 
@@ -253,6 +254,7 @@ const appReducer = combineReducers({
     uploads,
     pageErrors,
     flash,
+    headerInfo,
 })
 
 const rootReducer = (state, action) => {

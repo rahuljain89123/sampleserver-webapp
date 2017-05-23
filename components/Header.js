@@ -82,10 +82,21 @@ class Header extends React.Component {
     }
 
     appTitle = this.getAppTitle()
+    const buttons = this.props.headerInfo.get('buttons')
 
     return (
       <div className="navbar-container">
         {flashAlert}
+        <Navbar className="d-flex flex-row justify-content-between">
+          <div className="navbar-brand">{this.props.headerInfo.get('title')}</div>
+
+          {buttons && buttons.map(button => (
+            <button className="btn btn-default" onClick={button.onClick}>
+              {button.text}
+            </button>
+          ))}
+
+        </Navbar>
       </div>
     )
   }
@@ -100,6 +111,7 @@ const mapStateToProps = store => ({
   roleDescription: safeGet(currentUserRole(store), 'description', ''),
   company: currentCompany(store),
   sites: store.get('sites'),
+  headerInfo: store.get('headerInfo'),
 })
 
 const mapDispatchToProps = dispatch => ({

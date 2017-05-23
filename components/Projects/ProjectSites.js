@@ -15,7 +15,6 @@ import {
 } from 'reactstrap'
 import { fetchSites } from 'actions/sites'
 import { fetchProjects } from 'actions/projects'
-import PageHeader from 'components/PageHeader'
 
 
 class ProjectSites extends React.Component {
@@ -33,6 +32,7 @@ class ProjectSites extends React.Component {
   componentDidMount () {
     this.props.fetchProjects()
     this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
+    this.props.headerInfo({ title: "Dashboard" })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -81,15 +81,6 @@ class ProjectSites extends React.Component {
 
     return (
       <div className="project-sites">
-        <PageHeader
-          pageTitle={'Dashboard'}
-          pageButtons={(
-            <div className="actions">
-              <button className="btn btn-default" onClick={() => this.onNewProject()}><i className="material-icons">add_circle_outline</i> Project</button>
-              <button className="btn btn-default" onClick={() => this.onNewSite()}><i className="material-icons">add_circle_outline</i> Site</button>
-            </div>
-          )}
-        />
         <div className="projects">
           {projects.map(([id, project]) => (
             <div className="project" key={id}>
@@ -139,6 +130,7 @@ class ProjectSites extends React.Component {
 const mapStateToProps = store => ({
   projects: store.get('projects'),
   sites: store.get('sites'),
+  headerInfo: store.get('headerInfo'),
 })
 
 const mapDispatchToProps = dispatch => ({
