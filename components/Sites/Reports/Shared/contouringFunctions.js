@@ -35,21 +35,31 @@ export const substanceIdInDate = (substanceId, sampleDates, t_date, t_date_end) 
   })
 }
 
-export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage) => {
+export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage, getValue) => {
   const { x, y, scale } = loc
   const { date, wells, groupedSampleValues, selectedWells } = props
-  const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
+  // const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
+  //
+  // const val = groupedSampleValues.size ?
+  //   (gsvWell ? gsvWell.get('substance_sum') : 0) :
+  //   wells.getIn([well.get('well_id'), 'title'])
+  let val = null
+  if (groupedSampleValues.size) {
 
-  const val = groupedSampleValues.size ?
-    (gsvWell ? gsvWell.get('substance_sum') : 0) :
-    wells.getIn([well.get('well_id'), 'title'])
+    val = getValue(groupedSampleValues.get(well.get('well_id').toString()))
+
+    // don't draw the well marker if no samples
+    if (val === null) { return }
+  } else {
+    val = wells.getIn([well.get('well_id'), 'title'])
+  }
+
   const color = 'black'
   const fontSize = 15 * scale
   const width = WELL_MARKER_WIDTH * scale
   const height = WELL_MARKER_HEIGHT * scale
   const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
   const checkboxImage = selectedWells.get(well.get('well_id')) ? checkedImage : uncheckedImage
-  // const .
 
   ctx.fillStyle = color
   ctx.globalAlpha = 0.8

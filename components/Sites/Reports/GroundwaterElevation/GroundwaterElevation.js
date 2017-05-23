@@ -87,19 +87,24 @@ class GroundwaterElevation extends React.Component {
       this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
     }
 
-    // const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date
-    // const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
-    // const dateChanged = nextProps.date !== this.props.dates
-    //
-    //
-    // if (hasNecessaryProps && (substanceIdsChanged || dateChanged)) {
-    //   this.props.fetchGroupedSampleValues({
-    //     date: nextProps.date,
-    //     sitemap_id: parseInt(nextProps.siteMapId),
-    //     substance_ids: nextProps.substanceIds.map((id) => parseInt(id)),
-    //     site_id: parseInt(nextProps.site.get('id')),
-    //   })
-    // }
+    const hasNecessaryProps = nextProps.siteMapId && nextProps.date_collected
+    const dateChanged = nextProps.date_collected !== this.props.date_collected ||
+      nextProps.date_collected_range_end !== this.props.date_collected_range_end
+
+    if (hasNecessaryProps && dateChanged) {
+      let params = {
+        date_collected: nextProps.date_collected,
+        sitemap_id: parseInt(nextProps.siteMapId),
+        substance_ids: [35],
+        site_id: parseInt(nextProps.site.get('id')),
+      }
+
+      if (nextProps.date_collected_range_end) {
+        params.date_collected_range_end = nextProps.date_collected_range_end
+      }
+
+      this.props.fetchGroupedSampleValues(params)
+    }
   }
 
   processClickEvent (xpos, ypos) {
@@ -125,13 +130,29 @@ class GroundwaterElevation extends React.Component {
   }
 
   shouldShowSubstanceId (substanceId) {
-    const { date, sampleDates, substanceIds } = this.props
-    return contouringFn.substanceIdInDate(substanceId, date, sampleDates) &&
+    const {
+      date_collected,
+      date_collected_range_end,
+      sampleDates,
+      substanceIds,
+    } = this.props
+    return contouringFn.substanceIdInDate(substanceId, sampleDates, date_collected, date_collected_range_end) &&
       ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
   }
 
   drawWellMarker (well, ctx, loc) {
-    contouringFn.drawWellMarker(well, ctx, loc, this.props, this.checkedImage, this.uncheckedImage)
+    contouringFn.drawWellMarker(
+      well,
+      ctx,
+      loc,
+      this.props,
+      this.checkedImage,
+      this.uncheckedImage,
+      (gsvWell) => {
+        if (!gsvWell.get('substances')) { return null }
+        return parseFloat(gsvWell.get('top_of_casing')) - gsvWell.getIn(['substances', '35', 'substance_value'])
+      }
+    )
   }
 
   render () {
@@ -187,11 +208,20 @@ class GroundwaterElevation extends React.Component {
 
           <Field
             props={{placeholder: 'Select Date'}}
-            name='date'
-            id='date'
+            name='date_collected'
+            id='date_collected'
             options={dateOptions}
             component={SelectFormGroup}
           />
+
+          <Field
+            props={{placeholder: 'Select End Date (optional)'}}
+            name='date_collected_range_end'
+            id='date_collected_range_end'
+            options={dateOptions}
+            component={SelectFormGroup}
+          />
+
 
           <Field
             props={{placeholder: 'Flow Lines?'}}
@@ -238,7 +268,8 @@ const mapStateToProps = (state, props) => ({
   groupedSampleValues: state.get('groupedSampleValues'),
   siteMapId: selector(state, 'sitemap_id'),
   substanceIds: selector(state, 'substance_ids'),
-  date: selector(state, 'date'),
+  date_collected: selector(state, 'date_collected'),
+  date_collected_range_end: selector(state, 'date_collected_range_end'),
   selectedWells: selector(state, 'selectedWells')
 })
 

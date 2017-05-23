@@ -145,7 +145,15 @@ class IsochemicalContours extends React.Component {
   }
 
   drawWellMarker (well, ctx, loc) {
-    contouringFn.drawWellMarker(well, ctx, loc, this.props, this.checkedImage, this.uncheckedImage)
+    contouringFn.drawWellMarker(
+      well,
+      ctx,
+      loc,
+      this.props,
+      this.checkedImage,
+      this.uncheckedImage,
+      (gsvWell) => gsvWell.get('substance_sum')
+    )
   }
 
   render () {
