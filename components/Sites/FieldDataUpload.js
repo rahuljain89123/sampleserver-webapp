@@ -11,7 +11,7 @@ import {
   deleteUpload,
   clearUploadingError,
 } from 'actions/uploads'
-import { flashMessage, setHeaderInfo } from 'actions/global'
+import { setHeaderInfo } from 'actions/global'
 import { currentLab } from 'normalizers'
 
 import {
@@ -26,6 +26,7 @@ const FILESTACK_OPTIONS = {
 
 class FieldDataUpload extends React.Component {
   componentDidMount () {
+    if (this.props.uploadingError) { this.props.clearUploadingError() }
     this.props.fetchUploads()
 
     this.props.setHeaderInfo(
@@ -33,10 +34,12 @@ class FieldDataUpload extends React.Component {
       [{
         component: 'DataUploadHeaderButton',
         props: {
-          labId: this.props.lab.get('id'),
-          companyId: this.props.site.get('company_id'),
-          siteId: this.props.site.get('id'),
-          uploadType: 'field_data',
+          uploadParams: {
+            lab_id: this.props.lab.get('id'),
+            company_id: this.props.site.get('company_id'),
+            site_id: this.props.site.get('id'),
+            upload_type: 'field_data',
+          },
         }
       }]
     )

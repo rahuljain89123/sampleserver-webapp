@@ -28,14 +28,9 @@ class DataUploadHeaderButton extends React.Component {
 
   onUpload (res) {
     res.filesUploaded.map(file => {
-      return this.props.createUpload({
-        filename: file.filename,
-        url: file.url,
-        lab_id: this.props.labId,
-        company_id: this.props.companyId,
-        site_id: this.props.siteId,
-        upload_type: this.props.uploadType,
-      })
+      const params = this.props.uploadParams
+      const fileParams = { filename: file.filename, url: file.url }
+      return this.props.createUpload(Object.assign({}, params, fileParams))
     })
   }
 
