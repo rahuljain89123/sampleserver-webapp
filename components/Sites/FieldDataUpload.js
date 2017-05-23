@@ -10,12 +10,12 @@ import {
   createUpload,
   patchUpload,
   deleteUpload,
-} from '../../actions/uploads'
+} from 'actions/uploads'
 import { currentLab } from '../../normalizers'
 
 import {
   FILESTACK_API_KEY,
-} from '../../helpers/filestack'
+} from 'helpers/filestack'
 
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
@@ -150,6 +150,7 @@ class FieldDataUpload extends React.Component {
 
 const mapStateToProps = store => ({
   uploads: store.get('uploads'),
+  uploading: store.get('uploading'),
   lab: currentLab(store),
 })
 

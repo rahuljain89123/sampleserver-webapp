@@ -1,8 +1,18 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { createSite, clearCreatingSiteError, setCreatingSite } from 'actions/sites'
 import { flashMessage, setHeaderInfo } from 'actions/global'
+import {
+  Row,
+  Col,
+} from 'reactstrap'
+
+import {
+  createSite,
+  clearCreatingSiteError,
+  setCreatingSite,
+} from 'actions/sites'
+import { fetchProjects } from 'actions/projects'
 import SiteForm from './SiteForm'
 
 
@@ -23,6 +33,7 @@ class NewSite extends React.Component {
         iconName: 'add_circle_outline',
       }],
     )
+    this.props.fetchProjects()
   }
 
   onSubmitSiteForm (siteParams) {
@@ -35,7 +46,6 @@ class NewSite extends React.Component {
 
   onSuccess () {
     this.props.flashMessage('success', 'Site updated successfully')
-    debugger
     this.props.push('/app')
   }
 
@@ -48,18 +58,17 @@ class NewSite extends React.Component {
 
 
     return (
-      <div className="new-site">
-        <div className="row">
-          <div className="col-md-6">
-            <SiteForm
-              siteError={creatingSiteError}
-              clearSiteError={clearCreatingSiteError}
-              submittingForm={creatingSite}
-              submitForm={this.onSubmitSiteForm}
-            />
-          </div>
-        </div>
-      </div>
+      <Row>
+        <Col sm={6}>
+          <SiteForm
+            projectOptions = {this.props.projects}
+            siteError={creatingSiteError}
+            clearSiteError={clearCreatingSiteError}
+            submittingForm={creatingSite}
+            submitForm={this.onSubmitSiteForm}
+          />
+        </Col>
+      </Row>
     )
   }
 }
@@ -67,10 +76,12 @@ class NewSite extends React.Component {
 const mapStateToProps = (state, props) => ({
   creatingSite: state.get('creatingSite'),
   creatingSiteError: state.get('creatingSiteError'),
+  projects: state.get('projects'),
 })
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  fetchProjects: () => dispatch(fetchProjects()),
   createSite: (siteId, siteParams) => dispatch(createSite(siteId, siteParams)),
   setCreatingSite: (editing) => dispatch(setCreatingSite(editing)),
   clearCreatingSiteError: () => dispatch(clearCreatingSiteError()),

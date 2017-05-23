@@ -10,6 +10,8 @@ import {
     combineReducers,
 } from 'redux-immutable'
 
+import { loadingBarReducer as loadingBar } from 'react-redux-loading-bar'
+
 import { reducer as form } from 'redux-form/immutable'
 
 import thunk from 'redux-thunk'
@@ -255,6 +257,7 @@ const appReducer = combineReducers({
     pageErrors,
     flash,
     headerInfo,
+    loadingBar,
 })
 
 const rootReducer = (state, action) => {

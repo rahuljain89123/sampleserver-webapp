@@ -66,6 +66,12 @@ class AnalyticalBoxmapsForm extends React.Component {
     return isPresent
   }
 
+  shouldShowSubstanceId (substanceId) {
+    const substanceIds = this.props.site.get('substance_ids')
+
+    return (!substanceIds.includes(substanceId) && this.substanceIdInDateRange(substanceId))
+  }
+
   render () {
     const {
       site,
@@ -88,19 +94,19 @@ class AnalyticalBoxmapsForm extends React.Component {
       <option key={criteria.get('id')} value={criteria.get('id')}>{criteria.get('title')}</option>)
 
     const groupedSubstances = substanceGroups.map((substanceGroup) =>
-      substances.filter((substance) => (substance.get('substance_group_id') === substanceGroup.get('id')))
-    )
+      substances.filter((substance) =>
+        (substance.get('substance_group_id') === substanceGroup.get('id') &&
+        this.shouldShowSubstanceId(substance.get('id')))
+      )
+    ).filter(substances => substances.size)
 
     const groupedSubstanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
       <optgroup key={substanceGroupId} label={substanceGroups.get(substanceGroupId).get('title')}>
         {substances.valueSeq().map(substance => {
-          if (site.get('substance_ids').includes(substance.get('id')) ||
-            this.substanceIdInDateRange(substance.get('id'))
-          ) { return null }
           return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
         })}
       </optgroup>
-    ).filter((substanceGroup) => substanceGroup.props.children.size).valueSeq()
+    ).valueSeq()
 
 
     const siteSubstances = site.get('substance_ids').map((id) => {
@@ -111,11 +117,13 @@ class AnalyticalBoxmapsForm extends React.Component {
       </li>)
     })
 
+    const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.size)
+
     return (
       <div>
         <Form>
           <Field
-            props={{label: 'Site Map'}}
+            props={{label: 'Site Map', placeholder: 'Select Site Map...'}}
             name='sitemap'
             id='sitemap'
             options={siteMapOptions}
@@ -123,7 +131,7 @@ class AnalyticalBoxmapsForm extends React.Component {
           />
 
           <Field
-            props={{label: 'Start Date'}}
+            props={{label: 'Start Date', placeholder: 'Select start date...'}}
             name='start_date'
             id='start_date'
             options={dateOptions}
@@ -131,7 +139,7 @@ class AnalyticalBoxmapsForm extends React.Component {
            />
 
           <Field
-            props={{label: 'End Date'}}
+            props={{label: 'End Date', placeholder: 'Select end date...'}}
             name='end_date'
             id='end_date'
             options={dateOptions}
@@ -139,7 +147,7 @@ class AnalyticalBoxmapsForm extends React.Component {
           />
 
           <Field
-            props={{label: 'Comparison Criteria'}}
+            props={{label: 'Comparison Criteria', placeholder: ' '}}
             name='criteria_id'
             id='criteria_id'
             options={criteriaOptions}
@@ -151,7 +159,7 @@ class AnalyticalBoxmapsForm extends React.Component {
             {siteSubstances}
           </ul>
 
-          { siteSubstances.size < 13 &&
+          { showSubstancesDropdown &&
             <Input type='select' onChange={this.addSubstance.bind(this)}>
               {groupedSubstanceOptions}
             </Input>

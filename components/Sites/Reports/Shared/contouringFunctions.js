@@ -12,16 +12,22 @@ export const processClick = (xpos, ypos, siteMapWells, toggleWell) => {
   })
 }
 
-export const substanceIdInDate = (substanceId, t_date, sampleDates) => {
+const compareDateToDateOrDateRange = (date, startDate, endDate)  => {
+  if (!endDate) { return startDate.isSame(date) }
+  if (endDate.isBefore(startDate)) { return false }
+  return date.isBetween(startDate, endDate) || date.isSame(startDate) || date.isSame(endDate)
+}
+
+export const substanceIdInDate = (substanceId, sampleDates, t_date, t_date_end) => {
 
   if (!t_date) { return false; }
-  const selectedDate = moment(t_date)
-
+  const startDate = moment(t_date)
+  const endDate = t_date_end ? moment(t_date_end) : null
   let isPresent = false
 
   return sampleDates.some((date) => {
     const d = moment(date.get('date_collected'))
-    if (d.isSame(selectedDate) &&
+    if (compareDateToDateOrDateRange(d, startDate, endDate) &&
         date.get('substance_ids').includes(substanceId)) {
       return true
     }
@@ -29,19 +35,31 @@ export const substanceIdInDate = (substanceId, t_date, sampleDates) => {
   })
 }
 
-export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage) => {
+export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage, getValue) => {
   const { x, y, scale } = loc
   const { date, wells, groupedSampleValues, selectedWells } = props
-  const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
+  // const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
+  //
+  // const val = groupedSampleValues.size ?
+  //   (gsvWell ? gsvWell.get('substance_sum') : 0) :
+  //   wells.getIn([well.get('well_id'), 'title'])
+  let val = null
+  if (groupedSampleValues.size) {
 
-  const val = gsvWell ? gsvWell.get('substance_sum') : wells.getIn([well.get('well_id'), 'title'])
+    val = getValue(groupedSampleValues.get(well.get('well_id').toString()))
+
+    // don't draw the well marker if no samples
+    if (val === null) { return }
+  } else {
+    val = wells.getIn([well.get('well_id'), 'title'])
+  }
+
   const color = 'black'
   const fontSize = 15 * scale
   const width = WELL_MARKER_WIDTH * scale
   const height = WELL_MARKER_HEIGHT * scale
   const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
   const checkboxImage = selectedWells.get(well.get('well_id')) ? checkedImage : uncheckedImage
-  // const .
 
   ctx.fillStyle = color
   ctx.globalAlpha = 0.8
