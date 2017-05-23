@@ -123,7 +123,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       <div>
         <Form>
           <Field
-            props={{label: 'Site Map'}}
+            props={{label: 'Site Map', placeholder: 'Select Site Map...'}}
             name='sitemap'
             id='sitemap'
             options={siteMapOptions}
@@ -131,7 +131,7 @@ class AnalyticalBoxmapsForm extends React.Component {
           />
 
           <Field
-            props={{label: 'Start Date'}}
+            props={{label: 'Start Date', placeholder: 'Select start date...'}}
             name='start_date'
             id='start_date'
             options={dateOptions}
@@ -139,7 +139,7 @@ class AnalyticalBoxmapsForm extends React.Component {
            />
 
           <Field
-            props={{label: 'End Date'}}
+            props={{label: 'End Date', placeholder: 'Select end date...'}}
             name='end_date'
             id='end_date'
             options={dateOptions}
@@ -147,7 +147,7 @@ class AnalyticalBoxmapsForm extends React.Component {
           />
 
           <Field
-            props={{label: 'Comparison Criteria'}}
+            props={{label: 'Comparison Criteria', placeholder: ' '}}
             name='criteria_id'
             id='criteria_id'
             options={criteriaOptions}
