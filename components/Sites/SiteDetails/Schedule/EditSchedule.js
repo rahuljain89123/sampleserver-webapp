@@ -86,7 +86,7 @@ class EditSchedule extends React.Component {
       },
     })
   }
-  
+
   deleteTest (e, testId) {
     this.props.editSchedule(this.state.scheduleId, {
       tests: {
@@ -245,13 +245,16 @@ class EditSchedule extends React.Component {
   render () {
     const { site, schedules } = this.props
     const siteStateId = parseInt(site.get('state_id'))
-    const tests = this.props.tests.filter((test) => test.get('state_id') === siteStateId)
+    const stateTests = this.props.tests
+      .filter((test) => test.get('state_id') === siteStateId)
       .valueSeq()
     const wells = this.props.wells.valueSeq()
 
 
-    if (wells && site && schedules.size > 0 && tests.size > 0) {
+    if (wells && site && schedules.size > 0 && stateTests.size > 0) {
+
       const schedule = this.props.schedules.get(this.state.scheduleId)
+      const tests = stateTests.filter((test) => !schedule.get('test_ids').includes(test.get('id')))
       const formattedDate = moment(schedule.get('date')).utc().format('YYYY-MM-DD')
       const siteActivityReport = schedule.delete('test_ids')
         .delete('gauged_well_ids')
