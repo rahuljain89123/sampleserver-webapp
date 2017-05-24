@@ -18,8 +18,6 @@ class NewSiteMap extends React.Component {
 
   createSiteMap (siteMapParams) {
     const siteId = this.props.site.get('id')
-    console.log(siteMapParams.toObject())
-
     siteMapParams = siteMapParams.set('site_id', siteId)
 
     this.props.createSiteMap(siteMapParams).then((siteMapId) => {
