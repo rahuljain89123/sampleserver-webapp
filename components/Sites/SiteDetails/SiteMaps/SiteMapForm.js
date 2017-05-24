@@ -33,6 +33,7 @@ class SiteMapForm extends React.Component {
 
     this.client = filestack.init(FILESTACK_API_KEY)
     this.pickImage = this.pickImage.bind(this)
+    this.setImageParams = this.setImageParams.bind(this)
   }
 
   pickImage () {
@@ -41,6 +42,18 @@ class SiteMapForm extends React.Component {
       .then((res) => this.handleUpload(res))
   }
 
+  setImageParams (image) {
+    this.props.dispatch(change(
+      FORM_NAME,
+      'height',
+      image.height
+    ))
+    this.props.dispatch(change(
+      FORM_NAME,
+      'width',
+      image.width
+    ))
+  }
   /**
    * When user uploads an image, add the url to the form values
    */
@@ -51,6 +64,10 @@ class SiteMapForm extends React.Component {
       'url',
       url
     ))
+    const setImageParams = this.setImageParams
+    let img = new Image()
+    img.onload = function () { setImageParams(img) }
+    img.src = url;
   }
 
   render () {
