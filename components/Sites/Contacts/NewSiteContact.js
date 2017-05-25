@@ -11,7 +11,8 @@ import {
   createContact,
   clearCreatingContactError,
 } from 'actions/contacts'
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
+
 
 // import NewSiteContactForm from './NewSiteContactForm'
 import ContactForm from './ContactForm'
@@ -21,6 +22,10 @@ class NewSiteContact extends React.Component {
     super(props)
 
     this.onSubmitContactForm = this.onSubmitContactForm.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.setHeaderInfo('New Contact')
   }
 
   onSubmitContactForm (contactParams) {
@@ -44,9 +49,6 @@ class NewSiteContact extends React.Component {
     return (
       <Row>
         <Col sm={6}>
-          <div className='d-flex'>
-            <h4>New Contact</h4>
-          </div>
           <ContactForm
             submitForm={this.onSubmitContactForm}
             formError={creatingContactError}
@@ -67,7 +69,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(flashMessage(type, message)),
 
   createContact: (contactParams) => dispatch(createContact(contactParams)),
-  clearCreatingContactError: () => dispatch(clearCreatingContactError())
+  clearCreatingContactError: () => dispatch(clearCreatingContactError()),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewSiteContact)

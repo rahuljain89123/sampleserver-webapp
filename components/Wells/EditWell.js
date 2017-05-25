@@ -20,7 +20,7 @@ import {
   deleteWellImage,
 } from 'actions/wellImages'
 
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 import WellForm from './WellForm'
 import WellImages from './WellImages'
@@ -37,6 +37,8 @@ class EditWell extends React.Component {
   componentDidMount () {
     this.props.fetchWell(this.props.wellId)
     this.props.fetchWellImages(this.props.wellId)
+
+    this.props.setHeaderInfo('Edit Well')
   }
 
   onDelete () {
@@ -93,15 +95,7 @@ class EditWell extends React.Component {
     return (
       <Row>
         <Col sm={6}>
-          <div className="d-flex">
-            <h4>Edit Well</h4>
-            <Button
-              onClick={() => this.onDelete()}
-              className="ml-auto"
-              role="button"
-              color="danger"
-            >Delete Well</Button>
-          </div>
+
           <WellForm
             initialValues={well}
             submitForm={this.onSubmitWellForm}
@@ -145,7 +139,16 @@ const mapDispatchToProps = dispatch => ({
   uploadWellImages: (wellId, wellImageParams) =>
     dispatch(uploadWellImages(wellId, wellImageParams)),
   deleteWellImage: (wellId, wellImageId) =>
-    dispatch(deleteWellImage(wellId, wellImageId))
+    dispatch(deleteWellImage(wellId, wellImageId)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
+// <div className="d-flex">
+//   <Button
+//     onClick={() => this.onDelete()}
+//     className="ml-auto"
+//     role="button"
+//     color="danger"
+//   >Delete Well</Button>
+// </div>
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditWell)

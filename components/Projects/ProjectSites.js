@@ -32,8 +32,9 @@ class ProjectSites extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchProjects()
-    this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
+    this.props.fetchProjects().then(() =>
+      this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
+    )
     this.props.setHeaderInfo(
       'Dashboard',
       [{

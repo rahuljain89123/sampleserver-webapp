@@ -14,7 +14,9 @@ import {
 } from 'actions/sites'
 import { fetchProjects } from 'actions/projects'
 import SiteForm from './SiteForm'
-
+import {
+  currentCompany
+} from 'normalizers'
 
 class NewSite extends React.Component {
   constructor (props) {
@@ -38,6 +40,8 @@ class NewSite extends React.Component {
 
   onSubmitSiteForm (siteParams) {
     siteParams = siteParams.update('state_id', (v) => parseInt(v))
+                            .update('project_id', (v) => parseInt(v))
+                            .set('company_id', this.props.company.get('id'))
 
     this.props.createSite(siteParams)
       .then(this.onSuccess)
@@ -45,7 +49,7 @@ class NewSite extends React.Component {
   }
 
   onSuccess () {
-    this.props.flashMessage('success', 'Site updated successfully')
+    this.props.flashMessage('success', 'Site created successfully')
     this.props.push('/app')
   }
 
@@ -74,6 +78,7 @@ class NewSite extends React.Component {
 }
 
 const mapStateToProps = (state, props) => ({
+  company: currentCompany(state),
   creatingSite: state.get('creatingSite'),
   creatingSiteError: state.get('creatingSiteError'),
   projects: state.get('projects'),

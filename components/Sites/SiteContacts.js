@@ -6,11 +6,17 @@ import { Link } from 'react-router-dom'
 
 import LinkButton from '../LinkButton'
 import { fetchContacts } from '../../actions/contacts'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 
 class SiteContacts extends React.Component {
     componentDidMount () {
-        this.props.fetchContacts({ site_id: this.props.site.get('id') })
+      this.props.fetchContacts({ site_id: this.props.site.get('id') })
+      this.props.setHeaderInfo('Contacts', [{
+        text: 'New Contact',
+        onClick: `/app/sites/${this.props.site.get('id')}/contacts/new`,
+        iconName: 'add_circle_outline',
+      }])
     }
 
     render () {
@@ -56,14 +62,6 @@ class SiteContacts extends React.Component {
 
         return (
             <div>
-                <div className="d-flex flex-row">
-                    <h4>Contacts</h4>
-                    <LinkButton
-                        href={`/app/sites/${this.props.site.get('id')}/contacts/new`}
-                        color="primary"
-                        className="ml-auto"
-                    >New Contact</LinkButton>
-                </div>
                 {contactsTable}
             </div>
         )
@@ -71,11 +69,12 @@ class SiteContacts extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    contacts: store.get('contacts'),
+  contacts: store.get('contacts'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchContacts: filters => dispatch(fetchContacts(filters)),
+  fetchContacts: filters => dispatch(fetchContacts(filters)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteContacts)
