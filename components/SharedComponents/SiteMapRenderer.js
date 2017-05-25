@@ -1,4 +1,5 @@
 import React from 'react'
+import Measure from 'react-measure';
 
 const CANVAS_HEIGHT = '600'
 const CANVAS_WIDTH = '800'
@@ -54,7 +55,7 @@ class SiteMapRenderer extends React.Component {
     this.initDrag = this.initDrag.bind(this)
     this.processDrag = this.processDrag.bind(this)
     this.endDrag = this.endDrag.bind(this)
-
+    this.fitCanvasToContainer = this.fitCanvasToContainer.bind(this)
     this.componentDidUpdate = this.drawCanvas
   }
 
@@ -76,6 +77,7 @@ class SiteMapRenderer extends React.Component {
   fitCanvasToContainer () {
     this.canvasEl.width = this.canvasEl.offsetWidth
     this.canvasEl.height = this.canvasEl.offsetHeight
+    this.drawCanvas()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -180,7 +182,9 @@ class SiteMapRenderer extends React.Component {
     const { screenX, screenY, button } = evt
     const { x, y } = this.state
 
+
     // Don't do anything if it's not a left click
+    if (button === 2) { this.processClick(evt) }
     if (button !== 0) { return }
 
     this.setState({
@@ -250,6 +254,7 @@ class SiteMapRenderer extends React.Component {
 
   drawWellMarker(well, ctx) {
     const { x: imgX, y: imgY, scale, centerVals: { x: centerX, y: centerY } } = this.state
+
     const x = well.get('xpos') * scale + (centerX + imgX),
           y = well.get('ypos') * scale + (centerY + imgY)
 
@@ -279,14 +284,19 @@ class SiteMapRenderer extends React.Component {
           <i className="material-icons" onClick={(e) => this.scaleBy(-0.2)}>remove</i>
         </div>
         <div className='img-and-canvas-overlay' style={overlayStyles}>
-
-          <canvas
-            style={overlayStyles}
-            ref={(canvas) => {this.canvasEl = canvas}}
-            onMouseDown={initDrag}
-            onMouseMove={processDrag}
-            onMouseUp={endDrag} />
-
+          <Measure onMeasure={this.fitCanvasToContainer}>
+            <canvas
+              style={overlayStyles}
+              ref={(canvas) => {this.canvasEl = canvas}}
+              onMouseDown={initDrag}
+              onMouseMove={processDrag}
+              onMouseUp={endDrag}
+              onContextMenu={(e) => {
+                e.preventDefault()
+                return false
+              }}
+            />
+          </Measure>
         </div>
       </div>
     )

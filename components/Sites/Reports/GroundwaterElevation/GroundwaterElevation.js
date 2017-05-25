@@ -111,11 +111,6 @@ class GroundwaterElevation extends React.Component {
   }
 
   onSubmit (formParams) {
-    const selectedWells = formParams.get('selectedWells')
-      .filter(selected => selected)
-      .filter((selected, well_id) =>
-        this.getGroundwaterElevationValue(this.props.groupedSampleValues.get(well_id.toString()))
-      )
 
     let params = {
       site_id: this.props.site.get('id'),
@@ -124,21 +119,16 @@ class GroundwaterElevation extends React.Component {
       sitemap_id: parseInt(formParams.get('sitemap_id')),
       groundwater_contours: true,
       substance_ids: [35],
-      wells: selectedWells.map((selected, well_id) => {
-        const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
-        return {
-          well_id: well_id,
-          xpos: gsvWell.get('xpos'),
-          ypos: gsvWell.get('ypos'),
-          substance_sum: gsvWell.get('substance_sum'),
-        }
-      }).valueSeq(),
+      wells: contouringFn.selectedWellsForSubmit(
+        formParams.get('selectedWells'),
+        this.props.groupedSampleValues,
+      ),
       title_wildcard: formParams.get('title_wildcard'),
       flow_lines: formParams.get('flow_lines') === 'true',
     }
 
     this.props.createContour(params)
-      .then(() => this.props.flashMessage('success', 'good schema'))
+      .then((url) => window.location = url)
       .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
@@ -198,9 +188,8 @@ class GroundwaterElevation extends React.Component {
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
 
-    const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
-      <option key={date.get('id')}>{date.get('date_collected')}</option>)
-
+    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
 
     const booleanOptions = [
       { value: 'true', title: 'ON' },
@@ -247,7 +236,7 @@ class GroundwaterElevation extends React.Component {
             props={{placeholder: 'Select Date'}}
             name='date_collected'
             id='date_collected'
-            options={dateOptions}
+            options={startDateOptions}
             component={SelectFormGroup}
           />
 
@@ -255,7 +244,7 @@ class GroundwaterElevation extends React.Component {
             props={{placeholder: 'Select End Date (optional)'}}
             name='date_collected_range_end'
             id='date_collected_range_end'
-            options={dateOptions}
+            options={endDateOptions}
             component={SelectFormGroup}
           />
 

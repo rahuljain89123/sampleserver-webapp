@@ -112,11 +112,6 @@ class FreeProduct extends React.Component {
   }
 
   onSubmit (formParams) {
-    const selectedWells = formParams.get('selectedWells')
-      .filter(selected => selected)
-      .filter((selected, well_id) =>
-        this.props.groupedSampleValues.get(well_id.toString()).get('substance_sum')
-      )
 
     let params = {
       site_id: this.props.site.get('id'),
@@ -124,27 +119,25 @@ class FreeProduct extends React.Component {
       date_collected_range_end: formParams.get('date_collected_range_end'),
       sitemap_id: parseInt(formParams.get('sitemap_id')),
       substance_ids: [27, 28, 35],
-      wells: selectedWells.map((selected, well_id) => {
-        const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
-        return {
-          well_id: well_id,
-          xpos: gsvWell.get('xpos'),
-          ypos: gsvWell.get('ypos'),
-          substance_sum: gsvWell.get('substance_sum'),
-        }
-      }).valueSeq(),
+      wells: contouringFn.selectedWellsForSubmit(
+        formParams.get('selectedWells'),
+        this.props.groupedSampleValues,
+        formParams.get('zeroWells')
+      ),
       title_wildcard: formParams.get('title_wildcard'),
       remove_zero_contour: formParams.get('zero_line') === 'false',
     }
 
     this.props.createContour(params)
-      .then(() => this.props.flashMessage('success', 'good schema'))
+      .then((url) => window.location = url)
       .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
   processClickEvent (xpos, ypos) {
-    const { siteMapWells } = this.props
-    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
+    const { siteMapWells, zeroWells } = this.props
+
+    if (evt.button === 2) { contouringFn.addZeroWell(xpos, ypos, this, FORM_NAME) }
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, zeroWells, this, FORM_NAME)
   }
 
   setSelectedWells () {
@@ -183,15 +176,19 @@ class FreeProduct extends React.Component {
   }
 
   render () {
-    const { handleSubmit } = this.props
+    const {
+      handleSubmit,
+      zeroWells,
+      siteMapWells,
+      siteMapId,
+    } = this.props
 
     const siteMapOptions = this.props.siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
 
-    const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
-      <option key={date.get('id')}>{date.get('date_collected')}</option>)
-
+    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
 
     const booleanOptions = [
       { value: 'true', title: 'ON' },
@@ -209,9 +206,8 @@ class FreeProduct extends React.Component {
         parseInt(this.props.siteMapId)
       )
 
-      const siteMapWells = this.props.siteMapWells.filter((smw) =>
-        smw.get('site_map_id') === parseInt(this.props.siteMapId)
-      )
+      const allWells = contouringFn.allWells(siteMapWells, siteMapId, zeroWells)
+
 
       siteMapComponent = <SiteMapRenderer
         imageUrl={currentSiteMap.get('url')}
@@ -238,7 +234,7 @@ class FreeProduct extends React.Component {
             props={{placeholder: 'Select Date'}}
             name='date_collected'
             id='date_collected'
-            options={dateOptions}
+            options={startDateOptions}
             component={SelectFormGroup}
           />
 
@@ -246,7 +242,7 @@ class FreeProduct extends React.Component {
             props={{placeholder: 'Select End Date (optional)'}}
             name='date_collected_range_end'
             id='date_collected_range_end'
-            options={dateOptions}
+            options={endDateOptions}
             component={SelectFormGroup}
           />
 
@@ -295,6 +291,7 @@ const mapStateToProps = (state, props) => ({
   sampleDates: state.get('sampleDates'),
   groupedSampleValues: state.get('groupedSampleValues'),
   siteMapId: selector(state, 'sitemap_id'),
+  zeroWells: selector(state, 'zeroWells'),
   substanceIds: selector(state, 'substance_ids'),
   date_collected: selector(state, 'date_collected'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),

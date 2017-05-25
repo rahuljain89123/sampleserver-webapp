@@ -7,6 +7,11 @@ import API from 'API'
  *****************************************************************************/
 
 export const createContour = contourParams =>
-  dispatch => {
-    return API.post('/reports/create-contours', contourParams)
-  }
+  dispatch =>
+    API.post('/reports/create-contours', contourParams)
+      .then((res) => Promise.resolve(res.src))
+
+export const createAnalyticalBoxmaps = boxmapsParams =>
+  dispatch =>
+    API.post('/reports/create-analytical-boxmaps', boxmapsParams)
+      .then((res) => Promise.resolve(res.src))
