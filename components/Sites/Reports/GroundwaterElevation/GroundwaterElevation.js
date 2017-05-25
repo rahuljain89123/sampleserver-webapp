@@ -139,7 +139,7 @@ class GroundwaterElevation extends React.Component {
     }
 
     this.props.createContour(params)
-      .then((url) => window.open(url))
+      .then((url) => window.location = url)
       .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
