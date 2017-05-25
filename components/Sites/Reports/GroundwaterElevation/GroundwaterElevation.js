@@ -111,12 +111,6 @@ class GroundwaterElevation extends React.Component {
   }
 
   onSubmit (formParams) {
-    const selectedWells = formParams.get('selectedWells')
-      .filter(selected => selected)
-      .filter((selected, well_id) =>
-        this.props.groupedSampleValues.get(well_id.toString()).get('xpos') &&
-        this.getGroundwaterElevationValue(this.props.groupedSampleValues.get(well_id.toString()))
-      )
 
     let params = {
       site_id: this.props.site.get('id'),
@@ -125,15 +119,10 @@ class GroundwaterElevation extends React.Component {
       sitemap_id: parseInt(formParams.get('sitemap_id')),
       groundwater_contours: true,
       substance_ids: [35],
-      wells: selectedWells.map((selected, well_id) => {
-        const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
-        return {
-          well_id: well_id,
-          xpos: gsvWell.get('xpos'),
-          ypos: gsvWell.get('ypos'),
-          substance_sum: gsvWell.get('substance_sum'),
-        }
-      }).valueSeq(),
+      wells: contouringFn.selectedWellsForSubmit(
+        formParams.get('selectedWells'),
+        this.props.groupedSampleValues,
+      ),
       title_wildcard: formParams.get('title_wildcard'),
       flow_lines: formParams.get('flow_lines') === 'true',
     }
