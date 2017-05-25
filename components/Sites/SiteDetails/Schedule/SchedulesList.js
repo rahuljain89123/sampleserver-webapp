@@ -29,7 +29,9 @@ class SchedulesList extends React.Component {
       'Site Details Schedule List',
       [{
         text: 'New Schedule',
-        onClick: `/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`
+        onClick: `/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`,
+        iconName: 'add_circle_outline',
+
       }]
     )
   }

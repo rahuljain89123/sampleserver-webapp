@@ -15,9 +15,9 @@ const PrivateRoute = props => (
             }
 
             return (
-                props.currentUser ? (
-                    React.createElement(props.component, routeProps)
-                ) : (
+                props.currentUser ?
+                    (React.createElement(props.component, routeProps))
+                : (
                     <Redirect
                         to={{
                             pathname: '/',

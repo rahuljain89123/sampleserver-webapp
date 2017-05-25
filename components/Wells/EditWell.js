@@ -38,16 +38,16 @@ class EditWell extends React.Component {
     this.props.fetchWell(this.props.wellId)
     this.props.fetchWellImages(this.props.wellId)
 
-    this.props.setHeaderInfo('Edit Well')
-  }
-
-  onDelete () {
-    this.props.deleteWell(this.props.wellId)
-      .then(() => {
-        this.props.flashMessage('success', 'Well Deleted Successfully')
-        this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
-      })
-      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
+    this.props.setHeaderInfo('Edit Well', [{
+      component: 'DeleteHeaderButton',
+      props: {
+        deleteMethodName: 'deleteWell',
+        deleteId: this.props.wellId,
+        successMessage: 'Well deleted',
+        redirectPath: `/app/sites/${this.props.site.get('id')}/details/wells`,
+        buttonText: 'Delete Well'
+      }
+    }])
   }
 
   onSubmitWellForm (wellParams) {
@@ -56,7 +56,7 @@ class EditWell extends React.Component {
         this.props.flashMessage('success', 'Well Updated Successfully')
         this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
       })
-      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   onUploadWellImages (wellImages) {

@@ -22,8 +22,7 @@ class DeleteSiteHeaderButton extends React.Component {
   onDelete () {
     this.props[this.props.deleteMethodName](this.props.deleteId)
       .then(() => {
-        debugger
-        this.props.flashMessage('success', this.props.sucessMessage)
+        this.props.flashMessage('success', this.props.successMessage)
         this.props.push(this.props.redirectPath)
       })
       .catch(() => {
@@ -45,6 +44,7 @@ class DeleteSiteHeaderButton extends React.Component {
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   deleteContact: (id) => dispatch(deleteContact(id)),
+  deleteWell: (id) => dispatch(deleteWell(id)),
 })
 
 export default connect(null, mapDispatchToProps)(DeleteSiteHeaderButton)
