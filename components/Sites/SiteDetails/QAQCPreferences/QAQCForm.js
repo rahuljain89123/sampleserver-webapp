@@ -27,20 +27,29 @@ import { flashMessage, setHeaderInfo } from 'actions/global'
 const renderTests= ({ fields, options }) => {
   const addTest = (e) => {
     e.preventDefault()
-    fields.push({})
+    fields.push()
   }
+
+  const allValues = fields.getAll()
+
+  const filteredOptions = (values, options) => {
+    values.filter(v => !!v).forEach(v => { options = options.delete(parseInt(v)) })
+    return options.valueSeq()
+  }
+
   return (<ul>
     {fields.map((test, index, fields) => {
       const removeTest = (e) => {
         e.preventDefault()
         fields.remove(index)
       }
+
       return <li key={index}>
         <InputGroup>
           <Field
             name={test}
             component={IndividualSelect}
-            options={options}
+            options={filteredOptions(allValues.remove(index), options)}
             />
           <InputGroupButton>
             <Button onClick={removeTest}>Remove</Button>
@@ -56,11 +65,19 @@ const renderTests= ({ fields, options }) => {
 }
 
 
-const renderWells= ({ fields, options }) => {
+const renderWells= ({ fields, options, qaqcType }) => {
   const addWell = (e) => {
     e.preventDefault()
-    fields.push({})
+    fields.push()
   }
+
+  const allValues = fields.getAll()
+
+  const filteredOptions = (values, options) => {
+    values.filter(v => !!v).forEach(v => { options = options.delete(parseInt(v)) })
+    return options.valueSeq()
+  }
+
   return (<ul>
     {fields.map((well, index, fields) => {
       const removeWell = (e) => {
@@ -73,7 +90,7 @@ const renderWells= ({ fields, options }) => {
           <Field
             name={well}
             component={IndividualSelect}
-            options={options}
+            options={filteredOptions(allValues.remove(index), options)}
             />
           <InputGroupButton>
             <Button onClick={removeWell}>Remove</Button>
@@ -83,7 +100,7 @@ const renderWells= ({ fields, options }) => {
     })}
 
     <li>
-      <Button onClick={addWell}>Add Well</Button>
+      <Button onClick={addWell}>Add {qaqcType}</Button>
     </li>
   </ul>)
 }
@@ -125,11 +142,10 @@ class QAQCForm extends React.Component {
     let tripBlanksForm = null
     let equipmentBlanksForm = null
     const testOptions = tests.filter((test) => (test.get('state_id') === this.props.site.get('state_id')))
-      .valueSeq()
       .map((test) => <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>)
 
-    const wellOptions = wells.valueSeq()
-      .map((well) => <option key={well.get('id')} value={well.get('id')}>{well.get('title')}</option>)
+    const wellOptions = wells.map((well) =>
+      <option key={well.get('id')} value={well.get('id')}>{well.get('title')}</option>)
 
     const perSamplesOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50].map((i) => <option key={i} value={i}>{`${i} samples`}</option>)
       .concat(<option key='persite' value='persite'>Per Site</option>)
@@ -137,24 +153,9 @@ class QAQCForm extends React.Component {
 
     if (qaqcDuplicates) {
       duplicatesForm = (<div>
-        <InputGroup>
-          <InputGroupAddon>Collect</InputGroupAddon>
-          <Field
-            name='qaqc_duplicates_per_samples'
-            id='qaqc_duplicates_per_samples'
-            component={IndividualInput}
-            type='text' />
-          <InputGroupAddon> duplicate(s) per </InputGroupAddon>
-          <Field
-            name='qaqc_duplicates_type'
-            id='qaqc_duplicates_type'
-            type='select'
-            component={IndividualSelect}
-            options={perSamplesOptions} />
-        </InputGroup>
 
         <h5>From Wells:</h5>
-        <FieldArray name='qaqc_duplicates_well_ids' component={renderWells} options={wellOptions}/>
+        <FieldArray name='qaqc_duplicates_well_ids' component={renderWells} options={wellOptions} qaqcType='Duplicates'/>
 
         <h5>Test For:</h5>
         <FieldArray name='qaqc_duplicates_test_ids' component={renderTests} options={testOptions}/>
@@ -163,24 +164,9 @@ class QAQCForm extends React.Component {
 
     if (qaqcMSMSDS) {
       msmsdsForm = (<div>
-        <InputGroup>
-          <InputGroupAddon>Collect</InputGroupAddon>
-          <Field
-            name='qaqc_msmsds_per_samples'
-            id='qaqc_msmsds_per_samples'
-            component={IndividualInput}
-            type='text' />
-          <InputGroupAddon> duplicate(s) per </InputGroupAddon>
-          <Field
-            name='qaqc_msmsds_type'
-            id='qaqc_msmsds_type'
-            type='select'
-            component={IndividualSelect}
-            options={perSamplesOptions} />
-        </InputGroup>
 
         <h5>From Wells:</h5>
-        <FieldArray name='qaqc_msmsds_well_ids' component={renderWells} options={wellOptions}/>
+        <FieldArray name='qaqc_msmsds_well_ids' component={renderWells} options={wellOptions} qaqcType='MS/MSDs'/>
 
         <h5>Test For:</h5>
         <FieldArray name='qaqc_msmsds_test_ids' component={renderTests} options={testOptions}/>
@@ -189,22 +175,6 @@ class QAQCForm extends React.Component {
 
     if (qaqcFieldBlanks) {
       fieldBlanksForm = (<div>
-        <InputGroup>
-          <InputGroupAddon>Collect</InputGroupAddon>
-          <Field
-            name='qaqc_fieldblanks_per_samples'
-            id='qaqc_fieldblanks_per_samples'
-            component={IndividualInput}
-            type='text' />
-          <InputGroupAddon> duplicate(s) per </InputGroupAddon>
-          <Field
-            name='qaqc_fieldblanks_type'
-            id='qaqc_fieldblanks_type'
-            type='select'
-            component={IndividualSelect}
-            options={perSamplesOptions} />
-        </InputGroup>
-
         <h5>Test For:</h5>
         <FieldArray name='qaqc_fieldblanks_test_ids' component={renderTests} options={testOptions}/>
       </div>)
@@ -212,22 +182,6 @@ class QAQCForm extends React.Component {
 
     if (qaqcTripBlanks) {
       tripBlanksForm = (<div>
-        <InputGroup>
-          <InputGroupAddon>Collect</InputGroupAddon>
-          <Field
-            name='qaqc_tripblanks_per_samples'
-            id='qaqc_tripblanks_per_samples'
-            component={IndividualInput}
-            type='text' />
-          <InputGroupAddon> duplicate(s) per </InputGroupAddon>
-          <Field
-            name='qaqc_tripblanks_type'
-            id='qaqc_tripblanks_type'
-            type='select'
-            component={IndividualSelect}
-            options={perSamplesOptions} />
-        </InputGroup>
-
         <h5>Test For:</h5>
         <FieldArray name='qaqc_tripblanks_test_ids' component={renderTests} options={testOptions}/>
       </div>)
