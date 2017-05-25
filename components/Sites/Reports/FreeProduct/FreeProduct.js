@@ -128,8 +128,8 @@ class FreeProduct extends React.Component {
         const gsvWell = this.props.groupedSampleValues.get(well_id.toString())
         return {
           well_id: well_id,
-          x_pos: gsvWell.get('xpos'),
-          y_pos: gsvWell.get('ypos'),
+          xpos: gsvWell.get('xpos'),
+          ypos: gsvWell.get('ypos'),
           substance_sum: gsvWell.get('substance_sum'),
         }
       }).valueSeq(),
