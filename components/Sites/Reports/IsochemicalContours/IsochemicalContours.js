@@ -147,7 +147,7 @@ class IsochemicalContours extends React.Component {
     }
 
     this.props.createContour(params)
-      .then(() => this.props.flashMessage('success', 'good schema'))
+      .then((url) => window.open(url))
       .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
