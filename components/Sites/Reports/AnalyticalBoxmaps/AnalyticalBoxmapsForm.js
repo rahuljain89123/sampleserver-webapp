@@ -48,7 +48,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       .set('substance_ids', this.props.site.get('substance_ids'))
 
     this.props.createAnalyticalBoxmaps(formParams)
-      .then(() => this.props.flashMessage('success', 'good schema'))
+      .then((url) => window.location = url)
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
