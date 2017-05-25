@@ -95,12 +95,7 @@ class LabClient extends React.Component {
                     <Route
                         exact
                         path="/app/clients/:id"
-                        render={() => (
-                            <div>
-                                <h4>Contacts</h4>
-                                <LabClientContacts company={company} />
-                            </div>
-                        )}
+                        render={() => <LabClientContacts company={company} />}
                     />
                     <Route
                         exact

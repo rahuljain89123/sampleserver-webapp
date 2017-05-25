@@ -17,6 +17,7 @@ import UserForm from 'SharedComponents/Team/UserForm'
 
 import { createUser, fetchUsers } from 'actions/users'
 import { currentUserRole } from 'normalizers'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 
 class LabUsers extends React.Component {
@@ -35,6 +36,7 @@ class LabUsers extends React.Component {
 
   componentDidMount () {
     this.props.fetchUsers({ lab_id: this.props.lab.get('id') })
+    this.props.setHeaderInfo('Manage Team')
   }
 
   onToggle (activeRole) {
@@ -49,6 +51,8 @@ class LabUsers extends React.Component {
     }
 
     this.props.createUser(user)
+      .then(() => this.props.flashMessage('success', 'User created successfully'))
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   render () {
@@ -134,6 +138,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => ({
   fetchUsers: filters => dispatch(fetchUsers(filters)),
   createUser: user => dispatch(createUser(user)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabUsers)
