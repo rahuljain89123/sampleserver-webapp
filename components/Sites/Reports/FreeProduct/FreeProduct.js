@@ -134,10 +134,10 @@ class FreeProduct extends React.Component {
   }
 
   processClickEvent (xpos, ypos) {
-    const { siteMapWells } = this.props
+    const { siteMapWells, zeroWells } = this.props
 
     if (evt.button === 2) { contouringFn.addZeroWell(xpos, ypos, this, FORM_NAME) }
-    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, zeroWells, this, FORM_NAME)
   }
 
   setSelectedWells () {

@@ -2,7 +2,7 @@ const WELL_MARKER_HEIGHT = 25
 const WELL_MARKER_WIDTH = 100
 import moment from 'moment'
 import Immutable from 'immutable'
-import { arrayPush } from 'redux-form/immutable'
+import { arrayPush, arrayRemove } from 'redux-form/immutable'
 
 export const addZeroWell = (xpos, ypos, component, form) => {
   // debugger
@@ -18,11 +18,20 @@ export const addZeroWell = (xpos, ypos, component, form) => {
   ))
 }
 
-export const processClick = (xpos, ypos, siteMapWells, toggleWell) => {
+export const processClick = (xpos, ypos, siteMapWells, toggleWell, zeroWells, component, form) => {
   siteMapWells.forEach(siteMapWell => {
     if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
         Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
         toggleWell(siteMapWell.get('well_id'))
+    }
+  })
+
+  if (!zeroWells) { return }
+
+  zeroWells.forEach((zeroWell, index) => {
+    if (Math.abs(zeroWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
+        Math.abs(zeroWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
+        component.props.dispatch(arrayRemove(form, 'zeroWells', index))
     }
   })
 }
