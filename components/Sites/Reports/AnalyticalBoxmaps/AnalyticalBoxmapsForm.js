@@ -11,8 +11,12 @@ import {
   Input,
   Button,
 } from 'reactstrap'
-
+import { createAnalyticalBoxmaps } from 'actions/reports'
+import {
+  flashMessage
+} from 'actions/global'
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
+import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
 
 import {
   fetchSubstances,
@@ -25,6 +29,10 @@ import { fetchCriterias } from 'actions/criterias'
 import { editSite } from 'actions/sites'
 
 class AnalyticalBoxmapsForm extends React.Component {
+  constructor (props) {
+    super(props)
+    this.onSubmit = this.onSubmit.bind(this)
+  }
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
@@ -32,6 +40,16 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
+  }
+
+  onSubmit (formParams) {
+    formParams = formParams.set('site_id', this.props.site.get('id'))
+      .update('sitemap_id', (id) => parseInt(id))
+      .set('substance_ids', this.props.site.get('substance_ids'))
+
+    this.props.createAnalyticalBoxmaps(formParams)
+      .then(() => this.props.flashMessage('success', 'good schema'))
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   addSubstance(evt) {
@@ -47,23 +65,8 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
 
   substanceIdInDateRange(substanceId) {
-    const { sampleDates, start_date: t_start_date, end_date: t_end_date } = this.props
-    if (!t_start_date || !t_end_date) { return false }
-    const start_date = moment(t_start_date)
-    const end_date = moment(t_end_date)
-    let isPresent = false
-
-    sampleDates.forEach((date) => {
-      const d = moment(date.get('date_collected'))
-      // debugger
-      if ((d.isBetween(start_date, end_date) || d.isSame(start_date) || d.isSame(end_date)) &&
-          date.get('substance_ids').includes(substanceId)) {
-        isPresent = true
-      }
-
-    })
-
-    return isPresent
+    const { sampleDates, date_collected: t_start_date, date_collected_range_end: t_end_date } = this.props
+    return contouringFn.substanceIdInDate(substanceId, sampleDates, t_start_date, t_end_date)
   }
 
   shouldShowSubstanceId (substanceId) {
@@ -86,6 +89,8 @@ class AnalyticalBoxmapsForm extends React.Component {
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>)
 
+    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
 
     const dateOptions = sampleDates.valueSeq().map((date, i) =>
       <option key={date.get('id')} value={date.get('date_collected')}>{date.get('date_collected')}</option>)
@@ -121,28 +126,28 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     return (
       <div>
-        <Form>
+        <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
           <Field
-            props={{label: 'Site Map', placeholder: 'Select Site Map...'}}
-            name='sitemap'
-            id='sitemap'
+            props={{label: 'Site Map', placeholder: 'Select Site Map'}}
+            name='sitemap_id'
+            id='sitemap_id'
             options={siteMapOptions}
             component={SelectFormGroup}
           />
 
           <Field
-            props={{label: 'Start Date', placeholder: 'Select start date...'}}
-            name='start_date'
-            id='start_date'
-            options={dateOptions}
+            props={{label: 'Start Date', placeholder: 'Select start date'}}
+            name='date_collected'
+            id='date_collected'
+            options={startDateOptions}
             component={SelectFormGroup}
            />
 
           <Field
-            props={{label: 'End Date', placeholder: 'Select end date...'}}
-            name='end_date'
-            id='end_date'
-            options={dateOptions}
+            props={{label: 'End Date', placeholder: 'Select end date (optional)'}}
+            name='date_collected_range_end'
+            id='date_collected_range_end'
+            options={endDateOptions}
             component={SelectFormGroup}
           />
 
@@ -161,6 +166,7 @@ class AnalyticalBoxmapsForm extends React.Component {
 
           { showSubstancesDropdown &&
             <Input type='select' onChange={this.addSubstance.bind(this)}>
+              <option value=''>Select a substance</option>
               {groupedSubstanceOptions}
             </Input>
           }
@@ -184,11 +190,13 @@ const mapStateToProps = (state, ownProps) => ({
 
   sampleDates: state.get('sampleDates'),
   siteMaps: state.get('siteMaps'),
-  start_date: selector(state, 'start_date'),
-  end_date: selector(state, 'end_date'),
+  date_collected: selector(state, 'date_collected'),
+  date_collected_range_end: selector(state, 'date_collected_range_end'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  createAnalyticalBoxmaps: (boxmapsParams) => dispatch(createAnalyticalBoxmaps(boxmapsParams)),
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),

@@ -121,6 +121,7 @@ class IsochemicalContours extends React.Component {
     const selectedWells = formParams.get('selectedWells')
       .filter(selected => selected)
       .filter((selected, well_id) =>
+        this.props.groupedSampleValues.get(well_id.toString()).get('xpos') &&
         this.props.groupedSampleValues.get(well_id.toString()).get('substance_sum')
       )
 
@@ -197,8 +198,10 @@ class IsochemicalContours extends React.Component {
       <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
     )
 
-    const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
-      <option key={date.get('id')}>{date.get('date_collected')}</option>)
+    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
+    // const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
+    //   <option key={date.get('id')}>{date.get('date_collected')}</option>)
 
     const groupedSubstances = this.props.substanceGroups.map((substanceGroup) =>
       this.props.substances.filter((substance) => (
@@ -260,7 +263,7 @@ class IsochemicalContours extends React.Component {
             props={{placeholder: 'Select Date'}}
             name='date_collected'
             id='date_collected'
-            options={dateOptions}
+            options={startDateOptions}
             component={SelectFormGroup}
           />
 
@@ -268,7 +271,7 @@ class IsochemicalContours extends React.Component {
             props={{placeholder: 'Select End Date (optional)'}}
             name='date_collected_range_end'
             id='date_collected_range_end'
-            options={dateOptions}
+            options={endDateOptions}
             component={SelectFormGroup}
           />
 

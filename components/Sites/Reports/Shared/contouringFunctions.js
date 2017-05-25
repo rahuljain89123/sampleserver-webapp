@@ -35,6 +35,23 @@ export const substanceIdInDate = (substanceId, sampleDates, t_date, t_date_end) 
   })
 }
 
+export const startDateOptions = (dates, end_date) => {
+  const filteredDates = end_date ?
+    dates : dates.filter(date => moment(end_date).isAfter(moment(date.get('date_collected'))))
+  return filteredDates.valueSeq().map((date, i) => <option key={date.get('id')}>{date.get('date_collected')}</option>)
+}
+
+export const endDateOptions = (dates, start_date) => {
+  if (!start_date) { return [] }
+
+  return dates.filter(date =>
+    moment(start_date).isBefore(moment(date.get('date_collected')))
+  )
+  .valueSeq()
+  .map((date, i) => <option key={date.get('id')}>{date.get('date_collected')}</option>)
+}
+
+
 export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage, getValue) => {
   const { x, y, scale } = loc
   const { date, wells, groupedSampleValues, selectedWells } = props
