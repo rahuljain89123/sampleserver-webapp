@@ -3,9 +3,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchCompanies } from '../../actions/companies'
+import { fetchCompanies } from 'actions/companies'
 import LinkButton from '../LinkButton'
 import FilterList from '../FilterList'
+
+import { setHeaderInfo } from 'actions/global'
 
 
 class LabClients extends React.Component {
@@ -25,6 +27,11 @@ class LabClients extends React.Component {
 
     componentDidMount () {
         this.props.fetchCompanies()
+        this.props.setHeaderInfo('Clients', [{
+          text: 'New Client',
+          onClick: 'app/clients/new',
+          iconName: 'add_circle_outline',
+        }])
     }
 
     render () {
@@ -51,11 +58,6 @@ class LabClients extends React.Component {
                         onChange={e => this.onChange(e)}
                         style={{ marginRight: 15 }}
                     />
-                    <LinkButton
-                        color="primary"
-                        href="/app/clients/new"
-                        className="ml-auto"
-                    >New Client</LinkButton>
                 </div>
                 <FilterList
                     items={companies}
@@ -73,6 +75,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchCompanies: () => dispatch(fetchCompanies()),
+    setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabClients)

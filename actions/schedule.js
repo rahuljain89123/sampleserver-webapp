@@ -33,6 +33,7 @@ export const fetchSchedule = id =>
         API.get(`/schedules/${id}`)
         .then(schedule => {
             dispatch(receiveSchedule(schedule))
+            return Promise.resolve(schedule)
         })
 
 export const fetchSchedules = (filters = {}) =>

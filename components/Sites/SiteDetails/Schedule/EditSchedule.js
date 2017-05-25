@@ -30,7 +30,7 @@ import {
   editScheduleWellTest,
   deleteScheduleWellTest,
 } from 'actions/scheduleWellTests'
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 import { msgFromError } from 'util'
 import includes from 'lodash/includes'
@@ -68,8 +68,12 @@ class EditSchedule extends React.Component {
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
-    this.props.fetchSchedule(this.state.scheduleId)
+    this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
+      const formattedDate = moment(schedule.date).utc().format('YYYY-MM-DD')
+      this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`)
+    })
     this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId })
+    this.props.setHeaderInfo(`Edit Schedule: `)
   }
 
   onChange (e) {
@@ -262,8 +266,6 @@ class EditSchedule extends React.Component {
 
       return (
         <div className="sample-schedule">
-          <h2>Edit Schedule: {formattedDate}</h2>
-
           <div className="add-test">
             <select name="tests" onChange={e => this.onChange(e)}>
               {tests.map(test => (
@@ -366,6 +368,7 @@ const mapDispatchToProps = dispatch => ({
   editScheduleWellTest: (id, schedulewelltest) => dispatch(editScheduleWellTest(id, schedulewelltest)),
   deleteScheduleWellTest: id => dispatch(deleteScheduleWellTest(id)),
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text,buttons)),
 })
 
 /*****************************************************************************

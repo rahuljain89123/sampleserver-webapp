@@ -13,7 +13,7 @@ import {
   editContact,
   clearEditingContactError,
 } from 'actions/contacts'
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 import ContactForm from './ContactForm'
 
 
@@ -26,6 +26,17 @@ class EditSiteContact extends React.Component {
 
     componentDidMount () {
       this.props.fetchContact(this.props.contactId)
+
+      this.props.setHeaderInfo('Edit Contact', [{
+        component: 'DeleteHeaderButton',
+        props: {
+          deleteMethodName: 'deleteContact',
+          deleteId: this.props.contactId,
+          successMessage: 'Contact deleted',
+          redirectPath: `/app/sites/${this.props.site.get('id')}/contacts`,
+          buttonText: 'Delete Contact'
+        }
+      }])
     }
 
     onSubmitContactForm (contactParams) {
@@ -53,15 +64,7 @@ class EditSiteContact extends React.Component {
         return (
             <Row>
                 <Col sm={6}>
-                    <div className="d-flex">
-                        <h4>Edit Contact</h4>
-                        <Button
-                            onClick={() => this.onDelete()}
-                            className="ml-auto"
-                            role="button"
-                            color="danger"
-                        >Delete Contact</Button>
-                    </div>
+                    
                     <ContactForm
                         site={this.props.site}
                         initialValues={contact}
@@ -87,6 +90,7 @@ const mapDispatchToProps = dispatch => ({
     deleteContact: id => dispatch(deleteContact(id)),
     clearEditingContactError: () => dispatch(clearEditingContactError()),
     flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+    setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditSiteContact)

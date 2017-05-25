@@ -16,7 +16,6 @@ import EditSiteContact from 'Sites/Contacts/EditSiteContact'
 
 import LabDataList from 'Sites/LabDataList'
 
-
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import SiteDetails from 'Sites/App/SiteDetails'

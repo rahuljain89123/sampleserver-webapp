@@ -20,7 +20,7 @@ import UserForm from 'SharedComponents/Team/UserForm'
 
 import { fetchSite } from 'actions/sites'
 import { createUser, fetchUsers } from 'actions/users'
-import { flashMessage } from 'actions/global'
+import { flashMessage,setHeaderInfo } from 'actions/global'
 import { currentLab, safeGet } from 'normalizers'
 
 const TECHNICIAN_ROLE = 7
@@ -34,6 +34,9 @@ class ProjectSiteUsers extends React.Component {
 
   componentDidMount () {
     this.props.fetchUsers({ sites: this.props.site.get('id') })
+    this.props.setHeaderInfo(
+      `${this.props.roles.get(TECHNICIAN_ROLE).get('description')}s`
+    )
   }
 
   onSubmit (userParams) {
@@ -63,7 +66,6 @@ class ProjectSiteUsers extends React.Component {
 
     return (
       <div>
-        <h2 className="border-bottom">{`${this.props.roleDescription}s`}</h2>
         <Row style={{ marginTop: 20 }}>
           <Col sm="12">
             <p>
@@ -97,6 +99,7 @@ const mapDispatchToProps = dispatch => ({
   fetchUsers: filters => dispatch(fetchUsers(filters)),
   createUser: user => dispatch(createUser(user)),
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectSiteUsers)

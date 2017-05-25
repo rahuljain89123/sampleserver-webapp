@@ -3,8 +3,10 @@ import React from 'react'
 import Immutable from 'immutable'
 import { connect } from 'react-redux'
 
-import { fetchUsers } from '../../actions/users'
-import { fetchCompany } from '../../actions/companies'
+import { fetchUsers } from 'actions/users'
+import { fetchCompany } from 'actions/companies'
+import { flashMessage, setHeaderInfo } from 'actions/global'
+
 import UserList from './UserList'
 import LabContactForm from './LabContactForm'
 
@@ -25,6 +27,7 @@ class LabClientContacts extends React.Component {
     componentDidMount () {
         this.props.fetchCompany(this.props.company.get('id'))
         this.props.fetchUsers({ companies: this.props.company.get('id') })
+        this.props.setHeaderInfo('Contacts')
     }
 
     componentWillReceiveProps (nextProps) {
@@ -56,6 +59,8 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch => ({
     fetchUsers: filters => dispatch(fetchUsers(filters)),
     fetchCompany: id => dispatch(fetchCompany(id)),
+    flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+    setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabClientContacts)

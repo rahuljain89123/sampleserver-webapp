@@ -13,6 +13,7 @@ import {
 
 import {
   flashMessage,
+  setHeaderInfo,
 } from 'actions/global'
 
 import {
@@ -65,6 +66,7 @@ class StateSpecificInfoForm extends React.Component {
     if (!this.props.siteData) {
       this.props.fetchSiteDatas({ site_id: this.props.site.get('id') })
     }
+    this.props.setHeaderInfo('State Specific Info')
   }
 
   onSubmit (siteDataParams) {
@@ -128,7 +130,6 @@ class StateSpecificInfoForm extends React.Component {
     return (
 
     <div>
-      <h2 className="border-bottom">State Specific Info</h2>
       <Row><Col sm={6}>
         <Form onSubmit={handleSubmit(this.onSubmit)}>
 
@@ -554,6 +555,7 @@ const mapDispatchToProps = (dispatch) => ({
   editSiteData: (id, siteDataParams) => dispatch(editSiteData(id, siteDataParams)),
   fetchSiteDatas: (filters) => dispatch(fetchSiteDatas(filters)),
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StateSpecificInfoForm)

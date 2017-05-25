@@ -15,7 +15,6 @@ import {
 import { fetchProjects } from 'actions/projects'
 import SiteForm from './SiteForm'
 
-
 class NewSite extends React.Component {
   constructor (props) {
     super(props)
@@ -38,6 +37,7 @@ class NewSite extends React.Component {
 
   onSubmitSiteForm (siteParams) {
     siteParams = siteParams.update('state_id', (v) => parseInt(v))
+                            .update('project_id', (v) => parseInt(v))
 
     this.props.createSite(siteParams)
       .then(this.onSuccess)
@@ -45,7 +45,7 @@ class NewSite extends React.Component {
   }
 
   onSuccess () {
-    this.props.flashMessage('success', 'Site updated successfully')
+    this.props.flashMessage('success', 'Site created successfully')
     this.props.push('/app')
   }
 
