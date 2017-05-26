@@ -66,7 +66,7 @@ class SiteMapImage extends React.Component {
     return (
       <SiteMapRenderer
         imageUrl={imageUrl}
-        height='800px'
+        height='100%'
         width='100%'
         wells={allWells}
         onClick={addSiteMapWell}

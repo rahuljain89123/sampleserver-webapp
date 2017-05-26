@@ -420,7 +420,7 @@ section {
 }
 .inner-sidebar {
     height: 100%;
-    width: 200px;
+    width: 300px;
     background: #FFFFFF;
 }
 .site-map {
@@ -434,21 +434,30 @@ section {
     .inner-sidebar {
         background: #FFFFFF;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
-        padding: 15px;
+        position: relative;
+        z-index: 10;
+        .sidebar-content {
+            padding: 20px;
+        }
+        h2 {
+
+        }
     }
     .site-map-content {
         width: 100%;
     }
     .well {
         padding: 10px;
-        margin: 0;
+        margin: 5px 0;
         list-style: none;
         border: 1px solid rgba(86, 91, 96, 0.2);
+        border-radius: 8px;
     }
     .well-names {
         display: flex;
         justify-content: flex-end;
         flex-direction: column;
+        margin-top: 10px;
     }
     .remove-well-marker {
         float: right;
@@ -471,8 +480,8 @@ section {
 }
 
 .site-map-image {
-    border: 1px solid rgba(0, 0, 0, 0.125);
-    border-radius: 2px;
+    // border: 1px solid rgba(0, 0, 0, 0.125);
+    // border-radius: 2px;
     position: relative;
     .zoom-controls {
         position: absolute;

@@ -170,25 +170,26 @@ class SiteMap extends React.Component {
     return (
       <div className="site-map">
         <div className="inner-sidebar">
-          <ul className='well-names list-group'>
-            {wellNames}
-          </ul>
+          <div className="sidebar-content">
+            <h2> {siteMap.get('title')} </h2>
+            <i>Click any location on the sitemap to place a well.</i>
+
+            <ul className='well-names list-group'>
+              {wellNames}
+            </ul>
+          </div>
         </div>
 
         <div className="site-map-content">
-          <h2> {siteMap.get('title')} </h2>
-          <i>Click to place a well.</i>
-          <div className='d-flex'>
 
-            <SiteMapImage
-              imageUrl={siteMap.get('url')}
-              siteMapWells={siteMapWells}
-              wells={this.props.wells}
-              addingSiteMapWell={this.props.addingSiteMapWell}
-              addSiteMapWell={this.addSiteMapWell} />
+          <SiteMapImage
+            imageUrl={siteMap.get('url')}
+            siteMapWells={siteMapWells}
+            wells={this.props.wells}
+            addingSiteMapWell={this.props.addingSiteMapWell}
+            addSiteMapWell={this.addSiteMapWell} />
 
-            {siteMapWellForm}
-          </div>
+          {siteMapWellForm}
         </div>
       </div>
     )
