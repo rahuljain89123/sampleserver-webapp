@@ -47,7 +47,12 @@ class SiteApp extends React.Component {
 
     return (
       <div className="app">
-        <SiteDetails site={site} />
+        <PrivateRoute
+          path={`/app/sites/${site.get('id')}/details/`}
+          component={() => (
+            <SiteDetails site={site} />
+          )}
+        />
         <SiteDataImport site={site} />
         <SiteReports site={site} />
         <PrivateRoute

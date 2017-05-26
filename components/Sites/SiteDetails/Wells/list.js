@@ -129,11 +129,14 @@ class Wells extends React.Component {
             </div>
             <div className="col-4 right">
               <Button
-                color="secondary"
+                color="default"
                 role="button"
                 className="ml-auto btn-bulk-upload"
                 onClick={() => this.onNewUpload()}
-              >Choose File</Button>
+              >
+                <i className="material-icons">add_circle_outline</i>
+                New Bulk Upload
+              </Button>
             </div>
           </div>
         </div>
