@@ -8,41 +8,68 @@ import filestack from 'filestack-js'
 import {
   fetchSiteMaps,
 } from 'actions/siteMaps'
+import { setHeaderInfo } from 'actions/global'
+
 
 class SiteMapsList extends React.Component {
-  
+
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
+    this.props.setHeaderInfo(
+      'Sitemaps',
+      [{
+        text: 'New Sitemap',
+        onClick: `/app/sites/${this.props.site.get('id')}/details/site-maps/new`,
+        iconName: 'add_circle_outline',
+      }],
+    )
   }
 
   render () {
     let siteMaps = undefined
+    let siteMapsTable = undefined
+
     if (this.props.siteMaps && this.props.siteMaps.size > 0) {
       siteMaps = this.props.siteMaps.valueSeq().map((siteMap) => {
-        return (<div key={siteMap.get('id')}>
-          <Link
-            to={`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMap.get('id')}`}>
-            {siteMap.get('title')}
-          </Link>
-        </div>)
+        return (
+          <tbody key={siteMap.get('id')}>
+            <tr>
+              <td>
+                <Link
+                  to={`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMap.get('id')}`}>
+                  {siteMap.get('title')}
+                </Link>
+              </td>
+              <td>
+                <Link
+                  to={`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMap.get('id')}`}>
+                  <img src={siteMap.get('url')} height='200' />
+                </Link>
+              </td>
+            </tr>
+          </tbody>
+        )
       })
+      siteMapsTable = (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Sitemap Name</th>
+              <th>Preview</th>
+            </tr>
+          </thead>
+          {siteMaps}
+        </table>
+      )
     } else {
       siteMaps = <h4> No Site Maps Uploaded </h4>
+      siteMapsTable = siteMaps
     }
 
     return (
       <div className="site-maps">
-        <div className="d-flex flex-row justify-content-between">
-          <h2>Site Maps</h2>
-          <LinkButton
-            className='btn btn-default float-right'
-            href={`/app/sites/${this.props.site.get('id')}/details/site-maps/new`}>
-            New Site Map
-          </LinkButton>
-        </div>
-
         <div className="site-map-list">
-          {siteMaps}
+          {siteMapsTable}
         </div>
       </div>
     )
@@ -55,6 +82,7 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteMapsList)
