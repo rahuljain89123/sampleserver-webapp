@@ -62,7 +62,7 @@ class SiteMapsList extends React.Component {
         </table>
       )
     } else {
-      siteMaps = <h4> No Site Maps Uploaded </h4>
+      siteMaps = <p> No Sitemaps found. Add a <Link to={`/app/sites/${this.props.site.get('id')}/details/site-maps/new`}>New Sitemap</Link>.</p>
       siteMapsTable = siteMaps
     }
 

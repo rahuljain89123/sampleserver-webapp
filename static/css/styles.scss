@@ -803,7 +803,7 @@ form {
     }
     .form-control {
         padding: 1rem 1.5rem;
-        display: inline-block;
+        // display: inline-block;
         vertical-align: middle;
         // width: 50%;
         background: #FFFFFF;
@@ -815,6 +815,7 @@ form {
         font-size: 14px;
         color: #282B2F;
         letter-spacing: 0.4px;
+        max-width: 100%;
     }
     textarea {
         height: 66px;
@@ -998,3 +999,29 @@ form.contouring-form {
         }
     }
 }
+.new-sitemap {
+    .img-actions {
+        margin-bottom: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

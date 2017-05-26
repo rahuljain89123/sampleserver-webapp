@@ -105,38 +105,53 @@ class Header extends React.Component {
 
     appTitle = this.getAppTitle()
     const buttons = headerInfo.get('buttons')
+    let navbar = null
+    let flashOnly = null
+
+    navbar = (
+      <div className="navbar-container">
+        {flashAlert}
+        <Navbar className="d-flex flex-row justify-content-between">
+          <div className="navbar-brand">{headerInfo.get('title')}</div>
+          <div className="actions">
+            {buttons && buttons.map(this.buttonToComponent)}
+          </div>
+        </Navbar>
+      </div>
+    )
+
+    flashOnly = (
+      <div className="navbar-container">
+        {flashAlert}
+      </div>
+    )
 
     return (
       <Switch>
         <Route
           path={'/app/sites/:id/reports'}
           component={() => (
-            <div className="navbar-container">
-              {flashAlert}
-            </div>
+            flashOnly
+          )}
+        />
+        <Route
+          exact
+          path={'/app/sites/:id/details/site-maps/new'}
+          component={() => (
+            navbar
           )}
         />
         <Route
           exact
           path={'/app/sites/:id/details/site-maps/:id'}
           component={() => (
-            <div className="navbar-container">
-              {flashAlert}
-            </div>
+            flashOnly
           )}
         />
         <Route
           path="/"
           component={() => (
-            <div className="navbar-container">
-              {flashAlert}
-              <Navbar className="d-flex flex-row justify-content-between">
-                <div className="navbar-brand">{headerInfo.get('title')}</div>
-                <div className="actions">
-                  {buttons && buttons.map(this.buttonToComponent)}
-                </div>
-              </Navbar>
-            </div>
+            navbar
           )}
         />
       </Switch>

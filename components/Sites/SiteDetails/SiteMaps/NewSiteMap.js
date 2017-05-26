@@ -7,13 +7,19 @@ import {
   createSiteMap,
 } from 'actions/siteMaps'
 
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 class NewSiteMap extends React.Component {
   constructor (props) {
     super(props)
 
     this.createSiteMap = this.createSiteMap.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.setHeaderInfo(
+      'New Sitemap',
+    )
   }
 
   createSiteMap (siteMapParams) {
@@ -28,10 +34,15 @@ class NewSiteMap extends React.Component {
   }
 
   render () {
-    return (<SiteMapForm
-      onSubmit={this.createSiteMap}
-      buttonText='Create'
-      />
+    return (
+      <div className="row new-sitemap">
+        <div className="col-md-6">
+          <SiteMapForm
+            onSubmit={this.createSiteMap}
+            buttonText="Create"
+          />
+        </div>
+      </div>
     )
   }
 }
@@ -39,6 +50,7 @@ class NewSiteMap extends React.Component {
 const mapDispatchToProps = dispatch => ({
   createSiteMap: siteMapParams => dispatch(createSiteMap(siteMapParams)),
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
 export default connect(null, mapDispatchToProps)(NewSiteMap)

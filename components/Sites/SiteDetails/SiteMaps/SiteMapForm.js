@@ -4,6 +4,11 @@ import { connect } from 'react-redux'
 import {
     Button,
     Form,
+    FormGroup,
+    Label,
+    FormText,
+    Col,
+    Row,
 } from 'reactstrap'
 import {
   Field,
@@ -89,23 +94,23 @@ class SiteMapForm extends React.Component {
       <Field
         name='title'
         id='title'
-        label='Site Map Title'
+        label='Sitemap Title'
         component={IndividualFormGroup}
         type='text'
       />
       {image}
-      <div className="img-actions" style={{margin: '20px'}}>
-        <a
-          href='#'
-          onClick={this.pickImage}
-          className="btn btn-primary">
-          <i className="fa fa-plus-square" aria-hidden="true"></i> Upload SiteMap
-        </a>
+      <div className="img-actions row">
+        <Label sm={2}>Choose Sitemap Image</Label>
+        <div className="col-sm-9">
+          <a onClick={this.pickImage} className="btn btn-default">
+            <i className="fa fa-plus-square" aria-hidden="true" /> Choose Image
+          </a>
+        </div>
       </div>
       <Button
-          role="button"
-          color="primary"
-          disabled={!canSubmit}
+        role="button"
+        color="primary"
+        disabled={!canSubmit}
       >{buttonText}</Button>
     </Form>)
   }
