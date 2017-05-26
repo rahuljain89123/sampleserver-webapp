@@ -1,8 +1,7 @@
 import React from 'react'
 
 import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
-const CANVAS_HEIGHT = '600'
-const CANVAS_WIDTH = '800'
+
 
 class SiteMapImage extends React.Component {
   constructor (props) {

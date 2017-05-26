@@ -80,15 +80,40 @@ class Wells extends React.Component {
 
     if (this.props.wells.size) {
       wellsList = (
-        <div className="well-list">
-          {this.props.wells.map((well) => (
-            <div key={well.get('id')}>
-              <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
-                {well.get('title')}
-              </Link>
-            </div>
-          ))}
-        </div>
+        <table className="table well-list">
+          <thead>
+            <tr>
+              <th>Well Title</th>
+              <th>Est. Depth to Water</th>
+              <th>Depth to Bottom</th>
+              <th>Screen Length</th>
+              <th>Top of Casing</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.wells.map((well) => (
+              <tr key={well.get('id')}>
+                <td>
+                  <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                    {well.get('title')}
+                  </Link>
+                </td>
+                <td>
+                  {well.get('est_depth_to_water')}
+                </td>
+                <td>
+                  {well.get('depth_to_bottom')}
+                </td>
+                <td>
+                  {well.get('screenlength')}
+                </td>
+                <td>
+                  {well.get('top_of_casing')}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )
     } else {
       wellsList = <p>No wells found yet. To add many wells, you can bulk upload.</p>

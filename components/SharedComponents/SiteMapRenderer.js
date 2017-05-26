@@ -1,8 +1,6 @@
 import React from 'react'
-import Measure from 'react-measure';
+import Measure from 'react-measure'
 
-const CANVAS_HEIGHT = '600'
-const CANVAS_WIDTH = '800'
 
 class SiteMapRenderer extends React.Component {
   constructor (props) {
