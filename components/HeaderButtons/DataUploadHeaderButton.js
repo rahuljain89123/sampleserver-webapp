@@ -39,6 +39,7 @@ class DataUploadHeaderButton extends React.Component {
 
     return (
       <button className="btn btn-default" onClick={() => this.openFilePicker()}>
+        <i className='material-icons'>add_circle_outline</i>
         New Upload
       </button>
     )

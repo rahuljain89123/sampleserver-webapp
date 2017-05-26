@@ -19,6 +19,7 @@ import LabDataList from 'Sites/LabDataList'
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
 import SiteDetails from 'Sites/App/SiteDetails'
+import SiteDataImport from 'Sites/App/SiteDataImport'
 import SiteReports from 'Sites/App/SiteReports'
 
 import { fetchSite } from 'actions/sites'
@@ -47,6 +48,7 @@ class SiteApp extends React.Component {
     return (
       <div className="app">
         <SiteDetails site={site} />
+        <SiteDataImport site={site} />
         <SiteReports site={site} />
         <PrivateRoute
           exact

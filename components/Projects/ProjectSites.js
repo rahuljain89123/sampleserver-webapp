@@ -33,7 +33,7 @@ class ProjectSites extends React.Component {
 
   componentDidMount () {
     this.props.fetchProjects().then(() =>
-      this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id') }))
+      this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id'), per_page: 150 }))
     )
     this.props.setHeaderInfo(
       'Dashboard',
@@ -53,7 +53,7 @@ class ProjectSites extends React.Component {
   componentWillReceiveProps (nextProps) {
     const fetchedSites = nextProps.projects.map(project => {
       if (!this.state.fetchedSites.get(project.get('id'))) {
-        this.props.fetchSites({ project_id: project.get('id') })
+        this.props.fetchSites({ project_id: project.get('id'), per_page: 150 })
         return true
       }
       return this.state.fetchedSites.get(project.get('id'))
@@ -128,7 +128,8 @@ class ProjectSites extends React.Component {
                         <div className="site-metadata">
                           {site.get('city')}, {site.get('state')}
                         </div>
-                        <i className="material-icons">more_horiz</i>
+                        <a href={`/app/sites/${siteId}/details/edit-site`}>
+                          <i className="material-icons">more_horiz</i></a>
                       </div>
                     </div>
                   ))}

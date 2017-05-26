@@ -32,7 +32,7 @@ class SiteDetails extends React.Component {
       <div>
         <PrivateRoute
           exact
-          path={`/app/sites/${site.get('id')}/details/info`}
+          path={`/app/sites/${site.get('id')}/details/edit-site`}
           component={props => (
             <EditSite
               site={site}
@@ -65,16 +65,6 @@ class SiteDetails extends React.Component {
           exact
           path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
           component={props => <EditSchedule site={site} {...props} />}
-        />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/field-data-input`}
-          component={props => <FieldDataUpload site={site} {...props} />}
-        />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/lab-data-input`}
-          component={props => <LabDataUpload site={site} {...props} />}
         />
         <Switch>
           <PrivateRoute

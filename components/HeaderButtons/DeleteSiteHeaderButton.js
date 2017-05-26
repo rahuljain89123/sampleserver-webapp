@@ -17,8 +17,6 @@ class DeleteSiteHeaderButton extends React.Component {
 
     this.onDelete = this.onDelete.bind(this)
     this.hideModal = this.hideModal.bind(this)
-
-
     this.state = { confirmingDelete: false }
   }
 

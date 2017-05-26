@@ -17,6 +17,16 @@ class DeleteSiteHeaderButton extends React.Component {
     super(props)
 
     this.onDelete = this.onDelete.bind(this)
+    this.hideModal = this.hideModal.bind(this)
+    this.state = { confirmingDelete: false }
+  }
+
+  confirmDelete () {
+    this.setState({ confirmingDelete: true })
+  }
+
+  hideModal () {
+    this.setState( { confirmingDelete: false })
   }
 
   onDelete () {
@@ -32,10 +42,17 @@ class DeleteSiteHeaderButton extends React.Component {
 
   render () {
     return <div>
-      <button className="btn btn-default" onClick={() => this.onDelete()}>
+      <button className="btn btn-default" onClick={() => this.confirmDelete()}>
         <i className='material-icons warning'>remove_circle_outline</i>
         {this.props.buttonText}
       </button>
+      <Modal isOpen={this.state.confirmingDelete} toggle={this.hideModal}>
+        <ModalHeader toggle={this.hideModal}>Are you sure you want to delete?</ModalHeader>
+        <ModalFooter>
+          <Button color='secondary' onClick={this.hideModal}>No</Button>{' '}
+          <Button color='danger' onClick={this.onDelete}>Yes</Button>
+        </ModalFooter>
+      </Modal>
     </div>
   }
 

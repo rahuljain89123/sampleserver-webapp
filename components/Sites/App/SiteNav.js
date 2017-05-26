@@ -68,7 +68,7 @@ class SiteNav extends React.Component {
             to={`/app/sites/${site.get('id')}/reports`}
             className="nav-link nav-parent"
             activeClassName="active"
-          >Regulatory Reports</NavLink>
+          >Reports</NavLink>
           <PrivateRoute
             path={`/app/sites/${site.get('id')}/reports`}
             component={() => (
@@ -97,7 +97,7 @@ class SiteNav extends React.Component {
             )}
           />
           <NavLink
-            to={`/app/sites/${site.get('id')}/details/info`}
+            to={`/app/sites/${site.get('id')}/details/edit-site`}
             className="nav-link nav-parent"
             activeClassName="active"
           >Site Details</NavLink>
@@ -107,15 +107,15 @@ class SiteNav extends React.Component {
               <nav className="nav nav-pills flex-column nav-children">
                 <NavLink
                   exact
-                  to={`/app/sites/${site.get('id')}/details/info`}
+                  to={`/app/sites/${site.get('id')}/details/edit-site`}
                   className="nav-link"
                   activeClassName="active"
-                >Info</NavLink>
+                >Edit Site</NavLink>
                 <NavLink
                   to={`/app/sites/${site.get('id')}/details/wells`}
                   className="nav-link"
                   activeClassName="active"
-                >Wells</NavLink>
+                >Edit Wells</NavLink>
                 <NavLink
                   exact
                   to={`/app/sites/${site.get('id')}/details/sample-schedule`}
@@ -140,24 +140,36 @@ class SiteNav extends React.Component {
                   className="nav-link"
                   activeClassName="active"
                 >Executive Summary+</NavLink>
-                <NavLink
-                  exact
-                  to={`/app/sites/${site.get('id')}/details/field-data-input`}
-                  className="nav-link"
-                  activeClassName="active"
-                >Field Data Input</NavLink>
-                <NavLink
-                  exact
-                  to={`/app/sites/${site.get('id')}/details/lab-data-input`}
-                  className="nav-link"
-                  activeClassName="active"
-                >Lab Data Input</NavLink>
                 {site.get('state_id') === 35 && <NavLink
                   exact
                   to={`/app/sites/${site.get('id')}/details/state-specific-info`}
                   className="nav-link"
                   activeClassName="active">
                   State Specific Info</NavLink>}
+              </nav>
+            )}
+          />
+          <NavLink
+            to={`/app/sites/${site.get('id')}/data-import/field-data`}
+            className="nav-link nav-parent"
+            activeClassName="active"
+          >Import Data</NavLink>
+          <PrivateRoute
+            path={`/app/sites/${site.get('id')}/data-import`}
+            component={() => (
+              <nav className="nav nav-pills nav-children flex-column">
+                <NavLink
+                  exact
+                  to={`/app/sites/${site.get('id')}/data-import/field-data`}
+                  className="nav-link"
+                  activeClassName="active"
+                >Field Data</NavLink>
+                <NavLink
+                  exact
+                  to={`/app/sites/${site.get('id')}/data-import/lab-data`}
+                  className="nav-link"
+                  activeClassName="active"
+                >Lab Data</NavLink>
               </nav>
             )}
           />
