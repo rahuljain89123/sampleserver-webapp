@@ -29,7 +29,7 @@ class SiteDetails extends React.Component {
     if (!site) { return null }
 
     return (
-      <div>
+      <div className="site-details">
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/details/edit-site`}

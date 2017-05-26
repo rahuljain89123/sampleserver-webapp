@@ -117,6 +117,15 @@ class Header extends React.Component {
           )}
         />
         <Route
+          exact
+          path={'/app/sites/:id/details/site-maps/:id'}
+          component={() => (
+            <div className="navbar-container">
+              {flashAlert}
+            </div>
+          )}
+        />
+        <Route
           path="/"
           component={() => (
             <div className="navbar-container">

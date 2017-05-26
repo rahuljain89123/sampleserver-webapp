@@ -4,6 +4,10 @@ import React from 'react'
 import {
     Button,
     Form,
+    Modal,
+    ModalHeader,
+    ModalBody,
+    ModalFooter,
 } from 'reactstrap'
 import {
   Field,
@@ -31,21 +35,27 @@ class SiteMapWellForm extends React.Component {
     ))
 
     return (
-      <Form className="gray" onSubmit={handleSubmit(this.props.onSubmit)}>
-        <Field
-          props={{ label: 'Well Id'}}
-          name='well_id'
-          id='well_id'
-          component={SelectFormGroup}
-          options={selectOptions}
-        />
-
-        <Button
-            role="button"
-            color="primary"
-            disabled={this.props.submittingForm}
-        >Save</Button>
-      </Form>
+      <Modal isOpen={true}>
+        <ModalHeader toggle={this.hideModal}>Choose Well for this location</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={handleSubmit(this.props.onSubmit)}>
+            <Field
+              props={{ label: 'Well Id'}}
+              name='well_id'
+              id='well_id'
+              component={SelectFormGroup}
+              options={selectOptions}
+            />
+            <ModalFooter>
+              <Button
+                  role="button"
+                  color="primary"
+                  disabled={this.props.submittingForm}
+              >Save</Button>
+            </ModalFooter>
+          </Form>
+        </ModalBody>
+      </Modal>
     )
   }
 }

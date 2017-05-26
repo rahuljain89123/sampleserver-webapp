@@ -15,7 +15,8 @@ import {
 } from 'actions/wells'
 
 import {
-  flashMessage
+  flashMessage,
+  setHeaderInfo
 } from 'actions/global'
 
 import SiteMapImage from './SiteMapImage'
@@ -28,6 +29,9 @@ class SiteMap extends React.Component {
     this.addSiteMapWell = this.addSiteMapWell.bind(this)
     this.createSiteMapWell = this.createSiteMapWell.bind(this)
     this._handleKeyDown = this._handleKeyDown.bind(this)
+    this.props.setHeaderInfo(
+      'Edit Sitemap',
+    )
   }
 
   componentDidMount () {
@@ -146,9 +150,11 @@ class SiteMap extends React.Component {
     const wellNames = siteMapWells.valueSeq().map((smw) => {
       const well = this.props.wells.get(smw.get('well_id'))
       return (
-        <li key={smw.get('id')} className='well list-group-item'>
-          {well.get('title')}
-          <a href='#' onClick={(e) => this.deleteSiteMapWell(smw.get('id'))}> x </a>
+        <li key={smw.get('id')} className='well'>
+          <span>{well.get('title')}</span>
+          <a href='#' className="remove-well-marker" onClick={(e) => this.deleteSiteMapWell(smw.get('id'))}>
+            <i className="material-icons warning">remove_circle_outline</i>
+          </a>
         </li>)
     })
 
@@ -163,20 +169,26 @@ class SiteMap extends React.Component {
 
     return (
       <div className="site-map">
-        <h2> {siteMap.get('title')} </h2>
-        <div className='d-flex'>
-
-          <SiteMapImage
-            imageUrl={siteMap.get('url')}
-            siteMapWells={siteMapWells}
-            wells={this.props.wells}
-            addingSiteMapWell={this.props.addingSiteMapWell}
-            addSiteMapWell={this.addSiteMapWell} />
+        <div className="inner-sidebar">
           <ul className='well-names list-group'>
             {wellNames}
           </ul>
+        </div>
 
-          {siteMapWellForm}
+        <div className="site-map-content">
+          <h2> {siteMap.get('title')} </h2>
+          <i>Click to place a well.</i>
+          <div className='d-flex'>
+
+            <SiteMapImage
+              imageUrl={siteMap.get('url')}
+              siteMapWells={siteMapWells}
+              wells={this.props.wells}
+              addingSiteMapWell={this.props.addingSiteMapWell}
+              addSiteMapWell={this.addSiteMapWell} />
+
+            {siteMapWellForm}
+          </div>
         </div>
       </div>
     )
@@ -193,6 +205,7 @@ const mapStateToProps = (store, props) => ({
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
 

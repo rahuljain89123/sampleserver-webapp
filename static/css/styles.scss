@@ -16,7 +16,7 @@ $gecko-lt: #12CF79;
 $ss-font-family: GothamHTF, 'Open Sans', helvetica, arial, sans-serif;
 
 
-html, body, .index, .app {
+html, body, .index, .app, .site-map, .site-details, .root, .company-app, .main-container {
     height: 100%;
     font-family: $ss-font-family;
 }
@@ -56,6 +56,10 @@ h1, h2, h3, h4 {
             color: #d9534f;
         }
     }
+}
+.warning {
+    color: #d9534f;
+    vertical-align: middle;
 }
 .btn + .btn {
     margin-left: 15px;
@@ -414,11 +418,41 @@ section {
         padding-left: 5px;
     }
 }
-
+.inner-sidebar {
+    height: 100%;
+    width: 200px;
+    background: #FFFFFF;
+}
 .site-map {
-  .well {
-    padding: 10px;
-  }
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    // justify-content: space-around;
+    box-sizing: initial;
+    margin: 0 -30px;
+
+    .inner-sidebar {
+        background: #FFFFFF;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+        padding: 15px;
+    }
+    .site-map-content {
+        width: 100%;
+    }
+    .well {
+        padding: 10px;
+        margin: 0;
+        list-style: none;
+        border: 1px solid rgba(86, 91, 96, 0.2);
+    }
+    .well-names {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+    }
+    .remove-well-marker {
+        float: right;
+    }
 }
 
 .site-map-image {
@@ -483,7 +517,6 @@ section {
 
         .main-container {
             overflow: scroll;
-            // width: 100%;
             flex: 1;
             background: #FAFBFD;
         }
