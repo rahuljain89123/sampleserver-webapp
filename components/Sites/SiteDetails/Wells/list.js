@@ -84,9 +84,9 @@ class Wells extends React.Component {
           <thead>
             <tr>
               <th>Well Title</th>
-              <th>Est. Depth to Water</th>
-              <th>Depth to Bottom</th>
-              <th>Screen Length</th>
+              <th className="hidden-lg-down">Est. Depth to Water</th>
+              <th className="hidden-lg-down">Depth to Bottom</th>
+              <th className="hidden-lg-down">Screen Length</th>
               <th>Top of Casing</th>
             </tr>
           </thead>
@@ -98,13 +98,13 @@ class Wells extends React.Component {
                     {well.get('title')}
                   </Link>
                 </td>
-                <td>
+                <td className="hidden-lg-down">
                   {well.get('est_depth_to_water')}
                 </td>
-                <td>
+                <td className="hidden-lg-down">
                   {well.get('depth_to_bottom')}
                 </td>
-                <td>
+                <td className="hidden-lg-down">
                   {well.get('screenlength')}
                 </td>
                 <td>
@@ -121,22 +121,29 @@ class Wells extends React.Component {
 
     return (
       <div className="site-details-wells">
-        {wellsList}
-        <div className="bulk-upload">
-          <div className="row justify-content-between">
-            <div className="col-4">
-              <h4>Bulk Upload</h4><a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1">Download Example</a>
-            </div>
-            <div className="col-4 right">
-              <Button
-                color="default"
-                role="button"
-                className="ml-auto btn-bulk-upload"
-                onClick={() => this.onNewUpload()}
-              >
-                <i className="material-icons">add_circle_outline</i>
-                New Bulk Upload
-              </Button>
+        <div className="row">
+          <div className="col-lg-8 col-md-7 col-sm-6">
+            {wellsList}
+          </div>
+          <div className="col-lg-4 col-md-5 hidden-sm-down">
+            <div className="bulk-upload styled-box">
+              <div className="header">
+                <i className="material-icons">file_upload</i>
+                <div className="title">Bulk Upload</div>
+              </div>
+
+              <div className="content">
+                <Button
+                  color="primary"
+                  role="button"
+                  className="ml-auto btn-bulk-upload btn-lg"
+                  onClick={() => this.onNewUpload()}
+                >
+                  Choose File
+                </Button>
+                <p>Save time by uploading your well data in a CSV.<br />Need help?</p>
+                <a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1">Download a Sample CSV</a>
+              </div>
             </div>
           </div>
         </div>
