@@ -17,7 +17,7 @@ const UserForm = (props) => {
   if (!currentRole) { return null }
 
   return (
-    <Col sm="6">
+    <div>
       <h6>Add {currentRole.get('description')}</h6>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormGroup>
@@ -41,7 +41,7 @@ const UserForm = (props) => {
 
         </FormGroup>
       </Form>
-    </Col>
+    </div>
   )
 }
 

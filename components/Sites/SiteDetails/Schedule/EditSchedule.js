@@ -300,7 +300,7 @@ class EditSchedule extends React.Component {
             <tbody>
               {wells.map(well => (
                 <tr key={well.get('id')}>
-                  <td>{well.get('title')}</td>
+                  <td className="well-title">{well.get('title')}</td>
                   <td>
                     <input
                       type="checkbox"

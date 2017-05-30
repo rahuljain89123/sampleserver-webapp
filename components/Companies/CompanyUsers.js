@@ -11,6 +11,10 @@ import {
   NavLink,
   Row,
   Col,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/Team/UsersTable'
@@ -19,7 +23,7 @@ import UserForm from 'SharedComponents/Team/UserForm'
 import { fetchCompany } from 'actions/companies'
 import { createUser, fetchUsers, editUser } from 'actions/users'
 import { currentUserRole } from 'normalizers'
-import { setHeaderInfo } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 
 class CompanyUsers extends React.Component {
@@ -30,10 +34,22 @@ class CompanyUsers extends React.Component {
     const activeRole = roles.size ? roles.first().get('id') : 100
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onInviteUser = this.onInviteUser.bind(this)
+    this.hideModal = this.hideModal.bind(this)
 
     this.state = {
       activeRole,
+      invitingUser: false,
+      error: false,
     }
+  }
+
+  onInviteUser () {
+    this.setState({ invitingUser: true })
+  }
+
+  hideModal () {
+    this.setState({ invitingUser: false })
   }
 
   componentDidMount () {
@@ -62,6 +78,10 @@ class CompanyUsers extends React.Component {
     this.setState({ activeRole })
   }
 
+  clearError () {
+    this.setState({ error: false })
+  }
+
   onSubmit (userParams) {
     const user = {
       email: userParams.get('email'),
@@ -74,6 +94,15 @@ class CompanyUsers extends React.Component {
     }
 
     this.props.createUser(user)
+    .then(() => {
+      this.clearError()
+      this.setState({ invitingUser: false })
+      this.props.flashMessage('success', 'User invited successfully.')
+    })
+    .catch(() => {
+      this.props.flashMessage('danger', 'Sorry, there was an error.')
+      this.setState({ error: 'Sorry, there was an error.' })
+    })
   }
 
   render () {
@@ -90,8 +119,19 @@ class CompanyUsers extends React.Component {
       .entrySeq()
     const roles = this.props.roles.entrySeq()
 
+    let errorDisplay = null
+    if (this.state.error) {
+      errorDisplay = (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" className="close" onClick={() => this.clearError()}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {this.state.error}
+        </div>
+      )
+    }
     return (
-      <div>
+      <div className="company-users">
         <Nav tabs>
           {roles.map(([id, role]) => (
             <NavItem key={role.get('id')}>
@@ -107,22 +147,21 @@ class CompanyUsers extends React.Component {
             </NavItem>
           ))}
         </Nav>
+        <div className="nav-item action">
+          <a className="nav-link" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite {currentRole.get('description')}</a>
+        </div>
         <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
           <TabPane tabId={4}>
             <Row>
               <Col sm="12">
                 <p>
                 Can create additional CompanyAdmin Users.
-                <br />
-                CompanyAdmin users can disable other CompanyAdmin users.
-                <br />
-                CompanyAdmin cannot disable himself.
-                <br />
-                All CompanyAdmins receive notification the invoice,
-                and all have the ability to pay.
-                <br />
-                Also have CompanyAssociate permissions.
-                <br /><br />
+                </p>
+                <p>
+                Can disable other CompanyAdmin users.
+                </p>
+                <p>
+                Cannot disable their own account.
                 </p>
               </Col>
             </Row>
@@ -132,22 +171,27 @@ class CompanyUsers extends React.Component {
               <Col sm="12">
                 <p>
                 Can create/edit/view all sites within the company.
-                <br />
+                </p>
+                <p>
                 Can create site groups.
-                <br />
+                </p>
+                <p>
                 Can add project managers and technicians to each site group.
-                <br /><br />
                 </p>
               </Col>
             </Row>
           </TabPane>
         </TabContent>
         <UsersTable users={users} />
-        <Row>
-        <UserForm
-          currentRole={currentRole}
-          onSubmit={this.onSubmit} />
-        </Row>
+        <Modal isOpen={this.state.invitingUser} toggle={this.hideModal}>
+          <ModalHeader toggle={this.hideModal}>Invite {currentRole.get('description')}</ModalHeader>
+          <ModalBody>
+            {errorDisplay}
+            <UserForm
+              currentRole={currentRole}
+              onSubmit={this.onSubmit} />
+          </ModalBody>
+        </Modal>
       </div>
     )
   }
@@ -176,6 +220,7 @@ const mapStateToProps = (store, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => ({
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   fetchCompany: id => dispatch(fetchCompany(id)),
   fetchUsers: filters => dispatch(fetchUsers(filters)),
   createUser: user => dispatch(createUser(user)),

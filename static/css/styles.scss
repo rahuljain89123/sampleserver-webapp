@@ -99,6 +99,13 @@ h4 {
 .btn + .btn {
     margin-left: 15px;
 }
+[type="checkbox"],
+[type="radio"] {
+  box-sizing: border-box;
+  height: 25px;
+  width: 25px;
+}
+
 #wrapper {
     min-height: 100%;
     margin: 0 auto -60px;
@@ -116,7 +123,7 @@ body {
     min-height: 800px;
 }
 .company-app {
-    margin-bottom: 100px;
+    // margin-bottom: 100px;
 }
 .gray {
   background-color: lightgray;
@@ -127,7 +134,23 @@ body {
 .flash {
     margin: 0;
 }
-
+.status-circle {
+    height: 8px;
+    width: 8px;
+    border-radius: 8px;
+    display: inline-block;
+    padding: 5px;
+    &.success {
+        /* Oval 2: */
+        background: #12CF79;
+    }
+    &.warning {
+        background: #FFC96F;
+    }
+    &.danger {
+        background: #E44242;
+    }
+}
 @media (min-width: 1200px) {
     .container {
         width: 970px;
@@ -176,6 +199,46 @@ body {
         z-index: 10;
         left: 30px;
         top: 36px;
+    }
+}
+.nav-tabs {
+    border-bottom: 2px solid #D2D4D7;
+
+    .nav-item {
+        /* Lab Associates: */
+        margin-bottom: -2px;
+        font-family: GothamHTF;
+        font-size: 13px;
+        color: rgba(40, 43, 47, 0.5);
+        letter-spacing: 0;
+        &:hover {
+            color: #282B2F;
+        }
+        &.action {
+            // align-self: flex-end;
+            .material-icons {
+                position: absolute;
+            }
+        }
+    }
+    .nav-link {
+        border: none;
+        padding: 0 30px 20px 0;
+
+        &.active {
+            padding: 0 0 20px 0;
+            margin-right: 30px;
+            background: none;
+            /* Lab Admins: */
+            font-family: GothamHTF;
+            font-size: 13px;
+            color: #282B2F;
+            letter-spacing: 0;
+            border-bottom: 2px solid #282B2F;
+        }
+        &:hover {
+            color: #282B2F;
+        }
     }
 }
 .lab-logos {
@@ -462,6 +525,9 @@ section {
 .sample-schedule {
     .fa-times {
         padding-left: 5px;
+    }
+    .well-title {
+        white-space: nowrap;
     }
 }
 .inner-sidebar {
@@ -1105,7 +1171,37 @@ form.contouring-form {
         margin-bottom: 20px;
     }
 }
-
+.company-users {
+    p {
+        font-weight: normal;
+        margin-bottom: 10px;
+        font-size: 13px;
+    }
+    .users-table {
+        margin-bottom: 60px;
+        margin-top: 20px;
+    }
+    .nav-item {
+        &.action {
+            .material-icons {
+                color: #1FC7C8;
+                vertical-align: middle;
+                padding-right: 5px;
+            }
+            /* Section Specific Tas: */
+            font-family: GothamHTF;
+            font-size: 13px;
+            color: #575C61;
+            margin-bottom: -2px;
+            letter-spacing: 0;
+            margin: 0 30px 20px 0;
+            position: absolute;
+            top: -5px;
+            right: 0;
+            cursor: pointer;
+        }
+    }
+}
 @media (max-width: 1200px) {
     .styled-box {
         .content {

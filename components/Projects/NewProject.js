@@ -25,7 +25,7 @@ class NewProject extends React.Component {
     return (
       <div>
         <Row>
-          <Col sm={6}>
+          <Col sm={12} md={8}>
             <NewProjectForm push={this.props.push} />
           </Col>
         </Row>
