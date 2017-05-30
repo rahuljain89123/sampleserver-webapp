@@ -269,6 +269,7 @@ class EditSchedule extends React.Component {
           <div className="row add-test">
             <div className="col-sm-10">
               <select name="tests" onChange={e => this.onChange(e)} className="form-control">
+                <option value=''>Choose a test...</option>
                 {tests.map(test => (
                   <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
                 ))}
