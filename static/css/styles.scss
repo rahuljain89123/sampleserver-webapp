@@ -684,6 +684,13 @@ section {
             color: #FFFFFF;
         }
     }
+    .nav {
+        .nav-link {
+            &:last-child {
+                margin-bottom: 40px;
+            }
+        }
+    }
     .nav-pills {
         .nav-link {
             line-height: 40px;
