@@ -60,7 +60,7 @@ class EditSite extends React.Component {
         <div className="border-bottom">
         </div>
         <Row>
-          <Col sm={6}>
+          <Col sm={12}>
             <SiteForm
               initialValues={site}
               siteError={editingSiteError}
@@ -70,7 +70,7 @@ class EditSite extends React.Component {
             />
           </Col>
         </Row>
-        
+
       </div>
     )
   }

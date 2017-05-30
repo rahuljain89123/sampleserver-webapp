@@ -266,13 +266,17 @@ class EditSchedule extends React.Component {
 
       return (
         <div className="sample-schedule">
-          <div className="add-test">
-            <select name="tests" onChange={e => this.onChange(e)}>
-              {tests.map(test => (
-                <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
-              ))}
-            </select>
-            <button className="btn btn-primary" onClick={e => this.addTest(e)}>Add Test</button>
+          <div className="row add-test">
+            <div className="col-sm-10">
+              <select name="tests" onChange={e => this.onChange(e)} className="form-control">
+                {tests.map(test => (
+                  <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
+                ))}
+              </select>
+            </div>
+            <div className="col-sm-2">
+              <button className="btn btn-primary btn-block" onClick={e => this.addTest(e)}>Add Test</button>
+            </div>
           </div>
 
           <table className="table table-striped tests table">
@@ -325,16 +329,6 @@ class EditSchedule extends React.Component {
                 ))}
             </tbody>
           </table>
-          <hr/>
-          <Row>
-            <Col sm={6}>
-              <h3> Site Activity Report </h3>
-              <SiteActivityReportForm
-                initialValues={siteActivityReport}
-                onSubmit={this.editSchedule}
-              />
-            </Col>
-          </Row>
         </div>
       )
     }

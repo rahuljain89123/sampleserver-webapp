@@ -22,7 +22,7 @@ class FormButton extends React.Component {
             role={this.props.role}
             color={this.props.color}
             disabled={this.props.disabled}
-          >Save</Button>
+          >{this.props.children}</Button>
         </div>
       </div>
     )

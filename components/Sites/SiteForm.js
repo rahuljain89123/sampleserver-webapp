@@ -8,6 +8,7 @@ import {
 import { Field, reduxForm } from 'redux-form/immutable'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
+import FormButton from 'SharedComponents/ReduxFormHelpers/FormButton'
 
 import STATES from 'helpers/states'
 import { msgFromError } from 'helpers/util'
@@ -159,11 +160,11 @@ class SiteForm extends React.Component {
           type='text'
         />
 
-        <Button
+        <FormButton
             role="button"
             color="primary"
             disabled={this.props.submittingForm}
-        >Save</Button>
+        >Save Site</FormButton>
       </Form>
     )
   }

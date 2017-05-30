@@ -30,7 +30,9 @@ class ContactForm extends React.Component {
       'Regulatory',
       'Account Holder/Invoicing',
       'Consultant/Engineer',
-      'Laboratory'
+      'Laboratory',
+      'Site Owner',
+      'Primary Site Contact',
     ].map((opt,i) => <option key={i}>{opt}</option>)
 
     const { handleSubmit, submitForm } = this.props
