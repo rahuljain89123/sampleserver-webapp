@@ -84,10 +84,8 @@ class Wells extends React.Component {
           <thead>
             <tr>
               <th>Well Title</th>
-              <th className="hidden-lg-down">Est. Depth to Water</th>
-              <th className="hidden-lg-down">Depth to Bottom</th>
-              <th className="hidden-lg-down">Screen Length</th>
               <th>Top of Casing</th>
+              <th />
             </tr>
           </thead>
           <tbody>
@@ -98,17 +96,13 @@ class Wells extends React.Component {
                     {well.get('title')}
                   </Link>
                 </td>
-                <td className="hidden-lg-down">
-                  {well.get('est_depth_to_water')}
-                </td>
-                <td className="hidden-lg-down">
-                  {well.get('depth_to_bottom')}
-                </td>
-                <td className="hidden-lg-down">
-                  {well.get('screenlength')}
-                </td>
                 <td>
                   {well.get('top_of_casing')}
+                </td>
+                <td className="text-align-right">
+                  <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                    <i className="material-icons">more_horiz</i>
+                  </Link>
                 </td>
               </tr>
             ))}
@@ -134,15 +128,15 @@ class Wells extends React.Component {
 
               <div className="content">
                 <Button
-                  color="primary"
+                  color="info"
                   role="button"
-                  className="ml-auto btn-bulk-upload btn-lg"
+                  className="ml-auto btn-bulk-upload"
                   onClick={() => this.onNewUpload()}
                 >
                   Choose File
                 </Button>
                 <p>Save time by uploading your well data in a CSV.<br />Need help?</p>
-                <a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1">Download a Sample CSV</a>
+                <a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1" className="btn-link">Download a Sample CSV</a>
               </div>
             </div>
           </div>

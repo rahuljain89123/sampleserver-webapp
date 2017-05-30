@@ -30,6 +30,13 @@ h1 {
 h1, h2, h3, h4 {
     font-family: $ss-font-family;
 }
+h3 {
+    font-family: GothamHTF;
+    font-size: 20px;
+    color: #575C61;
+    letter-spacing: 0.4px;
+    line-height: 32px;
+}
 h4 {
     font-family: GothamHTF;
     font-size: 16px;
@@ -40,6 +47,15 @@ h4 {
 
 .btn {
     font-family: $ss-font-family;
+    /* Rectangle 4: */
+    box-shadow: 0 2px 10px 0 rgba(154,122,255,0.30);
+    border-radius: 3px;
+    /* Choose File: */
+    font-family: GothamHTF;
+    font-size: 14px;
+    color: #FFFFFF;
+    line-height: 26px;
+    min-width: 120px;
 }
 .btn-default {
     /* Rectangle 4: */
@@ -68,6 +84,14 @@ h4 {
 .btn-primary {
 
 }
+.btn-link {
+    color: #C7B5FE;
+}
+.form-button-row {
+    .btn {
+        margin-top: 15px;
+    }
+}
 .warning {
     color: #d9534f;
     vertical-align: middle;
@@ -91,7 +115,9 @@ h4 {
 body {
     min-height: 800px;
 }
-
+.company-app {
+    margin-bottom: 100px;
+}
 .gray {
   background-color: lightgray;
   padding: 25px;
@@ -365,13 +391,27 @@ section {
     }
 
 }
-
+.text-align-right {
+    text-align: right;
+}
+.text-align-center {
+    text-align: center;
+}
+.text-align-left {
+    text-align: left;
+}
 .site-details-wells {
     width: 100%;
     .bulk-upload {
-        .btn-primary {
+        .btn {
             margin:10px 0 30px 0;
         }
+        .content p {
+            color: rgba(40, 43, 47, 0.5);
+        }
+    }
+    i {
+        color: #575C61;
     }
 }
 
@@ -964,7 +1004,7 @@ form.contouring-form {
         padding: 40px 80px;
         text-align: center;
         /* Save time by uploadi: */
-        opacity: 0.5;
+        // opacity: 0.5;
         font-family: GothamHTF;
         font-size: 12px;
         color: #282B2F;

@@ -8,6 +8,8 @@ import {
 
 import { Field, reduxForm } from 'redux-form/immutable'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
+import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
+import FormButton from 'SharedComponents/ReduxFormHelpers/FormButton'
 
 import { msgFromError } from 'helpers/util'
 
@@ -27,6 +29,16 @@ class WellForm extends React.Component {
     } : {}
 
     const { handleSubmit, submitForm } = this.props
+
+    const materialOptions = ['PVC', 'Steel', 'Other'].map(material => (
+      <option key={material} value={material}>{material}</option>
+    ))
+    const samplingOptions = ['Low Flow', 'Grab Sample', 'Other'].map(option => (
+      <option key={option} value={option}>{option}</option>
+    ))
+    const disposalOptions = ['Pour on Ground', 'Place in Container', 'Other'].map(option => (
+      <option key={option} value={option}>{option}</option>
+    ))
 
     return (
       <Form onSubmit={handleSubmit(submitForm)}>
@@ -55,11 +67,12 @@ class WellForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.material, label: 'Well Material'}}
+          props={{ error: errors.material, label: 'Well Material', placeholder: 'Choose a material...' }}
           name='material'
           id='material'
-          component={IndividualFormGroup}
-          type='text'
+          showLabel={true}
+          component={SelectFormGroup}
+          options={materialOptions}
         />
 
         <Field
@@ -71,11 +84,12 @@ class WellForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.sampletechnique, label: 'Sampling Technique'}}
+          props={{ error: errors.sampletechnique, label: 'Sampling Technique', placeholder: 'Choose a sampling technique...'}}
           name='sampletechnique'
           id='sampletechnique'
-          component={IndividualFormGroup}
-          type='text'
+          showLabel={true}
+          component={SelectFormGroup}
+          options={samplingOptions}
         />
 
         <Field
@@ -95,7 +109,7 @@ class WellForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.est_depth_to_water, label: 'Predicted Depth to Water (ft)'}}
+          props={{ error: errors.est_depth_to_water, label: 'Estimated Depth to Water (ft)'}}
           name='est_depth_to_water'
           id='est_depth_to_water'
           component={IndividualFormGroup}
@@ -111,11 +125,12 @@ class WellForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.purge_water_disposal, label: 'Well Sampling Purge Water Disposal'}}
+          props={{ error: errors.purge_water_disposal, label: 'Well Sampling Purge Water Disposal', placeholder: 'Choose a water disposal method...'}}
           name='purge_water_disposal'
           id='purge_water_disposal'
-          component={IndividualFormGroup}
-          type='text'
+          showLabel={true}
+          component={SelectFormGroup}
+          options={disposalOptions}
         />
 
         <Field
@@ -123,14 +138,15 @@ class WellForm extends React.Component {
           name='notes'
           id='notes'
           component={IndividualFormGroup}
-          type='text'
+          type='textarea'
         />
 
-        <Button
-            role="button"
-            color="primary"
-            disabled={this.props.submittingForm}
-        >Save</Button>
+        <FormButton
+          role="button"
+          color="primary"
+          disabled={this.props.submittingForm}
+        >Save Well</FormButton>
+
       </Form>
     )
   }

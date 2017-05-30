@@ -94,7 +94,7 @@ class EditWell extends React.Component {
 
     return (
       <Row>
-        <Col sm={6}>
+        <Col sm={12}>
 
           <WellForm
             initialValues={well}

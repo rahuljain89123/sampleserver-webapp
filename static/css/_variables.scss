@@ -104,16 +104,16 @@ $pink:   #ff5b77 !default;
 $purple: #613d7c !default;
 
 // Create grayscale
-$gray-dark:                 #292b2c !default;
+$gray-dark:                 #EBEEF0 !default;
 $gray:                      #464a4c !default;
 $gray-light:                #636c72 !default;
 $gray-lighter:              #eceeef !default;
 $gray-lightest:             #f7f7f9 !default;
 
 // Reassign color vars to semantic color scheme
-$brand-primary:             #7B53FC !default;
+$brand-primary:             #1FC7C8 !default;
 $brand-success:             #02BE67 !default;
-$brand-info:                #5bc0de !default;
+$brand-info:                #9A7AFF !default;
 $brand-warning:             #f0ad4e !default;
 $brand-danger:              #d9534f !default;
 $brand-inverse:             $gray-dark !default;
@@ -371,14 +371,17 @@ $btn-primary-color:              $white !default;
 $btn-primary-bg:                 $brand-primary !default;
 $btn-primary-border:             $btn-primary-bg !default;
 
-$btn-secondary-color:            $gray-dark !default;
-$btn-secondary-bg:               $white !default;
-$btn-secondary-border:           #ccc !default;
+// Grey button
+$btn-secondary-color:            #575C61 !default;
+$btn-secondary-bg:               $gray-dark !default;
+$btn-secondary-border:           $gray-dark !default;
 
+// Purple button
 $btn-info-color:                 $white !default;
 $btn-info-bg:                    $brand-info !default;
 $btn-info-border:                $btn-info-bg !default;
 
+// Green button
 $btn-success-color:              $white !default;
 $btn-success-bg:                 $brand-success !default;
 $btn-success-border:             $btn-success-bg !default;
