@@ -1,6 +1,7 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 import {
   fetchSiteMap,
@@ -159,6 +160,7 @@ class SiteMap extends React.Component {
     })
 
     let siteMapWellForm = null
+    let markWellsMessage = null
 
     if (this.props.addingSiteMapWell) {
       siteMapWellForm = (<SiteMapWellForm
@@ -167,13 +169,26 @@ class SiteMap extends React.Component {
         wells={unmarkedWells} />)
     }
 
+    if (!this.props.wells || !this.props.wells.size) {
+      markWellsMessage = (
+        <div>
+          <p><Link
+              to={`/app/sites/${this.props.site.get('id')}/details/wells`}>
+              Add wells to your site
+            </Link> before using this page.</p>
+          <p>After adding wells you will be able to mark their location on the sitemap.</p>
+        </div>
+      )
+    } else {
+      markWellsMessage = <i>Click any location on the sitemap to place a well.</i>
+    }
+
     return (
       <div className="site-map">
         <div className="inner-sidebar">
           <div className="sidebar-content">
             <h2> {siteMap.get('title')} </h2>
-            <i>Click any location on the sitemap to place a well.</i>
-
+            {markWellsMessage}
             <ul className='well-names list-group'>
               {wellNames}
             </ul>

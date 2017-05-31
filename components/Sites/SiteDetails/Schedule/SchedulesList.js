@@ -13,11 +13,13 @@ import {
   clearCreatingScheduleError,
   fetchSchedules,
 } from 'actions/schedule'
+import { fetchTests } from 'actions/tests'
 import { setHeaderInfo } from 'actions/global'
 import { msgFromError } from 'util'
 
 class SchedulesList extends React.Component {
   componentDidMount () {
+    this.props.fetchTests()
     this.props.fetchSchedules({site_id: this.props.site.get('id')})
     .then(() => {
       this.props.schedules.map(schedule => {
@@ -37,6 +39,7 @@ class SchedulesList extends React.Component {
   }
 
   render () {
+    let schedulesTable = undefined
     let schedules = undefined
 
     if (this.props.schedules.size > 0 && this.props.site) {
@@ -49,21 +52,59 @@ class SchedulesList extends React.Component {
       schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`}>Create one</Link> </span>
     }
 
+    schedules = this.props.schedules.map((schedule) => {
+      return (
+        <tbody key={schedule.get('id')}>
+          <tr>
+            <td>
+              <Link
+                to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}>
+                {moment(schedule.get('date')).utc().format('YYYY-MM-DD')}
+              </Link>
+            </td>
+            <td>
+              {schedule.get('test_ids').map(testId => (
+                <div key={testId}>
+                  {this.props.tests.get(testId).get('title')}
+                </div>
+              ))}
+            </td>
+          </tr>
+        </tbody>
+      )
+    })
+
+    if (this.props.schedules.size > 0 && this.props.site) {
+      schedulesTable = (
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Schedule Date</th>
+              <th>Tests</th>
+            </tr>
+          </thead>
+          {schedules}
+        </table>
+      )
+    } else {
+      schedulesTable = 'No schedules created yet.'
+    }
+
     return (
       <div className="sample-schedule">
-        <div className="d-flex flex-row">
-        </div>
-        {schedules}
+        {schedulesTable}
       </div>
     )
   }
 }
 
 const mapStateToProps = store => ({
+  tests: store.get('tests'),
   schedules: store.get('schedules'),
 })
 
 const mapDispatchToProps = dispatch => ({
+  fetchTests: filters => dispatch(fetchTests(filters)),
   fetchSchedules: filters => dispatch(fetchSchedules(filters)),
   setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })

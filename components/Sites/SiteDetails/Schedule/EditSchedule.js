@@ -255,7 +255,7 @@ class EditSchedule extends React.Component {
     const wells = this.props.wells.valueSeq()
 
 
-    if (wells && site && schedules.size > 0 && stateTests.size > 0) {
+    if (wells.size && site && schedules.size > 0 && stateTests.size > 0) {
 
       const schedule = this.props.schedules.get(this.state.scheduleId)
       const tests = stateTests.filter((test) => !schedule.get('test_ids').includes(test.get('id')))
@@ -333,9 +333,17 @@ class EditSchedule extends React.Component {
         </div>
       )
     }
+    if (!stateTests.size) {
+      return <div className="sample-schedule"><p>No tests found for this state.</p></div>
+    }
+    if (!wells.size) {
+      return <div className="sample-schedule"><p>No wells found for this site.</p></div>
+    }
     return (
       <div className="sample-schedule">
-        <h2>Edit Schedule</h2>
+        <p>
+          No tests found for this state.
+        </p>
       </div>
     )
   }
