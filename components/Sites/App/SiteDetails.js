@@ -27,6 +27,7 @@ class SiteDetails extends React.Component {
   render () {
     const { site } = this.props
     if (!site) { return null }
+    if (!this.props.location.pathname.includes('details')) { return null }
 
     return (
       <div className="site-details">

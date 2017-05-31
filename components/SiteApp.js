@@ -47,7 +47,7 @@ class SiteApp extends React.Component {
 
     return (
       <div className="app">
-        <SiteDetails site={site} />
+        <SiteDetails site={site} location={this.props.location}/>
         <SiteDataImport site={site} />
         <SiteReports site={site} />
         <PrivateRoute
