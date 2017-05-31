@@ -10,7 +10,7 @@ import { Route, Redirect } from 'react-router'
 import PrivateRoute from './Auth'
 import SiteNav from 'Sites/App/SiteNav'
 import ProjectSiteUsers from 'Sites/ProjectSiteUsers'
-import SiteContacts from 'Sites/SiteContacts'
+import ContactsList from 'Sites/Contacts/ContactsList'
 import NewSiteContact from 'Sites/Contacts/NewSiteContact'
 import EditSiteContact from 'Sites/Contacts/EditSiteContact'
 
@@ -68,7 +68,7 @@ class SiteApp extends React.Component {
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/contacts`}
-          component={props => <SiteContacts site={site} {...props} />}
+          component={props => <ContactsList site={site} {...props} />}
         />
         <PrivateRoute
           exact

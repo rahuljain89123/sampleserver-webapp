@@ -9,7 +9,7 @@ import { fetchContacts } from '../../actions/contacts'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
 
-class SiteContacts extends React.Component {
+class ContactsList extends React.Component {
     componentDidMount () {
       this.props.fetchContacts({ site_id: this.props.site.get('id') })
       this.props.setHeaderInfo('Contacts', [{
@@ -77,4 +77,4 @@ const mapDispatchToProps = dispatch => ({
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(SiteContacts)
+export default connect(mapStateToProps, mapDispatchToProps)(ContactsList)
