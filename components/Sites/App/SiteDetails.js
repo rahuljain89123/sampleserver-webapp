@@ -6,7 +6,7 @@ import {
 import { connect } from 'react-redux'
 import PrivateRoute from 'components/Auth'
 import EditSite from 'components/Sites/EditSite'
-import Wells from 'components/Sites/SiteDetails/Wells/list'
+import WellsList from 'components/Sites/SiteDetails/Wells/WellsList'
 import SchedulesList from 'components/Sites/SiteDetails/Schedule/SchedulesList'
 import NewSchedule from 'components/Sites/SiteDetails/Schedule/NewSchedule'
 import EditSchedule from 'components/Sites/SiteDetails/Schedule/EditSchedule'
@@ -45,11 +45,6 @@ class SiteDetails extends React.Component {
           exact
           path={`/app/sites/${site.get('id')}/details/executive-summary`}
           component={props => <EditExecutiveSummaryForm site={site} {...props} />}
-        />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/wells`}
-          component={props => <Wells site={site} {...props} />}
         />
         <PrivateRoute
           exact
@@ -95,7 +90,12 @@ class SiteDetails extends React.Component {
           path={`/app/sites/${site.get('id')}/details/state-specific-info`}
           component={props => <StateSpecificInfoForm site={site} {...props} />}
         />
-
+        
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/wells`}
+          component={props => <WellsList site={site} {...props} />}
+        />
         <Switch>
           <PrivateRoute
             exact
