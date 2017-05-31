@@ -63,30 +63,6 @@ class SiteForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.contact, label: 'Contact'}}
-          name='contact'
-          id='contact'
-          component={IndividualFormGroup}
-          type='text'
-        />
-
-        <Field
-          props={{ error: errors.contact_phone, label: 'Contact Phone #'}}
-          name='contact_phone'
-          id='contact_phone'
-          component={IndividualFormGroup}
-          type='text'
-        />
-
-        <Field
-          props={{ error: errors.contact_email, label: 'Contact E-mail'}}
-          name='contact_email'
-          id='contact_email'
-          component={IndividualFormGroup}
-          type='text'
-        />
-
-        <Field
           props={{ error: errors.notes, label: 'Notes'}}
           name='notes'
           id='notes'
