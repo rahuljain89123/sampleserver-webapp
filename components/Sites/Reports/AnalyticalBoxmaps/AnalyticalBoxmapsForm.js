@@ -48,7 +48,10 @@ class AnalyticalBoxmapsForm extends React.Component {
       .set('substance_ids', this.props.site.get('substance_ids'))
 
     this.props.createAnalyticalBoxmaps(formParams)
-      .then((url) => window.location = url)
+      .then((url) => {
+        this.props.flashMessage('success', 'good schema')
+        //window.location = url
+      })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
@@ -84,6 +87,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       substanceGroups,
       dates,
       criterias,
+      handleSubmit,
     } =  this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
@@ -126,7 +130,7 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     return (
       <div>
-        <Form onSubmit={this.props.handleSubmit(this.onSubmit)}>
+        <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             props={{label: 'Site Map', placeholder: 'Select Site Map'}}
             name='sitemap_id'
