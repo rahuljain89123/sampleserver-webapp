@@ -6,7 +6,7 @@ import {
 import { connect } from 'react-redux'
 import PrivateRoute from 'components/Auth'
 import EditSite from 'components/Sites/EditSite'
-import Wells from 'components/Sites/SiteDetails/Wells/list'
+import WellsList from 'components/Sites/SiteDetails/Wells/WellsList'
 import SchedulesList from 'components/Sites/SiteDetails/Schedule/SchedulesList'
 import NewSchedule from 'components/Sites/SiteDetails/Schedule/NewSchedule'
 import EditSchedule from 'components/Sites/SiteDetails/Schedule/EditSchedule'
@@ -48,24 +48,21 @@ class SiteDetails extends React.Component {
         />
         <PrivateRoute
           exact
-          path={`/app/sites/${site.get('id')}/details/wells`}
-          component={props => <Wells site={site} {...props} />}
-        />
-        <PrivateRoute
-          exact
           path={`/app/sites/${site.get('id')}/details/sample-schedule`}
           component={props => <SchedulesList site={site} {...props} />}
         />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
-          component={props => <NewSchedule site={site} {...props} />}
-        />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
-          component={props => <EditSchedule site={site} {...props} />}
-        />
+        <Switch>
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
+            component={props => <NewSchedule site={site} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/sample-schedule/:id`}
+            component={props => <EditSchedule site={site} {...props} />}
+          />
+        </Switch>
         <Switch>
           <PrivateRoute
             exact
@@ -96,6 +93,11 @@ class SiteDetails extends React.Component {
           component={props => <StateSpecificInfoForm site={site} {...props} />}
         />
 
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/details/wells`}
+          component={props => <WellsList site={site} {...props} />}
+        />
         <Switch>
           <PrivateRoute
             exact

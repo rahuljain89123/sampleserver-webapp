@@ -25,7 +25,7 @@ const FILESTACK_OPTIONS = {
   storeTo: { location: 's3' },
 }
 
-class Wells extends React.Component {
+class WellsList extends React.Component {
   constructor (props) {
     super(props)
 
@@ -146,11 +146,11 @@ class Wells extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store, ownProps) => ({
   uploads: store.get('uploads'),
   lab: currentLab(store),
   company: currentCompany(store),
-  wells: store.get('wells'),
+  wells: store.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -163,4 +163,4 @@ const mapDispatchToProps = dispatch => ({
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Wells)
+export default connect(mapStateToProps, mapDispatchToProps)(WellsList)

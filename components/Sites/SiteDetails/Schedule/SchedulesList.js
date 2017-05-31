@@ -21,11 +21,6 @@ class SchedulesList extends React.Component {
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchSchedules({site_id: this.props.site.get('id')})
-    .then(() => {
-      this.props.schedules.map(schedule => {
-        console.log(schedule.get('date'))
-      })
-    })
 
     this.props.setHeaderInfo(
       'Site Details Schedule List',
@@ -33,7 +28,6 @@ class SchedulesList extends React.Component {
         text: 'New Schedule',
         onClick: `/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`,
         iconName: 'add_circle_outline',
-
       }]
     )
   }
@@ -43,8 +37,8 @@ class SchedulesList extends React.Component {
     let schedules = undefined
 
     if (this.props.schedules.size > 0 && this.props.site) {
-      schedules = this.props.schedules.map((schedule) => {
-        return <li>
+      schedules = this.props.schedules.valueSeq().map((schedule) => {
+        return <li key={schedule.get('id')}>
           <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}> {moment(schedule.get('date')).utc().format('YYYY-MM-DD')} </Link>
         </li>
       })

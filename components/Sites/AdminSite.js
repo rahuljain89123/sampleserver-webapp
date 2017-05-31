@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 import PrivateRoute from '../Auth'
 import Breadcrumbs from '../Breadcrumbs'
-import LinkButton from '../LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 
 import SiteInfo from './SiteInfo'
 import EditSite from './EditSite'

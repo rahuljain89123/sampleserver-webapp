@@ -5,9 +5,6 @@ import AcceptInviteForm from './AcceptInviteForm'
 
 const AcceptInvite = props => {
   const query = qs.parse(props.location.search.substr(1))
-  console.log(query)
-  console.log(props)
-  console.log(props.push)
 
   return (
     <div className="row justify-content-center">

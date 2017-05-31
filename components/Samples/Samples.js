@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
 import { fetchSamples } from '../../actions/samples'
-import LinkButton from '../LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 import FilterList from '../FilterList'
 
 
