@@ -76,8 +76,8 @@ class SiteMapsList extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  siteMaps: store.get('siteMaps'),
+const mapStateToProps = (store, ownProps) => ({
+  siteMaps: store.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
 })
 
 const mapDispatchToProps = dispatch => ({

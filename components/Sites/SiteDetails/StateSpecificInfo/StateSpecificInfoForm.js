@@ -528,7 +528,6 @@ const mapStateToProps = (state, ownProps) => {
   const site = ownProps.site
   const siteData = state.get('siteDatas').filter((siteData) => siteData.get('site_id') === site.get('id')).first()
   let initialValues = siteData
-  // const initialValues = siteData ? siteData.set('contamination_migrated_off_site', siteData.get('contamination_migrated_off_site').toString()) : siteData
 
   if (initialValues) {
     RADIO_BOOLEANS.forEach((key) => {
