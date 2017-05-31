@@ -83,8 +83,8 @@ class NewSchedule extends React.Component {
 
     let scheduleOptions = undefined
     if (this.props.schedules.size > 0) {
-      scheduleOptions = this.props.schedules.map(function (schedule) {
-      return <option>{moment(schedule.get('date')).utc().format('YYYY-MM-DD')}</option>
+      scheduleOptions = this.props.schedules.valueSeq().map(function (schedule) {
+      return <option key={schedule.get('id')}>{moment(schedule.get('date')).utc().format('YYYY-MM-DD')}</option>
       })
     }
 
@@ -118,7 +118,7 @@ class NewSchedule extends React.Component {
                   value={this.state.copy_params}
                   onChange={e => this.onChange(e)}
                 >
-                  {scheduleOptions ? (<option selected="selected">Select a date...</option> ) : ( <option></option>)}
+                  {scheduleOptions ? (<option>Select a date...</option> ) : ( <option></option>)}
                   {scheduleOptions}
                 </Input>
               </Col>

@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { Button, Table } from 'reactstrap'
 import { Link } from 'react-router-dom'
 
-import LinkButton from '../LinkButton'
-import { fetchContacts } from '../../actions/contacts'
+import LinkButton from 'SharedComponents/LinkButton'
+import { fetchContacts } from 'actions/contacts'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
 

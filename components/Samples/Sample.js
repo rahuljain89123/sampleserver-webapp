@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { Row, Col } from 'reactstrap'
 
-import LinkButton from '../LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 import { fetchSample } from '../../actions/samples'
 import EditSampleForm from './EditSampleForm'
 

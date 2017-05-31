@@ -51,16 +51,18 @@ class SiteDetails extends React.Component {
           path={`/app/sites/${site.get('id')}/details/sample-schedule`}
           component={props => <SchedulesList site={site} {...props} />}
         />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
-          component={props => <NewSchedule site={site} {...props} />}
-        />
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/details/sample-schedule/:id(\\d+)`}
-          component={props => <EditSchedule site={site} {...props} />}
-        />
+        <Switch>
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/sample-schedule/new`}
+            component={props => <NewSchedule site={site} {...props} />}
+          />
+          <PrivateRoute
+            exact
+            path={`/app/sites/${site.get('id')}/details/sample-schedule/:id`}
+            component={props => <EditSchedule site={site} {...props} />}
+          />
+        </Switch>
         <Switch>
           <PrivateRoute
             exact
@@ -90,7 +92,7 @@ class SiteDetails extends React.Component {
           path={`/app/sites/${site.get('id')}/details/state-specific-info`}
           component={props => <StateSpecificInfoForm site={site} {...props} />}
         />
-        
+
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/details/wells`}

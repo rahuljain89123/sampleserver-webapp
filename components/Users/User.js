@@ -10,7 +10,7 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import LinkButton from '../LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 import { fetchLabs } from '../../actions/labs'
 import { fetchRoles } from '../../actions/roles'
 import { fetchUser, editUser } from '../../actions/users'

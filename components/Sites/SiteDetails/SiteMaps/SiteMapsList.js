@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import LinkButton from 'components/LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 import filestack from 'filestack-js'
 
 import {

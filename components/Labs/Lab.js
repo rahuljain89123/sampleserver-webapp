@@ -9,7 +9,7 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import LinkButton from '../LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 import { fetchLab } from '../../actions/labs'
 import EditLabForm from './EditLabForm'
 

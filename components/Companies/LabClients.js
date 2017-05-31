@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
 import { fetchCompanies } from 'actions/companies'
-import LinkButton from '../LinkButton'
+import LinkButton from 'SharedComponents/LinkButton'
 import FilterList from '../FilterList'
 
 import { setHeaderInfo } from 'actions/global'
