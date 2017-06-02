@@ -44,6 +44,7 @@ class AnalyticalBoxmapsForm extends React.Component {
 
   onSubmit (formParams) {
     formParams = formParams.set('site_id', this.props.site.get('id'))
+      .update('criteria_id', (id) => parseInt(id))
       .update('sitemap_id', (id) => parseInt(id))
       .set('substance_ids', this.props.site.get('substance_ids'))
 
