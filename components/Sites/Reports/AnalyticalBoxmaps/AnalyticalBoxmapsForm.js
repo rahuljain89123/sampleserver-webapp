@@ -36,7 +36,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
 
-    this.state = { boxmapsUrl: 'http://docs.aws.amazon.com/gettingstarted/latest/awsgsg-intro/awsgsg-intro.pdf' }
+    this.state = { boxmapsUrl: null }
   }
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
@@ -57,7 +57,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       .then((url) => {
         this.props.flashMessage('success', 'Report Generated')
         //window.location = url
-        this.setState({boxmapsUrl: url})
+        this.setState({ boxmapsUrl: url })
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
@@ -135,11 +135,9 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.size)
     let boxmapsPreview = null
+    let boxmapsButton = null
     if (this.state.boxmapsUrl) {
-
-
-      // const allWells = contouringFn.allWells(siteMapWells, siteMapId, zeroWells)
-
+      boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>
 
       boxmapsPreview = <Col sm={7}> <SiteMapRenderer
         imageUrl={this.state.boxmapsUrl}
@@ -201,7 +199,7 @@ class AnalyticalBoxmapsForm extends React.Component {
               color="primary"
             >Save</Button>
           </Form>
-          { this.state.boxmapsUrl && <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>}
+          { boxmapsButton }
         </Col>
         {boxmapsPreview}
       </Row>
