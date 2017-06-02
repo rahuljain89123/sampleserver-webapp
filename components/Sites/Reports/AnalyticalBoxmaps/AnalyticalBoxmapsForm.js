@@ -144,28 +144,28 @@ class AnalyticalBoxmapsForm extends React.Component {
       if (this.state.boxmapsUrl) {
         boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>
 
-        boxmapsPreview = <Col sm={7}> <SiteMapRenderer
+        boxmapsPreview = <SiteMapRenderer
           imageUrl={this.state.boxmapsUrl}
-
           onClick={this.processClickEvent}
           drawWellMarker={this.drawWellMarker}
-          /></Col>
+          />
       } else {
         const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
 
-        boxmapsPreview = <Col sm={7}> <SiteMapRenderer
+        boxmapsPreview = <SiteMapRenderer
           imageUrl={currentSiteMap.get('url')}
 
           onClick={this.processClickEvent}
           drawWellMarker={this.drawWellMarker}
-          /></Col>
+          />
       }
 
     }
 
     return (
-      <Row>
-        <Col sm={5} className='contouring-sidebar'>
+      <div className='site-map'>
+        <div className='inner-sidebar'>
+        <div className='sidebar-content'>
           <Form onSubmit={handleSubmit(this.onSubmit)}>
             <Field
               props={{label: 'Site Map', placeholder: 'Select Site Map'}}
@@ -216,9 +216,11 @@ class AnalyticalBoxmapsForm extends React.Component {
             >Save</Button>
           </Form>
           { boxmapsButton }
-        </Col>
-        {boxmapsPreview}
-      </Row>
+        </div></div>
+        <div className='site-map-content'>
+          {boxmapsPreview}
+        </div>
+      </div>
     )
   }
 }
