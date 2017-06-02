@@ -4,6 +4,7 @@ import {
   Field,
   reduxForm,
   formValueSelector,
+  change,
 } from 'redux-form/immutable'
 import moment from 'moment'
 import {
@@ -40,9 +41,12 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
+      .then(() => this.props.dispatch(change('AnalyticalBoxmapsForm', 'sitemap_id', this.props.siteMaps.first().get('id'))))
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
     this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
+    // this.props.fetchWells({ site_id: this.props.site.get('id') })
+
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
   }
@@ -136,15 +140,27 @@ class AnalyticalBoxmapsForm extends React.Component {
     const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.size)
     let boxmapsPreview = null
     let boxmapsButton = null
-    if (this.state.boxmapsUrl) {
-      boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>
+    if (this.props.siteMapId) {
+      if (this.state.boxmapsUrl) {
+        boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>
 
-      boxmapsPreview = <Col sm={7}> <SiteMapRenderer
-        imageUrl={this.state.boxmapsUrl}
+        boxmapsPreview = <Col sm={7}> <SiteMapRenderer
+          imageUrl={this.state.boxmapsUrl}
 
-        onClick={this.processClickEvent}
-        drawWellMarker={this.drawWellMarker}
-        /></Col>
+          onClick={this.processClickEvent}
+          drawWellMarker={this.drawWellMarker}
+          /></Col>
+      } else {
+        const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+
+        boxmapsPreview = <Col sm={7}> <SiteMapRenderer
+          imageUrl={currentSiteMap.get('url')}
+
+          onClick={this.processClickEvent}
+          drawWellMarker={this.drawWellMarker}
+          /></Col>
+      }
+
     }
 
     return (
@@ -217,7 +233,7 @@ const mapStateToProps = (state, ownProps) => ({
 
   sampleDates: state.get('sampleDates'),
   siteMaps: state.get('siteMaps'),
-  siteMapId: state.get('sitemap_id'),
+  siteMapId: selector(state, 'sitemap_id'),
   date_collected: selector(state, 'date_collected'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),
 })
