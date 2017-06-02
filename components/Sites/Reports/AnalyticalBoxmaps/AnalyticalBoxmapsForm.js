@@ -7,6 +7,8 @@ import {
 } from 'redux-form/immutable'
 import moment from 'moment'
 import {
+  Row,
+  Col,
   Form,
   Input,
   Button,
@@ -16,6 +18,7 @@ import {
   flashMessage
 } from 'actions/global'
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
+import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
 import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
 
 import {
@@ -32,6 +35,8 @@ class AnalyticalBoxmapsForm extends React.Component {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
+
+    this.state = { boxmapsUrl: 'http://docs.aws.amazon.com/gettingstarted/latest/awsgsg-intro/awsgsg-intro.pdf' }
   }
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
@@ -49,8 +54,9 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     this.props.createAnalyticalBoxmaps(formParams)
       .then((url) => {
-        this.props.flashMessage('success', 'good schema')
+        this.props.flashMessage('success', 'Report Generated')
         //window.location = url
+        this.setState({boxmapsUrl: url})
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
@@ -127,59 +133,77 @@ class AnalyticalBoxmapsForm extends React.Component {
     })
 
     const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.size)
+    let boxmapsPreview = null
+    if (this.state.boxmapsUrl) {
+
+
+      // const allWells = contouringFn.allWells(siteMapWells, siteMapId, zeroWells)
+
+
+      boxmapsPreview = <Col sm={7}> <SiteMapRenderer
+        imageUrl={this.state.boxmapsUrl}
+
+        onClick={this.processClickEvent}
+        drawWellMarker={this.drawWellMarker}
+        /></Col>
+    }
 
     return (
-      <div>
-        <Form onSubmit={handleSubmit(this.onSubmit)}>
-          <Field
-            props={{label: 'Site Map', placeholder: 'Select Site Map'}}
-            name='sitemap_id'
-            id='sitemap_id'
-            options={siteMapOptions}
-            component={SelectFormGroup}
-          />
+      <Row>
+        <Col sm={5} className='contouring-sidebar'>
+          <Form onSubmit={handleSubmit(this.onSubmit)}>
+            <Field
+              props={{label: 'Site Map', placeholder: 'Select Site Map'}}
+              name='sitemap_id'
+              id='sitemap_id'
+              options={siteMapOptions}
+              component={SelectFormGroup}
+            />
 
-          <Field
-            props={{label: 'Start Date', placeholder: 'Select start date'}}
-            name='date_collected'
-            id='date_collected'
-            options={startDateOptions}
-            component={SelectFormGroup}
-           />
+            <Field
+              props={{label: 'Start Date', placeholder: 'Select start date'}}
+              name='date_collected'
+              id='date_collected'
+              options={startDateOptions}
+              component={SelectFormGroup}
+             />
 
-          <Field
-            props={{label: 'End Date', placeholder: 'Select end date (optional)'}}
-            name='date_collected_range_end'
-            id='date_collected_range_end'
-            options={endDateOptions}
-            component={SelectFormGroup}
-          />
+            <Field
+              props={{label: 'End Date', placeholder: 'Select end date (optional)'}}
+              name='date_collected_range_end'
+              id='date_collected_range_end'
+              options={endDateOptions}
+              component={SelectFormGroup}
+            />
 
-          <Field
-            props={{label: 'Comparison Criteria', placeholder: ' '}}
-            name='criteria_id'
-            id='criteria_id'
-            options={criteriaOptions}
-            component={SelectFormGroup}
-          />
+            <Field
+              props={{label: 'Comparison Criteria', placeholder: ' '}}
+              name='criteria_id'
+              id='criteria_id'
+              options={criteriaOptions}
+              component={SelectFormGroup}
+            />
 
-          Substances (no more than 13)
-          <ul>
-            {siteSubstances}
-          </ul>
+            Substances (no more than 13)
+            <ul>
+              {siteSubstances}
+            </ul>
 
-          { showSubstancesDropdown &&
-            <Input type='select' onChange={this.addSubstance.bind(this)}>
-              <option value=''>Select a substance</option>
-              {groupedSubstanceOptions}
-            </Input>
-          }
+            { showSubstancesDropdown &&
+              <Input type='select' onChange={this.addSubstance.bind(this)}>
+                <option value=''>Select a substance</option>
+                {groupedSubstanceOptions}
+              </Input>
+            }
 
-          <Button
-            color="primary"
-          >Save</Button>
-        </Form>
-      </div>
+            <Button
+              color="primary"
+            >Save</Button>
+          </Form>
+          { this.state.boxmapsUrl && <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>}
+        </Col>
+        {boxmapsPreview}
+      </Row>
     )
   }
 }
@@ -194,6 +218,7 @@ const mapStateToProps = (state, ownProps) => ({
 
   sampleDates: state.get('sampleDates'),
   siteMaps: state.get('siteMaps'),
+  siteMapId: state.get('sitemap_id'),
   date_collected: selector(state, 'date_collected'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),
 })
