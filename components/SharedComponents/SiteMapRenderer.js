@@ -247,6 +247,7 @@ class SiteMapRenderer extends React.Component {
 
   drawWells (ctx) {
     // if (this.props.wells.size) { debugger }
+    if (!this.props.wells) { return }
     this.props.wells.forEach((well) => { this.drawWellMarker(well, ctx) })
   }
 
