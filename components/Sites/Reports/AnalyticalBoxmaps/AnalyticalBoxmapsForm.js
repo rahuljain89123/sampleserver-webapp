@@ -229,7 +229,7 @@ AnalyticalBoxmapsForm = reduxForm({form: 'AnalyticalBoxmapsForm', destroyOnUnmou
 
 const selector = formValueSelector('AnalyticalBoxmapsForm')
 const mapStateToProps = (state, ownProps) => ({
-  substances: state.get('substances'),
+  substances: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === props.site.get('id')),
   substanceGroups: state.get('substanceGroups'),
   criterias: state.get('criterias'),
 

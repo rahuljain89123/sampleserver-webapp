@@ -331,7 +331,7 @@ IsochemicalContours = reduxForm({ form: FORM_NAME })(IsochemicalContours)
 const selector = formValueSelector(FORM_NAME)
 
 const mapStateToProps = (state, props) => ({
-  siteMaps: state.get('siteMaps'),
+  siteMaps: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === props.site.get('id')),
   siteMapWells: state.get('siteMapWells'),
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
