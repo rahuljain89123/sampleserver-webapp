@@ -53,8 +53,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
     this.processClickEvent = this.processClickEvent.bind(this)
-    this.dateCollectedChanged = this.dateCollectedChanged.bind(this)
-    this.dateCollectedRangeEndChanged = this.dateCollectedRangeEndChanged.bind(this)
+    this.swapIframe = this.swapIframe.bind(this)
 
     this.state = { boxmapsUrl: null, iframeUrl: null }
   }
@@ -68,6 +67,9 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
+    if (this.props.date_collected) {
+      this.swapIframe()
+    }
   }
 
   onSubmit (formParams) {
@@ -112,29 +114,19 @@ class AnalyticalBoxmapsForm extends React.Component {
     return false
   }
 
-  swapIframe (dateCollected, dateCollectedRangeEnd) {
+  swapIframe () {
     const params = {
       site_id: parseInt(this.props.site.get('id')),
       sitemap_id: parseInt(this.props.siteMapId),
-      date_collected: dateCollected,
-      criteria_id: parseInt(this.props.criteria_id) ? parseInt(this.props.criteria_id) : -1,
+      date_collected: this.props.date_collected,
+      criteria_id: this.props.criteria_id ? parseInt(this.props.criteria_id) : -1,
       substance_ids: this.props.site.get('substance_ids'),
     }
-    if (dateCollectedRangeEnd) {
-      params.date_collected_range_end = dateCollectedRangeEnd
+    if (this.props.date_collected_range_end) {
+      params.date_collected_range_end = this.props.date_collected_range_end
     }
     const myiFrameUrl = `/api/v1/reports/preview-analytical-boxmap?${encodeQueryData(params)}`
     this.setState({ iframeUrl: myiFrameUrl })
-  }
-
-  dateCollectedChanged (evt) {
-    const dateCollected = evt.target.value
-    this.swapIframe(dateCollected, this.props.date_collected_range_end)
-  }
-
-  dateCollectedRangeEndChanged (evt) {
-    const dateCollectedRangeEnd = evt.target.value
-    this.swapIframe(this.props.date_collected, dateCollectedRangeEnd)
   }
 
   render () {
@@ -190,7 +182,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     let boxmapsButton = null
     if (this.props.siteMapId) {
       if (this.state.iframeUrl) {
-        boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>
+        boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.iframeUrl)}> Download Report </Button>
         boxmapsPreview = (
           <iframe src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" />
         )
@@ -204,16 +196,22 @@ class AnalyticalBoxmapsForm extends React.Component {
           drawWellMarker={this.drawWellMarker}
           />
       }
+      { showSubstancesDropdown &&
+        <Input type='select' onChange={this.addSubstance.bind(this)}>
+          <option value=''>Select a substance</option>
+          {groupedSubstanceOptions}
+        </Input>
+      }
 
     }
 
     return (
-      <div className='site-map'>
+      <div className='site-map analytical-boxmaps'>
         <div className='inner-sidebar'>
         <div className='sidebar-content'>
           <Form onSubmit={handleSubmit(this.onSubmit)}>
             <Field
-              props={{label: 'Site Map', placeholder: 'Select Site Map'}}
+              props={{label: 'Site Map', placeholder: 'Select Site Map', location: 'sidebar'}}
               name='sitemap_id'
               id='sitemap_id'
               options={siteMapOptions}
@@ -221,48 +219,51 @@ class AnalyticalBoxmapsForm extends React.Component {
             />
 
             <Field
-              props={{label: 'Start Date', placeholder: 'Select start date'}}
+              props={{label: 'Start Date', placeholder: 'Select start date', location: 'sidebar'}}
               name='date_collected'
               id='date_collected'
               options={startDateOptions}
               component={SelectFormGroup}
-              onChange={this.dateCollectedChanged}
-             />
+              onChangeAction={this.swapIframe}
+            />
 
             <Field
-              props={{label: 'End Date', placeholder: 'Select end date (optional)'}}
+              props={{label: 'End Date', placeholder: 'Select end date (optional)', location: 'sidebar'}}
               name='date_collected_range_end'
               id='date_collected_range_end'
               options={endDateOptions}
               component={SelectFormGroup}
-              onChange={this.dateCollectedRangeEndChanged}
+              onChangeAction={this.swapIframe}
             />
 
             <Field
-              props={{label: 'Comparison Criteria', placeholder: ' '}}
+              props={{label: 'Comparison Criteria', placeholder: ' ', location: 'sidebar'}}
               name='criteria_id'
               id='criteria_id'
               options={criteriaOptions}
               component={SelectFormGroup}
+              onChangeAction={this.swapIframe}
             />
 
-            Substances (no more than 13)
-            <ul>
+            <label htmlFor="">Substances</label>
+            <ul className="substances-list">
               {siteSubstances}
             </ul>
 
             { showSubstancesDropdown &&
-              <Input type='select' onChange={this.addSubstance.bind(this)}>
-                <option value=''>Select a substance</option>
-                {groupedSubstanceOptions}
-              </Input>
+              <div className="form-group">
+                <label htmlFor="">Add Substance</label>
+                <Input
+                  type='select'
+                  onChange={this.addSubstance.bind(this)}
+                >
+                  <option value=''>Select a substance</option>
+                  {groupedSubstanceOptions}
+                </Input>
+              </div>
             }
-
-            <Button
-              color="primary"
-            >Save</Button>
+            { boxmapsButton }
           </Form>
-          { boxmapsButton }
         </div></div>
         <div className='site-map-content'>
           {boxmapsPreview}

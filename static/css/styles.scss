@@ -1105,7 +1105,7 @@ form.contouring-form {
         h5 {
             /* Project Detail: */
             opacity: 0.4;
-            font-family: GothamHTF-Medium;
+            font-family: GothamHTF;
             font-size: 11px;
             color: #282B2F;
             letter-spacing: 0.39px;
@@ -1211,6 +1211,23 @@ form.contouring-form {
         margin: 0;
     }
 }
+.analytical-boxmaps {
+    .substances-list {
+        padding: 0;
+        list-style: none;
+
+        li {
+            opacity: 0.4;
+            font-family: GothamHTF;
+            font-size: 11px;
+            color: #282B2F;
+            letter-spacing: 0.39px;
+            text-transform: uppercase;
+        }
+    }
+}
+
+
 @media (max-width: 1200px) {
     .styled-box {
         .content {
