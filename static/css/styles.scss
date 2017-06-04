@@ -16,7 +16,7 @@ $gecko-lt: #12CF79;
 $ss-font-family: GothamHTF, 'Open Sans', helvetica, arial, sans-serif;
 
 
-html, body, .index, .app, .site-map, .site-details, .root, .company-app, .main-container {
+html, body, .index, .app, .site-map, .site-details, .root, .company-app, .main-container, .site-reports {
     height: 100%;
     font-family: $ss-font-family;
 }
@@ -1200,6 +1200,15 @@ form.contouring-form {
             right: 0;
             cursor: pointer;
         }
+    }
+}
+.site-reports {
+    .boxmaps-preview {
+        border: none;
+        height: 100%;
+        width: 100%;
+        padding: 0;
+        margin: 0;
     }
 }
 @media (max-width: 1200px) {

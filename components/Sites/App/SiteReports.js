@@ -19,7 +19,7 @@ class SiteReports extends React.Component {
     if (!site) { return null }
 
     return (
-      <div>
+      <div className="site-reports">
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/reports/analytical-boxmaps`}

@@ -15,3 +15,8 @@ export const createAnalyticalBoxmaps = boxmapsParams =>
   dispatch =>
     API.post('/reports/create-analytical-boxmaps', boxmapsParams)
       .then((res) => Promise.resolve(res.src))
+
+export const previewAnalyticalBoxmap = boxmapsParams =>
+    dispatch =>
+      API.post('/reports/preview-analytical-boxmap', boxmapsParams)
+        .then((res) => Promise.resolve(res.src))

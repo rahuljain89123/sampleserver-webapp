@@ -14,9 +14,12 @@ import {
   Input,
   Button,
 } from 'reactstrap'
-import { createAnalyticalBoxmaps } from 'actions/reports'
 import {
-  flashMessage
+  createAnalyticalBoxmaps,
+  previewAnalyticalBoxmap,
+} from 'actions/reports'
+import {
+  flashMessage,
 } from 'actions/global'
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
 import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
@@ -32,12 +35,28 @@ import { fetchSampleDates } from 'actions/sampleValues'
 import { fetchCriterias } from 'actions/criterias'
 import { editSite } from 'actions/sites'
 
+
+function encodeQueryData (data) {
+  const ret = []
+  for (let d in data)
+    ret.push(encodeURIComponent(d) + '=' + encodeURIComponent(data[d]))
+  return ret.join('&')
+}
+
+function encodeData(data) {
+  return Object.keys(data).map(key =>
+    [key, data[key]].map(encodeURIComponent).join('=')).join('&')
+}
+
 class AnalyticalBoxmapsForm extends React.Component {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
+    this.processClickEvent = this.processClickEvent.bind(this)
+    this.dateCollectedChanged = this.dateCollectedChanged.bind(this)
+    this.dateCollectedRangeEndChanged = this.dateCollectedRangeEndChanged.bind(this)
 
-    this.state = { boxmapsUrl: null }
+    this.state = { boxmapsUrl: null, iframeUrl: null }
   }
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
@@ -87,6 +106,35 @@ class AnalyticalBoxmapsForm extends React.Component {
     const substanceIds = this.props.site.get('substance_ids')
 
     return (!substanceIds.includes(substanceId) && this.substanceIdInDateRange(substanceId))
+  }
+
+  processClickEvent (xpos, ypos) {
+    return false
+  }
+
+  swapIframe (dateCollected, dateCollectedRangeEnd) {
+    const params = {
+      site_id: parseInt(this.props.site.get('id')),
+      sitemap_id: parseInt(this.props.siteMapId),
+      date_collected: dateCollected,
+      criteria_id: parseInt(this.props.criteria_id) ? parseInt(this.props.criteria_id) : -1,
+      substance_ids: this.props.site.get('substance_ids'),
+    }
+    if (dateCollectedRangeEnd) {
+      params.date_collected_range_end = dateCollectedRangeEnd
+    }
+    const myiFrameUrl = `/api/v1/reports/preview-analytical-boxmap?${encodeQueryData(params)}`
+    this.setState({ iframeUrl: myiFrameUrl })
+  }
+
+  dateCollectedChanged (evt) {
+    const dateCollected = evt.target.value
+    this.swapIframe(dateCollected, this.props.date_collected_range_end)
+  }
+
+  dateCollectedRangeEndChanged (evt) {
+    const dateCollectedRangeEnd = evt.target.value
+    this.swapIframe(this.props.date_collected, dateCollectedRangeEnd)
   }
 
   render () {
@@ -141,14 +189,11 @@ class AnalyticalBoxmapsForm extends React.Component {
     let boxmapsPreview = null
     let boxmapsButton = null
     if (this.props.siteMapId) {
-      if (this.state.boxmapsUrl) {
+      if (this.state.iframeUrl) {
         boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.boxmapsUrl)}> Download </Button>
-
-        boxmapsPreview = <SiteMapRenderer
-          imageUrl={this.state.boxmapsUrl}
-          onClick={this.processClickEvent}
-          drawWellMarker={this.drawWellMarker}
-          />
+        boxmapsPreview = (
+          <iframe src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" />
+        )
       } else {
         const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
 
@@ -181,6 +226,7 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='date_collected'
               options={startDateOptions}
               component={SelectFormGroup}
+              onChange={this.dateCollectedChanged}
              />
 
             <Field
@@ -189,6 +235,7 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='date_collected_range_end'
               options={endDateOptions}
               component={SelectFormGroup}
+              onChange={this.dateCollectedRangeEndChanged}
             />
 
             <Field
@@ -237,12 +284,14 @@ const mapStateToProps = (state, ownProps) => ({
   siteMaps: state.get('siteMaps'),
   siteMapId: selector(state, 'sitemap_id'),
   date_collected: selector(state, 'date_collected'),
+  criteria_id: selector(state, 'criteria_id'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),
 })
 
 const mapDispatchToProps = (dispatch) => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   createAnalyticalBoxmaps: (boxmapsParams) => dispatch(createAnalyticalBoxmaps(boxmapsParams)),
+  previewAnalyticalBoxmap: (boxmapsParams) => dispatch(previewAnalyticalBoxmap(boxmapsParams)),
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
