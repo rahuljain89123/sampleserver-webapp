@@ -17,12 +17,6 @@ const SelectFormGroup = (field) => (
         type='select'
         state={field.state}
         id={field.id}
-        onChange={e => {
-          field.input.onChange(e)
-          setTimeout(function() {
-            field.onChangeAction(field.input.value)
-          }, 500)
-        }}
       >
         {field.placeholder && <option value=''>{field.placeholder}</option>}
         {field.options}

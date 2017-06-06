@@ -67,9 +67,21 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
-    if (this.props.date_collected) {
+    if (this.props.date_collected && this.props.siteMapId) {
       this.swapIframe()
     }
+
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const hasNecessaryProps = nextProps.siteMapId && nextProps.date_collected
+
+    const dateChanged = nextProps.date_collected !== this.props.date_collected ||
+      nextProps.date_collected_range_end !== this.props.date_collected_range_end
+
+    const siteMapChanged = !this.props.siteMapId || this.props.siteMapId !== nextProps.siteMapId
+
+    if (hasNecessaryProps && (dateChanged || siteMapChanged)) { this.swapIframe(nextProps) }
   }
 
   onSubmit (formParams) {
@@ -114,17 +126,19 @@ class AnalyticalBoxmapsForm extends React.Component {
     return false
   }
 
-  swapIframe () {
+  swapIframe (props) {
+    if (!props) { props = this.props }
     const params = {
-      site_id: parseInt(this.props.site.get('id')),
-      sitemap_id: parseInt(this.props.siteMapId),
-      date_collected: this.props.date_collected,
-      criteria_id: this.props.criteria_id ? parseInt(this.props.criteria_id) : -1,
-      substance_ids: this.props.site.get('substance_ids'),
+      site_id: parseInt(props.site.get('id')),
+      sitemap_id: parseInt(props.siteMapId),
+      date_collected: props.date_collected,
+      criteria_id: props.criteria_id ? parseInt(props.criteria_id) : -1,
+      substance_ids: props.site.get('substance_ids'),
     }
-    if (this.props.date_collected_range_end) {
-      params.date_collected_range_end = this.props.date_collected_range_end
+    if (props.date_collected_range_end) {
+      params.date_collected_range_end = props.date_collected_range_end
     }
+
     const myiFrameUrl = `/api/v1/reports/preview-analytical-boxmap?${encodeQueryData(params)}`
     this.setState({ iframeUrl: myiFrameUrl })
   }
@@ -196,13 +210,6 @@ class AnalyticalBoxmapsForm extends React.Component {
           drawWellMarker={this.drawWellMarker}
           />
       }
-      { showSubstancesDropdown &&
-        <Input type='select' onChange={this.addSubstance.bind(this)}>
-          <option value=''>Select a substance</option>
-          {groupedSubstanceOptions}
-        </Input>
-      }
-
     }
 
     return (
@@ -224,7 +231,6 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='date_collected'
               options={startDateOptions}
               component={SelectFormGroup}
-              onChangeAction={this.swapIframe}
             />
 
             <Field
@@ -233,7 +239,6 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='date_collected_range_end'
               options={endDateOptions}
               component={SelectFormGroup}
-              onChangeAction={this.swapIframe}
             />
 
             <Field
@@ -242,7 +247,6 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='criteria_id'
               options={criteriaOptions}
               component={SelectFormGroup}
-              onChangeAction={this.swapIframe}
             />
 
             <label htmlFor="">Substances</label>
@@ -262,6 +266,8 @@ class AnalyticalBoxmapsForm extends React.Component {
                 </Input>
               </div>
             }
+
+
             { boxmapsButton }
           </Form>
         </div></div>
