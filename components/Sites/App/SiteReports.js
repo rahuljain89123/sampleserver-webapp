@@ -17,6 +17,7 @@ class SiteReports extends React.Component {
   render () {
     const { site } = this.props
     if (!site) { return null }
+    if (!this.props.location.pathname.includes('reports')) { return null }
 
     return (
       <div className="site-reports">

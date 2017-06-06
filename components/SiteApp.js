@@ -49,7 +49,7 @@ class SiteApp extends React.Component {
       <div className="app">
         <SiteDetails site={site} location={this.props.location}/>
         <SiteDataImport site={site} />
-        <SiteReports site={site} />
+        <SiteReports site={site} location={this.props.location} />
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/lab-data-list`}
