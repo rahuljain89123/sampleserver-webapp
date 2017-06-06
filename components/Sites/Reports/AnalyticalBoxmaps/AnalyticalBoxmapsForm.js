@@ -222,7 +222,6 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='sitemap_id'
               options={siteMapOptions}
               component={SelectFormGroup}
-              onChangeAction={this.swapIframe}
             />
 
             <Field
