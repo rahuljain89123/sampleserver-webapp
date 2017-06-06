@@ -15,8 +15,7 @@ import {
   Button,
 } from 'reactstrap'
 import {
-  createAnalyticalBoxmaps,
-  previewAnalyticalBoxmap,
+  createAnalyticalBoxmap,
 } from 'actions/reports'
 import {
   flashMessage,
@@ -86,11 +85,11 @@ class AnalyticalBoxmapsForm extends React.Component {
 
   onSubmit (formParams) {
     formParams = formParams.set('site_id', this.props.site.get('id'))
-      .update('criteria_id', (id) => parseInt(id))
+      .update('criteria_id', (id) => id ? parseInt(id) : -1)
       .update('sitemap_id', (id) => parseInt(id))
       .set('substance_ids', this.props.site.get('substance_ids'))
 
-    this.props.createAnalyticalBoxmaps(formParams)
+    this.props.createAnalyticalBoxmap(formParams)
       .then((url) => {
         this.props.flashMessage('success', 'Report Generated')
         //window.location = url
@@ -196,7 +195,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     let boxmapsButton = null
     if (this.props.siteMapId) {
       if (this.state.iframeUrl) {
-        boxmapsButton = <Button color="primary" onClick={() => window.open(this.state.iframeUrl)}> Download Report </Button>
+        boxmapsButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
         boxmapsPreview = (
           <iframe src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" />
         )
@@ -223,6 +222,7 @@ class AnalyticalBoxmapsForm extends React.Component {
               id='sitemap_id'
               options={siteMapOptions}
               component={SelectFormGroup}
+              onChangeAction={this.swapIframe}
             />
 
             <Field
@@ -297,8 +297,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
-  createAnalyticalBoxmaps: (boxmapsParams) => dispatch(createAnalyticalBoxmaps(boxmapsParams)),
-  previewAnalyticalBoxmap: (boxmapsParams) => dispatch(previewAnalyticalBoxmap(boxmapsParams)),
+  createAnalyticalBoxmap: (boxmapsParams) => dispatch(createAnalyticalBoxmap(boxmapsParams)),
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),

@@ -11,12 +11,7 @@ export const createContour = contourParams =>
     API.post('/reports/create-contours', contourParams)
       .then((res) => Promise.resolve(res.src))
 
-export const createAnalyticalBoxmaps = boxmapsParams =>
+export const createAnalyticalBoxmap = boxmapsParams =>
   dispatch =>
-    API.post('/reports/create-analytical-boxmaps', boxmapsParams)
+    API.post('/reports/preview-analytical-boxmap', boxmapsParams)
       .then((res) => Promise.resolve(res.src))
-
-export const previewAnalyticalBoxmap = boxmapsParams =>
-    dispatch =>
-      API.post('/reports/preview-analytical-boxmap', boxmapsParams)
-        .then((res) => Promise.resolve(res.src))
