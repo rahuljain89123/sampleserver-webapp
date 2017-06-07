@@ -11,12 +11,6 @@ const SelectSubstances = ({ fields, options, substances }) => {
 
   return (
     <ul style={{listStyle: 'none', marginBottom: '28px'}} className="list-group"  >
-      <li className={fields.length ? 'mb-2' : ''}>
-        <Input type='select' style={{width: '100%'}} onChange={addSubstance}>
-          <option value=''> Select Substances </option>
-          {options}
-        </Input>
-      </li>
       {fields.map(
         (substance, index, fields) => {
           const remove = (e) => {
@@ -29,6 +23,13 @@ const SelectSubstances = ({ fields, options, substances }) => {
           </li>)
         }
       )}
+      <li className={fields.length ? 'mt-2' : ''}>
+        <Input type='select' style={{width: '100%'}} onChange={addSubstance}>
+          <option value=''> Select Substances </option>
+          {options}
+        </Input>
+      </li>
+
     </ul>
   )
 }

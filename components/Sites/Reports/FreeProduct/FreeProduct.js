@@ -87,7 +87,7 @@ class FreeProduct extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.siteMapId && nextProps.siteMapId !== this.props.siteMapId) {
-      this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
+      this.props.fetchSiteMapWells({site_map_id: nextProps.siteMapId })
     }
 
     const hasNecessaryProps = nextProps.siteMapId && nextProps.date_collected
@@ -218,62 +218,65 @@ class FreeProduct extends React.Component {
     }
 
     return (
-      <Row>
-      <Col sm={3} className='contouring-sidebar'>
-        <h4 > Configure </h4>
-        <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
-          <Field
-            props={{placeholder: 'Sitemap'}}
-            name='sitemap_id'
-            id='sitemap_id'
-            component={SelectFormGroup}
-            options={siteMapOptions}
-          />
+      <div className='site-map'>
+        <div className='inner-sidebar contouring-sidebar'>
+          <h4> Configure </h4>
+          <div className='sidebar-content'>
+            <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
+              <Field
+                props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
+                name='sitemap_id'
+                id='sitemap_id'
+                component={SelectFormGroup}
+                options={siteMapOptions}
+              />
 
-          <Field
-            props={{placeholder: 'Select Date'}}
-            name='date_collected'
-            id='date_collected'
-            options={startDateOptions}
-            component={SelectFormGroup}
-          />
+              <Field
+                props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
+                name='date_collected'
+                id='date_collected'
+                options={startDateOptions}
+                component={SelectFormGroup}
+              />
 
-          <Field
-            props={{placeholder: 'Select End Date (optional)'}}
-            name='date_collected_range_end'
-            id='date_collected_range_end'
-            options={endDateOptions}
-            component={SelectFormGroup}
-          />
+              <Field
+                props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
+                name='date_collected_range_end'
+                id='date_collected_range_end'
+                options={endDateOptions}
+                component={SelectFormGroup}
+              />
 
-          <Field
-            props={{placeholder: 'Zero Line?'}}
-            name='zero_line'
-            id='zero_line'
-            options={booleanOptions}
-            component={SelectFormGroup}
-          />
+              <Field
+                props={{placeholder: 'Zero Line?', label: 'Zero Line', location: 'sidebar'}}
+                name='zero_line'
+                id='zero_line'
+                options={booleanOptions}
+                component={SelectFormGroup}
+              />
 
-          <Field
-            props={{label: 'Title'}}
-            name='title_wildcard'
-            id='title_wildcard'
-            type='text'
-            component={IndividualFormGroup}
-          />
+              <Field
+                props={{label: 'Title', location: 'sidebar'}}
+                name='title_wildcard'
+                id='title_wildcard'
+                type='text'
+                component={IndividualFormGroup}
+              />
 
-          <div className='centered-btn'>
-            <Button
-              disabled={!this.props.groupedSampleValues.size}
-              color="primary"
-            >Contour</Button>
+              <div className='centered-btn'>
+                <Button
+                  disabled={!this.props.groupedSampleValues.size}
+                  color="primary"
+                >Contour</Button>
+              </div>
+            </Form>
           </div>
-        </Form>
-      </Col>
-      <Col sm={8}>
-        {siteMapComponent}
-      </Col>
-    </Row>)
+        </div>
+        <div className='site-map-content'>
+          {siteMapComponent}
+        </div>
+      </div>
+    )
   }
 }
 
