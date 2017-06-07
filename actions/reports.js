@@ -14,4 +14,3 @@ export const createContour = contourParams =>
 export const createAnalyticalBoxmap = boxmapsParams =>
   dispatch =>
     API.post('/reports/preview-analytical-boxmap', boxmapsParams)
-      .then((res) => Promise.resolve(res.src))

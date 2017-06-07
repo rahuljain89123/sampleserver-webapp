@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import download from 'downloadjs'
+
 import {
   Field,
   reduxForm,
@@ -92,10 +94,9 @@ class AnalyticalBoxmapsForm extends React.Component {
       .set('substance_ids', this.props.site.get('substance_ids'))
 
     this.props.createAnalyticalBoxmap(formParams)
-      .then((url) => {
+      .then((fileBlob) => {
         this.props.flashMessage('success', 'Report Generated')
-        //window.location = url
-        this.setState({ boxmapsUrl: url })
+        download(fileBlob, 'boxmaps-report.pdf', 'application/pdf')
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
