@@ -80,7 +80,9 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     const siteMapChanged = !this.props.siteMapId || this.props.siteMapId !== nextProps.siteMapId
 
-    if (hasNecessaryProps && (dateChanged || siteMapChanged)) { this.swapIframe(nextProps) }
+    const criteriaChanged = nextProps.criteria_id !== this.props.criteria_id
+
+    if (hasNecessaryProps && (dateChanged || siteMapChanged || criteriaChanged)) { this.swapIframe(nextProps) }
   }
 
   onSubmit (formParams) {

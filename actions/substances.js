@@ -26,7 +26,7 @@ export const receiveSubstanceGroups = substanceGroups => ({
 
 export const fetchSubstances = (filters = {}) =>
   dispatch => {
-    filters.per_page = 300
+    filters.per_page = 400
     return API.get(`/substances/?${qs.stringify(filters)}`)
     .then(substances => {
       dispatch(receiveSubstances(substances))
