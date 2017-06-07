@@ -90,7 +90,7 @@ class IsochemicalContours extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.siteMapId && nextProps.siteMapId !== this.props.siteMapId) {
-      this.props.fetchSiteMapWells({sitemap_id: nextProps.siteMapId })
+      this.props.fetchSiteMapWells({site_map_id: nextProps.siteMapId })
     }
 
     const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date_collected
@@ -243,12 +243,13 @@ class IsochemicalContours extends React.Component {
     }
 
     return (
-      <Row>
-      <Col sm={3} className='contouring-sidebar'>
+      <div className='site-map'>
+      <div className='inner-sidebar contouring-sidebar'>
         <h4 > Configure </h4>
+        <div className='sidebar-content'>
         <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
           <Field
-            props={{placeholder: 'Sitemap'}}
+            props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
             name='sitemap_id'
             id='sitemap_id'
             component={SelectFormGroup}
@@ -256,7 +257,7 @@ class IsochemicalContours extends React.Component {
           />
 
           <Field
-            props={{placeholder: 'Select Date'}}
+            props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
             name='date_collected'
             id='date_collected'
             options={startDateOptions}
@@ -264,13 +265,14 @@ class IsochemicalContours extends React.Component {
           />
 
           <Field
-            props={{placeholder: 'Select End Date (optional)'}}
+            props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
             name='date_collected_range_end'
             id='date_collected_range_end'
             options={endDateOptions}
             component={SelectFormGroup}
           />
 
+          <label htmlFor="">Substances</label>
           <FieldArray
             name='substance_ids'
             id='substance_ids'
@@ -280,7 +282,7 @@ class IsochemicalContours extends React.Component {
           />
 
           <Field
-            props={{placeholder: 'Zero Line?'}}
+            props={{placeholder: 'Zero Line?', label: 'Zero Line', location: 'sidebar'}}
             name='zero_line'
             id='zero_line'
             options={booleanOptions}
@@ -288,7 +290,7 @@ class IsochemicalContours extends React.Component {
           />
 
           <Field
-            props={{placeholder: 'Heatmap?'}}
+            props={{placeholder: 'Heatmap?', label: 'Heatmap', location: 'sidebar'}}
             name='heatmap'
             id='heatmap'
             options={booleanOptions}
@@ -296,7 +298,7 @@ class IsochemicalContours extends React.Component {
           />
 
           <Field
-            props={{placeholder: 'Scale'}}
+            props={{placeholder: 'Scale', label: 'Scale', location: 'sidebar'}}
             name='scale'
             id='scale'
             options={scaleOptions}
@@ -318,11 +320,12 @@ class IsochemicalContours extends React.Component {
             >Contour</Button>
           </div>
         </Form>
-      </Col>
-      <Col sm={8}>
+        </div>
+      </div>
+      <div className='site-map-content'>
         {siteMapComponent}
-      </Col>
-    </Row>)
+      </div>
+    </div>)
   }
 }
 
