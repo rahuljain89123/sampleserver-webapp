@@ -36,6 +36,7 @@ import { fetchSampleDates } from 'actions/sampleValues'
 import { fetchCriterias } from 'actions/criterias'
 import { editSite } from 'actions/sites'
 
+const FORM_NAME = 'AnalyticalBoxmapsForm'
 
 function encodeQueryData (data) {
   const ret = []
@@ -58,11 +59,12 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     this.state = { boxmapsUrl: null, iframeUrl: null }
   }
+
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
       .then(() => {
         if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {
-          this.props.dispatch(change('AnalyticalBoxmapsForm', 'sitemap_id', this.props.siteMaps.first().get('id')))
+          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first().get('id')))
         }
       })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
@@ -285,9 +287,9 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
 }
 
-AnalyticalBoxmapsForm = reduxForm({form: 'AnalyticalBoxmapsForm', destroyOnUnmount: false })(AnalyticalBoxmapsForm)
+AnalyticalBoxmapsForm = reduxForm({form: FORM_NAME, destroyOnUnmount: false })(AnalyticalBoxmapsForm)
 
-const selector = formValueSelector('AnalyticalBoxmapsForm')
+const selector = formValueSelector(FORM_NAME)
 const mapStateToProps = (state, ownProps) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),

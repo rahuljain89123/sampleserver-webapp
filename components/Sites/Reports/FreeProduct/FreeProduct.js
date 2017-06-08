@@ -73,6 +73,8 @@ class FreeProduct extends React.Component {
 
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
+      .then(() => this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first().get('id'))))
+
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
     this.props.fetchWells({ site_id: this.props.site.get('id') }).then(this.setSelectedWells)
