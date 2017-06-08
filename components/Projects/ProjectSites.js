@@ -128,8 +128,8 @@ class ProjectSites extends React.Component {
                         <div className="site-metadata">
                           {site.get('city')}, {site.get('state')}
                         </div>
-                        <a href={`/app/sites/${siteId}/details/edit-site`}>
-                          <i className="material-icons">more_horiz</i></a>
+                        <a className="edit-link" href={`/app/sites/${siteId}/setup/edit-site`}>
+                          Edit</a>
                       </div>
                     </div>
                   ))}

@@ -23,10 +23,10 @@ class SchedulesList extends React.Component {
     this.props.fetchSchedules({site_id: this.props.site.get('id')})
 
     this.props.setHeaderInfo(
-      'Site Details Schedule List',
+      'Site setup Schedule List',
       [{
         text: 'New Schedule',
-        onClick: `/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`,
+        onClick: `/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/new`,
         iconName: 'add_circle_outline',
       }]
     )
@@ -39,11 +39,11 @@ class SchedulesList extends React.Component {
     if (this.props.schedules.size > 0 && this.props.site) {
       schedules = this.props.schedules.valueSeq().map((schedule) => {
         return <li key={schedule.get('id')}>
-          <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}> {moment(schedule.get('date')).utc().format('YYYY-MM-DD')} </Link>
+          <Link to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/${schedule.get('id')}`}> {moment(schedule.get('date')).utc().format('YYYY-MM-DD')} </Link>
         </li>
       })
     } else {
-      schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/new`}>Create one</Link> </span>
+      schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/new`}>Create one</Link> </span>
     }
 
     schedules = this.props.schedules.map((schedule) => {
@@ -52,7 +52,7 @@ class SchedulesList extends React.Component {
           <tr>
             <td>
               <Link
-                to={`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.get('id')}`}>
+                to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/${schedule.get('id')}`}>
                 {moment(schedule.get('date')).utc().format('YYYY-MM-DD')}
               </Link>
             </td>
@@ -62,6 +62,13 @@ class SchedulesList extends React.Component {
                   {this.props.tests.get(testId).get('title')}
                 </div>
               ))}
+            </td>
+            <td>
+              <Link
+                className="edit-link"
+                to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/${schedule.get('id')}`}>
+                Edit
+              </Link>
             </td>
           </tr>
         </tbody>
@@ -75,6 +82,7 @@ class SchedulesList extends React.Component {
             <tr>
               <th>Schedule Date</th>
               <th>Tests</th>
+              <th />
             </tr>
           </thead>
           {schedules}

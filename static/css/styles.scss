@@ -16,7 +16,7 @@ $gecko-lt: #12CF79;
 $ss-font-family: GothamHTF, 'Open Sans', helvetica, arial, sans-serif;
 
 
-html, body, .index, .app, .site-map, .site-details, .root, .company-app, .main-container, .site-reports {
+html, body, .index, .app, .site-map, .site-setup, .root, .company-app, .main-container, .site-reports {
     height: 100%;
     font-family: $ss-font-family;
 }
@@ -464,7 +464,7 @@ section {
 .text-align-left {
     text-align: left;
 }
-.site-details-wells {
+.site-setup-wells {
     width: 100%;
     .bulk-upload {
         .btn {
@@ -1084,6 +1084,7 @@ form.contouring-form {
     }
 }
 .project-sites {
+    margin-bottom: 30px;
     .project {
         /* Rectangle 4: */
         background: #FFFFFF;
@@ -1157,15 +1158,22 @@ form.contouring-form {
                     letter-spacing: 0.39px;
                     display: inline-block;
                 }
-                .site-details {
-                    .material-icons {
-                        margin-left: 10px;
+                .site-setup {
+                    .edit, .material-icons {
+                        margin-left: 30px;
+                        color: rgba(87, 92, 97, 0.7);
+                        font-size: 13px;
                     }
                 }
                 padding: 20px 30px;
             }
         }
     }
+}
+.edit-link, table td a.edit-link, .project-sites .project .sites-list .site a.edit-link {
+    margin-left: 30px;
+    color: rgba(87, 92, 97, 0.7);
+    font-size: 13px;
 }
 .new-sitemap {
     .img-actions {

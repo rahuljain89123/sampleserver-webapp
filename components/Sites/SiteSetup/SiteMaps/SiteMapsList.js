@@ -19,7 +19,7 @@ class SiteMapsList extends React.Component {
       'Sitemaps',
       [{
         text: 'New Sitemap',
-        onClick: `/app/sites/${this.props.site.get('id')}/details/site-maps/new`,
+        onClick: `/app/sites/${this.props.site.get('id')}/setup/site-maps/new`,
         iconName: 'add_circle_outline',
       }],
     )
@@ -36,13 +36,13 @@ class SiteMapsList extends React.Component {
             <tr>
               <td>
                 <Link
-                  to={`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMap.get('id')}`}>
+                  to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/${siteMap.get('id')}`}>
                   {siteMap.get('title')}
                 </Link>
               </td>
               <td>
                 <Link
-                  to={`/app/sites/${this.props.site.get('id')}/details/site-maps/${siteMap.get('id')}`}>
+                  to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/${siteMap.get('id')}`}>
                   <img src={siteMap.get('url')} height='200' />
                 </Link>
               </td>
@@ -62,7 +62,7 @@ class SiteMapsList extends React.Component {
         </table>
       )
     } else {
-      siteMaps = <p> No Sitemaps found. Add a <Link to={`/app/sites/${this.props.site.get('id')}/details/site-maps/new`}>New Sitemap</Link>.</p>
+      siteMaps = <p> No Sitemaps found. Add a <Link to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/new`}>New Sitemap</Link>.</p>
       siteMapsTable = siteMaps
     }
 

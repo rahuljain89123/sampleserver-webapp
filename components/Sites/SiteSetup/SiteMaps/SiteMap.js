@@ -173,7 +173,7 @@ class SiteMap extends React.Component {
       markWellsMessage = (
         <div>
           <p><Link
-              to={`/app/sites/${this.props.site.get('id')}/details/wells`}>
+              to={`/app/sites/${this.props.site.get('id')}/setup/wells`}>
               Add wells to your site
             </Link> before using this page.</p>
           <p>After adding wells you will be able to mark their location on the sitemap.</p>

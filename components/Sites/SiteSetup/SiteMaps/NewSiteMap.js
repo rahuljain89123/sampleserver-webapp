@@ -28,7 +28,7 @@ class NewSiteMap extends React.Component {
 
     this.props.createSiteMap(siteMapParams).then((siteMapId) => {
       this.props.flashMessage('success', 'Sitemap successfully uploaded')
-      this.props.push(`/app/sites/${siteId}/details/site-maps/${siteMapId}`)
+      this.props.push(`/app/sites/${siteId}/setup/site-maps/${siteMapId}`)
     })
     .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }

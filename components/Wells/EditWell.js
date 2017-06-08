@@ -44,7 +44,7 @@ class EditWell extends React.Component {
         deleteMethodName: 'deleteWell',
         deleteId: this.props.wellId,
         successMessage: 'Well deleted',
-        redirectPath: `/app/sites/${this.props.site.get('id')}/details/wells`,
+        redirectPath: `/app/sites/${this.props.site.get('id')}/setup/wells`,
         buttonText: 'Delete Well'
       }
     }])
@@ -54,7 +54,7 @@ class EditWell extends React.Component {
     this.props.editWell(this.props.wellId, wellParams)
       .then(() => {
         this.props.flashMessage('success', 'Well Updated Successfully')
-        this.props.push(`/app/sites/${this.props.site.get('id')}/details/wells`)
+        this.props.push(`/app/sites/${this.props.site.get('id')}/setup/wells`)
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }

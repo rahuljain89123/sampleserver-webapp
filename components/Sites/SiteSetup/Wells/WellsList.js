@@ -42,7 +42,7 @@ class WellsList extends React.Component {
       'Edit Wells',
       [{
         text: 'New Well',
-        onClick: `/app/sites/${this.props.site.get('id')}/details/wells/new`,
+        onClick: `/app/sites/${this.props.site.get('id')}/setup/wells/new`,
         iconName: 'add_circle_outline',
       }],
     )
@@ -92,7 +92,7 @@ class WellsList extends React.Component {
             {this.props.wells.map((well) => (
               <tr key={well.get('id')}>
                 <td>
-                  <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
+                  <Link to={`/app/sites/${this.props.site.get('id')}/setup/wells/${well.get('id')}`}>
                     {well.get('title')}
                   </Link>
                 </td>
@@ -100,8 +100,8 @@ class WellsList extends React.Component {
                   {well.get('top_of_casing')}
                 </td>
                 <td className="text-align-right">
-                  <Link to={`/app/sites/${this.props.site.get('id')}/details/wells/${well.get('id')}`}>
-                    <i className="material-icons">more_horiz</i>
+                  <Link className="edit-link" to={`/app/sites/${this.props.site.get('id')}/setup/wells/${well.get('id')}`}>
+                    Edit
                   </Link>
                 </td>
               </tr>
@@ -114,7 +114,7 @@ class WellsList extends React.Component {
     }
 
     return (
-      <div className="site-details-wells">
+      <div className="site-setup-wells">
         <div className="row">
           <div className="col-lg-8 col-md-7 col-sm-6">
             {wellsList}

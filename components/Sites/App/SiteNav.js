@@ -65,7 +65,7 @@ class SiteNav extends React.Component {
             activeClassName="active"
           >Downloads</NavLink>
           <NavLink
-            to={`/app/sites/${site.get('id')}/reports`}
+            to={`/app/sites/${site.get('id')}/reports/analytical-boxmaps`}
             className="nav-link nav-parent"
             activeClassName="active"
           >Reports</NavLink>
@@ -97,55 +97,67 @@ class SiteNav extends React.Component {
             )}
           />
           <NavLink
-            to={`/app/sites/${site.get('id')}/details/edit-site`}
+            to={`/app/sites/${site.get('id')}/setup/edit-site`}
             className="nav-link nav-parent"
             activeClassName="active"
-          >Site Details</NavLink>
+          >Site Setup</NavLink>
           <PrivateRoute
-            path={`/app/sites/${site.get('id')}/details`}
+            path={`/app/sites/${site.get('id')}/setup`}
             component={() => (
               <nav className="nav nav-pills flex-column nav-children">
                 <NavLink
                   exact
-                  to={`/app/sites/${site.get('id')}/details/edit-site`}
+                  to={`/app/sites/${site.get('id')}/setup/edit-site`}
                   className="nav-link"
                   activeClassName="active"
                 >Edit Site</NavLink>
                 <NavLink
-                  to={`/app/sites/${site.get('id')}/details/wells`}
+                  to={`/app/sites/${site.get('id')}/setup/wells`}
                   className="nav-link"
                   activeClassName="active"
                 >Edit Wells</NavLink>
                 <NavLink
                   exact
-                  to={`/app/sites/${site.get('id')}/details/sample-schedule`}
+                  to={`/app/sites/${site.get('id')}/setup/site-maps`}
+                  className="nav-link"
+                  activeClassName="active"
+                >Edit Site Maps</NavLink>
+              </nav>
+            )}
+          />
+          <NavLink
+            to={`/app/sites/${site.get('id')}/sampling/sample-schedule`}
+            className="nav-link nav-parent"
+            activeClassName="active"
+          >Sampling</NavLink>
+          <PrivateRoute
+            path={`/app/sites/${site.get('id')}/sampling`}
+            component={() => (
+              <nav className="nav nav-pills flex-column nav-children">
+                <NavLink
+                  exact
+                  to={`/app/sites/${site.get('id')}/sampling/sample-schedule`}
                   className="nav-link"
                   activeClassName="active"
                 >Sample Schedule</NavLink>
                 <NavLink
                   exact
-                  to={`/app/sites/${site.get('id')}/details/qa-qc-preferences`}
+                  to={`/app/sites/${site.get('id')}/sampling/qa-qc-preferences`}
                   className="nav-link"
                   activeClassName="active"
                 >QA/QC Preferences</NavLink>
                 <NavLink
                   exact
-                  to={`/app/sites/${site.get('id')}/details/site-maps`}
-                  className="nav-link"
-                  activeClassName="active"
-                >Site Maps</NavLink>
-                <NavLink
-                  exact
-                  to={`/app/sites/${site.get('id')}/details/executive-summary`}
+                  to={`/app/sites/${site.get('id')}/sampling/executive-summary`}
                   className="nav-link"
                   activeClassName="active"
                 >Executive Summary+</NavLink>
                 {site.get('state_id') === 35 && <NavLink
                   exact
-                  to={`/app/sites/${site.get('id')}/details/state-specific-info`}
+                  to={`/app/sites/${site.get('id')}/sampling/state-specific-info`}
                   className="nav-link"
-                  activeClassName="active">
-                  State Specific Info</NavLink>}
+                  activeClassName="active"
+                >State Specific Info</NavLink>}
               </nav>
             )}
           />

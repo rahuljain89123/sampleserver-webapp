@@ -29,7 +29,7 @@ class NewWell extends React.Component {
     this.props.createWell(wellParams)
       .then((wellId) => {
         this.props.flashMessage('success', 'Well created successfully')
-        this.props.push(`/app/sites/${siteId}/details/wells`)
+        this.props.push(`/app/sites/${siteId}/setup/wells`)
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }

@@ -86,7 +86,7 @@ class LabDataUpload extends React.Component {
         </Table>
       )
     } else {
-      uploadsTable = <p>You have&apos;t uploaded any lab data yet. <a href="https://www.dropbox.com/s/xk1yhih8ma0ao4p/lab_data_upload_example.csv?dl=1">Download Example</a></p>
+      uploadsTable = <p>You haven&apos;t uploaded any lab data yet. <a href="https://www.dropbox.com/s/xk1yhih8ma0ao4p/lab_data_upload_example.csv?dl=1">Download Example</a></p>
     }
 
     if (this.props.uploadingError) {

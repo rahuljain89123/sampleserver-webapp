@@ -18,7 +18,8 @@ import LabDataList from 'Sites/LabDataList'
 
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap'
 
-import SiteDetails from 'Sites/App/SiteDetails'
+import SiteSetup from 'Sites/App/SiteSetup'
+import Sampling from 'Sites/App/Sampling'
 import SiteDataImport from 'Sites/App/SiteDataImport'
 import SiteReports from 'Sites/App/SiteReports'
 
@@ -47,9 +48,22 @@ class SiteApp extends React.Component {
 
     return (
       <div className="app">
-        <SiteDetails site={site} location={this.props.location}/>
-        <SiteDataImport site={site} />
-        <SiteReports site={site} location={this.props.location} />
+        <PrivateRoute
+          path={`/app/sites/${site.get('id')}/setup`}
+          component={props => <SiteSetup site={site} {...props} />}
+        />
+        <PrivateRoute
+          path={`/app/sites/${site.get('id')}/sampling`}
+          component={props => <Sampling site={site} {...props} />}
+        />
+        <PrivateRoute
+          path={`/app/sites/${site.get('id')}/data-import`}
+          component={props => <SiteDataImport site={site} {...props} />}
+        />
+        <PrivateRoute
+          path={`/app/sites/${site.get('id')}/reports`}
+          component={props => <SiteReports site={site} {...props} />}
+        />
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/lab-data-list`}

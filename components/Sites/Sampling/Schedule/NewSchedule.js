@@ -69,7 +69,7 @@ class NewSchedule extends React.Component {
       copy_params: this.state.copy_params,
     })
     .then(schedule => {
-      this.props.push(`/app/sites/${this.props.site.get('id')}/details/sample-schedule/${schedule.id}`)
+      this.props.push(`/app/sites/${this.props.site.get('id')}/setup/sample-schedule/${schedule.id}`)
     })
   }
 
