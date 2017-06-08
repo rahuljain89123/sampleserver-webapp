@@ -199,6 +199,8 @@ class FreeProduct extends React.Component {
       <option key={index} value={opt}>{opt}</option>
     )
 
+    const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
+
     let siteMapComponent = null
 
     if (this.props.siteMapId) {
@@ -220,7 +222,6 @@ class FreeProduct extends React.Component {
     return (
       <div className='site-map'>
         <div className='inner-sidebar contouring-sidebar'>
-          <h4> Configure </h4>
           <div className='sidebar-content'>
             <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
               <Field
@@ -265,7 +266,8 @@ class FreeProduct extends React.Component {
 
               <div className='centered-btn'>
                 <Button
-                  disabled={!this.props.groupedSampleValues.size}
+                  disabled={shouldDisableButton}
+                  className="download-report-btn btn-lg btn-block"
                   color="primary"
                 >Contour</Button>
               </div>

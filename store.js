@@ -36,6 +36,11 @@ import {
     resetError,
     resetting,
 } from 'reducers/users'
+
+import {
+    submittingReport
+} from 'reducers/reports'
+
 import {
     labs,
     currentLabUrl,
@@ -255,7 +260,9 @@ const appReducer = combineReducers({
 
     uploads,
     uploadingError,
-    
+
+    submittingReport,
+
     pageErrors,
     flash,
     headerInfo,

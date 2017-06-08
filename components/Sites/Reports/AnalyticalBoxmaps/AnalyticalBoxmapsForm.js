@@ -64,7 +64,6 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
     this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
-    // this.props.fetchWells({ site_id: this.props.site.get('id') })
 
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
@@ -288,9 +287,10 @@ const mapStateToProps = (state, ownProps) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
   criterias: state.get('criterias'),
-
   sampleDates: state.get('sampleDates'),
   siteMaps: state.get('siteMaps'),
+  submittingReport: state.get('submittingReport'),
+
   siteMapId: selector(state, 'sitemap_id'),
   date_collected: selector(state, 'date_collected'),
   criteria_id: selector(state, 'criteria_id'),

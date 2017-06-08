@@ -101,6 +101,11 @@ export const allWells = (siteMapWells, siteMapId, zeroWells=Immutable.List()) =>
   return filteredSiteMapWells.concat(zeroWells)
 }
 
+var countDecimals = function (value) {
+    if(Math.floor(value) === value) return 0;
+    return value.toString().split(".")[1].length || 0;
+}
+
 export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage, getValue) => {
   const { x, y, scale } = loc
   const { date, wells, groupedSampleValues, selectedWells } = props
@@ -118,6 +123,7 @@ export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedIma
 
     // don't draw the well marker if no samples
     if (val === null) { return }
+    else if (countDecimals(val) > 4) { val = Math.round(val * 10000)/10000 }
   } else {
     val = wells.getIn([well.get('well_id'), 'title'])
   }
@@ -136,12 +142,23 @@ export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedIma
   ctx.fillRect(x-width/2, y-height/2, width, height)
   ctx.globalAlpha = 1.0
 
-  ctx.font = `bold ${fontSize}px Arial`
   ctx.fillStyle = 'white'
   ctx.textAlign = 'center'
   ctx.textBaseline='middle'
 
-  ctx.fillText(val, x, y)
+  let imageFontSize = fontSize
+  ctx.font = `bold ${imageFontSize}px Arial`
+  const maxTextWidth = 0.95 * width - checkboxSize
+
+  while (ctx.measureText(val).width > maxTextWidth) {
+    imageFontSize *= 0.9
+    ctx.font = `bold ${imageFontSize}px Arial`
+  }
+
+
+
+
+  ctx.fillText(val, x + (0.05*width + checkboxSize)/2, y)
 
   ctx.closePath()
 

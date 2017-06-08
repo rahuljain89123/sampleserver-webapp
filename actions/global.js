@@ -26,7 +26,7 @@ export const clearFlash = () => ({
 
 /**
  * @param title [Text|React.Element]
- * @param buttons [Array<{text:<String>, onClick:<function>}]
+ * @param buttons [Array]
  */
 export const setHeaderInfo = (title, buttons=[]) => ({
   type: SET_HEADER_INFO,

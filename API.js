@@ -40,12 +40,10 @@ API.post = (url, body) => {
   })
   .then(response => {
       if (response.status >= 200 && response.status < 300) {
-        debugger
         const contentType = response.headers.get('content-type')
         if (contentType === 'application/json') {
           return response.json()
         } else if (contentType === 'application/pdf') {
-          // const fileName = getFileName(response.headers.get('Content-Disposition'))
           return response.blob()
         } else {
           return response.body
