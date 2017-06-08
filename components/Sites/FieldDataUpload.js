@@ -60,6 +60,7 @@ class FieldDataUpload extends React.Component {
   render () {
     const uploads = this.props.uploads
       .filter(upload => upload.get('company_id') === this.props.site.get('company_id'))
+      .filter(upload => upload.get('site_id') === this.props.site.get('id'))
       .filter(upload => upload.get('upload_type') === 'field_data')
       .sort((a, b) => a.get('id') - b.get('id'))
       .entrySeq()
