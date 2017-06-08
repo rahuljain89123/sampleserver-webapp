@@ -29,33 +29,29 @@ class SiteApp extends React.Component {
   constructor (props) {
     super(props)
 
-    const siteId = parseInt(props.match.params.id, 10)
 
-    this.state = {
-      siteId,
-    }
+
   }
 
   componentDidMount () {
-    if (!this.props.sites.get(this.state.siteId)) {
-      this.props.fetchSite(this.state.siteId)
+    const siteId = parseInt(this.props.match.params.id, 10)
+
+    if (!this.props.sites.get(siteId)) {
+      this.props.fetchSite(siteId)
     }
   }
 
   render () {
-    const site = this.props.sites.get(this.state.siteId)
+    const siteId = parseInt(this.props.match.params.id, 10)
+
+    const site = this.props.sites.get(siteId)
     if (!site) { return null }
 
     return (
       <div className="app">
-        <PrivateRoute
-          path={`/app/sites/${site.get('id')}/setup`}
-          component={props => <SiteSetup site={site} {...props} />}
-        />
-        <PrivateRoute
-          path={`/app/sites/${site.get('id')}/sampling`}
-          component={props => <Sampling site={site} {...props} />}
-        />
+        <SiteSetup site={site} location={this.props.location} />
+        <Sampling  site={site} location={this.props.location} />
+
         <PrivateRoute
           path={`/app/sites/${site.get('id')}/data-import`}
           component={props => <SiteDataImport site={site} {...props} />}

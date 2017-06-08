@@ -18,6 +18,7 @@ class Sampling extends React.Component {
   render () {
     const { site } = this.props
     if (!site) { return null }
+    if (!this.props.location.pathname.includes('sampling')) { return null }
 
     return (
       <div className="sampling">

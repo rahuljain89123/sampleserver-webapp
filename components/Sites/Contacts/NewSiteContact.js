@@ -34,7 +34,7 @@ class NewSiteContact extends React.Component {
 
     this.props.createContact(contactParams)
       .then((contactId) => {
-        this.props.flashMessage('success', 'Well created successfully')
+        this.props.flashMessage('success', 'Contact created successfully')
         this.props.push(`/app/sites/${siteId}/contacts`)
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))

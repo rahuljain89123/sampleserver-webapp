@@ -19,6 +19,8 @@ class SiteSetup extends React.Component {
   render () {
     const { site } = this.props
     if (!site) { return null }
+    if (!this.props.location.pathname.includes('setup')) { return null }
+
 
     return (
       <div className="site-setup">
