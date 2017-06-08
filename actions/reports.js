@@ -29,6 +29,7 @@ export const createContour = contourParams =>
         return Promise.resolve(res.src)
       })
       .catch(() => {
+        dispatch(setSubmittingReport(false))
         dispatch(hideLoading())
         return Promise.reject()
       })
@@ -45,6 +46,7 @@ export const createAnalyticalBoxmap = boxmapsParams =>
         return Promise.resolve(res)
       })
       .catch(() => {
+        dispatch(setSubmittingReport(false))
         dispatch(hideLoading())
         return Promise.reject()
       })

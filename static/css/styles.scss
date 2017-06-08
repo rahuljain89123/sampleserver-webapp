@@ -531,6 +531,7 @@ section {
     height: 100%;
     width: 300px;
     background: #FFFFFF;
+    overflow-y: auto;
 }
 .site-map {
     display: flex;
@@ -1238,22 +1239,3 @@ form.contouring-form {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

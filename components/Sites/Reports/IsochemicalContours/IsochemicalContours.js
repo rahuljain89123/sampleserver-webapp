@@ -247,7 +247,7 @@ class IsochemicalContours extends React.Component {
 
     return (
       <div className='site-map'>
-      <div className='inner-sidebar contouring-sidebar' style={ {overflowY: 'scroll'} }>
+      <div className='inner-sidebar contouring-sidebar'>
         <div className='sidebar-content'>
         <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
           <Field
