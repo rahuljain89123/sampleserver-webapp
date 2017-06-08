@@ -289,8 +289,8 @@ GroundwaterElevation = reduxForm({ form: FORM_NAME })(GroundwaterElevation)
 
 const selector = formValueSelector(FORM_NAME)
 
-const mapStateToProps = (state, props) => ({
-  siteMaps: state.get('siteMaps'),
+const mapStateToProps = (state, ownProps) => ({
+  siteMaps: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
   siteMapWells: state.get('siteMapWells'),
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),

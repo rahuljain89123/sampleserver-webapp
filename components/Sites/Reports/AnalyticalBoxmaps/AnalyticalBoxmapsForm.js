@@ -60,7 +60,11 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
   componentDidMount () {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
-      .then(() => this.props.dispatch(change('AnalyticalBoxmapsForm', 'sitemap_id', this.props.siteMaps.first().get('id'))))
+      .then(() => {
+        if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {
+          this.props.dispatch(change('AnalyticalBoxmapsForm', 'sitemap_id', this.props.siteMaps.first().get('id')))
+        }
+      })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
     this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
@@ -203,13 +207,14 @@ class AnalyticalBoxmapsForm extends React.Component {
         )
       } else {
         const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+        if (currentSiteMap) {
+          boxmapsPreview = <SiteMapRenderer
+            imageUrl={currentSiteMap.get('url')}
 
-        boxmapsPreview = <SiteMapRenderer
-          imageUrl={currentSiteMap.get('url')}
-
-          onClick={this.processClickEvent}
-          drawWellMarker={this.drawWellMarker}
-          />
+            onClick={this.processClickEvent}
+            drawWellMarker={this.drawWellMarker}
+            />
+        }
       }
     }
 
@@ -288,7 +293,7 @@ const mapStateToProps = (state, ownProps) => ({
   substanceGroups: state.get('substanceGroups'),
   criterias: state.get('criterias'),
   sampleDates: state.get('sampleDates'),
-  siteMaps: state.get('siteMaps'),
+  siteMaps: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
   submittingReport: state.get('submittingReport'),
 
   siteMapId: selector(state, 'sitemap_id'),

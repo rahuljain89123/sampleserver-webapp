@@ -133,7 +133,7 @@ class FreeProduct extends React.Component {
       .catch(() => this.props.flashMessage('danger', 'bad schema'))
   }
 
-  processClickEvent (xpos, ypos) {
+  processClickEvent (xpos, ypos, evt) {
     const { siteMapWells, zeroWells } = this.props
 
     if (evt.button === 2) { contouringFn.addZeroWell(xpos, ypos, this, FORM_NAME) }
@@ -213,7 +213,7 @@ class FreeProduct extends React.Component {
 
       siteMapComponent = <SiteMapRenderer
         imageUrl={currentSiteMap.get('url')}
-        wells={siteMapWells}
+        wells={allWells}
         onClick={this.processClickEvent}
         drawWellMarker={this.drawWellMarker}
         />
@@ -286,8 +286,8 @@ FreeProduct = reduxForm({ form: FORM_NAME })(FreeProduct)
 
 const selector = formValueSelector(FORM_NAME)
 
-const mapStateToProps = (state, props) => ({
-  siteMaps: state.get('siteMaps'),
+const mapStateToProps = (state, ownProps) => ({
+  siteMaps: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
   siteMapWells: state.get('siteMapWells'),
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
