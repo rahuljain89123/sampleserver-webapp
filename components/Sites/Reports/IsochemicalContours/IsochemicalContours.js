@@ -316,7 +316,7 @@ class IsochemicalContours extends React.Component {
 
           <div className='centered-btn'>
             <Button  disabled={shouldDisableButton} color="primary" className="download-report-btn btn-lg btn-block">
-              Contour
+              Generate Report
             </Button>
           </div>
         </Form>

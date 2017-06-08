@@ -47,10 +47,7 @@ h4 {
 
 .btn {
     font-family: $ss-font-family;
-    /* Rectangle 4: */
-    box-shadow: 0 2px 10px 0 rgba(154,122,255,0.30);
     border-radius: 3px;
-    /* Choose File: */
     font-family: GothamHTF;
     font-size: 14px;
     color: #FFFFFF;
@@ -67,7 +64,6 @@ h4 {
     font-family: GothamHTF;
     font-size: 14px;
     color: #575C61;
-    // line-height: 43px;
     vertical-align: middle;
     cursor: pointer;
 
@@ -960,6 +956,9 @@ form.contouring-form {
   ul {
     padding-left: 0px;
   }
+  .list-group-item {
+    justify-content: space-between;
+  }
 }
 
 .contouring-sidebar {
@@ -973,11 +972,6 @@ form.contouring-form {
   .centered-btn {
     width: 100%;
     text-align: center;
-  }
-  button {
-    margin: auto;
-    width: 80%;
-    border-radius: 0px;
   }
 }
 

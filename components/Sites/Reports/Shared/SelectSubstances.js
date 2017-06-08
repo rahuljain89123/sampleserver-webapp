@@ -18,14 +18,14 @@ const SelectSubstances = ({ fields, options, substances }) => {
             fields.remove(index)
           }
           return (<li key={index} className="list-group-item">
-            {substances.get(parseInt(fields.get(index))).get('title')}{' '}
+            <span>{substances.get(parseInt(fields.get(index))).get('title')}{' '}</span>
             <a href='#' onClick={remove}>X</a>
           </li>)
         }
       )}
       <li className={fields.length ? 'mt-2' : ''}>
         <Input type='select' style={{width: '100%'}} onChange={addSubstance}>
-          <option value=''> Select Substances </option>
+          <option value=''> Add Substances </option>
           {options}
         </Input>
       </li>
