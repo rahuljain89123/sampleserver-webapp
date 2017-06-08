@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Row, Col } from 'reactstrap'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Switch } from 'react-router-dom'
 
 import PrivateRoute from './Auth'
 
@@ -14,8 +14,10 @@ const LabApp = () => (
   <div className="container-fluid">
       <div className="lab-app">
         <PrivateRoute exact path="/app" component={LabClients} />
-        <PrivateRoute path="/app/clients/:id" component={LabClient} />
-        <PrivateRoute exact path="/app/clients/new" component={NewLabClient} />
+        <Switch>
+          <PrivateRoute exact path="/app/clients/new" component={NewLabClient} />
+          <PrivateRoute path="/app/clients/:id" component={LabClient} />
+        </Switch>
         <PrivateRoute path="/app/team" component={TeamLabUsers} />
       </div>
   </div>
