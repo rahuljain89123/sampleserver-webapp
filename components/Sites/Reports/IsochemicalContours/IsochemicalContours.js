@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import download from 'downloadjs'
+
 import {
   Field,
   FieldArray,
@@ -141,8 +143,8 @@ class IsochemicalContours extends React.Component {
     }
 
     this.props.createContour(params)
-      .then((url) => window.location = url)
-      .catch(() => this.props.flashMessage('danger', 'bad schema'))
+      .then((url) => download(url, 'isochemical-contour-report.pdf', 'application/pdf'))
+      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
   setSelectedWells () {

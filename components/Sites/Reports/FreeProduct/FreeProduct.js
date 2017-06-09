@@ -1,5 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import download from 'downloadjs'
+
+
 import {
   Field,
   FieldArray,
@@ -131,8 +134,8 @@ class FreeProduct extends React.Component {
     }
 
     this.props.createContour(params)
-      .then((url) => window.location = url)
-      .catch(() => this.props.flashMessage('danger', 'bad schema'))
+      .then((url) => download(url, 'free-product-report.pdf', 'application/pdf'))
+      .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
   processClickEvent (xpos, ypos, evt) {
