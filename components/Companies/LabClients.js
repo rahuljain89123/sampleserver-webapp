@@ -29,7 +29,7 @@ class LabClients extends React.Component {
         this.props.fetchCompanies()
         this.props.setHeaderInfo('Clients', [{
           text: 'New Client',
-          onClick: 'app/clients/new',
+          onClick: '/app/clients/new',
           iconName: 'add_circle_outline',
         }])
     }
