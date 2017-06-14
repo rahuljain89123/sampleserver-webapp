@@ -950,15 +950,19 @@ form {
 }
 
 form.contouring-form {
-  .form-control {
-    width: 100%;
-    padding: 0.5rem 0rem 0.5rem 0.5rem;
-  }
+
   ul {
     padding-left: 0px;
   }
   .list-group-item {
     justify-content: space-between;
+  }
+}
+
+.analytical-boxmaps, form.contouring-form {
+  .form-control {
+    width: 100%;
+    padding: 0.5rem 0rem 0.5rem 0.5rem;
   }
 }
 
