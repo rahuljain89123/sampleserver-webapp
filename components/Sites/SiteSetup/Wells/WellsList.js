@@ -10,6 +10,7 @@ import {
   createUpload,
   patchUpload,
   deleteUpload,
+  clearUploadingError,
 } from 'actions/uploads'
 import { fetchSite } from 'actions/sites'
 import { fetchWells } from 'actions/wells'
@@ -17,7 +18,7 @@ import { currentLab, currentCompany } from 'normalizers'
 import {
   FILESTACK_API_KEY,
 } from 'helpers/filestack'
-import { setHeaderInfo } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
@@ -33,6 +34,8 @@ class WellsList extends React.Component {
   }
 
   componentDidMount () {
+    if (this.props.uploadingError) { this.props.clearUploadingError() }
+
     this.props.fetchUploads()
     this.props.fetchWells({
       site_id: this.props.site.get('id'),
@@ -67,9 +70,14 @@ class WellsList extends React.Component {
     }).then(() => {
       this.props.fetchWells({
         site_id: this.props.site.get('id'),
-        per_page: 50
+        per_page: 100
       })
+      this.props.flashMessage('success', 'Successfully updated wells.')
     })
+  }
+
+  clearError () {
+    this.props.clearUploadingError()
   }
 
   render () {
@@ -77,6 +85,7 @@ class WellsList extends React.Component {
     .entrySeq()
 
     let wellsList = null
+    let errorDisplay = null
 
     if (this.props.wells.size) {
       wellsList = (
@@ -113,8 +122,20 @@ class WellsList extends React.Component {
       wellsList = <p>No wells found yet. To add many wells, you can bulk upload.</p>
     }
 
+    if (this.props.uploadingError) {
+      errorDisplay = (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" className="close" onClick={() => this.clearError()}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <strong>Upload Error</strong> {this.props.uploadingError}
+        </div>
+      )
+    }
+
     return (
       <div className="site-setup-wells">
+        {errorDisplay}
         <div className="row">
           <div className="col-lg-8 col-md-7 col-sm-6">
             {wellsList}
@@ -136,7 +157,7 @@ class WellsList extends React.Component {
                   Choose File
                 </Button>
                 <p>Save time by uploading your well data in a CSV.<br />Need help?</p>
-                <a href="https://www.dropbox.com/s/14q3vy9hm94d2af/wellinfo_upload_example.csv?dl=1" className="btn-link">Download a Sample CSV</a>
+                <a href="/backend/static/sample-uploads/wellinfo_upload_example.csv" className="btn-link">Download a Sample CSV</a>
               </div>
             </div>
           </div>
@@ -148,6 +169,7 @@ class WellsList extends React.Component {
 
 const mapStateToProps = (store, ownProps) => ({
   uploads: store.get('uploads'),
+  uploadingError: store.get('uploadingError'),
   lab: currentLab(store),
   company: currentCompany(store),
   wells: store.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
@@ -157,9 +179,11 @@ const mapDispatchToProps = dispatch => ({
   fetchUploads: () => dispatch(fetchUploads()),
   createUpload: upload => dispatch(createUpload(upload)),
   patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
+  clearUploadingError: () => dispatch(clearUploadingError()),
   deleteUpload: id => dispatch(deleteUpload(id)),
   fetchSite: id => dispatch(fetchSite(id)),
   fetchWells: filters => dispatch(fetchWells(filters)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 

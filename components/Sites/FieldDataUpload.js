@@ -94,7 +94,7 @@ class FieldDataUpload extends React.Component {
         </Table>
       )
     } else {
-      uploadsTable = <p>You haven&apos;t uploaded any field data yet. <a href="https://www.dropbox.com/s/6ee1iqfp6dt03zy/field_data_upload_example.csv?dl=1">Download Example</a></p>
+      uploadsTable = <p>You haven&apos;t uploaded any field data yet. <a href="/backend/static/sample-uploads/field_data_upload_example.csv">Download Example</a></p>
     }
 
 
