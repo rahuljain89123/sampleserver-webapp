@@ -7,8 +7,9 @@ import {
   Row,
   Col,
 } from 'reactstrap'
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
+
 
 const SelectFormGroup = (field) => (
   <FormGroup className={field.location == 'sidebar' ? 'sidebar-form-group' : 'row'} color={field.error ? 'danger' : ''}>

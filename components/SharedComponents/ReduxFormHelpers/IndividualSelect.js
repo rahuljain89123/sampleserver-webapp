@@ -1,7 +1,7 @@
 import { Input } from 'reactstrap'
 
-import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
 
 const IndividualSelect = (field) => {
   if (field.mValue) { field.input.value = field.mValue }

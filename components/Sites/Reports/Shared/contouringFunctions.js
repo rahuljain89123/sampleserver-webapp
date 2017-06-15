@@ -62,7 +62,9 @@ export const substanceIdInDate = (substanceId, sampleDates, t_date, t_date_end) 
 export const startDateOptions = (dates, end_date) => {
   const filteredDates = end_date ?
     dates : dates.filter(date => moment(end_date).isAfter(moment(date.get('date_collected'))))
-  return filteredDates.valueSeq().map((date, i) => <option key={date.get('id')}>{date.get('date_collected')}</option>)
+  return filteredDates.valueSeq()
+    .map((date, i) => ({value: date.get('date_collected'), label: date.get('date_collected')}))
+    .toJS()
 }
 
 export const endDateOptions = (dates, start_date) => {
@@ -71,8 +73,9 @@ export const endDateOptions = (dates, start_date) => {
   return dates.filter(date =>
     moment(start_date).isBefore(moment(date.get('date_collected')))
   )
-  .valueSeq()
-  .map((date, i) => <option key={date.get('id')}>{date.get('date_collected')}</option>)
+    .valueSeq()
+    .map((date, i) => ({value: date.get('date_collected'), label: date.get('date_collected')}))
+    .toJS()
 }
 
 export const selectedWellsForSubmit = (selectedWells, groupedSampleValues, zeroWells=Immutable.List()) => {
