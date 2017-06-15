@@ -34,7 +34,7 @@ const renderTests= ({ fields, options }) => {
 
   const filteredOptions = (values, options) => {
     values.filter(v => !!v).forEach(v => { options = options.delete(parseInt(v)) })
-    return options.valueSeq()
+    return options.valueSeq().toJS()
   }
 
   return (<ul>
@@ -75,7 +75,7 @@ const renderWells= ({ fields, options, qaqcType }) => {
 
   const filteredOptions = (values, options) => {
     values.filter(v => !!v).forEach(v => { options = options.delete(parseInt(v)) })
-    return options.valueSeq()
+    return options.valueSeq().toJS()
   }
 
   return (<ul>
@@ -142,14 +142,10 @@ class QAQCForm extends React.Component {
     let tripBlanksForm = null
     let equipmentBlanksForm = null
     const testOptions = tests.filter((test) => (test.get('state_id') === this.props.site.get('state_id')))
-      .map((test) => <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>)
+      .map((test) => ({ value: test.get('id'), label: test.get('title') }))
 
     const wellOptions = wells.map((well) =>
-      <option key={well.get('id')} value={well.get('id')}>{well.get('title')}</option>)
-
-    const perSamplesOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50].map((i) => <option key={i} value={i}>{`${i} samples`}</option>)
-      .concat(<option key='persite' value='persite'>Per Site</option>)
-      .concat(<option key='perday' value='perday'>Per Day</option>)
+      ({ value: well.get('id'), label: well.get('title') }))
 
     if (qaqcDuplicates) {
       duplicatesForm = (<div>
@@ -189,22 +185,6 @@ class QAQCForm extends React.Component {
 
     if (qaqcEquipmentBlanks) {
       equipmentBlanksForm = (<div>
-        <InputGroup>
-          <InputGroupAddon>Collect</InputGroupAddon>
-          <Field
-            name='qaqc_equipmentblanks_per_samples'
-            id='qaqc_equipmentblanks_per_samples'
-            component={IndividualInput}
-            type='text' />
-          <InputGroupAddon> duplicate(s) per </InputGroupAddon>
-          <Field
-            name='qaqc_equipmentblanks_type'
-            id='qaqc_equipmentblanks_type'
-            type='select'
-            component={IndividualSelect}
-            options={perSamplesOptions} />
-        </InputGroup>
-
         <h5>Test For:</h5>
         <FieldArray name='qaqc_equipmentblanks_test_ids' component={renderTests} options={testOptions}/>
       </div>)
