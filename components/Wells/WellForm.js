@@ -36,7 +36,7 @@ class WellForm extends React.Component {
     const samplingOptions = ['Low Flow', 'Grab Sample', 'Other'].map(option => (
       <option key={option} value={option}>{option}</option>
     ))
-    const disposalOptions = ['Pour on Ground', 'Place in Container', 'Other'].map(option => (
+    const disposalOptions = ['Pour on ground', 'Place in container', 'Other'].map(option => (
       <option key={option} value={option}>{option}</option>
     ))
 
