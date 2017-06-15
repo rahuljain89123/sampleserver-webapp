@@ -914,6 +914,13 @@ section {
 }
 form {
     margin: 0 10px 10px 10px;
+    .checkbox {
+        vertical-align: middle;
+    }
+    .form-check-input {
+        margin-top: -2px;
+        vertical-align: middle;
+    }
     label {
         /* Project: */
         opacity: 0.65;
@@ -924,6 +931,9 @@ form {
         display: inline-block;
         width: 150px;
         vertical-align: middle;
+        &.form-check-label {
+            width: auto;
+        }
     }
     .form-control {
         padding: 1rem 1.5rem;
@@ -946,6 +956,12 @@ form {
     }
     .form-group {
         margin-bottom: 28px;
+    }
+    .options-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 }
 
@@ -1233,6 +1249,9 @@ form.contouring-form {
             text-transform: uppercase;
         }
     }
+}
+.qa-qc-form {
+
 }
 
 

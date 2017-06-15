@@ -18,6 +18,7 @@ import {
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
 import IndividualInput from 'SharedComponents/ReduxFormHelpers/IndividualInput'
 import IndividualSelect from 'SharedComponents/ReduxFormHelpers/IndividualSelect'
+import CheckboxFormGroup from 'SharedComponents/ReduxFormHelpers/CheckboxFormGroup'
 
 import { editSite }   from 'actions/sites'
 import { fetchWells } from 'actions/wells'
@@ -37,7 +38,7 @@ const renderTests= ({ fields, options }) => {
     return options.valueSeq()
   }
 
-  return (<ul>
+  return (<ul className="options-list">
     {fields.map((test, index, fields) => {
       const removeTest = (e) => {
         e.preventDefault()
@@ -78,7 +79,7 @@ const renderWells= ({ fields, options, qaqcType }) => {
     return options.valueSeq()
   }
 
-  return (<ul>
+  return (<ul className="options-list">
     {fields.map((well, index, fields) => {
       const removeWell = (e) => {
         e.preventDefault()
@@ -212,14 +213,14 @@ class QAQCForm extends React.Component {
 
 
     return (
-      <div>
+      <div className="qa-qc-form">
         <Form onSubmit={handleSubmit(this.onSubmit)}>
             <h3> Duplicates </h3>
             <Field
               props={{ label: 'Collect Duplicates' }}
               name='qaqc_duplicates'
               id='qaqc_duplicates'
-              component={IndividualFormGroup}
+              component={CheckboxFormGroup}
               type='checkbox'
               />
             {duplicatesForm}
@@ -229,7 +230,7 @@ class QAQCForm extends React.Component {
             props={{ label: 'Collect MS/MSDs' }}
             name='qaqc_msmsds'
             id='qaqc_msmsds'
-            component={IndividualFormGroup}
+            component={CheckboxFormGroup}
             type='checkbox'
             />
           {msmsdsForm}
@@ -239,7 +240,7 @@ class QAQCForm extends React.Component {
             props={{ label: 'Collect Field Blanks' }}
             name='qaqc_fieldblanks'
             id='qaqc_fieldblanks'
-            component={IndividualFormGroup}
+            component={CheckboxFormGroup}
             type='checkbox'
             />
           {fieldBlanksForm}
@@ -249,7 +250,7 @@ class QAQCForm extends React.Component {
             props={{ label: 'Collect Trip Blanks' }}
             name='qaqc_tripblanks'
             id='qaqc_tripblanks'
-            component={IndividualFormGroup}
+            component={CheckboxFormGroup}
             type='checkbox'
             />
           {tripBlanksForm}
@@ -259,7 +260,7 @@ class QAQCForm extends React.Component {
             props={{ label: 'Collect Equipment Blanks' }}
             name='qaqc_equipmentblanks'
             id='qaqc_equipmentblanks'
-            component={IndividualFormGroup}
+            component={CheckboxFormGroup}
             type='checkbox'
             />
           {equipmentBlanksForm}
