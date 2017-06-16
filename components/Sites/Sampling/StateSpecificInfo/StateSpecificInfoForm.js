@@ -119,11 +119,9 @@ class StateSpecificInfoForm extends React.Component {
         [error.key]: msgFromError(error),
     } : {}
 
-    const selectOptions= [1, 2, 3, 4].map((i) => (<option>{i}</option>))
-
     const rbcaClassificationOptions = ["Tier 1", "Tier 2", "Tier 3"].map((i) => ({ value: i, title: i}))
     const booleanOptions = [{ value: 'true', title: 'YES' }, { value: 'false', title: 'NO' }]
-    const siteClassificationOptions = [null, 1, 2, 3, 4].map((i) => <option key={i} value={i}>{i}</option>)
+    const siteClassificationOptions = [1, 2, 3, 4].map((i) =>  ({ label: i, value: i }))
 
     const reportTypeOptions = REPORT_TYPES.map((reportType) => ({ value: reportType, title: reportType }))
 

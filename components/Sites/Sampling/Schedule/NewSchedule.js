@@ -22,6 +22,9 @@ import {
 } from 'actions/schedule'
 import FormButton from 'SharedComponents/ReduxFormHelpers/FormButton'
 
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
+
 import { setHeaderInfo } from 'actions/global'
 import { msgFromError } from 'util'
 
@@ -51,7 +54,7 @@ class NewSchedule extends React.Component {
     }
 
     this.setState({
-      [e.target.name]: e.target.value,
+      copy_params: e.value,
     })
   }
 
@@ -69,7 +72,7 @@ class NewSchedule extends React.Component {
       copy_params: this.state.copy_params,
     })
     .then(schedule => {
-      this.props.push(`/app/sites/${this.props.site.get('id')}/setup/sample-schedule/${schedule.id}`)
+      this.props.push(`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/${schedule.id}`)
     })
   }
 
@@ -83,9 +86,12 @@ class NewSchedule extends React.Component {
 
     let scheduleOptions = undefined
     if (this.props.schedules.size > 0) {
-      scheduleOptions = this.props.schedules.valueSeq().map(function (schedule) {
-      return <option key={schedule.get('id')}>{moment(schedule.get('date')).utc().format('YYYY-MM-DD')}</option>
-      })
+      scheduleOptions = this.props.schedules.valueSeq().map(schedule =>
+        ({
+          value: moment(schedule.get('date')).utc().format('YYYY-MM-DD'),
+          label: moment(schedule.get('date')).utc().format('YYYY-MM-DD'),
+        }
+      )).toJS()
     }
 
     return (
@@ -110,17 +116,16 @@ class NewSchedule extends React.Component {
             <FormGroup row color={errors.copy_params ? 'danger' : ''}>
               <Label sm={2} for="copy_params">Copy Params from Previous Schedule?</Label>
               <Col sm={9}>
-                <Input
+                <Select
                   state={errors.copy_params ? 'danger' : ''}
-                  type="select"
                   name="copy_params"
                   id="copy_params"
                   value={this.state.copy_params}
+                  options={scheduleOptions}
+                  placeholder="Select a date..."
                   onChange={e => this.onChange(e)}
-                >
-                  {scheduleOptions ? (<option>Select a date...</option> ) : ( <option></option>)}
-                  {scheduleOptions}
-                </Input>
+                />
+
               </Col>
               <FormFeedback>{errors.copy_params}</FormFeedback>
             </FormGroup>

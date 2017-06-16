@@ -13,6 +13,8 @@ import {
   Row,
   Col,
 } from 'reactstrap'
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
 
 import SiteActivityReportForm from './SiteActivityReportForm'
 
@@ -40,18 +42,6 @@ import moment from 'moment'
  * CLASS DEFINITION
  *****************************************************************************/
 
-class WellRow extends React.Component {
-  render () {
-  return (<div>
-    {this.props.well.get('title')}
-    <input type="checkbox" />
-    <input type="checkbox" />
-    <input type="checkbox" />
-    <input type="checkbox" />
-  </div>)
-  }
-}
-
 class EditSchedule extends React.Component {
   constructor (props) {
     super(props)
@@ -68,6 +58,7 @@ class EditSchedule extends React.Component {
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
+    
     this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
       const formattedDate = moment(schedule.date).utc().format('YYYY-MM-DD')
       this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`)
@@ -78,7 +69,7 @@ class EditSchedule extends React.Component {
 
   onChange (e) {
     this.setState({
-      test: e.target.value,
+      test: e.value,
     })
   }
 
@@ -259,6 +250,7 @@ class EditSchedule extends React.Component {
 
       const schedule = this.props.schedules.get(this.state.scheduleId)
       const tests = stateTests.filter((test) => !schedule.get('test_ids').includes(test.get('id')))
+      const testOptions = tests.map(test => ( { label: test.get('title'), value: test.get('id') })).valueSeq().toJS()
       const formattedDate = moment(schedule.get('date')).utc().format('YYYY-MM-DD')
       const siteActivityReport = schedule.delete('test_ids')
         .delete('gauged_well_ids')
@@ -268,12 +260,13 @@ class EditSchedule extends React.Component {
         <div className="sample-schedule">
           <div className="row add-test">
             <div className="col-sm-10">
-              <select name="tests" onChange={e => this.onChange(e)} className="form-control">
-                <option value=''>Choose a test...</option>
-                {tests.map(test => (
-                  <option key={test.get('id')} value={test.get('id')}>{test.get('title')}</option>
-                ))}
-              </select>
+              <Select
+                onChange={e => this.onChange(e)}
+                className="form-control"
+                value={this.state.test}
+                options={testOptions}
+                />
+
             </div>
             <div className="col-sm-2">
               <button className="btn btn-primary btn-block" onClick={e => this.addTest(e)}>Add Test</button>

@@ -31,13 +31,13 @@ class WellForm extends React.Component {
     const { handleSubmit, submitForm } = this.props
 
     const materialOptions = ['PVC', 'Steel', 'Other'].map(material => (
-      <option key={material} value={material}>{material}</option>
+      { value: material, label: material }
     ))
     const samplingOptions = ['Low Flow', 'Grab Sample', 'Other'].map(option => (
-      <option key={option} value={option}>{option}</option>
+      { value: option, label: option }
     ))
     const disposalOptions = ['Pour on ground', 'Place in container', 'Other'].map(option => (
-      <option key={option} value={option}>{option}</option>
+      { value: option, label: option }
     ))
 
     return (
