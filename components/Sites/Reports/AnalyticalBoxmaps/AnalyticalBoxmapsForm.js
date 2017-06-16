@@ -22,6 +22,10 @@ import {
 import {
   flashMessage,
 } from 'actions/global'
+
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
+
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
 import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
 import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
@@ -106,9 +110,9 @@ class AnalyticalBoxmapsForm extends React.Component {
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
-  addSubstance(evt) {
+  addSubstance(value) {
     this.props.editSite(this.props.site.get('id'), {
-      'substances': { 'add': [evt.target.value], 'remove': []}
+      'substances': { 'add': [value], 'remove': []}
     })
   }
 
@@ -163,16 +167,13 @@ class AnalyticalBoxmapsForm extends React.Component {
     } =  this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
-      <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>)
+      ({ value: siteMap.get('id'), label: siteMap.get('title') })).toJS()
 
     const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
     const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
 
-    const dateOptions = sampleDates.valueSeq().map((date, i) =>
-      <option key={date.get('id')} value={date.get('date_collected')}>{date.get('date_collected')}</option>)
-
     const criteriaOptions = criterias.valueSeq().map((criteria) =>
-      <option key={criteria.get('id')} value={criteria.get('id')}>{criteria.get('title')}</option>)
+      ({ value: criteria.get('id'), label: criteria.get('title') })).toJS()
 
     const groupedSubstances = substanceGroups.map((substanceGroup) =>
       substances.filter((substance) =>
@@ -182,13 +183,17 @@ class AnalyticalBoxmapsForm extends React.Component {
     ).filter(substances => substances.size)
 
     const groupedSubstanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
-      <optgroup key={substanceGroupId} label={substanceGroups.get(substanceGroupId).get('title')}>
-        {substances.valueSeq().map(substance => {
-          return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
-        })}
-      </optgroup>
-    ).valueSeq()
-
+      ({
+        label: substanceGroups.get(substanceGroupId).get('title'),
+        options: substances.valueSeq()
+          .map(substance => ({
+            label: substance.get('title'),
+            value: substance.get('id'),
+          }))
+          .toJS()
+      }))
+      .valueSeq()
+      .toJS()
 
     const siteSubstances = site.get('substance_ids').map((id) => {
       if (!substances.size) { return null }
@@ -198,7 +203,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       </li>)
     })
 
-    const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.size)
+    const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.length)
     let boxmapsPreview = null
     let boxmapsButton = null
     if (this.props.siteMapId) {
@@ -265,13 +270,12 @@ class AnalyticalBoxmapsForm extends React.Component {
             { showSubstancesDropdown &&
               <div className="form-group">
                 <label htmlFor="">Add Substance</label>
-                <Input
-                  type='select'
-                  onChange={this.addSubstance.bind(this)}
-                >
-                  <option value=''>Select a substance</option>
-                  {groupedSubstanceOptions}
-                </Input>
+                <Select
+                  options={groupedSubstanceOptions}
+                  placeholder='Select a substance...'
+                  onChange={(v) => this.addSubstance(v.value)}
+                />
+
               </div>
             }
 

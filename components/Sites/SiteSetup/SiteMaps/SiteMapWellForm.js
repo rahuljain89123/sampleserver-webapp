@@ -31,8 +31,8 @@ class SiteMapWellForm extends React.Component {
     const { handleSubmit } = this.props
 
     const selectOptions = this.props.wells.map((well) => (
-      <option key={well.get('id')} value={well.get('id')}>{well.get('title')}</option>
-    ))
+      { value: well.get('id'), label: well.get('title') }
+    )).toJS()
 
     return (
       <Modal isOpen={true}>

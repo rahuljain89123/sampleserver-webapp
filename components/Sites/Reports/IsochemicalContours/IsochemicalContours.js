@@ -194,15 +194,18 @@ class IsochemicalContours extends React.Component {
       zeroWells,
       siteMapWells,
       siteMapId,
+      siteMaps,
+      sampleDates,
+      date_collected_range_end,
+      date_collected,
+      substanceGroups
     } = this.props
-    const siteMapOptions = this.props.siteMaps.valueSeq().map((siteMap) =>
-      <option key={siteMap.get('id')} value={siteMap.get('id')}>{siteMap.get('title')}</option>
-    )
 
-    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
-    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
-    // const dateOptions = this.props.sampleDates.valueSeq().map((date, i) =>
-    //   <option key={date.get('id')}>{date.get('date_collected')}</option>)
+    const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
+      ({ value: siteMap.get('id'), label: siteMap.get('title') })).toJS()
+
+    const startDateOptions = contouringFn.startDateOptions(sampleDates, date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(sampleDates, date_collected)
 
     const groupedSubstances = this.props.substanceGroups.map((substanceGroup) =>
       this.props.substances.filter((substance) => (
@@ -212,21 +215,25 @@ class IsochemicalContours extends React.Component {
     ).filter(substances => substances.size)
 
     const substanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
-      <optgroup key={substanceGroupId} label={this.props.substanceGroups.get(substanceGroupId).get('title')}>
-        {substances.valueSeq().map(substance => {
-          return (<option key={substance.get('id')} value={substance.get('id')}>{substance.get('title')}</option>)
-        })}
-      </optgroup>
-    ).filter((substanceGroup) => substanceGroup.props.children.size).valueSeq()
+      ({
+        label: substanceGroups.get(substanceGroupId).get('title'),
+        options: substances.valueSeq()
+          .map(substance => ({
+            label: substance.get('title'),
+            value: substance.get('id'),
+          }))
+          .toJS()
+      }))
+      .valueSeq()
+      .toJS()
 
     const booleanOptions = [
-      { value: 'true', title: 'ON' },
-      { value: 'false', title: 'OFF' }
-    ].map((bool, index) => <option key={index} value={bool.value}>{bool.title}</option>)
+      { value: 'true', label: 'ON' },
+      { value: 'false', label: 'OFF' }
+    ]
 
-    const scaleOptions = ['Linear', 'Logarithmic'].map((opt, index) =>
-      <option key={index} value={opt}>{opt}</option>
-    )
+    const scaleOptions = ['Linear', 'Logarithmic'].map((opt) =>
+      ({value : opt, label: opt }))
 
     const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
 

@@ -72,7 +72,9 @@ class EditProjectForm extends React.Component {
     render () {
         const companies = this.props.companies
             .filter(company => company.get('lab_id') === this.props.lab.get('id'))
-            .entrySeq()
+            .map(company => ({ value: company.get('id'), label: company.get('title') }))
+            .valueSeq().toJS()
+
 
         const error = this.props.editingProjectError
         const generalError = error && error.msg ? error.msg : null
@@ -99,19 +101,15 @@ class EditProjectForm extends React.Component {
                     component={() => (
                         <FormGroup color={errors.company_id ? 'danger' : ''}>
                             <Label for="company_id">Company</Label>
-                            <Input
-                                state={errors.company_id ? 'danger' : ''}
-                                type="select"
-                                name="company_id"
-                                id="company_id"
-                                value={this.state.company_id}
-                                onChange={e => this.onChange(e)}
-                            >
-                                <option>Choose a company...</option>
-                                {companies.map(([id, item]) => (
-                                    <option key={id} value={item.get('id')}>{item.get('title')}</option>
-                                ))}
-                            </Input>
+                            <Select
+                              state={errors.company_id ? 'danger' : ''}
+                              placeholder="Choose a company..."
+                              name="company_id"
+                              id="company_id"
+                              value={this.state.company_id}
+                              onChange={v => this.onChange({target: {name: 'company_id', value: v.value }})}
+                              options={companies}
+                            />
                             <FormFeedback>{errors.lab_id}</FormFeedback>
                         </FormGroup>
                     )}

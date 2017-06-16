@@ -54,6 +54,7 @@
     "react-router": "4.0.0-beta.6",
     "react-router-dom": "4.0.0-beta.6",
     "react-rte": "^0.11.0",
+    "react-select-plus": "^1.0.0-rc.5",
     "reactstrap": "4.2.0",
     "redux": "3.6.0",
     "redux-form": "^6.6.2",

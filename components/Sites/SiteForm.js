@@ -28,8 +28,8 @@ class SiteForm extends React.Component {
       [error.key]: msgFromError(error),
     } : {}
 
-    const stateOptions = STATES.map((state) => (
-      <option key={state.state_id} value={state.state_id}>{state.title}</option>)
+    const stateOptions = STATES.map((state) => 
+     ({ value: state.state_id, label: state.title })
     )
 
     let projectField = null

@@ -9,6 +9,8 @@ import {
     Label,
     Input,
 } from 'reactstrap'
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
 
 import { fetchLabs } from '../../actions/labs'
 import { fetchRoles } from '../../actions/roles'
@@ -64,7 +66,9 @@ class EditUserForm extends React.Component {
 
     render () {
         const roles = this.props.roles.entrySeq()
-        const labs = this.props.labs.entrySeq()
+        const labs = this.props.labs.valueSeq()
+          .map(lab => ({ value: lab.get('id'), label: lab.get('title') }))
+          .toJS()
         const error = this.props.editingUserError
 
         const generalError = error && error.msg ? error.msg : null
@@ -110,19 +114,15 @@ class EditUserForm extends React.Component {
                 </FormGroup>
                 <FormGroup color={errors.lab_id ? 'danger' : ''}>
                     <Label for="lab_id">Lab</Label>
-                    <Input
+                    <Select
                         state={errors.lab_id ? 'danger' : ''}
-                        type="select"
                         name="lab_id"
                         id="lab_id"
                         value={this.state.lab_id}
-                        onChange={e => this.onChange(e)}
-                    >
-                        <option>Choose a lab...</option>
-                        {labs.map(([id, item]) => (
-                            <option key={id} value={item.get('id')}>{item.get('title')}</option>
-                        ))}
-                    </Input>
+                        onChange={v => this.onChange({target: {name: 'lab_id', value: v.value }})}
+                        placeholder="Choose a lab..."
+                        options={labs}
+                    />
                     <FormFeedback>{errors.lab_id}</FormFeedback>
                 </FormGroup>
                 <FormGroup color={errors.role_id ? 'danger' : ''}>

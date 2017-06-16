@@ -2,11 +2,13 @@ import {
   Input,
   Label,
 } from 'reactstrap'
+import Select from 'react-select-plus';
+import 'react-select-plus/dist/react-select-plus.css';
 
 const SelectSubstances = ({ fields, options, substances }) => {
 
   const addSubstance = (e) => {
-    fields.push(e.target.value)
+    fields.push(e.value)
   }
 
   return (
@@ -24,10 +26,8 @@ const SelectSubstances = ({ fields, options, substances }) => {
         }
       )}
       <li className={fields.length ? 'mt-2' : ''}>
-        <Input type='select' style={{width: '100%'}} onChange={addSubstance}>
-          <option value=''> Add Substances </option>
-          {options}
-        </Input>
+        <Select type='select' style={{width: '100%'}} onChange={addSubstance} options={options} />
+
       </li>
 
     </ul>
