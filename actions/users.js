@@ -159,16 +159,20 @@ export const createUser = user =>
         .catch(e => {
             dispatch(setCreatingUser(false))
 
-            e.response.json().then(json => {
+            return e.response.json().then(json => {
                 if (json.errors && json.errors.length) {
-                    return dispatch(setCreatingUserError(json.errors[0]))
+                    dispatch(setCreatingUserError(json.errors[0]))
+                    return Promise.reject(json.errors[0])
                 }
 
-                return dispatch(setCreatingUserError({
+                dispatch(setCreatingUserError({
                     msg: 'Unable to create user.',
                 }))
+
+                return Promise.reject({
+                    msg: 'Unable to create user.',
+                })
             })
-            return Promise.reject()
         })
     }
 

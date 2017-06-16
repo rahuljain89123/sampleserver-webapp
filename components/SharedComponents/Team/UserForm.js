@@ -11,6 +11,7 @@ import {
 
 import { Field, reduxForm } from 'redux-form/immutable'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
+import IndividualInput from 'SharedComponents/ReduxFormHelpers/IndividualInput'
 
 const UserForm = (props) => {
   const { currentRole, handleSubmit, onSubmit } = props
@@ -25,11 +26,7 @@ const UserForm = (props) => {
             <Field
               name='email'
               id='email'
-              component={(field) => (<Input
-                { ...field.input}
-                type={field.type}
-                state={field.state}
-                id={field.id} />)}
+              component={IndividualInput}
               type='text'
             />
             <InputGroupButton>
