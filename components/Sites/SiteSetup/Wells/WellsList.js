@@ -19,6 +19,7 @@ import {
   FILESTACK_API_KEY,
 } from 'helpers/filestack'
 import { flashMessage, setHeaderInfo } from 'actions/global'
+import { compareAlphaNumeric } from 'helpers/util'
 
 const FILESTACK_OPTIONS = {
   accept: ['.csv', '.xls'],
@@ -84,10 +85,13 @@ class WellsList extends React.Component {
     const uploads = this.props.uploads
     .entrySeq()
 
+    const wells = this.props.wells
+      .sort((a,b) => compareAlphaNumeric(a.get('title'), b.get('title')))
+
     let wellsList = null
     let errorDisplay = null
 
-    if (this.props.wells.size) {
+    if (wells.size) {
       wellsList = (
         <table className="table well-list">
           <thead>
@@ -98,7 +102,7 @@ class WellsList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.wells.map((well) => (
+            {wells.map((well) => (
               <tr key={well.get('id')}>
                 <td>
                   <Link to={`/app/sites/${this.props.site.get('id')}/setup/wells/${well.get('id')}`}>
