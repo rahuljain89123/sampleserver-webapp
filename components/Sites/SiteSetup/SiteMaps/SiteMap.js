@@ -20,6 +20,8 @@ import {
   setHeaderInfo
 } from 'actions/global'
 
+import { compareAlphaNumeric } from 'helpers/util'
+
 import SiteMapImage from './SiteMapImage'
 import SiteMapWellForm from './SiteMapWellForm'
 
@@ -134,6 +136,7 @@ class SiteMap extends React.Component {
     return this.props.wells
       .filter((well) => (!markedWellIds.contains(well.get('id'))))
       .valueSeq()
+      .sort((a,b) => compareAlphaNumeric(a.get('title'), b.get('title')))
   }
 
   getUnmarkedWells () {

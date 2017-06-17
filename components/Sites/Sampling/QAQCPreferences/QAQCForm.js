@@ -19,6 +19,7 @@ import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFor
 import IndividualInput from 'SharedComponents/ReduxFormHelpers/IndividualInput'
 import IndividualSelect from 'SharedComponents/ReduxFormHelpers/IndividualSelect'
 import CheckboxFormGroup from 'SharedComponents/ReduxFormHelpers/CheckboxFormGroup'
+import { compareAlphaNumeric } from 'helpers/util'
 
 import { editSite }   from 'actions/sites'
 import { fetchWells } from 'actions/wells'
@@ -34,7 +35,8 @@ const renderTests= ({ fields, options }) => {
   const allValues = fields.getAll()
 
   const filteredOptions = (values, options) => {
-    values.filter(v => !!v).forEach(v => { options = options.delete(parseInt(v)) })
+    values.filter(v => !!v)
+      .forEach(v => { options = options.delete(parseInt(v)) })
     return options.valueSeq().toJS()
   }
 
@@ -76,7 +78,9 @@ const renderWells= ({ fields, options, qaqcType }) => {
 
   const filteredOptions = (values, options) => {
     values.filter(v => !!v).forEach(v => { options = options.delete(parseInt(v)) })
-    return options.valueSeq().toJS()
+    return options.valueSeq()
+      .sort((a,b) => compareAlphaNumeric(a.label, b.label))
+      .toJS()
   }
 
   return (<ul className="options-list">
@@ -273,13 +277,13 @@ const mapStateToProps = (state, ownProps) => {
     qaqcTripBlanks: selector(state, 'qaqc_tripblanks'),
     qaqcEquipmentBlanks: selector(state, 'qaqc_equipmentblanks'),
 
-    wells: state.get('wells'),
+    wells: state.get('wells').filter(well => well.get('site_id') === site.get('id')),
     tests: state.get('tests'),
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchWells: () => dispatch(fetchWells()),
+  fetchWells: (filters) => dispatch(fetchWells(filters)),
   fetchTests: () => dispatch(fetchTests()),
   editSite:   (id, siteParams) => dispatch(editSite(id, siteParams)),
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
