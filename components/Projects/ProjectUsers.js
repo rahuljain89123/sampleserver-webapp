@@ -20,172 +20,97 @@ import {
     BreadcrumbItem,
 } from 'reactstrap'
 
-import { fetchProject } from '../../actions/projects'
-import { createUser, fetchUsers } from '../../actions/users'
+import UsersTable from 'SharedComponents/Team/UsersTable'
+import UserForm from 'SharedComponents/Team/UserForm'
+
+import { fetchProject } from 'actions/projects'
+import { createUser, fetchUsers } from 'actions/users'
+import { flashMessage } from 'actions/global'
+
+import { msgFromError } from 'helpers/util'
 
 const PROJECT_MANAGER_ROLE = 6
 
 
 class ProjectUsers extends React.Component {
-    constructor (props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        const projectId = parseInt(props.match.params.id, 10)
-        const project = props.projects.get(projectId)
-        const role = props.roles.size ? props.roles.get(PROJECT_MANAGER_ROLE) : null
+    this.onSubmit = this.onSubmit.bind(this)
+  }
 
-        const users = project ? (
-            Immutable.List(
-                project.get('user_ids')
-                       .map(id => props.users.get(id)))
-        ) : Immutable.List()
+  componentDidMount () {
+    this.props.fetchUsers({ projects: this.props.projectId })
+    this.props.fetchProject(this.props.projectId)
+  }
 
-        const filteredUsers = users
-            .filter(user => (user ? (user.get('role_id') === PROJECT_MANAGER_ROLE) : false))
-            .sort((a, b) => a.get('id') - b.get('id'))
-
-        this.state = {
-            projectId,
-            project,
-            users: filteredUsers,
-            role,
-            email: '',
-        }
+  onSubmit (userParams) {
+    const user = {
+      email: userParams.get('email'),
+      role_id: PROJECT_MANAGER_ROLE,
+      projects: {
+        add: [this.props.project.get('id')],
+        remove: [],
+      },
     }
 
-    componentDidMount () {
-        this.props.fetchUsers({ projects: this.state.projectId })
+    this.props.createUser(user)
+      .then(() => {
+        this.props.flashMessage('success', 'User invited successfully.')
+        // Need to fetch project to update project's user_ids
+        this.props.fetchProject(this.props.projectId)
+      })
+      .catch(e => this.props.flashMessage('danger', msgFromError(e)))
+  }
 
-        if (!this.state.project) {
-            this.props.fetchProject(this.state.projectId)
-        }
+  render () {
+    const project = this.props.project
+
+    if (!project) {
+        return null
     }
 
-    componentWillReceiveProps (nextProps) {
-        const project = nextProps.projects.get(this.state.projectId)
-        const role = nextProps.roles.size ? nextProps.roles.get(PROJECT_MANAGER_ROLE) : null
+    const users = this.props.users.entrySeq()
+    const role = this.props.role
 
-        const users = project ? (
-            Immutable.List(
-                project.get('user_ids')
-                       .map(id => nextProps.users.get(id)))
-        ) : Immutable.List()
-
-        const filteredUsers = users
-            .filter(user => (user ? (user.get('role_id') === PROJECT_MANAGER_ROLE) : false))
-            .sort((a, b) => a.get('id') - b.get('id'))
-
-        this.setState({
-            project: nextProps.projects.get(this.state.projectId),
-            users: filteredUsers,
-            role,
-        })
-    }
-
-    onChange (e) {
-        this.setState({
-            [e.target.name]: e.target.value,
-        })
-    }
-
-    onClick (e) {
-        e.preventDefault()
-        this.props.push(e.target.getAttribute('href'))
-    }
-
-    onSubmit (e) {
-        e.preventDefault()
-
-        this.props.createUser({
-            email: this.state.email,
-            lab_id: this.state.labId,
-            role_id: PROJECT_MANAGER_ROLE,
-            projects: {
-                add: [this.state.projectId],
-                remove: [],
-            },
-        })
-
-        this.setState({
-            email: '',
-        })
-    }
-
-    render () {
-        const project = this.state.project
-
-        if (!project) {
-            return null
-        }
-
-        const users = this.state.users.entrySeq()
-        const role = this.state.role
-
-        return (
-            <div>
-                {!!users.size && (
-                    <Table size="sm" style={{ marginBottom: 60 }}>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map(([id, user]) => (
-                                <tr key={id}>
-                                    <td>{user.get('name') || '-'}</td>
-                                    <td>{user.get('email')}</td>
-                                    <td>{user.get('active') ? (
-                                        <Badge color="success">Active</Badge>
-                                    ) : (
-                                        <Badge>Pending</Badge>
-                                    )}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                )}
-                <Row>
-                    {!!role && (
-                        <Col sm="6">
-                            <h6>Add {role.get('description')}</h6>
-                            <Form onSubmit={e => this.onSubmit(e)}>
-                                <FormGroup>
-                                    <InputGroup>
-                                        <Input
-                                            name="email"
-                                            placeholder="name@example.com"
-                                            value={this.state.email}
-                                            onChange={e => this.onChange(e)}
-                                        />
-                                        <InputGroupButton>
-                                            <Button color="primary" className="pointer">
-                                                Invite
-                                            </Button>
-                                        </InputGroupButton>
-                                    </InputGroup>
-                                </FormGroup>
-                            </Form>
-                        </Col>
-                    )}
-                </Row>
-            </div>
-        )
-    }
+    return (
+        <div>
+            <UsersTable users={users} />
+            <Row>
+              <UserForm
+                currentRole={role}
+                onSubmit={this.onSubmit} />
+            </Row>
+        </div>
+    )
+  }
 }
 
-const mapStateToProps = store => ({
-    users: store.get('users'),
-    roles: store.get('roles'),
-    projects: store.get('projects'),
-})
+const mapStateToProps = (store, props) => {
+  const role = store.get('roles').size ?
+    store.get('roles').get(PROJECT_MANAGER_ROLE) : null
+
+  const projectId = parseInt(props.match.params.id, 10)
+  const project = store.get('projects').get(projectId)
+
+  const users = store.get('users')
+    .filter(user => project.get('user_ids').includes(user.get('id')))
+    .filter(user => user.get('role_id') === PROJECT_MANAGER_ROLE)
+    .sort((a,b) => a.get('id') - b.get('id'))
+
+  return {
+    projectId,
+    users,
+    role,
+    project,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-    fetchProject: id => dispatch(fetchProject(id)),
-    fetchUsers: filters => dispatch(fetchUsers(filters)),
-    createUser: user => dispatch(createUser(user)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
+  fetchProject: id => dispatch(fetchProject(id)),
+  fetchUsers: filters => dispatch(fetchUsers(filters)),
+  createUser: user => dispatch(createUser(user)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectUsers)

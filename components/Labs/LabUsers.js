@@ -32,7 +32,6 @@ class LabUsers extends React.Component {
     }
 
     this.onSubmit = this.onSubmit.bind(this)
-
   }
 
   componentDidMount () {
@@ -116,15 +115,15 @@ class LabUsers extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
-  const cUserRole = currentUserRole(state, 100)
+const mapStateToProps = (store, props) => {
+  const cUserRole = currentUserRole(store, 100)
 
-  const roles = state.get('roles')
+  const roles = store.get('roles')
     .filter(role => role.get('id') === 2 || role.get('id') === 3)
     .filter(role => role.get('id') >= cUserRole.get('id'))
     .sort((a, b) => a.get('id') - b.get('id'))
 
-  const users = state.get('users')
+  const users = store.get('users')
     .filter(user =>
       user.get('lab_id') === props.lab.get('id'))
     .sort((a, b) => a.get('id') - b.get('id'))
