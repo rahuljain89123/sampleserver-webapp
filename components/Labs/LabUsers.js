@@ -19,6 +19,7 @@ import { createUser, fetchUsers } from 'actions/users'
 import { currentUserRole } from 'normalizers'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
+import { msgFromError } from 'helpers/util'
 
 class LabUsers extends React.Component {
   constructor (props) {
@@ -51,8 +52,8 @@ class LabUsers extends React.Component {
     }
 
     this.props.createUser(user)
-      .then(() => this.props.flashMessage('success', 'User created successfully'))
-      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
+      .then(() => this.props.flashMessage('success', 'User invited successfully.'))
+      .catch((e) => this.props.flashMessage('danger', msgFromError(e)))
   }
 
   render () {

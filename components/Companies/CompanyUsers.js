@@ -25,6 +25,7 @@ import { createUser, fetchUsers, editUser } from 'actions/users'
 import { currentUserRole } from 'normalizers'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
+import { msgFromError } from 'helpers/util'
 
 class CompanyUsers extends React.Component {
   constructor (props) {
@@ -99,9 +100,9 @@ class CompanyUsers extends React.Component {
       this.setState({ invitingUser: false })
       this.props.flashMessage('success', 'User invited successfully.')
     })
-    .catch(() => {
-      this.props.flashMessage('danger', 'Sorry, there was an error.')
-      this.setState({ error: 'Sorry, there was an error.' })
+    .catch((error) => {
+      this.props.flashMessage('danger', msgFromError(error))
+      this.setState({ error: msgFromError(error) })
     })
   }
 
