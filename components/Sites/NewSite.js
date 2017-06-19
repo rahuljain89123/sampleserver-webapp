@@ -32,7 +32,9 @@ class NewSite extends React.Component {
         iconName: 'add_circle_outline',
       }],
     )
-    this.props.fetchClients()
+    this.props.fetchClients().then(() => {
+      console.log(this.props.clients.toJS())
+    })
   }
 
   onSubmitSiteForm (siteParams) {
@@ -61,7 +63,7 @@ class NewSite extends React.Component {
       <Row>
         <Col sm={6}>
           <SiteForm
-            clientOptions = {this.props.clients}
+            clientOptions={this.props.clients}
             siteError={creatingSiteError}
             clearSiteError={clearCreatingSiteError}
             submittingForm={creatingSite}
