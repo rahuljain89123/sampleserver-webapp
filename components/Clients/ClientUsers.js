@@ -3,21 +3,21 @@ import React from 'react'
 import Immutable from 'immutable'
 import { connect } from 'react-redux'
 import {
-    Table,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    Col,
-    Button,
-    Form,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupButton,
-    Badge,
-    Breadcrumb,
-    BreadcrumbItem,
+  Table,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupButton,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/Team/UsersTable'
@@ -46,7 +46,7 @@ class ClientUsers extends React.Component {
 
   onSubmit (userParams) {
     const user = {
-      email: userParams.get('email'),
+      email: userParams.get('email') ? userParams.get('email').trim() : '',
       role_id: PROJECT_MANAGER_ROLE,
       clients: {
         add: [this.props.client.get('id')],
@@ -67,21 +67,22 @@ class ClientUsers extends React.Component {
     const client = this.props.client
 
     if (!client) {
-        return null
+      return null
     }
 
     const users = this.props.users.entrySeq()
     const role = this.props.role
 
     return (
-        <div>
-            <UsersTable users={users} />
-            <Row>
-              <UserForm
-                currentRole={role}
-                onSubmit={this.onSubmit} />
-            </Row>
-        </div>
+      <div>
+        <UsersTable users={users} />
+        <Row>
+          <UserForm
+            currentRole={role}
+            onSubmit={this.onSubmit}
+          />
+        </Row>
+      </div>
     )
   }
 }

@@ -1105,7 +1105,10 @@ form.contouring-form {
         background: #FFFFFF;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
         border-radius: 3px;
-
+        margin-top: 35px;
+        &::first-child {
+            margin-top: 0;
+        }
         .client-header {
             /* col: */
             border-bottom: 1px solid #E1E3E6;
