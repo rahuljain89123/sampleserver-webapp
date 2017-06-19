@@ -12,7 +12,7 @@ import {
   Col,
 } from 'reactstrap'
 
-import { createProject, clearCreatingProjectError } from '../../actions/projects'
+import { createClient, clearCreatingClientError } from '../../actions/clients'
 import { msgFromError } from 'helpers/util'
 import { currentCompany } from '../../normalizers'
 import { fetchCompanies } from '../../actions/companies'
@@ -20,7 +20,7 @@ import FormButton from 'SharedComponents/ReduxFormHelpers/FormButton'
 import { flashMessage } from 'actions/global'
 
 
-class NewProjectForm extends React.Component {
+class NewClientForm extends React.Component {
   constructor (props) {
     super(props)
 
@@ -30,8 +30,8 @@ class NewProjectForm extends React.Component {
   }
 
   componentWillMount () {
-    if (this.props.creatingProjectError) {
-      this.props.clearCreatingProjectError()
+    if (this.props.creatingClientError) {
+      this.props.clearCreatingClientError()
     }
   }
 
@@ -40,8 +40,8 @@ class NewProjectForm extends React.Component {
   }
 
   onChange (e) {
-    if (this.props.creatingProjectError) {
-      this.props.clearCreatingProjectError()
+    if (this.props.creatingClientError) {
+      this.props.clearCreatingClientError()
     }
 
     this.setState({
@@ -51,7 +51,7 @@ class NewProjectForm extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.createProject({
+    this.props.createClient({
       name: this.state.name,
       company_id: this.props.company.get('id'),
     })
@@ -63,7 +63,7 @@ class NewProjectForm extends React.Component {
   }
 
   render () {
-    const error = this.props.editingProjectError
+    const error = this.props.editingClientError
     const generalError = error && error.msg ? error.msg : null
     const errors = error && error.key ? {
       [error.key]: msgFromError(error),
@@ -86,7 +86,7 @@ class NewProjectForm extends React.Component {
         </FormGroup>
         <FormButton
           color="primary"
-          disabled={this.props.creatingProject}
+          disabled={this.props.creatingClient}
         >Save</FormButton>
       </Form>
     )
@@ -95,15 +95,15 @@ class NewProjectForm extends React.Component {
 
 const mapStateToProps = store => ({
   company: currentCompany(store),
-  creatingProjectError: store.get('creatingProjectError'),
-  creatingProject: store.get('creatingProject'),
+  creatingClientError: store.get('creatingClientError'),
+  creatingClient: store.get('creatingClient'),
 })
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   fetchCompanies: () => dispatch(fetchCompanies()),
-  createProject: project => dispatch(createProject(project)),
-  clearCreatingProjectError: () => dispatch(clearCreatingProjectError()),
+  createClient: client => dispatch(createClient(client)),
+  clearCreatingClientError: () => dispatch(clearCreatingClientError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewProjectForm)
+export default connect(mapStateToProps, mapDispatchToProps)(NewClientForm)

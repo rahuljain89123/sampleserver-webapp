@@ -8,7 +8,7 @@ import LinkButton from 'SharedComponents/LinkButton'
 
 import SiteInfo from './SiteInfo'
 import EditSite from './EditSite'
-import ProjectSiteUsers from './ProjectSiteUsers'
+import ClientSiteUsers from './ClientSiteUsers'
 
 import { fetchSite } from '../../actions/sites'
 
@@ -87,7 +87,7 @@ class AdminSite extends React.Component {
             <PrivateRoute
               exact
               path={`/app/sites/${site.get('id')}/users`}
-              component={props => <ProjectSiteUsers site={site} {...props} />}
+              component={props => <ClientSiteUsers site={site} {...props} />}
             />
           </div>
         </div>

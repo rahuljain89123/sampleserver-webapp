@@ -25,7 +25,7 @@ import { currentLab, safeGet } from 'normalizers'
 
 const TECHNICIAN_ROLE = 7
 
-class ProjectSiteUsers extends React.Component {
+class ClientSiteUsers extends React.Component {
   constructor (props) {
     super(props)
 
@@ -102,4 +102,4 @@ const mapDispatchToProps = dispatch => ({
   setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text, buttons)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectSiteUsers)
+export default connect(mapStateToProps, mapDispatchToProps)(ClientSiteUsers)

@@ -16,14 +16,14 @@ import {
 
 import { setHeaderInfo } from 'actions/global'
 import { fetchSites } from 'actions/sites'
-import { fetchProjects } from 'actions/projects'
+import { fetchClients } from 'actions/clients'
 
 
-class ProjectSites extends React.Component {
+class ClientSites extends React.Component {
   constructor (props) {
     super(props)
 
-    const fetchedSites = props.projects.map(() => true)
+    const fetchedSites = props.clients.map(() => true)
 
     this.state = {
       fetchedSites,
@@ -32,14 +32,14 @@ class ProjectSites extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchProjects().then(() =>
-      this.props.projects.map(project => this.props.fetchSites({ project_id: project.get('id'), per_page: 150 }))
+    this.props.fetchClients().then(() =>
+      this.props.clients.map(client => this.props.fetchSites({ client_id: client.get('id'), per_page: 150 }))
     )
     this.props.setHeaderInfo(
       'Dashboard',
       [{
-        text: 'Project',
-        onClick: '/app/projects/new',
+        text: 'Client',
+        onClick: '/app/clients/new',
         iconName: 'add_circle_outline',
       },
       {
@@ -51,12 +51,12 @@ class ProjectSites extends React.Component {
   }
 
   componentWillReceiveProps (nextProps) {
-    const fetchedSites = nextProps.projects.map(project => {
-      if (!this.state.fetchedSites.get(project.get('id'))) {
-        this.props.fetchSites({ project_id: project.get('id'), per_page: 150 })
+    const fetchedSites = nextProps.clients.map(client => {
+      if (!this.state.fetchedSites.get(client.get('id'))) {
+        this.props.fetchSites({ client_id: client.get('id'), per_page: 150 })
         return true
       }
-      return this.state.fetchedSites.get(project.get('id'))
+      return this.state.fetchedSites.get(client.get('id'))
     })
 
     this.setState({
@@ -70,8 +70,8 @@ class ProjectSites extends React.Component {
     })
   }
 
-  onNewProject () {
-    this.props.push('/app/projects/new')
+  onNewClient () {
+    this.props.push('/app/clients/new')
   }
 
   onNewSite () {
@@ -84,36 +84,36 @@ class ProjectSites extends React.Component {
   }
 
   render () {
-    const projects = this.props.projects
+    const clients = this.props.clients
       .sort((a, b) => a.get('id') - b.get('id'))
       .entrySeq()
 
-    const projectSites = this.props.projects.map(project =>
+    const clientSites = this.props.clients.map(client =>
       this.props.sites
-        .filter(site => site.get('project_id') === project.get('id'))
+        .filter(site => site.get('client_id') === client.get('id'))
         .sort((a, b) => a.get('id') - b.get('id'))
         .entrySeq())
 
     return (
-      <div className="project-sites">
-        <div className="projects">
-          {projects.map(([id, project]) => (
-            <div className="project" key={id}>
-              <div className="project-header d-flex flex-row justify-content-between">
-                <div className="project-details">
-                  <h5>Project Detail</h5>
-                  <h2 className="project-name">{project.get('name')}</h2>
+      <div className="client-sites">
+        <div className="clients">
+          {clients.map(([id, client]) => (
+            <div className="client" key={id}>
+              <div className="client-header d-flex flex-row justify-content-between">
+                <div className="client-details">
+                  <h5>Client Detail</h5>
+                  <h2 className="client-name">{client.get('name')}</h2>
                 </div>
-                <div className="edit-project">
-                  <a href={`/app/projects/${id}`} onClick={e => this.onClick(e)}>
+                <div className="edit-client">
+                  <a href={`/app/clients/${id}`} onClick={e => this.onClick(e)}>
                     <i className="material-icons">settings</i>
-                    Edit Project
+                    Edit Client
                   </a>
                 </div>
               </div>
-              {projectSites.get(id) ? (
+              {clientSites.get(id) ? (
                 <div className="sites-list">
-                  {projectSites.get(id).map(([siteId, site]) => (
+                  {clientSites.get(id).map(([siteId, site]) => (
                     <div className="site d-flex flex-row justify-content-between" key={siteId}>
                       <div className="site-title">
                         <i className="material-icons">layers</i>
@@ -144,15 +144,15 @@ class ProjectSites extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  projects: store.get('projects'),
+  clients: store.get('clients'),
   sites: store.get('sites'),
   headerInfo: store.get('headerInfo'),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProjects: () => dispatch(fetchProjects()),
+  fetchClients: () => dispatch(fetchClients()),
   fetchSites: filters => dispatch(fetchSites(filters)),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectSites)
+export default connect(mapStateToProps, mapDispatchToProps)(ClientSites)

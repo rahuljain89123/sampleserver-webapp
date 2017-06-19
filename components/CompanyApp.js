@@ -3,10 +3,10 @@ import React from 'react'
 
 import PrivateRoute from './Auth'
 
-import ProjectSites from './Projects/ProjectSites'
+import ClientSites from './Clients/ClientSites'
 
-import Project from './Projects/Project'
-import NewProject from './Projects/NewProject'
+import Client from './Clients/Client'
+import NewClient from './Clients/NewClient'
 
 import NewSite from './Sites/NewSite'
 
@@ -15,11 +15,11 @@ import TeamCompanyUsers from './Companies/TeamCompanyUsers'
 
 const CompanyApp = () => (
   <div className="company-app container-fluid">
-    <PrivateRoute exact path="/app" component={ProjectSites} />
+    <PrivateRoute exact path="/app" component={ClientSites} />
     <PrivateRoute path="/app/team" component={TeamCompanyUsers} />
     <PrivateRoute path="/app/sites/:id" component={SiteApp} />
-    <PrivateRoute path="/app/projects/:id" component={Project} />
-    <PrivateRoute exact path="/app/projects/new" component={NewProject} />
+    <PrivateRoute path="/app/clients/:id" component={Client} />
+    <PrivateRoute exact path="/app/clients/new" component={NewClient} />
     <PrivateRoute exact path="/app/sites/new"component={NewSite} />
   </div>
 )

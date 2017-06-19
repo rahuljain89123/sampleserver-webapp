@@ -12,7 +12,7 @@ import {
   clearCreatingSiteError,
   setCreatingSite,
 } from 'actions/sites'
-import { fetchProjects } from 'actions/projects'
+import { fetchClients } from 'actions/clients'
 import SiteForm from './SiteForm'
 
 class NewSite extends React.Component {
@@ -27,17 +27,17 @@ class NewSite extends React.Component {
     this.props.setHeaderInfo(
       'New Site',
       [{
-        text: 'Project',
-        onClick: '/app/projects/new',
+        text: 'Client',
+        onClick: '/app/clients/new',
         iconName: 'add_circle_outline',
       }],
     )
-    this.props.fetchProjects()
+    this.props.fetchClients()
   }
 
   onSubmitSiteForm (siteParams) {
     siteParams = siteParams.update('state_id', (v) => parseInt(v))
-                            .update('project_id', (v) => parseInt(v))
+                            .update('client_id', (v) => parseInt(v))
 
     this.props.createSite(siteParams)
       .then(this.onSuccess)
@@ -61,7 +61,7 @@ class NewSite extends React.Component {
       <Row>
         <Col sm={6}>
           <SiteForm
-            projectOptions = {this.props.projects}
+            clientOptions = {this.props.clients}
             siteError={creatingSiteError}
             clearSiteError={clearCreatingSiteError}
             submittingForm={creatingSite}
@@ -76,12 +76,12 @@ class NewSite extends React.Component {
 const mapStateToProps = (state, props) => ({
   creatingSite: state.get('creatingSite'),
   creatingSiteError: state.get('creatingSiteError'),
-  projects: state.get('projects'),
+  clients: state.get('clients'),
 })
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
-  fetchProjects: () => dispatch(fetchProjects()),
+  fetchClients: () => dispatch(fetchClients()),
   createSite: (siteId, siteParams) => dispatch(createSite(siteId, siteParams)),
   setCreatingSite: (editing) => dispatch(setCreatingSite(editing)),
   clearCreatingSiteError: () => dispatch(clearCreatingSiteError()),

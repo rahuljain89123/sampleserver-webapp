@@ -922,7 +922,7 @@ form {
         vertical-align: middle;
     }
     label {
-        /* Project: */
+        /* Client: */
         opacity: 0.65;
         font-family: GothamHTF-Medium;
         font-size: 14px;
@@ -1098,20 +1098,20 @@ form.contouring-form {
         letter-spacing: 0.43px;
     }
 }
-.project-sites {
+.client-sites {
     margin-bottom: 30px;
-    .project {
+    .client {
         /* Rectangle 4: */
         background: #FFFFFF;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
         border-radius: 3px;
 
-        .project-header {
+        .client-header {
             /* col: */
             border-bottom: 1px solid #E1E3E6;
             padding: 30px;
         }
-        .project-name {
+        .client-name {
             /* Planet Gazorpazorp: */
             font-family: GothamHTF;
             font-size: 18px;
@@ -1120,7 +1120,7 @@ form.contouring-form {
             margin: 0;
         }
         h5 {
-            /* Project Detail: */
+            /* Client Detail: */
             opacity: 0.4;
             font-family: GothamHTF;
             font-size: 11px;
@@ -1128,8 +1128,8 @@ form.contouring-form {
             letter-spacing: 0.39px;
             text-transform: uppercase;
         }
-        .edit-project {
-            /* Edit Project: */
+        .edit-client {
+            /* Edit Client: */
             opacity: 0.7;
             font-family: GothamHTF;
             font-size: 13px;
@@ -1185,7 +1185,7 @@ form.contouring-form {
         }
     }
 }
-.edit-link, table td a.edit-link, .project-sites .project .sites-list .site a.edit-link {
+.edit-link, table td a.edit-link, .client-sites .client .sites-list .site a.edit-link {
     margin-left: 30px;
     color: rgba(87, 92, 97, 0.7);
     font-size: 13px;

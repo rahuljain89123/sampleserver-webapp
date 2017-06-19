@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router-dom'
 
 import PrivateRoute from './Auth'
-import ProjectApp from './ProjectApp'
+import ClientApp from './ClientApp'
 import LabApp from './LabApp'
 import CompanyApp from './CompanyApp'
 // <<<<<<< HEAD
@@ -50,7 +50,7 @@ class App extends React.Component {
             <Route component={Header} />
             <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
             <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
-            <PrivateRoute path="/app" component={ProjectApp} authorized={['ProjectManager']} />
+            <PrivateRoute path="/app" component={ClientApp} authorized={['ClientManager']} />
           </div>
         </div>
       </div>
@@ -87,7 +87,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(App)
 //       <PrivateRoute path="/app" component={AdminApp} authorized={['Admin']} />
 //       <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
 //       <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
-//       <PrivateRoute path="/app" component={ProjectApp} authorized={['ProjectManager']} />
+//       <PrivateRoute path="/app" component={ClientApp} authorized={['ClientManager']} />
 //     </div>
 // )
 //

@@ -12,19 +12,19 @@ import {
 
 import PrivateRoute from '../Auth'
 import { fetchCompanies } from '../../actions/companies'
-import { editProject, clearEditingProjectError } from '../../actions/projects'
+import { editClient, clearEditingClientError } from '../../actions/clients'
 import { currentLab } from '../../normalizers'
 import { msgFromError } from 'helpers/util'
 
 
-class EditProjectForm extends React.Component {
+class EditClientForm extends React.Component {
     constructor (props) {
         super(props)
 
         this.state = {
             fetchedCompanies: !!this.props.lab,
-            name: props.project.get('name', ''),
-            company_id: props.project.get('company_id', ''),
+            name: props.client.get('name', ''),
+            company_id: props.client.get('company_id', ''),
         }
     }
 
@@ -45,14 +45,14 @@ class EditProjectForm extends React.Component {
     }
 
     componentWillMount () {
-        if (this.props.editingProjectError) {
-            this.props.clearEditingProjectError()
+        if (this.props.editingClientError) {
+            this.props.clearEditingClientError()
         }
     }
 
     onChange (e) {
-        if (this.props.editingProjectError) {
-            this.props.clearEditingProjectError()
+        if (this.props.editingClientError) {
+            this.props.clearEditingClientError()
         }
 
         this.setState({
@@ -62,11 +62,11 @@ class EditProjectForm extends React.Component {
 
     onSubmit (e) {
         e.preventDefault()
-        this.props.editProject(this.props.project.get('id'), {
+        this.props.editClient(this.props.client.get('id'), {
             name: this.state.name,
             company_id: parseInt(this.state.company_id, 10),
         })
-        .then(id => this.props.push(`/app/projects/${id}`))
+        .then(id => this.props.push(`/app/clients/${id}`))
     }
 
     render () {
@@ -76,7 +76,7 @@ class EditProjectForm extends React.Component {
             .valueSeq().toJS()
 
 
-        const error = this.props.editingProjectError
+        const error = this.props.editingClientError
         const generalError = error && error.msg ? error.msg : null
         const errors = error && error.key ? {
             [error.key]: msgFromError(error),
@@ -116,7 +116,7 @@ class EditProjectForm extends React.Component {
                 />
                 <Button
                     color="primary"
-                    disabled={this.props.editingProject}
+                    disabled={this.props.editingClient}
                 >Save</Button>
             </Form>
         )
@@ -125,15 +125,15 @@ class EditProjectForm extends React.Component {
 
 const mapStateToProps = store => ({
     lab: currentLab(store),
-    editingProjectError: store.get('editingProjectError'),
-    editingProject: store.get('editingProject'),
+    editingClientError: store.get('editingClientError'),
+    editingClient: store.get('editingClient'),
     companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
     fetchCompanies: filters => dispatch(fetchCompanies(filters)),
-    editProject: (id, project) => dispatch(editProject(id, project)),
-    clearEditingProjectError: () => dispatch(clearEditingProjectError()),
+    editClient: (id, client) => dispatch(editClient(id, client)),
+    clearEditingClientError: () => dispatch(clearEditingClientError()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditProjectForm)
+export default connect(mapStateToProps, mapDispatchToProps)(EditClientForm)

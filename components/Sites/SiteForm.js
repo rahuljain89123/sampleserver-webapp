@@ -28,31 +28,31 @@ class SiteForm extends React.Component {
       [error.key]: msgFromError(error),
     } : {}
 
-    const stateOptions = STATES.map((state) => 
+    const stateOptions = STATES.map((state) =>
      ({ value: state.state_id, label: state.title })
     )
 
-    let projectField = null
-    if (this.props.projectOptions) {
-      const projectOptions = this.props.projectOptions.valueSeq().map((project) =>
-        <option key={project.get('id')} value={project.get('id')}>
-          {project.get('name')}
+    let clientField = null
+    if (this.props.clientOptions) {
+      const clientOptions = this.props.clientOptions.valueSeq().map((client) =>
+        <option key={client.get('id')} value={client.get('id')}>
+          {client.get('name')}
         </option>)
 
 
-      projectField = <Field
-        props={{ error: errors.project_id, label: 'Project', placeholder: 'Choose a project...' }}
-        name='project_id'
-        id='project_id'
+      clientField = <Field
+        props={{ error: errors.client_id, label: 'Client', placeholder: 'Choose a client...' }}
+        name='client_id'
+        id='client_id'
         component={SelectFormGroup}
-        options={projectOptions} />
+        options={clientOptions} />
     }
 
     const { handleSubmit, submitForm } = this.props
 
     return (
       <Form onSubmit={handleSubmit(submitForm)}>
-        {projectField}
+        {clientField}
 
         <Field
           props={{ error: errors.title, label: 'Site Name'}}
