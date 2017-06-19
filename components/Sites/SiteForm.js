@@ -34,10 +34,12 @@ class SiteForm extends React.Component {
 
     let clientField = null
     if (this.props.clientOptions) {
-      const clientOptions = this.props.clientOptions.valueSeq().map((client) =>
-        <option key={client.get('id')} value={client.get('id')}>
-          {client.get('name')}
-        </option>)
+      const clientOptions = this.props.clientOptions.valueSeq()
+        .map((client) => ({
+          value: client.get('id'),
+          label: client.get('name'),
+        }))
+        .toJS()
 
 
       clientField = <Field
