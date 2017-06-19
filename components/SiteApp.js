@@ -35,8 +35,7 @@ class SiteApp extends React.Component {
 
   componentDidMount () {
     const siteId = parseInt(this.props.match.params.id, 10)
-
-    if (!this.props.sites.get(siteId)) {
+    if (!this.props.sites.get(siteId) && siteId) {
       this.props.fetchSite(siteId)
     }
   }
