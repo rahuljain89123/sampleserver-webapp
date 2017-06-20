@@ -218,7 +218,6 @@ body {
     border-bottom: 2px solid #D2D4D7;
 
     .nav-item {
-        /* Lab Associates: */
         margin-bottom: -2px;
         font-family: GothamHTF;
         font-size: 13px;
@@ -226,31 +225,51 @@ body {
         letter-spacing: 0;
         &:hover {
             color: #282B2F;
+            cursor: pointer;
         }
-        &.action {
-            // align-self: flex-end;
-            .material-icons {
-                position: absolute;
+        .nav-link {
+            border: none;
+            padding: 0 30px 20px 0;
+            color: rgba(40, 43, 47, 0.5);
+
+            &.active {
+                padding: 0 0 20px 0;
+                margin-right: 30px;
+                background: none;
+                /* Lab Admins: */
+                font-family: GothamHTF;
+                font-size: 13px;
+                color: #282B2F;
+                letter-spacing: 0;
+                border-bottom: 2px solid #282B2F;
+            }
+            &:hover {
+                color: #282B2F;
             }
         }
-    }
-    .nav-link {
-        border: none;
-        padding: 0 30px 20px 0;
-
-        &.active {
-            padding: 0 0 20px 0;
-            margin-right: 30px;
-            background: none;
-            /* Lab Admins: */
+        &.action {
+            .nav-link {
+                padding-right: 0;
+            }
+            .material-icons {
+                color: #1FC7C8;
+                vertical-align: middle;
+                padding-right: 5px;
+                position: absolute;
+                left: -35px;
+            }
+            /* Section Specific Tas: */
             font-family: GothamHTF;
             font-size: 13px;
-            color: #282B2F;
+            color: #575C61;
+            margin-bottom: -2px;
             letter-spacing: 0;
-            border-bottom: 2px solid #282B2F;
-        }
-        &:hover {
-            color: #282B2F;
+            // margin: 0 30px 20px 0;
+            position: absolute;
+            // top: 22px;
+            right: 0;
+            cursor: pointer;
+            z-index: 20;
         }
     }
 }
@@ -879,6 +898,21 @@ section {
         }
     }
     .dropdown-menu {
+        /* Rectangle 4: */
+        background: #FFFFFF;
+        box-shadow: 0 0 6px 0 rgba(0,0,0,0.15);
+        border-radius: 3px 0 0 0 3px 3px 3px;
+        .carat {
+            border-bottom: 12px solid rgba(0,0,0,0.15);
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            content: "";
+            display: inline-block;
+            left: 64px;
+            top: -12px;
+            position: absolute;
+            z-index: -2;
+        }
         &::before {
             border-bottom: 10px solid #FFFFFF;
             border-left: 10px solid transparent;
@@ -1067,7 +1101,9 @@ form {
         margin-bottom: 30px;
     }
 }
-
+form.user-form {
+    margin: 10px 0;
+}
 form.contouring-form {
 
   ul {
@@ -1201,6 +1237,37 @@ form.contouring-form {
         letter-spacing: 0.43px;
     }
 }
+.manage-client {
+    .nav-tabs {
+        margin-bottom: 20px;
+    }
+}
+.client-users {
+    position: relative;
+
+    .nav-link.invite-users {
+        cursor: pointer;
+    }
+    .nav-item.action {
+        position: relative;
+        border: none;
+        color: rgba(40, 43, 47, 0.5);
+        position: absolute;
+        right: 0;
+        top: -60px;
+
+        .nav-link {
+            font-family: GothamHTF;
+            padding: 0 0 20px 0;
+            font-size: 13px;
+        }
+        .material-icons {
+            color: #1FC7C8;
+            vertical-align: middle;
+            padding-right: 5px;
+        }
+    }
+}
 .client-sites {
     margin-bottom: 30px;
     overflow:auto;
@@ -1316,25 +1383,8 @@ form.contouring-form {
         margin-bottom: 60px;
         margin-top: 20px;
     }
-    .nav-item {
-        &.action {
-            .material-icons {
-                color: #1FC7C8;
-                vertical-align: middle;
-                padding-right: 5px;
-            }
-            /* Section Specific Tas: */
-            font-family: GothamHTF;
-            font-size: 13px;
-            color: #575C61;
-            margin-bottom: -2px;
-            letter-spacing: 0;
-            margin: 0 30px 20px 0;
-            position: absolute;
-            top: 22px;
-            right: 0;
-            cursor: pointer;
-        }
+    .user-role-tabs {
+        position: relative;
     }
 }
 .site-reports {

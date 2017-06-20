@@ -133,7 +133,7 @@ class CompanyUsers extends React.Component {
     }
     return (
       <div className="company-users has-navbar">
-        <Nav tabs>
+        <Nav tabs className="user-role-tabs">
           {roles.map(([id, role]) => (
             <NavItem key={role.get('id')}>
               <NavLink
@@ -147,10 +147,10 @@ class CompanyUsers extends React.Component {
               </NavLink>
             </NavItem>
           ))}
+          <div className="nav-item action">
+            <a className="nav-link" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite {currentRole.get('description')}</a>
+          </div>
         </Nav>
-        <div className="nav-item action">
-          <a className="nav-link" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite {currentRole.get('description')}</a>
-        </div>
         <TabContent activeTab={this.state.activeRole} style={{ marginTop: 20 }}>
           <TabPane tabId={4}>
             <Row>

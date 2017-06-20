@@ -113,6 +113,7 @@ class SiteMapsList extends React.Component {
                     <i className="material-icons">more_horiz</i>
                   </DropdownToggle>
                   <DropdownMenu className="centered">
+                    <div className="carat" />
                     <DropdownItem header>{siteMap.get('title')}</DropdownItem>
                     <DropdownItem onClick={() => this.props.push(siteMapPath)}>Edit</DropdownItem>
                     <DropdownItem onClick={() => this.confirmDelete(siteMap.get('id'))} className="warning">
