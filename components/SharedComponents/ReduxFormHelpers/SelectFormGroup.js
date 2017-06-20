@@ -15,7 +15,7 @@ const SelectFormGroup = (field) => (
     {field.label && <label className={field.location == 'sidebar' ? 'col-form-label' : 'col-sm-2 col-form-label'}>{field.label}</label>}
     <div className={field.location == 'sidebar' ? 'sidebar-form-group-inner' : 'col-sm-9'}>
       <Select
-        onChange={(v) => field.input.onChange(v.value)}
+        onChange={(v) => field.input.onChange(v ? v.value : v)}
         value={field.input.value}
         name={field.input.name}
         id={field.id}
