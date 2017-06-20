@@ -349,8 +349,8 @@ class EditSchedule extends React.Component {
 * REDUX MAP TO PROPS
 *****************************************************************************/
 
-const mapStateToProps = store => ({
-  wells: store.get('wells'),
+const mapStateToProps = (store, ownProps) => ({
+  wells: store.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
   tests: store.get('tests'),
   schedules: store.get('schedules'),
   scheduleWellTests: store.get('scheduleWellTests'),
