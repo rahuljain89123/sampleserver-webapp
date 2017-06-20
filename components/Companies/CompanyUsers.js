@@ -63,8 +63,8 @@ class CompanyUsers extends React.Component {
     this.props.setHeaderInfo(
       'Dashboard',
       [{
-        text: 'Project',
-        onClick: '/app/projects/new',
+        text: 'Client',
+        onClick: '/app/clients/new',
         iconName: 'add_circle_outline',
       },
       {
@@ -177,7 +177,7 @@ class CompanyUsers extends React.Component {
                 Can create site groups.
                 </p>
                 <p>
-                Can add project managers and technicians to each site group.
+                Can add client managers and technicians to each site group.
                 </p>
               </Col>
             </Row>

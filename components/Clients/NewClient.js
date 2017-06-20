@@ -5,14 +5,14 @@ import {
   Row,
   Col,
 } from 'reactstrap'
-import NewProjectForm from './NewProjectForm'
+import NewClientForm from './NewClientForm'
 import { setHeaderInfo } from 'actions/global'
 
 
-class NewProject extends React.Component {
+class NewClient extends React.Component {
   componentDidMount () {
     this.props.setHeaderInfo(
-      'New Project',
+      'New Client',
       [{
         text: 'Site',
         onClick: '/app/sites/new',
@@ -26,7 +26,7 @@ class NewProject extends React.Component {
       <div>
         <Row>
           <Col sm={12} md={8}>
-            <NewProjectForm push={this.props.push} />
+            <NewClientForm push={this.props.push} />
           </Col>
         </Row>
       </div>
@@ -38,4 +38,4 @@ const mapDispatchToProps = dispatch => ({
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
-export default connect(null, mapDispatchToProps)(NewProject)
+export default connect(null, mapDispatchToProps)(NewClient)

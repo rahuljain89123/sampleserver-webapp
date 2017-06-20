@@ -143,7 +143,6 @@ export const createSite = site =>
 
 export const editSiteMap = (id, siteMapParams) =>
   dispatch => {
-
     return API.patch(`/sitemaps/${id}`, siteMapParams)
     .then(json => {
       dispatch(receiveSiteMap(json))
@@ -157,7 +156,7 @@ export const editSiteMap = (id, siteMapParams) =>
 export const deleteSiteMap = (id) =>
   dispatch =>
     API.delete(`/sitemaps/${id}`)
-    .then(id => dispatch(removeSiteMap(id)))
+    .then(() => dispatch(removeSiteMap(id)))
 
 
 export const fetchSiteMapWells = (filters) =>

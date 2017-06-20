@@ -3,12 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Input } from 'reactstrap'
 
-import { fetchProjects } from '../../actions/projects'
+import { fetchClients } from '../../actions/clients'
 import LinkButton from 'SharedComponents/LinkButton'
 import FilterList from '../FilterList'
 
 
-class Projects extends React.Component {
+class Clients extends React.Component {
     constructor (props) {
         super(props)
 
@@ -24,15 +24,15 @@ class Projects extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchProjects()
+        this.props.fetchClients()
     }
 
     render () {
-        const projects = this.props.projects
+        const clients = this.props.clients
             .filter(
-                project => (
-                    project ?
-                    project.get('name')
+                client => (
+                    client ?
+                    client.get('name')
                         .toUpperCase()
                         .indexOf(this.state.filter.toUpperCase()) !== -1
                     : false
@@ -53,14 +53,14 @@ class Projects extends React.Component {
                     />
                     <LinkButton
                         color="primary"
-                        href="/app/projects/new"
+                        href="/app/clients/new"
                         className="ml-auto"
-                    >New Project</LinkButton>
+                    >New Client</LinkButton>
                 </div>
                 <FilterList
-                    items={projects}
-                    title={project => project.get('name') || '-'}
-                    href={project => `/app/projects/${project.get('id')}`}
+                    items={clients}
+                    title={client => client.get('name') || '-'}
+                    href={client => `/app/clients/${client.get('id')}`}
                 />
             </div>
         )
@@ -68,11 +68,11 @@ class Projects extends React.Component {
 }
 
 const mapStateToProps = store => ({
-    projects: store.get('projects'),
+    clients: store.get('clients'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchProjects: () => dispatch(fetchProjects()),
+    fetchClients: () => dispatch(fetchClients()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Projects)
+export default connect(mapStateToProps, mapDispatchToProps)(Clients)

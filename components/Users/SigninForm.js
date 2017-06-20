@@ -47,7 +47,7 @@ class SigninForm extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-    this.props.signin(this.state.email.trim(), this.state.password)
+    this.props.signin(this.state.email ? this.state.email.trim() : '', this.state.password)
       .then(() => {
         this.props.fetchRoles()
 

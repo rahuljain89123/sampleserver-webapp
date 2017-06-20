@@ -91,12 +91,12 @@ import {
     editingscheduleWellTestError,
 } from 'reducers/scheduleWellTests'
 import {
-    projects,
-    creatingProject,
-    creatingProjectError,
-    editingProject,
-    editingProjectError,
-} from 'reducers/projects'
+    clients,
+    creatingClient,
+    creatingClientError,
+    editingClient,
+    editingClientError,
+} from 'reducers/clients'
 import {
     companies,
     creatingCompany,
@@ -151,7 +151,7 @@ const resetState = Immutable.Map({
     users: Immutable.Map({}),
     labs: Immutable.Map({}),
     sites: Immutable.Map({}),
-    projects: Immutable.Map({}),
+    clients: Immutable.Map({}),
     samples: Immutable.Map({}),
     companies: Immutable.Map({}),
     uploads: Immutable.Map({}),
@@ -219,11 +219,11 @@ const appReducer = combineReducers({
     editingscheduleWellTest,
     editingscheduleWellTestError,
 
-    projects,
-    creatingProject,
-    creatingProjectError,
-    editingProject,
-    editingProjectError,
+    clients,
+    creatingClient,
+    creatingClientError,
+    editingClient,
+    editingClientError,
 
     companies,
     creatingCompany,
