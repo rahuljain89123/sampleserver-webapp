@@ -33,7 +33,7 @@ class ContactForm extends React.Component {
       'Laboratory',
       'Site Owner',
       'Primary Site Contact',
-    ].map((opt,i) => <option key={i}>{opt}</option>)
+    ].map(opt => ({ value: opt, label: opt}))
 
     const { handleSubmit, submitForm } = this.props
 
