@@ -151,7 +151,11 @@ class SiteMap extends React.Component {
     const markedWellIds = this.markedWellIds(siteMapWells)
     const unmarkedWells = this.unmarkedWells(markedWellIds)
 
-    const wellNames = siteMapWells.valueSeq().map((smw) => {
+    const wellNames = siteMapWells.valueSeq().sort((a, b) => {
+      const wellA = this.props.wells.get(a.get('well_id'))
+      const wellB = this.props.wells.get(b.get('well_id'))
+      return compareAlphaNumeric(wellA.get('title'), wellB.get('title'))
+    }).map((smw) => {
       const well = this.props.wells.get(smw.get('well_id'))
       return (
         <li key={smw.get('id')} className='well'>

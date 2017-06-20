@@ -34,7 +34,7 @@ import {
 } from 'actions/scheduleWellTests'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
-import { msgFromError } from 'util'
+import { compareAlphaNumeric } from 'helpers/util'
 import includes from 'lodash/includes'
 import moment from 'moment'
 
@@ -58,7 +58,7 @@ class EditSchedule extends React.Component {
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
-    
+
     this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
       const formattedDate = moment(schedule.date).utc().format('YYYY-MM-DD')
       this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`)
@@ -244,6 +244,7 @@ class EditSchedule extends React.Component {
       .filter((test) => test.get('state_id') === siteStateId)
       .valueSeq()
     const wells = this.props.wells.valueSeq()
+      .sort((a, b) => compareAlphaNumeric(a.get('title'), b.get('title')))
 
 
     if (wells.size && site && schedules.size > 0 && stateTests.size > 0) {
@@ -255,6 +256,7 @@ class EditSchedule extends React.Component {
       const siteActivityReport = schedule.delete('test_ids')
         .delete('gauged_well_ids')
         .set('date', formattedDate)
+
 
       return (
         <div className="sample-schedule">
