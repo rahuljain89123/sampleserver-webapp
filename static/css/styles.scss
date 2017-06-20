@@ -573,6 +573,18 @@ section {
             line-height: 42px;
         }
     }
+    .select-all {
+        cursor: pointer;
+        color: #1FC7C8;
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        display: block;
+        &:hover {
+            color: #158586;
+            // text-decoration: underline;
+        }
+    }
 }
 .inner-sidebar {
     height: 100%;
@@ -1270,7 +1282,6 @@ form.contouring-form {
 }
 .client-sites {
     margin-bottom: 30px;
-    overflow:auto;
 
     .client {
         /* Rectangle 4: */

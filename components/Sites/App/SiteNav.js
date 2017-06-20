@@ -60,11 +60,6 @@ class SiteNav extends React.Component {
             activeClassName="active"
           ><i className="fa fa-chevron-left" aria-hidden="true"></i> Dashboard</NavLink>
           <NavLink
-            to={`/app/sites/${site.get('id')}/lab-data-list`}
-            className="nav-link nav-parent"
-            activeClassName="active"
-          >Downloads</NavLink>
-          <NavLink
             to={`/app/sites/${site.get('id')}/reports/analytical-boxmaps`}
             className="nav-link nav-parent"
             activeClassName="active"
@@ -96,6 +91,11 @@ class SiteNav extends React.Component {
               </nav>
             )}
           />
+          <NavLink
+            to={`/app/sites/${site.get('id')}/lab-data-list`}
+            className="nav-link nav-parent"
+            activeClassName="active"
+          >Downloads</NavLink>
           <NavLink
             to={`/app/sites/${site.get('id')}/setup/edit-site`}
             className="nav-link nav-parent"

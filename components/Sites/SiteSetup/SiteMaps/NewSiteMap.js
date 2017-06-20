@@ -35,7 +35,7 @@ class NewSiteMap extends React.Component {
 
   render () {
     return (
-      <div className="row new-sitemap">
+      <div className="row new-sitemap has-navbar">
         <div className="col-md-6">
           <SiteMapForm
             onSubmit={this.createSiteMap}

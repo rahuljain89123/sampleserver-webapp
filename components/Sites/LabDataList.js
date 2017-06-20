@@ -57,7 +57,7 @@ class LabDataList extends React.Component {
         </div>
       )
     } else {
-      return <div className="lab-data-list">
+      return <div className="lab-data-list has-navbar">
         <p>The lab has not yet uploaded any data.</p>
       </div>
     }
