@@ -96,6 +96,11 @@ h4 {
         margin-top: 15px;
     }
 }
+.btn-secondary {
+    &:hover, &:active, &:focus {
+        color: #FFFFFF;
+    }
+}
 .warning {
     color: #d9534f;
     vertical-align: middle;
