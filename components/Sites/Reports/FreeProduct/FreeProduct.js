@@ -212,7 +212,7 @@ class FreeProduct extends React.Component {
       { value: 'false', label: 'OFF' }
     ]
 
-    const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
+    const shouldDisableButton = !this.props.groupedSampleValues.size || this.renderZeroError() || this.props.submittingReport
 
     let errorDisplay = null
     if (this.renderZeroError()) {

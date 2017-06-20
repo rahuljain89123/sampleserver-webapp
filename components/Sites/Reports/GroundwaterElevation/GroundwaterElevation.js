@@ -224,7 +224,7 @@ class GroundwaterElevation extends React.Component {
       )
     }
 
-    const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
+    const shouldDisableButton = !this.props.groupedSampleValues.size || this.renderZeroError() || this.props.submittingReport
 
     let siteMapComponent = null
 
