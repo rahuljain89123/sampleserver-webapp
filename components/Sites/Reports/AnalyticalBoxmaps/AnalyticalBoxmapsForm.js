@@ -265,18 +265,16 @@ class AnalyticalBoxmapsForm extends React.Component {
         <ul className="substances-list">
           {siteSubstances}
         </ul>
-
         { showSubstancesDropdown &&
           <div className="form-group">
-            <label htmlFor="">Add Substance</label>
             <Select
               options={groupedSubstanceOptions}
-              placeholder='Select a substance...'
+              placeholder='Add substance...'
               onChange={(v) => this.addSubstance(v.value)}
             />
-
           </div>
         }
+
         { boxmapsButton }
       </Form>
     )
@@ -285,7 +283,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     let sidebarContent = null
 
     if (currentSiteMap) {
-      console.log(currentSiteMap)
+
       sidebarContent = boxmapsForm
     } else {
       sidebarContent = (

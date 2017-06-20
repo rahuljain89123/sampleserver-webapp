@@ -93,7 +93,7 @@ class EditWell extends React.Component {
     if (!well) { return null }
 
     return (
-      <Row>
+      <Row className="edit-well has-navbar">
         <Col sm={12}>
 
           <WellForm

@@ -335,8 +335,8 @@ class IsochemicalContours extends React.Component {
     let sidebarContent = null
 
     if (currentSiteMap) {
-      console.log(currentSiteMap)
-      sidebarContent = boxmapsForm
+
+      sidebarContent = contouringForm
     } else {
       sidebarContent = (
         <span>
