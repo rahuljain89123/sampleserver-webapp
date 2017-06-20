@@ -45,7 +45,7 @@ class NewWell extends React.Component {
     } = this.props
 
     return (
-      <Row>
+      <Row className="new-well has-navbar">
         <Col sm={12}>
           <WellForm
             submitForm={this.onSubmitWellForm}

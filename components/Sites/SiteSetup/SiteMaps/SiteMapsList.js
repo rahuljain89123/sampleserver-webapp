@@ -10,6 +10,15 @@ import {
   ModalHeader,
   ModalFooter,
 } from 'reactstrap'
+import {
+  Navbar,
+  Nav,
+  NavItem,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from 'reactstrap'
 import LinkButton from 'SharedComponents/LinkButton'
 import filestack from 'filestack-js'
 
@@ -26,7 +35,8 @@ class SiteMapsList extends React.Component {
     super(props)
 
     this.state = {
-      confirmingDelete: null
+      confirmingDelete: null,
+      dropdownOpen: false,
     }
     this.confirmDelete = this.confirmDelete.bind(this)
     this.hideModal = this.hideModal.bind(this)
@@ -43,6 +53,12 @@ class SiteMapsList extends React.Component {
         iconName: 'add_circle_outline',
       }],
     )
+  }
+
+  toggle () {
+    this.setState({
+      dropdownOpen: !this.state.dropdownOpen,
+    })
   }
 
   confirmDelete (siteMapId) {
@@ -91,11 +107,19 @@ class SiteMapsList extends React.Component {
                   <img src={siteMap.get('url')} height='200' />
                 </Link>
               </td>
-              <td style={{ verticalAlign: "middle"}}>
-                <button className="btn btn-default" onClick={() => this.confirmDelete(siteMap.get('id'))}>
-                  <i className='material-icons warning'>remove_circle_outline</i>
-                  Delete
-                </button>
+              <td>
+                <Dropdown isOpen={this.state.dropdownOpen} toggle={() => this.toggle()} className="light">
+                  <DropdownToggle className="pointer" tag="span">
+                    <i className="material-icons">more_horiz</i>
+                  </DropdownToggle>
+                  <DropdownMenu className="centered">
+                    <DropdownItem header>{siteMap.get('title')}</DropdownItem>
+                    <DropdownItem onClick={() => this.props.push(siteMapPath)}>Edit</DropdownItem>
+                    <DropdownItem onClick={() => this.confirmDelete(siteMap.get('id'))} className="warning">
+                      <span>Delete</span>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </td>
             </tr>
           </tbody>
@@ -122,7 +146,7 @@ class SiteMapsList extends React.Component {
     }
 
     return (
-      <div className="site-maps">
+      <div className="site-maps has-navbar">
         <div className="site-map-list">
           {siteMapsTable}
         </div>

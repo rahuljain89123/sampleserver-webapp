@@ -98,7 +98,7 @@ class SiteMapForm extends React.Component {
         component={IndividualFormGroup}
         type='text'
       />
-      {image}
+      <div className="preview-image">{image}</div>
       <div className="img-actions row">
         <Label sm={2}>Choose Sitemap Image</Label>
         <div className="col-sm-9">

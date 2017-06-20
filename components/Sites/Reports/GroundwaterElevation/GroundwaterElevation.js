@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import download from 'downloadjs'
 
 import {
@@ -189,7 +191,7 @@ class GroundwaterElevation extends React.Component {
   render () {
     const {
       handleSubmit,
-      siteMaps, 
+      siteMaps,
     } = this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
@@ -224,60 +226,79 @@ class GroundwaterElevation extends React.Component {
         />
     }
 
+    let contouringForm = null
+    contouringForm = (
+      <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
+        <Field
+          props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
+          name='sitemap_id'
+          id='sitemap_id'
+          component={SelectFormGroup}
+          options={siteMapOptions}
+        />
+
+        <Field
+          props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
+          name='date_collected'
+          id='date_collected'
+          options={startDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
+          name='date_collected_range_end'
+          id='date_collected_range_end'
+          options={endDateOptions}
+          component={SelectFormGroup}
+        />
+
+
+        <Field
+          props={{placeholder: 'Flow Lines?', label: 'Flow Lines', location: 'sidebar'}}
+          name='flow_lines'
+          id='flow_lines'
+          options={booleanOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'Title'}}
+          name='title_wildcard'
+          id='title_wildcard'
+          type='text'
+          component={IndividualFormGroup}
+        />
+
+        <div className='centered-btn'>
+          <Button
+            disabled={shouldDisableButton}
+            className="download-report-btn btn-lg btn-block"
+            color="primary"
+          >Contour</Button>
+        </div>
+      </Form>
+    )
+    const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+    let sidebarContent = null
+
+    if (currentSiteMap) {
+      console.log(currentSiteMap)
+      sidebarContent = boxmapsForm
+    } else {
+      sidebarContent = (
+        <span>
+          <Link to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/new`}>Upload a sitemap</Link> and place wells before using this feature.
+        </span>
+      )
+    }
+
+
     return (
       <div className='site-map'>
         <div  className='inner-sidebar contouring-sidebar'>
           <div className='sidebar-content'>
-          <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
-            <Field
-              props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
-              name='sitemap_id'
-              id='sitemap_id'
-              component={SelectFormGroup}
-              options={siteMapOptions}
-            />
-
-            <Field
-              props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
-              name='date_collected'
-              id='date_collected'
-              options={startDateOptions}
-              component={SelectFormGroup}
-            />
-
-            <Field
-              props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
-              name='date_collected_range_end'
-              id='date_collected_range_end'
-              options={endDateOptions}
-              component={SelectFormGroup}
-            />
-
-
-            <Field
-              props={{placeholder: 'Flow Lines?', label: 'Flow Lines', location: 'sidebar'}}
-              name='flow_lines'
-              id='flow_lines'
-              options={booleanOptions}
-              component={SelectFormGroup}
-            />
-
-            <Field
-              props={{label: 'Title'}}
-              name='title_wildcard'
-              id='title_wildcard'
-              type='text'
-              component={IndividualFormGroup}
-            />
-
-            <div className='centered-btn'>
-              <Button
-                disabled={shouldDisableButton}
-                className="download-report-btn btn-lg btn-block"
-                color="primary"
-              >Contour</Button>
-            </div>
-          </Form>
+            {sidebarContent}
           </div>
         </div>
         <div className='site-map-content'>

@@ -56,7 +56,7 @@ class EditSite extends React.Component {
     if (!site) { return null }
 
     return (
-      <div>
+      <div className="edit-site has-navbar">
         <div className="border-bottom">
         </div>
         <Row>
