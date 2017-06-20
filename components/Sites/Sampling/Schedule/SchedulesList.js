@@ -100,9 +100,9 @@ class SchedulesList extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
+const mapStateToProps = (store, ownProps) => ({
   tests: store.get('tests'),
-  schedules: store.get('schedules'),
+  schedules: store.get('schedules').filter(schedule => schedule.get('site_id') === ownProps.site.get('id')),
 })
 
 const mapDispatchToProps = dispatch => ({
