@@ -55,16 +55,29 @@ class EditSchedule extends React.Component {
     this.editSchedule = this.editSchedule.bind(this)
   }
 
+  componentWillMount () {
+    this.props.fetchWells({ site_id: this.props.site.get('id') })
+  }
+
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
 
     this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
       const formattedDate = moment(schedule.date).utc().format('YYYY-MM-DD')
-      this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`)
+      this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`, [{
+        component: 'DeleteHeaderButton',
+        props: {
+          deleteMethodName: 'deleteSchedule',
+          deleteId: this.state.scheduleId,
+          successMessage: 'Schedule deleted',
+          redirectPath: `/app/sites/${schedule.site_id}/sampling/sample-schedule`,
+          buttonText: 'Delete Schedule',
+        },
+      }])
     })
     this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId })
-    this.props.setHeaderInfo(`Edit Schedule: `)
+    this.props.setHeaderInfo('Edit Schedule')
   }
 
   onChange (e) {
