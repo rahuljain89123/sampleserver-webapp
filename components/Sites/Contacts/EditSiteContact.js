@@ -22,7 +22,6 @@ class EditSiteContact extends React.Component {
       super(props)
       this.onSubmitContactForm = this.onSubmitContactForm.bind(this)
     }
-    //onSuccess={() => props.push(`/app/sites/${site.get('id')}/contacts`)}
 
     componentDidMount () {
       this.props.fetchContact(this.props.contactId)
@@ -64,7 +63,6 @@ class EditSiteContact extends React.Component {
         return (
             <Row>
                 <Col sm={6}>
-                    
                     <ContactForm
                         site={this.props.site}
                         initialValues={contact}

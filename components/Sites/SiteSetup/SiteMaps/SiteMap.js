@@ -218,12 +218,12 @@ class SiteMap extends React.Component {
   }
 }
 
-const mapStateToProps = (store, props) => ({
-  siteMaps: store.get('siteMaps'),
+const mapStateToProps = (store, ownProps) => ({
+  siteMaps: store.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
   siteMapWells: store.get('siteMapWells'),
   addingSiteMapWell: store.get('addingSiteMapWell'),
-  wells: store.get('wells'),
-  siteMapId: parseInt(props.match.params.id, 10),
+  wells: store.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
+  siteMapId: parseInt(ownProps.match.params.id, 10),
 })
 
 const mapDispatchToProps = dispatch => ({
