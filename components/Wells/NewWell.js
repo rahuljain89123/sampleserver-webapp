@@ -11,7 +11,7 @@ import {
   createWell,
   clearCreatingWellError,
 } from 'actions/wells'
-import { flashMessage } from 'actions/global'
+import { flashMessage, setHeaderInfo } from 'actions/global'
 
 import WellForm from './WellForm'
 
@@ -20,6 +20,10 @@ class NewWell extends React.Component {
     super(props)
 
     this.onSubmitWellForm = this.onSubmitWellForm.bind(this)
+  }
+
+  componentDidMount () {
+    this.props.setHeaderInfo('New Well')
   }
 
   onSubmitWellForm (wellParams) {
@@ -42,11 +46,7 @@ class NewWell extends React.Component {
 
     return (
       <Row>
-        <Col sm={6}>
-          <div className="d-flex">
-            <h4>Create Well</h4>
-          </div>
-
+        <Col sm={12}>
           <WellForm
             submitForm={this.onSubmitWellForm}
             wellError={creatingWellError}
@@ -63,6 +63,7 @@ const mapStateToProps = (store, props) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  setHeaderInfo: (text, buttons) => dispatch(setHeaderInfo(text,buttons)),
   flashMessage: (type, message) =>
     dispatch(flashMessage(type, message)),
 

@@ -95,7 +95,7 @@ class ClientSites extends React.Component {
         .entrySeq())
 
     return (
-      <div className="client-sites">
+      <div className="client-sites has-navbar">
         <div className="clients">
           {clients.map(([id, client]) => (
             <div className="client" key={id}>

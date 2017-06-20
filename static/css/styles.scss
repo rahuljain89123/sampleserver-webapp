@@ -20,6 +20,9 @@ html, body, .index, .app, .site-map, .site-setup, .root, .company-app, .main-con
     height: 100%;
     font-family: $ss-font-family;
 }
+.has-navbar {
+    padding-top: 114px;
+}
 h1 {
     font-weight: normal;
 }
@@ -54,6 +57,10 @@ h4 {
     line-height: 26px;
     min-width: 120px;
     box-sizing: border-box;
+    &:focus, &:active {
+        outline: none;
+        box-shadow: none;
+    }
 }
 .btn-default {
     /* Rectangle 4: */
@@ -153,14 +160,18 @@ body {
         width: 970px;
     }
 }
-
+.navbar-container {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+}
 .navbar {
     height: 79px;
     background: #FFFFFF;
     box-shadow: 0 2px 20px 0 rgba(0,0,0,0.08);
     padding: 20px 30px;
     position: relative;
-    margin-bottom: 35px;
+    // margin-bottom: 35px;
     h1 {
         /* New Site: */
         font-family: GothamHTF;
@@ -526,6 +537,18 @@ section {
     .well-title {
         white-space: nowrap;
     }
+    .Select-placeholder, .Select--single > .Select-control .Select-value {
+        line-height: 42px;
+    }
+    .select-tests {
+        height: 44px;
+        .Select-control {
+            height: 44px;
+        }
+        .Select-placeholder, .Select--single > .Select-control .Select-value {
+            line-height: 42px;
+        }
+    }
 }
 .inner-sidebar {
     height: 100%;
@@ -626,6 +649,7 @@ section {
 }
 .wrapper {
     height: 100%;
+
     .wrapper-inner {
         height: 100%;
         display: flex;
@@ -635,9 +659,11 @@ section {
         // box-sizing: initial;
 
         .main-container {
-            overflow: scroll;
+            overflow: auto;
             flex: 1;
             background: #FAFBFD;
+            position: relative;
+            // box-sizing: border-box;
         }
     }
 }
@@ -647,6 +673,13 @@ section {
 .sidebar-container {
     height: 100%;
     overflow: scroll;
+    .sidebar-nav {
+        .nav-pills {
+            .nav-parent:last-child {
+                margin-bottom: 100px;
+            }
+        }
+    }
 }
 .sidebar {
     font-family: 'GothamHTF';
@@ -811,7 +844,8 @@ section {
             .dropdown-item {
                 color: #AAADB3;
                 border-bottom: 1px solid rgba(225, 227, 230, 0.2);
-                &:hover {
+                outline: none;
+                &:hover, &:focus, &:active {
                     color: #FFFFFF;
                     background: #575C61;
                 }
@@ -852,6 +886,11 @@ section {
             border-bottom: 1px solid rgba(225,227,230,0.70);
             // box-shadow: 0 2px 20px 0 rgba(0,0,0,0.05);
             cursor: pointer;
+            outline: none;
+            &:hover, &:focus, &:active {
+                text-decoration: none;
+                background-color: #f7f7f9;
+            }
             &:last-child {
                 border-bottom: none;
             }
@@ -1100,13 +1139,15 @@ form.contouring-form {
 }
 .client-sites {
     margin-bottom: 30px;
+    overflow:auto;
+
     .client {
         /* Rectangle 4: */
         background: #FFFFFF;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.10);
         border-radius: 3px;
         margin-top: 35px;
-        &::first-child {
+        &:first-child {
             margin-top: 0;
         }
         .client-header {
@@ -1223,7 +1264,7 @@ form.contouring-form {
             letter-spacing: 0;
             margin: 0 30px 20px 0;
             position: absolute;
-            top: -5px;
+            top: 22px;
             right: 0;
             cursor: pointer;
         }

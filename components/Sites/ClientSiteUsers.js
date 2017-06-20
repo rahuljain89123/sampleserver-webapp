@@ -65,7 +65,7 @@ class ClientSiteUsers extends React.Component {
       .entrySeq()
 
     return (
-      <div>
+      <div className="client-site-users has-navbar">
         <Row style={{ marginTop: 20 }}>
           <Col sm="12">
             <p>

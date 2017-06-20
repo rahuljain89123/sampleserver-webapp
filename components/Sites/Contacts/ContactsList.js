@@ -61,7 +61,7 @@ class ContactsList extends React.Component {
         }
 
         return (
-            <div>
+            <div className="contacts-list has-navbar">
                 {contactsTable}
             </div>
         )

@@ -25,7 +25,7 @@ class LabDataList extends React.Component {
 
     if (uploads.size > 0) {
       return (
-        <div className="lab-data-list">
+        <div className="lab-data-list has-navbar">
           <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
             <thead>
               <tr>

@@ -132,7 +132,7 @@ class CompanyUsers extends React.Component {
       )
     }
     return (
-      <div className="company-users">
+      <div className="company-users has-navbar">
         <Nav tabs>
           {roles.map(([id, role]) => (
             <NavItem key={role.get('id')}>

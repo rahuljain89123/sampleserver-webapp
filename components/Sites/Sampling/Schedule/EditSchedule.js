@@ -58,7 +58,7 @@ class EditSchedule extends React.Component {
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
-    
+
     this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
       const formattedDate = moment(schedule.date).utc().format('YYYY-MM-DD')
       this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`)
@@ -262,11 +262,10 @@ class EditSchedule extends React.Component {
             <div className="col-sm-10">
               <Select
                 onChange={e => this.onChange(e)}
-                className="form-control"
+                className="select-tests"
                 value={this.state.test}
                 options={testOptions}
-                />
-
+              />
             </div>
             <div className="col-sm-2">
               <button className="btn btn-primary btn-block" onClick={e => this.addTest(e)}>Add Test</button>

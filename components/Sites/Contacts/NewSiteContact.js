@@ -47,7 +47,7 @@ class NewSiteContact extends React.Component {
     } = this.props
 
     return (
-      <Row>
+      <Row className="new-site-contact has-navbar">
         <Col sm={6}>
           <ContactForm
             submitForm={this.onSubmitContactForm}

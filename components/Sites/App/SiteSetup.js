@@ -23,7 +23,7 @@ class SiteSetup extends React.Component {
 
 
     return (
-      <div className="site-setup">
+      <div className="site-setup has-navbar">
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/setup/edit-site`}
