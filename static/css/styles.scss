@@ -1280,6 +1280,33 @@ form.contouring-form {
         }
     }
 }
+.client-site-users {
+    position: relative;
+
+    .nav-link.invite-users {
+        cursor: pointer;
+    }
+    .nav-item.action {
+        position: relative;
+        border: none;
+        color: rgba(40, 43, 47, 0.5);
+        position: absolute;
+        right: 0;
+        top: 165px;
+        z-index: 20;
+
+        .nav-link {
+            font-family: GothamHTF;
+            padding: 0 0 20px 0;
+            font-size: 13px;
+        }
+        .material-icons {
+            color: #1FC7C8;
+            vertical-align: middle;
+            padding-right: 5px;
+        }
+    }
+}
 .client-sites {
     margin-bottom: 30px;
 

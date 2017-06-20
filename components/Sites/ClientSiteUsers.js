@@ -13,6 +13,10 @@ import {
   InputGroup,
   InputGroupButton,
   Badge,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/Team/UsersTable'
@@ -22,14 +26,23 @@ import { fetchSite } from 'actions/sites'
 import { createUser, fetchUsers } from 'actions/users'
 import { flashMessage,setHeaderInfo } from 'actions/global'
 import { currentLab, safeGet } from 'normalizers'
+import { msgFromError } from 'helpers/util'
 
 const TECHNICIAN_ROLE = 7
+
 
 class ClientSiteUsers extends React.Component {
   constructor (props) {
     super(props)
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onInviteUser = this.onInviteUser.bind(this)
+    this.hideModal = this.hideModal.bind(this)
+
+    this.state = {
+      invitingUser: false,
+      error: false,
+    }
   }
 
   componentDidMount () {
@@ -37,6 +50,18 @@ class ClientSiteUsers extends React.Component {
     this.props.setHeaderInfo(
       `${this.props.roles.get(TECHNICIAN_ROLE).get('description')}s`
     )
+  }
+
+  onInviteUser () {
+    this.setState({ invitingUser: true })
+  }
+
+  hideModal () {
+    this.setState({ invitingUser: false })
+  }
+
+  clearError () {
+    this.setState({ error: false })
   }
 
   onSubmit (userParams) {
@@ -52,10 +77,15 @@ class ClientSiteUsers extends React.Component {
 
     this.props.createUser(user)
       .then(() => {
+        this.clearError()
+        this.setState({ invitingUser: false })
         this.props.flashMessage('success', 'User added successfully')
         this.props.fetchSite(this.props.site.get('id'))
       })
-      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
+      .catch(e => {
+        this.props.flashMessage('danger', msgFromError(e))
+        this.setState({ error: msgFromError(e) })
+      })
   }
 
   render () {
@@ -64,9 +94,24 @@ class ClientSiteUsers extends React.Component {
       .filter((user) => user && user.get('role_id') === TECHNICIAN_ROLE)
       .entrySeq()
 
+    let errorDisplay = null
+    if (this.state.error) {
+      errorDisplay = (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" className="close" onClick={() => this.clearError()}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {this.state.error}
+        </div>
+      )
+    }
+
     return (
       <div className="client-site-users has-navbar">
-        <Row style={{ marginTop: 20 }}>
+        <div className="nav-item action">
+          <a className="nav-link invite-users" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite Technican</a>
+        </div>
+        <Row>
           <Col sm="12">
             <p>
               Can view/edit sites only for data input purposes.<br />
@@ -75,11 +120,16 @@ class ClientSiteUsers extends React.Component {
           </Col>
         </Row>
         <UsersTable users={filteredUsers} />
-        <Row>
-          <UserForm
-            currentRole={this.props.roles.get(TECHNICIAN_ROLE)}
-            onSubmit={this.onSubmit} />
-        </Row>
+        <Modal isOpen={this.state.invitingUser} toggle={this.hideModal}>
+          <ModalHeader toggle={this.hideModal}>Invite Technican</ModalHeader>
+          <ModalBody>
+            {errorDisplay}
+            <UserForm
+              currentRole={this.props.roles.get(TECHNICIAN_ROLE)}
+              onSubmit={this.onSubmit}
+            />
+          </ModalBody>
+        </Modal>
       </div>
     )
   }
