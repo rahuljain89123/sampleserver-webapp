@@ -41,7 +41,6 @@ import {
   fetchSubstances,
   fetchSubstanceGroups,
 } from 'actions/substances'
-import { fetchSamples } from 'actions/samples'
 import {
   fetchGroupedSampleValues,
   fetchSampleDates,
@@ -78,7 +77,6 @@ class GroundwaterElevation extends React.Component {
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
     this.props.fetchWells({ site_id: this.props.site.get('id') }).then(this.setSelectedWells)
-    this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
 
     this.checkedImage = new Image()
@@ -186,6 +184,20 @@ class GroundwaterElevation extends React.Component {
     return parseFloat(gsvWell.get('top_of_casing')) - gsvWell.getIn(['substances', '35', 'substance_value'])
   }
 
+  /**
+   * Returns true if there are no selected wells on the contour map with a non-zero value
+   */
+  renderZeroError () {
+    // Don't render the error if we haven't pulled any sample values
+    if (!this.props.groupedSampleValues.size) { return false; }
+
+    return this.props.siteMapWells.filter(smw =>
+      smw.get('site_map_id') === parseInt(this.props.siteMapId) &&
+      this.props.selectedWells.get(smw.get('well_id')) &&
+      !!this.props.groupedSampleValues.get(smw.get('well_id').toString()).get('substance_sum')
+    ).size === 0
+  }
+
   render () {
     const {
       handleSubmit,
@@ -203,7 +215,16 @@ class GroundwaterElevation extends React.Component {
       { value: 'false', label: 'OFF' }
     ]
 
-    const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
+    let errorDisplay = null
+    if (this.renderZeroError()) {
+      errorDisplay = (
+        <div className="alert alert-danger fade show" role="alert">
+          Cannot create contours with all 0 values
+        </div>
+      )
+    }
+
+    const shouldDisableButton = !this.props.groupedSampleValues.size || this.renderZeroError() || this.props.submittingReport
 
     let siteMapComponent = null
 
@@ -228,6 +249,7 @@ class GroundwaterElevation extends React.Component {
       <div className='site-map'>
         <div  className='inner-sidebar contouring-sidebar'>
           <div className='sidebar-content'>
+          {errorDisplay}
           <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
             <Field
               props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
@@ -297,9 +319,8 @@ const mapStateToProps = (state, ownProps) => ({
   siteMapWells: state.get('siteMapWells'),
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
-  wells: state.get('wells'),
-  samples: state.get('samples'),
-  sampleDates: state.get('sampleDates'),
+  wells: state.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
+  sampleDates: state.get('sampleDates').filter(sampleDate => sampleDate.get('site_id') === ownProps.site.get('id')),
   groupedSampleValues: state.get('groupedSampleValues'),
   submittingReport: state.get('submittingReport'),
 
@@ -315,7 +336,6 @@ const mapDispatchToProps = dispatch => ({
 
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
-  fetchSamples: filters => dispatch(fetchSamples(filters)),
   fetchGroupedSampleValues: params => dispatch(fetchGroupedSampleValues(params)),
   fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
