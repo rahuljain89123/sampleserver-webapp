@@ -8,38 +8,38 @@ import {
   Nav,
 } from 'reactstrap'
 
-import { fetchProject } from '../../actions/projects'
-import EditProjectForm from './EditProjectForm'
-import ProjectUsers from './ProjectUsers'
+import { fetchClient } from '../../actions/clients'
+import EditClientForm from './EditClientForm'
+import ClientUsers from './ClientUsers'
 import { setHeaderInfo } from 'actions/global'
 
 
-class Project extends React.Component {
+class Client extends React.Component {
   constructor (props) {
     super(props)
 
-    const projectId = parseInt(props.match.params.id, 10)
-    const project = props.projects.get(projectId)
+    const clientId = parseInt(props.match.params.id, 10)
+    const client = props.clients.get(clientId)
 
     this.state = {
-      projectId,
-      project,
+      clientId,
+      client,
     }
   }
 
   componentDidMount () {
-    if (!this.state.project) {
-      this.props.fetchProject(this.state.projectId)
+    if (!this.state.client) {
+      this.props.fetchClient(this.state.clientId)
     }
 
     this.props.setHeaderInfo(
-      'Edit Project'
+      'Edit Client'
     )
   }
 
   componentWillReceiveProps (nextProps) {
     this.setState({
-      project: nextProps.projects.get(this.state.projectId),
+      client: nextProps.clients.get(this.state.clientId),
     })
   }
 
@@ -49,9 +49,9 @@ class Project extends React.Component {
   }
 
   render () {
-    const project = this.state.project
+    const client = this.state.client
 
-    if (!project) {
+    if (!client) {
       return null
     }
 
@@ -61,13 +61,13 @@ class Project extends React.Component {
           <Nav pills style={{ marginTop: 20, marginBottom: 20 }}>
             <NavLink
               exact
-              to={`/app/projects/${project.get('id')}`}
+              to={`/app/clients/${client.get('id')}`}
               className="nav-link"
               activeClassName="active"
             >Details</NavLink>
             <NavLink
               exact
-              to={`/app/projects/${project.get('id')}/users`}
+              to={`/app/clients/${client.get('id')}/users`}
               className="nav-link"
               activeClassName="active"
             >Manage Users</NavLink>
@@ -75,19 +75,19 @@ class Project extends React.Component {
         </div>
         <Route
           exact
-          path="/app/projects/:id"
+          path="/app/clients/:id"
           render={() => (
             <Row>
               <Col sm={6}>
-                <EditProjectForm project={project} push={this.props.push} />
+                <EditClientForm client={client} push={this.props.push} />
               </Col>
             </Row>
           )}
         />
         <Route
           exact
-          path="/app/projects/:id/users"
-          component={ProjectUsers}
+          path="/app/clients/:id/users"
+          component={ClientUsers}
         />
       </div>
     )
@@ -95,12 +95,12 @@ class Project extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  projects: store.get('projects'),
+  clients: store.get('clients'),
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchProject: id => dispatch(fetchProject(id)),
+  fetchClient: id => dispatch(fetchClient(id)),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Project)
+export default connect(mapStateToProps, mapDispatchToProps)(Client)

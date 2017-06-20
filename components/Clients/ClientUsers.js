@@ -3,27 +3,27 @@ import React from 'react'
 import Immutable from 'immutable'
 import { connect } from 'react-redux'
 import {
-    Table,
-    Nav,
-    NavItem,
-    NavLink,
-    Row,
-    Col,
-    Button,
-    Form,
-    FormGroup,
-    Input,
-    InputGroup,
-    InputGroupButton,
-    Badge,
-    Breadcrumb,
-    BreadcrumbItem,
+  Table,
+  Nav,
+  NavItem,
+  NavLink,
+  Row,
+  Col,
+  Button,
+  Form,
+  FormGroup,
+  Input,
+  InputGroup,
+  InputGroupButton,
+  Badge,
+  Breadcrumb,
+  BreadcrumbItem,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/Team/UsersTable'
 import UserForm from 'SharedComponents/Team/UserForm'
 
-import { fetchProject } from 'actions/projects'
+import { fetchClient } from 'actions/clients'
 import { createUser, fetchUsers } from 'actions/users'
 import { flashMessage } from 'actions/global'
 
@@ -32,7 +32,7 @@ import { msgFromError } from 'helpers/util'
 const PROJECT_MANAGER_ROLE = 6
 
 
-class ProjectUsers extends React.Component {
+class ClientUsers extends React.Component {
   constructor (props) {
     super(props)
 
@@ -40,16 +40,16 @@ class ProjectUsers extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchUsers({ projects: this.props.projectId })
-    this.props.fetchProject(this.props.projectId)
+    this.props.fetchUsers({ clients: this.props.clientId })
+    this.props.fetchClient(this.props.clientId)
   }
 
   onSubmit (userParams) {
     const user = {
-      email: userParams.get('email'),
+      email: userParams.get('email') ? userParams.get('email').trim() : '',
       role_id: PROJECT_MANAGER_ROLE,
-      projects: {
-        add: [this.props.project.get('id')],
+      clients: {
+        add: [this.props.client.get('id')],
         remove: [],
       },
     }
@@ -57,31 +57,32 @@ class ProjectUsers extends React.Component {
     this.props.createUser(user)
       .then(() => {
         this.props.flashMessage('success', 'User invited successfully.')
-        // Need to fetch project to update project's user_ids
-        this.props.fetchProject(this.props.projectId)
+        // Need to fetch client to update client's user_ids
+        this.props.fetchClient(this.props.clientId)
       })
       .catch(e => this.props.flashMessage('danger', msgFromError(e)))
   }
 
   render () {
-    const project = this.props.project
+    const client = this.props.client
 
-    if (!project) {
-        return null
+    if (!client) {
+      return null
     }
 
     const users = this.props.users.entrySeq()
     const role = this.props.role
 
     return (
-        <div>
-            <UsersTable users={users} />
-            <Row>
-              <UserForm
-                currentRole={role}
-                onSubmit={this.onSubmit} />
-            </Row>
-        </div>
+      <div>
+        <UsersTable users={users} />
+        <Row>
+          <UserForm
+            currentRole={role}
+            onSubmit={this.onSubmit}
+          />
+        </Row>
+      </div>
     )
   }
 }
@@ -90,27 +91,27 @@ const mapStateToProps = (store, props) => {
   const role = store.get('roles').size ?
     store.get('roles').get(PROJECT_MANAGER_ROLE) : null
 
-  const projectId = parseInt(props.match.params.id, 10)
-  const project = store.get('projects').get(projectId)
+  const clientId = parseInt(props.match.params.id, 10)
+  const client = store.get('clients').get(clientId)
 
   const users = store.get('users')
-    .filter(user => project.get('user_ids').includes(user.get('id')))
+    .filter(user => client.get('user_ids').includes(user.get('id')))
     .filter(user => user.get('role_id') === PROJECT_MANAGER_ROLE)
     .sort((a,b) => a.get('id') - b.get('id'))
 
   return {
-    projectId,
+    clientId,
     users,
     role,
-    project,
+    client,
   }
 }
 
 const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
-  fetchProject: id => dispatch(fetchProject(id)),
+  fetchClient: id => dispatch(fetchClient(id)),
   fetchUsers: filters => dispatch(fetchUsers(filters)),
   createUser: user => dispatch(createUser(user)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectUsers)
+export default connect(mapStateToProps, mapDispatchToProps)(ClientUsers)
