@@ -138,11 +138,11 @@ class FreeProduct extends React.Component {
       .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
-  processClickEvent (xpos, ypos, evt) {
+  processClickEvent (xpos, ypos, evt, scale) {
     const { siteMapWells, zeroWells } = this.props
 
     if (evt.button === 2) { contouringFn.addZeroWell(xpos, ypos, this, FORM_NAME) }
-    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, zeroWells, this, FORM_NAME)
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, scale, zeroWells, this, FORM_NAME)
   }
 
   setSelectedWells () {

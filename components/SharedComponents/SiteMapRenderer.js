@@ -149,7 +149,7 @@ class SiteMapRenderer extends React.Component {
       return
     }
 
-    this.props.onClick(xpos, ypos, evt)
+    this.props.onClick(xpos, ypos, evt, scale)
   }
 
   /**
