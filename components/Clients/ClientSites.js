@@ -14,9 +14,9 @@ import {
   NavItem,
 } from 'reactstrap'
 
-import { setHeaderInfo } from 'actions/global'
+import { setHeaderInfo, flashMessage } from 'actions/global'
 import { fetchSites } from 'actions/sites'
-import { fetchClients } from 'actions/clients'
+import { fetchClients, deleteClient } from 'actions/clients'
 
 
 class ClientSites extends React.Component {
@@ -78,6 +78,12 @@ class ClientSites extends React.Component {
     this.props.push('/app/sites/new')
   }
 
+  onDelete (clientId) {
+    this.props.deleteClient(clientId)
+      .then(() => this.props.flashMessage('success', 'Client deleted successfully'))
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
+  }
+
   onClick (e) {
     e.preventDefault()
     this.props.push(e.target.getAttribute('href'))
@@ -104,7 +110,13 @@ class ClientSites extends React.Component {
                   <h5>Client Detail</h5>
                   <h2 className="client-name">{client.get('name')}</h2>
                 </div>
+
                 <div className="edit-client">
+                  { clientSites.get(id).size === 0 && <a href='#' onClick={() => this.onDelete(id)}>
+                        <i className='material-icons warning'>remove_circle_outline</i>
+                        Delete Client
+                      </a>
+                  }
                   <a href={`/app/clients/${id}`} onClick={e => this.onClick(e)}>
                     <i className="material-icons">settings</i>
                     Edit Client
@@ -151,7 +163,9 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchClients: () => dispatch(fetchClients()),
+  deleteClient: (id) => dispatch(deleteClient(id)),
   fetchSites: filters => dispatch(fetchSites(filters)),
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 

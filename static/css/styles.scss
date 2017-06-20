@@ -1139,6 +1139,7 @@ form.contouring-form {
             vertical-align: middle;
             a {
                 color: #575C61;
+                padding-left: 10px;
             }
             .material-icons {
                 /* settings: */
@@ -1147,6 +1148,10 @@ form.contouring-form {
                 letter-spacing: 0.79px;
                 vertical-align: middle;
                 margin-right: 5px;
+
+                &.warning {
+                  color: #d9534f;
+                }
             }
         }
         .sites-list {
