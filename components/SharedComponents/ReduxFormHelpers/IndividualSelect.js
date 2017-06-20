@@ -7,7 +7,7 @@ const IndividualSelect = (field) => {
   if (field.mValue) { field.input.value = field.mValue }
   return <Select
     className='form-control'
-    onChange={(v) => field.input.onChange(v.value)}
+    onChange={(v) => field.input.onChange(v ? v.value : v)}
     value={field.input.value}
     name={field.input.name}
     id={field.id}
