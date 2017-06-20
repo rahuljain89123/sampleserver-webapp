@@ -136,9 +136,9 @@ class GroundwaterElevation extends React.Component {
       .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
-  processClickEvent (xpos, ypos) {
+  processClickEvent (xpos, ypos, evt, scale) {
     const { siteMapWells } = this.props
-    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell)
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, scale)
   }
 
   setSelectedWells () {
@@ -189,7 +189,7 @@ class GroundwaterElevation extends React.Component {
   render () {
     const {
       handleSubmit,
-      siteMaps, 
+      siteMaps,
     } = this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>

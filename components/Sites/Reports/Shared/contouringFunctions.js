@@ -18,10 +18,10 @@ export const addZeroWell = (xpos, ypos, component, form) => {
   ))
 }
 
-export const processClick = (xpos, ypos, siteMapWells, toggleWell, zeroWells, component, form) => {
+export const processClick = (xpos, ypos, siteMapWells, toggleWell, scale, zeroWells, component, form) => {
   siteMapWells.forEach(siteMapWell => {
-    if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/2 &&
-        Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/2) {
+  if (Math.abs(siteMapWell.get('xpos') - xpos) <= WELL_MARKER_WIDTH/scale/2 &&
+        Math.abs(siteMapWell.get('ypos') - ypos) <= WELL_MARKER_HEIGHT/scale/2) {
         toggleWell(siteMapWell.get('well_id'))
     }
   })
@@ -132,10 +132,10 @@ export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedIma
   }
 
   const color = 'black'
-  const fontSize = 15 * scale
-  const width = WELL_MARKER_WIDTH * scale
-  const height = WELL_MARKER_HEIGHT * scale
-  const checkboxSize = WELL_MARKER_HEIGHT * .8 * scale
+  const fontSize = 15
+  const width = WELL_MARKER_WIDTH
+  const height = WELL_MARKER_HEIGHT
+  const checkboxSize = WELL_MARKER_HEIGHT * .8
   const checkboxImage = (well.get('well_id') === -1 || selectedWells.get(well.get('well_id'))) ?
     checkedImage : uncheckedImage
 
