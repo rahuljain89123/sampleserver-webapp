@@ -60,8 +60,8 @@ class NewSite extends React.Component {
 
 
     return (
-      <Row>
-        <Col sm={6}>
+      <Row className="has-navbar">
+        <Col sm={10}>
           <SiteForm
             clientOptions={this.props.clients}
             siteError={creatingSiteError}
