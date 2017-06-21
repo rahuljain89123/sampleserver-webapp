@@ -138,7 +138,7 @@ class WellsList extends React.Component {
     }
 
     return (
-      <div className="site-setup-wells">
+      <div className="site-setup-wells has-navbar">
         {errorDisplay}
         <div className="row">
           <div className="col-lg-8 col-md-7 col-sm-6">

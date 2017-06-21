@@ -21,7 +21,7 @@ class Sampling extends React.Component {
     if (!this.props.location.pathname.includes('sampling')) { return null }
 
     return (
-      <div className="sampling">
+      <div className="sampling has-navbar">
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/sampling/executive-summary`}

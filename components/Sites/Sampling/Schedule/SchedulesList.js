@@ -46,7 +46,7 @@ class SchedulesList extends React.Component {
       schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/new`}>Create one</Link> </span>
     }
 
-    schedules = this.props.schedules.valueSeq().map((schedule) => {
+    schedules = this.props.schedules.valueSeq().sort((a,b) => moment(a.date).isBefore(moment(b.date)) ? -1 : 1).map((schedule) => {
       return (
         <tbody key={schedule.get('id')}>
           <tr>

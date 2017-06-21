@@ -101,7 +101,7 @@ class ClientSites extends React.Component {
         .entrySeq())
 
     return (
-      <div className="client-sites">
+      <div className="client-sites has-navbar">
         <div className="clients">
           {clients.map(([id, client]) => (
             <div className="client" key={id}>
@@ -130,7 +130,7 @@ class ClientSites extends React.Component {
                       <div className="site-title">
                         <i className="material-icons">layers</i>
                         <a
-                          href={`/app/sites/${siteId}/lab-data-list`}
+                          href={`/app/sites/${siteId}/reports/analytical-boxmaps`}
                           onClick={e => this.onClick(e)}
                         >
                           {site.get('title')}

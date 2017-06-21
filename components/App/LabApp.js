@@ -11,7 +11,7 @@ import NewLabClient from 'Companies/NewLabClient'
 import TeamLabUsers from 'Labs/TeamLabUsers'
 
 const LabApp = () => (
-  <div className="container-fluid">
+  <div className="container-fluid has-navbar">
       <div className="lab-app">
         <PrivateRoute exact path="/app" component={LabClients} />
         <Switch>

@@ -11,6 +11,7 @@ import {
 import { flashMessage } from 'actions/global'
 import { deleteWell } from 'actions/wells'
 import { deleteContact } from 'actions/contacts'
+import { deleteSchedule } from 'actions/schedule'
 
 class DeleteSiteHeaderButton extends React.Component {
   constructor (props) {
@@ -62,6 +63,7 @@ const mapDispatchToProps = dispatch => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   deleteContact: (id) => dispatch(deleteContact(id)),
   deleteWell: (id) => dispatch(deleteWell(id)),
+  deleteSchedule: (id) => dispatch(deleteSchedule(id)),
 })
 
 export default connect(null, mapDispatchToProps)(DeleteSiteHeaderButton)

@@ -16,7 +16,7 @@ class SiteDataImport extends React.Component {
     if (!site) { return null }
 
     return (
-      <div>
+      <div className="data-uploads has-navbar">
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/data-import/field-data`}
