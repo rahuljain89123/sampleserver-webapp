@@ -23,7 +23,7 @@ class NewClient extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="new-client has-navbar">
         <Row>
           <Col sm={12} md={8}>
             <NewClientForm push={this.props.push} />
