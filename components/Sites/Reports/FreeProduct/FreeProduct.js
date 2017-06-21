@@ -178,7 +178,7 @@ class FreeProduct extends React.Component {
       this.props,
       this.checkedImage,
       this.uncheckedImage,
-      (gsvWell) => gsvWell.get('substance_sum')
+      (gsvWell) => gsvWell.get('substance_sum'),
     )
   }
 
@@ -199,7 +199,7 @@ class FreeProduct extends React.Component {
 
     const booleanOptions = [
       { value: 'true', label: 'ON' },
-      { value: 'false', label: 'OFF' }
+      { value: 'false', label: 'OFF' },
     ]
 
     const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
@@ -214,16 +214,17 @@ class FreeProduct extends React.Component {
       const allWells = contouringFn.allWells(siteMapWells, siteMapId, zeroWells)
 
 
-      siteMapComponent = <SiteMapRenderer
-        imageUrl={currentSiteMap.get('url')}
-        wells={allWells}
-        onClick={this.processClickEvent}
-        drawWellMarker={this.drawWellMarker}
+      siteMapComponent = (
+        <SiteMapRenderer
+          imageUrl={currentSiteMap.get('url')}
+          wells={allWells}
+          onClick={this.processClickEvent}
+          drawWellMarker={this.drawWellMarker}
         />
+      )
     }
 
-    let contouringForm = null
-    contouringForm = (
+    const contouringForm = (
       <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
         <Field
           props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
@@ -274,11 +275,10 @@ class FreeProduct extends React.Component {
         </div>
       </Form>
     )
-    const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+
+    // Create sidebar content, if the site doesn't have wells yet, give the user a link to add them.
     let sidebarContent = null
-
-    if (currentSiteMap) {
-
+    if (this.props.siteMaps.size) {
       sidebarContent = contouringForm
     } else {
       sidebarContent = (
@@ -321,7 +321,7 @@ const mapStateToProps = (state, ownProps) => ({
   substanceIds: selector(state, 'substance_ids'),
   date_collected: selector(state, 'date_collected'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),
-  selectedWells: selector(state, 'selectedWells')
+  selectedWells: selector(state, 'selectedWells'),
 })
 
 const mapDispatchToProps = dispatch => ({
