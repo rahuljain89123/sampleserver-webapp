@@ -29,21 +29,6 @@ export const receiveSchedules = schedules => ({
   schedules,
 })
 
-export const fetchSchedule = id =>
-  dispatch =>
-    API.get(`/schedules/${id}`)
-    .then(schedule => {
-      dispatch(receiveSchedule(schedule))
-      return Promise.resolve(schedule)
-    })
-
-export const fetchSchedules = (filters = {}) =>
-  dispatch =>
-    API.get(`/schedules/?${qs.stringify(filters)}`)
-    .then(schedules => {
-      dispatch(receiveSchedules(schedules))
-    })
-
 export const removeSchedule = id => ({
   type: REMOVE_SCHEDULE,
   id,
@@ -63,9 +48,39 @@ export const clearCreatingScheduleError = () => ({
   type: CLEAR_CREATING_SCHEDULE_ERROR,
 })
 
+
+export const setEditingSchedule = editing => ({
+  type: SET_EDITING_SCHEDULE,
+  editing,
+})
+
+export const setEditingScheduleError = error => ({
+  type: SET_EDITING_SCHEDULE_ERROR,
+  error,
+})
+
+export const clearEditingScheduleError = () => ({
+  type: CLEAR_EDITING_SCHEDULE_ERROR,
+})
+
 /*****************************************************************************
  * THUNK ACTION CREATORS
  *****************************************************************************/
+
+export const fetchSchedule = id =>
+ dispatch =>
+   API.get(`/schedules/${id}`)
+   .then(schedule => {
+     dispatch(receiveSchedule(schedule))
+     return Promise.resolve(schedule)
+   })
+
+export const fetchSchedules = (filters = {}) =>
+ dispatch =>
+   API.get(`/schedules/?${qs.stringify(filters)}`)
+   .then(schedules => {
+     dispatch(receiveSchedules(schedules))
+   })
 
 export const createSchedule = schedule =>
   dispatch => {
@@ -93,20 +108,6 @@ export const createSchedule = schedule =>
       return Promise.reject()
     })
   }
-
-export const setEditingSchedule = editing => ({
-  type: SET_EDITING_SCHEDULE,
-  editing,
-})
-
-export const setEditingScheduleError = error => ({
-  type: SET_EDITING_SCHEDULE_ERROR,
-  error,
-})
-
-export const clearEditingScheduleError = () => ({
-  type: CLEAR_EDITING_SCHEDULE_ERROR,
-})
 
 export const editSchedule = (id, scheduleParams) =>
   dispatch => {
