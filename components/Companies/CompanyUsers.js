@@ -203,7 +203,7 @@ const mapStateToProps = (store, ownProps) => {
 
   const roles = store.get('roles')
     .filter(role => role.get('id') === 4 || role.get('id') === 5)
-    .filter(role => role.get('id') >= cURole.get('id'))
+    .filter(role => cURole && (role.get('id') >= cURole.get('id')))
     .sort((a, b) => a.get('id') - b.get('id'))
 
   const companyId = ownProps.currentCompany.get('id')

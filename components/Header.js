@@ -72,6 +72,12 @@ class Header extends React.Component {
         push={this.props.push}
       />
     } else {
+      if (button.get('minimumUserRole') &&
+          this.props.roleId &&
+          this.props.roleId > button.get('minimumUserRole')
+      ) {
+        return null
+      }
       return (
         <button key={index} className="btn btn-default" onClick={() => this.props.push(button.get('onClick'))}>
           {button.get('iconName') ? <i className={`material-icons ${button.get('className')}`}>{button.get('iconName')}</i> : ''}
@@ -165,6 +171,7 @@ const mapStateToProps = store => ({
   user: currentUser(store),
   labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
   userEmail: safeGet(currentUser(store), 'email', ''),
+  roleId: safeGet(currentUserRole(store), 'id', null),
   roleDescription: safeGet(currentUserRole(store), 'description', ''),
   company: currentCompany(store),
   sites: store.get('sites'),

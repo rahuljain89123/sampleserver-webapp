@@ -6,6 +6,7 @@ import { Route, Redirect, Switch } from 'react-router-dom'
 import ClientApp from './ClientApp'
 import LabApp from './LabApp'
 import CompanyApp from './CompanyApp'
+import TechnicianApp from './TechnicianApp'
 import Sidebar from 'components/Sidebar'
 import Header from 'components/Header'
 import PrivateRoute from 'components/Auth'
@@ -50,6 +51,7 @@ class App extends React.Component {
             <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
             <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
             <PrivateRoute path="/app" component={ClientApp} authorized={['ClientManager']} />
+            <PrivateRoute path="/app" component={TechnicianApp} authorized={['Technician']} />
           </div>
         </div>
       </div>

@@ -17,7 +17,8 @@ import {
 import { setHeaderInfo, flashMessage } from 'actions/global'
 import { fetchSites } from 'actions/sites'
 import { fetchClients, deleteClient } from 'actions/clients'
-
+import { currentUserRole } from 'normalizers'
+import { CLIENT_MANAGER_ROLE_ID } from 'constants/database/RoleIds'
 
 class ClientSites extends React.Component {
   constructor (props) {
@@ -41,11 +42,13 @@ class ClientSites extends React.Component {
         text: 'Client',
         onClick: '/app/clients/new',
         iconName: 'add_circle_outline',
+        minimumUserRole: CLIENT_MANAGER_ROLE_ID,
       },
       {
         text: 'Site',
         onClick: '/app/sites/new',
         iconName: 'add_circle_outline',
+        minimumUserRole: CLIENT_MANAGER_ROLE_ID,
       }],
     )
   }
@@ -155,11 +158,13 @@ class ClientSites extends React.Component {
   }
 }
 
-const mapStateToProps = store => ({
-  clients: store.get('clients'),
-  sites: store.get('sites'),
-  headerInfo: store.get('headerInfo'),
-})
+const mapStateToProps = (store) => {
+  return {
+    clients: store.get('clients'),
+    sites: store.get('sites'),
+    headerInfo: store.get('headerInfo'),
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   fetchClients: () => dispatch(fetchClients()),
