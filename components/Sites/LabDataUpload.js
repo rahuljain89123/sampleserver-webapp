@@ -63,7 +63,7 @@ class LabDataUpload extends React.Component {
 
     if (uploads.size) {
       uploadsTable = (
-        <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
+        <Table size="sm">
           <thead>
             <tr>
               <th>Filename</th>
