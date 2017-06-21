@@ -20,7 +20,7 @@ const UserForm = (props) => {
   return (
     <div>
       <h6>Add {currentRole.get('description')}</h6>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)} className="user-form">
         <FormGroup>
           <InputGroup>
             <Field

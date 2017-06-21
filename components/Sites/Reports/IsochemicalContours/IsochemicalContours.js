@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import download from 'downloadjs'
 
 import {
@@ -268,91 +270,109 @@ class IsochemicalContours extends React.Component {
 
       const allWells = contouringFn.allWells(siteMapWells, siteMapId, zeroWells)
 
-      siteMapComponent = <SiteMapRenderer
-        imageUrl={currentSiteMap.get('url')}
-        wells={allWells}
-        onClick={this.processClickEvent}
-        drawWellMarker={this.drawWellMarker}
+      siteMapComponent = (
+        <SiteMapRenderer
+          imageUrl={currentSiteMap.get('url')}
+          wells={allWells}
+          onClick={this.processClickEvent}
+          drawWellMarker={this.drawWellMarker}
         />
+      )
+    }
+
+    const contouringForm = (
+      <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
+        <Field
+          props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
+          name='sitemap_id'
+          id='sitemap_id'
+          component={SelectFormGroup}
+          options={siteMapOptions}
+        />
+
+        <Field
+          props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
+          name='date_collected'
+          id='date_collected'
+          options={startDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
+          name='date_collected_range_end'
+          id='date_collected_range_end'
+          options={endDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <label htmlFor="">Substances</label>
+        <FieldArray
+          name='substance_ids'
+          id='substance_ids'
+          component={SelectSubstances}
+          options={substanceOptions}
+          substances={this.props.substances}
+        />
+
+        <Field
+          props={{placeholder: 'Zero Line?', label: 'Zero Line', location: 'sidebar'}}
+          name='zero_line'
+          id='zero_line'
+          options={booleanOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{placeholder: 'Heatmap?', label: 'Heatmap', location: 'sidebar'}}
+          name='heatmap'
+          id='heatmap'
+          options={booleanOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{placeholder: 'Scale', label: 'Scale', location: 'sidebar'}}
+          name='scale'
+          id='scale'
+          options={scaleOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'Title'}}
+          name='title_wildcard'
+          id='title_wildcard'
+          type='text'
+          component={IndividualFormGroup}
+        />
+
+        <div className='centered-btn'>
+          <Button  disabled={shouldDisableButton} color="primary" className="download-report-btn btn-lg btn-block">
+            Generate Report
+          </Button>
+        </div>
+      </Form>
+    )
+
+    // Create sidebar content, if the site doesn't have wells yet, give the user a link to add them.
+    let sidebarContent = null
+    if (this.props.siteMaps.size) {
+      sidebarContent = contouringForm
+    } else {
+      sidebarContent = (
+        <span>
+          <Link to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/new`}>Upload a sitemap</Link> and place wells before using this feature.
+        </span>
+      )
     }
 
     return (
       <div className='site-map'>
       <div className='inner-sidebar contouring-sidebar'>
         <div className='sidebar-content'>
-        {errorDisplay}
-        <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
-          <Field
-            props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
-            name='sitemap_id'
-            id='sitemap_id'
-            component={SelectFormGroup}
-            options={siteMapOptions}
-          />
-
-          <Field
-            props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
-            name='date_collected'
-            id='date_collected'
-            options={startDateOptions}
-            component={SelectFormGroup}
-          />
-
-          <Field
-            props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
-            name='date_collected_range_end'
-            id='date_collected_range_end'
-            options={endDateOptions}
-            component={SelectFormGroup}
-          />
-
-          <label htmlFor="">Substances</label>
-          <FieldArray
-            name='substance_ids'
-            id='substance_ids'
-            component={SelectSubstances}
-            options={substanceOptions}
-            substances={this.props.substances}
-          />
-
-          <Field
-            props={{placeholder: 'Zero Line?', label: 'Zero Line', location: 'sidebar'}}
-            name='zero_line'
-            id='zero_line'
-            options={booleanOptions}
-            component={SelectFormGroup}
-          />
-
-          <Field
-            props={{placeholder: 'Heatmap?', label: 'Heatmap', location: 'sidebar'}}
-            name='heatmap'
-            id='heatmap'
-            options={booleanOptions}
-            component={SelectFormGroup}
-          />
-
-          <Field
-            props={{placeholder: 'Scale', label: 'Scale', location: 'sidebar'}}
-            name='scale'
-            id='scale'
-            options={scaleOptions}
-            component={SelectFormGroup}
-          />
-
-          <Field
-            props={{label: 'Title'}}
-            name='title_wildcard'
-            id='title_wildcard'
-            type='text'
-            component={IndividualFormGroup}
-          />
-
-          <div className='centered-btn'>
-            <Button  disabled={shouldDisableButton} color="primary" className="download-report-btn btn-lg btn-block">
-              Generate Report
-            </Button>
-          </div>
-        </Form>
+          {errorDisplay}
+          {sidebarContent}
         </div>
       </div>
       <div className='site-map-content'>
@@ -381,7 +401,7 @@ const mapStateToProps = (state, ownProps) => ({
   substanceIds: selector(state, 'substance_ids'),
   date_collected: selector(state, 'date_collected'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),
-  selectedWells: selector(state, 'selectedWells')
+  selectedWells: selector(state, 'selectedWells'),
 })
 
 const mapDispatchToProps = dispatch => ({

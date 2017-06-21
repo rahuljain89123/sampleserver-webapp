@@ -88,15 +88,17 @@ class EditClientForm extends React.Component {
 
     return (
       <Form onSubmit={e => this.onSubmit(e)}>
-        <FormGroup color={errors.name ? 'danger' : ''}>
-          <Label for="name">Name</Label>
-          <Input
-            state={errors.name ? 'danger' : ''}
-            name="name"
-            id="name"
-            value={this.state.name}
-            onChange={e => this.onChange(e)}
-          />
+        <FormGroup row color={errors.name ? 'danger' : ''}>
+          <Label sm={2} for="name">Name</Label>
+          <div className="col-sm-9">
+            <Input
+              state={errors.name ? 'danger' : ''}
+              name="name"
+              id="name"
+              value={this.state.name}
+              onChange={e => this.onChange(e)}
+            />
+          </div>
           <FormFeedback>{errors.name}</FormFeedback>
         </FormGroup>
         <PrivateRoute

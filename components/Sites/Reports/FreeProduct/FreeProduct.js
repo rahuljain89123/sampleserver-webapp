@@ -1,5 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+
 import download from 'downloadjs'
 
 
@@ -174,7 +176,7 @@ class FreeProduct extends React.Component {
       this.props,
       this.checkedImage,
       this.uncheckedImage,
-      (gsvWell) => gsvWell.get('substance_sum')
+      (gsvWell) => gsvWell.get('substance_sum'),
     )
   }
 
@@ -209,7 +211,7 @@ class FreeProduct extends React.Component {
 
     const booleanOptions = [
       { value: 'true', label: 'ON' },
-      { value: 'false', label: 'OFF' }
+      { value: 'false', label: 'OFF' },
     ]
 
     const shouldDisableButton = !this.props.groupedSampleValues.size || this.renderZeroError() || this.props.submittingReport
@@ -232,12 +234,78 @@ class FreeProduct extends React.Component {
       const allWells = contouringFn.allWells(siteMapWells, siteMapId, zeroWells)
 
 
-      siteMapComponent = <SiteMapRenderer
-        imageUrl={currentSiteMap.get('url')}
-        wells={allWells}
-        onClick={this.processClickEvent}
-        drawWellMarker={this.drawWellMarker}
+      siteMapComponent = (
+        <SiteMapRenderer
+          imageUrl={currentSiteMap.get('url')}
+          wells={allWells}
+          onClick={this.processClickEvent}
+          drawWellMarker={this.drawWellMarker}
         />
+      )
+    }
+
+    const contouringForm = (
+      <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
+        <Field
+          props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
+          name='sitemap_id'
+          id='sitemap_id'
+          component={SelectFormGroup}
+          options={siteMapOptions}
+        />
+
+        <Field
+          props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
+          name='date_collected'
+          id='date_collected'
+          options={startDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
+          name='date_collected_range_end'
+          id='date_collected_range_end'
+          options={endDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{placeholder: 'Zero Line?', label: 'Zero Line', location: 'sidebar'}}
+          name='zero_line'
+          id='zero_line'
+          options={booleanOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'Title', location: 'sidebar'}}
+          name='title_wildcard'
+          id='title_wildcard'
+          type='text'
+          component={IndividualFormGroup}
+        />
+
+        <div className='centered-btn'>
+          <Button
+            disabled={shouldDisableButton}
+            className="download-report-btn btn-lg btn-block"
+            color="primary"
+          >Contour</Button>
+        </div>
+      </Form>
+    )
+
+    // Create sidebar content, if the site doesn't have wells yet, give the user a link to add them.
+    let sidebarContent = null
+    if (this.props.siteMaps.size) {
+      sidebarContent = contouringForm
+    } else {
+      sidebarContent = (
+        <span>
+          <Link to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/new`}>Upload a sitemap</Link> and place wells before using this feature.
+        </span>
+      )
     }
 
     return (
@@ -245,55 +313,7 @@ class FreeProduct extends React.Component {
         <div className='inner-sidebar contouring-sidebar'>
           <div className='sidebar-content'>
             {errorDisplay}
-            <Form className='contouring-form' onSubmit={handleSubmit(this.onSubmit)}>
-              <Field
-                props={{placeholder: 'Select Sitemap', label: 'Sitemap', location: 'sidebar'}}
-                name='sitemap_id'
-                id='sitemap_id'
-                component={SelectFormGroup}
-                options={siteMapOptions}
-              />
-
-              <Field
-                props={{placeholder: 'Select Date', label: 'Start Date', location: 'sidebar'}}
-                name='date_collected'
-                id='date_collected'
-                options={startDateOptions}
-                component={SelectFormGroup}
-              />
-
-              <Field
-                props={{placeholder: 'Select End Date (optional)', label: 'End Date', location: 'sidebar'}}
-                name='date_collected_range_end'
-                id='date_collected_range_end'
-                options={endDateOptions}
-                component={SelectFormGroup}
-              />
-
-              <Field
-                props={{placeholder: 'Zero Line?', label: 'Zero Line', location: 'sidebar'}}
-                name='zero_line'
-                id='zero_line'
-                options={booleanOptions}
-                component={SelectFormGroup}
-              />
-
-              <Field
-                props={{label: 'Title', location: 'sidebar'}}
-                name='title_wildcard'
-                id='title_wildcard'
-                type='text'
-                component={IndividualFormGroup}
-              />
-
-              <div className='centered-btn'>
-                <Button
-                  disabled={shouldDisableButton}
-                  className="download-report-btn btn-lg btn-block"
-                  color="primary"
-                >Contour</Button>
-              </div>
-            </Form>
+            {sidebarContent}
           </div>
         </div>
         <div className='site-map-content'>
@@ -321,7 +341,7 @@ const mapStateToProps = (state, ownProps) => ({
   substanceIds: selector(state, 'substance_ids'),
   date_collected: selector(state, 'date_collected'),
   date_collected_range_end: selector(state, 'date_collected_range_end'),
-  selectedWells: selector(state, 'selectedWells')
+  selectedWells: selector(state, 'selectedWells'),
 })
 
 const mapDispatchToProps = dispatch => ({

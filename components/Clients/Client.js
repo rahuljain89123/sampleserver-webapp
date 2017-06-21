@@ -6,6 +6,7 @@ import {
   Row,
   Col,
   Nav,
+  NavItem,
 } from 'reactstrap'
 
 import { fetchClient } from '../../actions/clients'
@@ -56,23 +57,25 @@ class Client extends React.Component {
     }
 
     return (
-      <div>
-        <div>
-          <Nav pills style={{ marginTop: 20, marginBottom: 20 }}>
+      <div className="manage-client has-navbar">
+        <Nav tabs>
+          <NavItem>
             <NavLink
               exact
               to={`/app/clients/${client.get('id')}`}
               className="nav-link"
               activeClassName="active"
             >Details</NavLink>
+          </NavItem>
+          <NavItem>
             <NavLink
               exact
               to={`/app/clients/${client.get('id')}/users`}
               className="nav-link"
               activeClassName="active"
             >Manage Users</NavLink>
-          </Nav>
-        </div>
+          </NavItem>
+        </Nav>
         <Route
           exact
           path="/app/clients/:id"

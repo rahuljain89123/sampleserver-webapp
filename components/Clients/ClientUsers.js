@@ -18,6 +18,10 @@ import {
   Badge,
   Breadcrumb,
   BreadcrumbItem,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/Team/UsersTable'
@@ -37,11 +41,30 @@ class ClientUsers extends React.Component {
     super(props)
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onInviteUser = this.onInviteUser.bind(this)
+    this.hideModal = this.hideModal.bind(this)
+
+    this.state = {
+      invitingUser: false,
+      error: false,
+    }
   }
 
   componentDidMount () {
     this.props.fetchUsers({ clients: this.props.clientId })
     this.props.fetchClient(this.props.clientId)
+  }
+
+  onInviteUser () {
+    this.setState({ invitingUser: true })
+  }
+
+  hideModal () {
+    this.setState({ invitingUser: false })
+  }
+
+  clearError () {
+    this.setState({ error: false })
   }
 
   onSubmit (userParams) {
@@ -56,11 +79,16 @@ class ClientUsers extends React.Component {
 
     this.props.createUser(user)
       .then(() => {
+        this.clearError()
+        this.setState({ invitingUser: false })
         this.props.flashMessage('success', 'User invited successfully.')
         // Need to fetch client to update client's user_ids
         this.props.fetchClient(this.props.clientId)
       })
-      .catch(e => this.props.flashMessage('danger', msgFromError(e)))
+      .catch(e => {
+        this.props.flashMessage('danger', msgFromError(e))
+        this.setState({ error: msgFromError(e) })
+      })
   }
 
   render () {
@@ -73,15 +101,34 @@ class ClientUsers extends React.Component {
     const users = this.props.users.entrySeq()
     const role = this.props.role
 
+    let errorDisplay = null
+    if (this.state.error) {
+      errorDisplay = (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          <button type="button" className="close" onClick={() => this.clearError()}>
+            <span aria-hidden="true">&times;</span>
+          </button>
+          {this.state.error}
+        </div>
+      )
+    }
+
     return (
-      <div>
+      <div className="client-users">
+        <div className="nav-item action">
+          <a className="nav-link invite-users" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite {role.get('description')}</a>
+        </div>
         <UsersTable users={users} />
-        <Row>
-          <UserForm
-            currentRole={role}
-            onSubmit={this.onSubmit}
-          />
-        </Row>
+        <Modal isOpen={this.state.invitingUser} toggle={this.hideModal}>
+          <ModalHeader toggle={this.hideModal}>Invite {role.get('description')}</ModalHeader>
+          <ModalBody>
+            {errorDisplay}
+            <UserForm
+              currentRole={role}
+              onSubmit={this.onSubmit}
+            />
+          </ModalBody>
+        </Modal>
       </div>
     )
   }

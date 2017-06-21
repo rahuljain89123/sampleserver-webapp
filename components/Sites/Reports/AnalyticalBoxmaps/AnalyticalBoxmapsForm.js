@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import download from 'downloadjs'
 
 import {
@@ -68,7 +69,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
       .then(() => {
         if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {
-          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first().get('id')))
+          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first() ? this.props.siteMaps.first().get('id') : null))
         }
       })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
@@ -225,64 +226,80 @@ class AnalyticalBoxmapsForm extends React.Component {
       }
     }
 
+    let boxmapsForm = null
+    boxmapsForm = (
+      <Form onSubmit={handleSubmit(this.onSubmit)}>
+        <Field
+          props={{label: 'Site Map', placeholder: 'Select Site Map', location: 'sidebar'}}
+          name='sitemap_id'
+          id='sitemap_id'
+          options={siteMapOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'Start Date', placeholder: 'Select start date', location: 'sidebar'}}
+          name='date_collected'
+          id='date_collected'
+          options={startDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'End Date', placeholder: 'Select end date (optional)', location: 'sidebar'}}
+          name='date_collected_range_end'
+          id='date_collected_range_end'
+          options={endDateOptions}
+          component={SelectFormGroup}
+        />
+
+        <Field
+          props={{label: 'Comparison Criteria', placeholder: ' ', location: 'sidebar'}}
+          name='criteria_id'
+          id='criteria_id'
+          options={criteriaOptions}
+          component={SelectFormGroup}
+        />
+
+        <label htmlFor="">Substances</label>
+        <ul className="substances-list">
+          {siteSubstances}
+        </ul>
+        { showSubstancesDropdown &&
+          <div className="form-group">
+            <Select
+              options={groupedSubstanceOptions}
+              placeholder='Add substance...'
+              onChange={(v) => this.addSubstance(v.value)}
+            />
+          </div>
+        }
+
+        { boxmapsButton }
+      </Form>
+    )
+
+    const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+    let sidebarContent = null
+
+    if (currentSiteMap) {
+
+      sidebarContent = boxmapsForm
+    } else {
+      sidebarContent = (
+        <span>
+          <Link to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/new`}>Upload a sitemap</Link> and place wells before using this feature.
+        </span>
+      )
+    }
+
     return (
       <div className='site-map analytical-boxmaps'>
         <div className='inner-sidebar'>
-        <div className='sidebar-content'>
-          <Form onSubmit={handleSubmit(this.onSubmit)}>
-            <Field
-              props={{label: 'Site Map', placeholder: 'Select Site Map', location: 'sidebar'}}
-              name='sitemap_id'
-              id='sitemap_id'
-              options={siteMapOptions}
-              component={SelectFormGroup}
-            />
-
-            <Field
-              props={{label: 'Start Date', placeholder: 'Select start date', location: 'sidebar'}}
-              name='date_collected'
-              id='date_collected'
-              options={startDateOptions}
-              component={SelectFormGroup}
-            />
-
-            <Field
-              props={{label: 'End Date', placeholder: 'Select end date (optional)', location: 'sidebar'}}
-              name='date_collected_range_end'
-              id='date_collected_range_end'
-              options={endDateOptions}
-              component={SelectFormGroup}
-            />
-
-            <Field
-              props={{label: 'Comparison Criteria', placeholder: ' ', location: 'sidebar'}}
-              name='criteria_id'
-              id='criteria_id'
-              options={criteriaOptions}
-              component={SelectFormGroup}
-            />
-
-            <label htmlFor="">Substances</label>
-            <ul className="substances-list">
-              {siteSubstances}
-            </ul>
-
-            { showSubstancesDropdown &&
-              <div className="form-group">
-                <label htmlFor="">Add Substance</label>
-                <Select
-                  options={groupedSubstanceOptions}
-                  placeholder='Select a substance...'
-                  onChange={(v) => this.addSubstance(v.value)}
-                />
-
-              </div>
-            }
-
-
-            { boxmapsButton }
-          </Form>
-        </div></div>
+          <div className='sidebar-content'>
+            {sidebarContent}
+          </div>
+        </div>
         <div className='site-map-content'>
           {boxmapsPreview}
         </div>

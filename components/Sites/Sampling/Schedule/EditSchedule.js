@@ -55,16 +55,29 @@ class EditSchedule extends React.Component {
     this.editSchedule = this.editSchedule.bind(this)
   }
 
+  componentWillMount () {
+    this.props.fetchWells({ site_id: this.props.site.get('id') })
+  }
+
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
 
     this.props.fetchSchedule(this.state.scheduleId).then((schedule) => {
       const formattedDate = moment(schedule.date).utc().format('YYYY-MM-DD')
-      this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`)
+      this.props.setHeaderInfo(`Edit Schedule: ${formattedDate}`, [{
+        component: 'DeleteHeaderButton',
+        props: {
+          deleteMethodName: 'deleteSchedule',
+          deleteId: this.state.scheduleId,
+          successMessage: 'Schedule deleted',
+          redirectPath: `/app/sites/${schedule.site_id}/sampling/sample-schedule`,
+          buttonText: 'Delete Schedule',
+        },
+      }])
     })
     this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId })
-    this.props.setHeaderInfo(`Edit Schedule: `)
+    this.props.setHeaderInfo('Edit Schedule')
   }
 
   onChange (e) {
@@ -95,7 +108,26 @@ class EditSchedule extends React.Component {
    * Toggle the given test for the well.
    */
   toggleTest (e, testId, wellId, scheduleId) {
-    if (e.target.checked) {
+    if (wellId === 'all') {
+      // Enable this test for all wells
+      this.props.wells.forEach(well => {
+        this.props.createScheduleWellTest({
+          test_id: testId,
+          well_id: well.get('id'),
+          schedule_id: scheduleId,
+        })
+        this.props.editSchedule(this.state.scheduleId, {
+          skipped_wells: {
+            add: [],
+            remove: [well.get('id')],
+          },
+          gauged_wells: {
+            add: [],
+            remove: [well.get('id')],
+          },
+        })
+      })
+    } else if (e.target.checked) {
       // Checked, enable the test!
       this.props.createScheduleWellTest({
         test_id: testId,
@@ -127,7 +159,22 @@ class EditSchedule extends React.Component {
    *  also removes all tests for that particular well.
    */
   toggleGaugedWell (e, wellId) {
-    if (e.target.checked) {
+    if (wellId === 'all') {
+      // Enable this test for all wells
+      this.props.wells.forEach(well => {
+        this.props.editSchedule(this.state.scheduleId, {
+          skipped_wells: {
+            add: [],
+            remove: [well.get('id')],
+          },
+          gauged_wells: {
+            add: [well.get('id')],
+            remove: [],
+          },
+        })
+        this.removeTestsFromWell(well.get('id'))
+      })
+    } else if (e.target.checked) {
       this.props.editSchedule(this.state.scheduleId, {
         gauged_wells: {
           add: [wellId],
@@ -156,7 +203,22 @@ class EditSchedule extends React.Component {
    *  also removes all tests for that particular well.
    */
   toggleSkipWell (e, wellId) {
-    if (e.target.checked) {
+    if (wellId === 'all') {
+      // Enable this test for all wells
+      this.props.wells.forEach(well => {
+        this.props.editSchedule(this.state.scheduleId, {
+          skipped_wells: {
+            add: [well.get('id')],
+            remove: [],
+          },
+          gauged_wells: {
+            add: [],
+            remove: [well.get('id')],
+          },
+        })
+        this.removeTestsFromWell(well.get('id'))
+      })
+    } else if (e.target.checked) {
       this.props.editSchedule(this.state.scheduleId, {
         skipped_wells: {
           add: [wellId],
@@ -222,7 +284,7 @@ class EditSchedule extends React.Component {
       const mycheck = this.props.scheduleWellTests
         .filter(schedulewelltest =>
           (schedulewelltest.get('well_id') === wellId &&
-          schedulewelltest.get('test_id') === testId)
+          schedulewelltest.get('test_id') === testId),
         )
         .first()
 
@@ -264,11 +326,10 @@ class EditSchedule extends React.Component {
             <div className="col-sm-10">
               <Select
                 onChange={e => this.onChange(e)}
-                className="form-control"
+                className="select-tests"
                 value={this.state.test}
                 options={testOptions}
-                />
-
+              />
             </div>
             <div className="col-sm-2">
               <button className="btn btn-primary btn-block" onClick={e => this.addTest(e)}>Add Test</button>
@@ -279,8 +340,14 @@ class EditSchedule extends React.Component {
             <thead>
               <tr>
                 <th>&nbsp;</th>
-                <th>Do Not Sample or Gauge</th>
-                <th>Gauge Only</th>
+                <th>
+                  Do Not Sample or Gauge
+                  <span className="select-all" onClick={e => this.toggleSkipWell(e, 'all')}>Select All</span>
+                </th>
+                <th>
+                  Gauge Only
+                  <span className="select-all" onClick={e => this.toggleGaugedWell(e, 'all')}>Select All</span>
+                </th>
                 {schedule.get('test_ids').map(testId => (
                   <th key={testId}>
                     {this.props.tests.get(testId).get('title')}
@@ -288,6 +355,7 @@ class EditSchedule extends React.Component {
                       className="fa fa-times pointer"
                       onClick={e => this.deleteTest(e, testId)}
                     />
+                    <span className="select-all" onClick={e => this.toggleTest(e, testId, 'all', schedule.get('id'))}>Select All</span>
                   </th>
                 ))}
               </tr>
@@ -332,7 +400,7 @@ class EditSchedule extends React.Component {
       return <div className="sample-schedule"><p>No tests found for this state.</p></div>
     }
     if (!wells.size) {
-      return <div className="sample-schedule"><p>No wells found for this site.</p></div>
+      return <div className="sample-schedule"><p>No wells found for this site. <Link to={`/app/sites/${site.get('id')}/setup/wells`}>Add Wells</Link></p></div>
     }
     return (
       <div className="sample-schedule">
