@@ -1,17 +1,17 @@
 
 import React from 'react'
 
-import PrivateRoute from './Auth'
+import PrivateRoute from 'components/Auth'
 
-import ClientSites from './Clients/ClientSites'
+import ClientSites from 'Clients/ClientSites'
 
-import Client from './Clients/Client'
-import NewClient from './Clients/NewClient'
+import Client from 'Clients/Client'
+import NewClient from 'Clients/NewClient'
 
-import NewSite from './Sites/NewSite'
+import NewSite from 'Sites/NewSite'
 
-import SiteApp from './SiteApp'
-import TeamCompanyUsers from './Companies/TeamCompanyUsers'
+import SiteApp from 'Sites/App/SiteApp'
+import TeamCompanyUsers from 'Companies/TeamCompanyUsers'
 
 const CompanyApp = () => (
   <div className="company-app container-fluid">

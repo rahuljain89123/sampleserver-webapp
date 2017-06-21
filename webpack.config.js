@@ -17,6 +17,9 @@ var config = {
     modules: ["node_modules", path.resolve(__dirname)],
     alias: {
       SharedComponents: path.resolve(__dirname, 'components/SharedComponents/'),
+      Clients: path.resolve(__dirname, 'components/Clients/'),
+      Companies: path.resolve(__dirname, 'components/Companies/'),
+      Labs: path.resolve(__dirname, 'components/Labs/'),
       Sites: path.resolve(__dirname, 'components/Sites/')
     }
   },

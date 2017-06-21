@@ -3,12 +3,12 @@ import React from 'react'
 import { Row, Col } from 'reactstrap'
 import { NavLink, Switch } from 'react-router-dom'
 
-import PrivateRoute from './Auth'
+import PrivateRoute from 'components/Auth'
 
-import LabClients from './Companies/LabClients'
-import LabClient from './Companies/LabClient'
-import NewLabClient from './Companies/NewLabClient'
-import TeamLabUsers from './Labs/TeamLabUsers'
+import LabClients from 'Companies/LabClients'
+import LabClient from 'Companies/LabClient'
+import NewLabClient from 'Companies/NewLabClient'
+import TeamLabUsers from 'Labs/TeamLabUsers'
 
 const LabApp = () => (
   <div className="container-fluid">

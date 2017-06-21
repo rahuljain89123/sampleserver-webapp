@@ -3,13 +3,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Redirect, Switch } from 'react-router-dom'
 
-import PrivateRoute from './Auth'
 import ClientApp from './ClientApp'
 import LabApp from './LabApp'
 import CompanyApp from './CompanyApp'
-// <<<<<<< HEAD
 import Sidebar from 'components/Sidebar'
 import Header from 'components/Header'
+import PrivateRoute from 'components/Auth'
 
 import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
