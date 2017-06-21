@@ -4,13 +4,13 @@ import qs from 'qs'
 import {
   RECEIVE_SCHEDULE,
   RECEIVE_SCHEDULES,
+  REMOVE_SCHEDULE,
   SET_CREATING_SCHEDULE,
   SET_CREATING_SCHEDULE_ERROR,
   CLEAR_CREATING_SCHEDULE_ERROR,
   SET_EDITING_SCHEDULE,
   SET_EDITING_SCHEDULE_ERROR,
   CLEAR_EDITING_SCHEDULE_ERROR,
-  REMOVE_SCHEDULE,
 } from 'constants/ScheduleActionTypes'
 import API from 'API'
 import pickBy from 'lodash/pickBy'
@@ -44,6 +44,11 @@ export const fetchSchedules = (filters = {}) =>
       dispatch(receiveSchedules(schedules))
     })
 
+export const removeSchedule = id => ({
+  type: REMOVE_SCHEDULE,
+  id,
+})
+
 export const setCreatingSchedule = creating => ({
   type: SET_CREATING_SCHEDULE,
   creating,
@@ -57,12 +62,6 @@ export const setCreatingScheduleError = error => ({
 export const clearCreatingScheduleError = () => ({
   type: CLEAR_CREATING_SCHEDULE_ERROR,
 })
-
-export const removeSchedule = id => ({
-  type: REMOVE_SCHEDULE,
-  id,
-})
-
 
 /*****************************************************************************
  * THUNK ACTION CREATORS
