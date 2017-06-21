@@ -27,6 +27,7 @@ import {
 import SiteNav from 'components/Sites/App/SiteNav'
 import { fetchSite } from 'actions/sites'
 
+import { CLIENT_MANAGER_ROLE_ID, TECHNICIAN_ROLE_ID } from 'constants/database/RoleIds'
 
 class Sidebar extends React.Component {
   constructor (props) {
@@ -66,15 +67,17 @@ class Sidebar extends React.Component {
   }
 
   render () {
-    // const site = this.props.sites.get(this.state.siteId)
     const roleDescription = this.props.roleDescription
-    // if (!site) { return null }
 
     let nameSpan = null
     let profileImgSrc = null
     let myNav = null
+    let showManageTeam = true
 
     if (this.props.user) {
+      showManageTeam = !this.props.user.get('role_id') === CLIENT_MANAGER_ROLE_ID &&
+        !this.props.user.get('role_id') === TECHNICIAN_ROLE_ID
+
       nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
       profileImgSrc = this.props.user.get('photo_url') ? this.props.user.get('photo_url') : '/static/img/blank-avatar.png'
     } else {
@@ -116,12 +119,13 @@ class Sidebar extends React.Component {
                       className="nav-link nav-parent"
                       activeClassName="active"
                     >Dashboard</NavLink>
-                    <NavLink
-                      exact
-                      to={`/app/team`}
-                      className="nav-link nav-parent"
-                      activeClassName="active"
-                    >Manage Team</NavLink>
+                    { showManageTeam && <NavLink
+                        exact
+                        to={`/app/team`}
+                        className="nav-link nav-parent"
+                        activeClassName="active"
+                      >Manage Team</NavLink>
+                    }
                   </nav>
                 )}
               />
@@ -139,12 +143,13 @@ class Sidebar extends React.Component {
                       className="nav-link nav-parent"
                       activeClassName="active"
                     >Dashboard</NavLink>
-                    <NavLink
-                      exact
-                      to={`/app/team`}
-                      className="nav-link nav-parent"
-                      activeClassName="active"
-                    >Manage Team</NavLink>
+                    { showManageTeam && <NavLink
+                        exact
+                        to={`/app/team`}
+                        className="nav-link nav-parent"
+                        activeClassName="active"
+                      >Manage Team</NavLink>
+                    }
                   </nav>
                 )}
               />
@@ -173,6 +178,7 @@ const mapStateToProps = store => ({
   user: currentUser(store),
   labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
   userEmail: safeGet(currentUser(store), 'email', ''),
+  roles: store.get('roles'),
   roleDescription: safeGet(currentUserRole(store), 'description', ''),
   company: currentCompany(store),
 })

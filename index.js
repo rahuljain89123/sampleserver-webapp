@@ -10,7 +10,7 @@ import './static/css/styles.scss'
 
 import store from './store'
 
-import App from './components/App'
+import App from './components/App/App'
 import UniversalViews from './components/UniversalViews'
 
 
@@ -35,25 +35,3 @@ ReactDOM.render((
     </Router>
   </Provider>
 ), window.document.querySelector('#root'))
-
-
-// =======
-//       <div className="wrapper">
-//
-//         <div className="wrapper-inner">
-//           <Route path="/app/sites/:id/" component={Sidebar} />
-//           <div className="main-container">
-//             <Switch>
-//               <Route path="/app/sites/:id/" component={SidebarHeader} />
-//               <Route component={Header} />
-//             </Switch>
-//             <div className="container-fluid">
-//               <Route exact path="/" component={Signin} />
-//               <Route exact path="/forgot" component={Forgot} />
-//               <Route exact path="/accept-invite" component={AcceptInvite} />
-//               <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
-//               <PrivateRoute path="/app" component={App} />
-//             </div>
-//           </div>
-//         </div>
-// >>>>>>> c7478154317d376cfaa089781d62f9987838cc73

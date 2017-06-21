@@ -33,8 +33,7 @@ import { flashMessage } from 'actions/global'
 
 import { msgFromError } from 'helpers/util'
 
-const PROJECT_MANAGER_ROLE = 6
-
+import { CLIENT_MANAGER_ROLE_ID } from 'constants/database/RoleIds'
 
 class ClientUsers extends React.Component {
   constructor (props) {
@@ -70,7 +69,7 @@ class ClientUsers extends React.Component {
   onSubmit (userParams) {
     const user = {
       email: userParams.get('email') ? userParams.get('email').trim() : '',
-      role_id: PROJECT_MANAGER_ROLE,
+      role_id: CLIENT_MANAGER_ROLE_ID,
       clients: {
         add: [this.props.client.get('id')],
         remove: [],
@@ -136,14 +135,14 @@ class ClientUsers extends React.Component {
 
 const mapStateToProps = (store, props) => {
   const role = store.get('roles').size ?
-    store.get('roles').get(PROJECT_MANAGER_ROLE) : null
+    store.get('roles').get(CLIENT_MANAGER_ROLE_ID) : null
 
   const clientId = parseInt(props.match.params.id, 10)
   const client = store.get('clients').get(clientId)
 
   const users = store.get('users')
     .filter(user => client.get('user_ids').includes(user.get('id')))
-    .filter(user => user.get('role_id') === PROJECT_MANAGER_ROLE)
+    .filter(user => user.get('role_id') === CLIENT_MANAGER_ROLE_ID)
     .sort((a,b) => a.get('id') - b.get('id'))
 
   return {

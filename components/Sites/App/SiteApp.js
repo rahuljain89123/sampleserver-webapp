@@ -7,7 +7,7 @@ import {
 import { connect } from 'react-redux'
 import { Route, Redirect } from 'react-router'
 
-import PrivateRoute from './Auth'
+import PrivateRoute from 'components/Auth'
 import SiteNav from 'Sites/App/SiteNav'
 import ClientSiteUsers from 'Sites/ClientSiteUsers'
 import ContactsList from 'Sites/Contacts/ContactsList'
