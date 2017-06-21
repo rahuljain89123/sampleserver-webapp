@@ -147,14 +147,17 @@ const initialState = Immutable.Map({
     currentLabUrl: window.location.hostname.split('.').shift(),
 })
 
-const resetState = Immutable.Map({
-    users: Immutable.Map({}),
-    labs: Immutable.Map({}),
-    sites: Immutable.Map({}),
-    clients: Immutable.Map({}),
-    samples: Immutable.Map({}),
-    companies: Immutable.Map({}),
-    uploads: Immutable.Map({}),
+const resetState = Immutable.fromJS({
+    users: {},
+    labs: {},
+    sites: {},
+    clients: {},
+    samples: {},
+    companies: {},
+    uploads: {},
+    siteMaps: {},
+    schedules: {},
+    wells: {},
 })
 
 const appReducer = combineReducers({

@@ -75,8 +75,8 @@ class Sidebar extends React.Component {
     let showManageTeam = true
 
     if (this.props.user) {
-      showManageTeam = !this.props.user.get('role_id') === CLIENT_MANAGER_ROLE_ID &&
-        !this.props.user.get('role_id') === TECHNICIAN_ROLE_ID
+      showManageTeam = !(this.props.user.get('role_id') === CLIENT_MANAGER_ROLE_ID ||
+        this.props.user.get('role_id') === TECHNICIAN_ROLE_ID)
 
       nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
       profileImgSrc = this.props.user.get('photo_url') ? this.props.user.get('photo_url') : '/static/img/blank-avatar.png'

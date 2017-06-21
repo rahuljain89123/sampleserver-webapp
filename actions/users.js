@@ -104,6 +104,10 @@ export const clearAcceptInviteError = () => ({
   type: CLEAR_ACCEPT_INVITE_ERROR,
 })
 
+export const resetStore = () => ({
+  type: RESET,
+})
+
 export const setResetting = resetting => ({
   type: SET_RESETTING,
   resetting,
@@ -245,6 +249,7 @@ export const signout = () =>
     .then(json => {
       if (json.success) {
         window.localStorage.setItem('currentUser', JSON.stringify(null))
+        dispatch(resetStore())
         dispatch(setCurrentUser(null))
       }
       return Promise.resolve()
