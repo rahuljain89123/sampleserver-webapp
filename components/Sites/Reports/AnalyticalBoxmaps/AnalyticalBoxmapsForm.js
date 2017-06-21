@@ -315,7 +315,7 @@ const mapStateToProps = (state, ownProps) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
   criterias: state.get('criterias'),
-  sampleDates: state.get('sampleDates'),
+  sampleDates: state.get('sampleDates').filter(sampleDate => sampleDate.get('site_id') === ownProps.site.get('id')),
   siteMaps: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
   submittingReport: state.get('submittingReport'),
 

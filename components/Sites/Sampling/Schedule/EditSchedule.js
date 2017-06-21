@@ -34,7 +34,7 @@ import {
 } from 'actions/scheduleWellTests'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
-import { msgFromError } from 'util'
+import { compareAlphaNumeric } from 'helpers/util'
 import includes from 'lodash/includes'
 import moment from 'moment'
 
@@ -306,6 +306,7 @@ class EditSchedule extends React.Component {
       .filter((test) => test.get('state_id') === siteStateId)
       .valueSeq()
     const wells = this.props.wells.valueSeq()
+      .sort((a, b) => compareAlphaNumeric(a.get('title'), b.get('title')))
 
 
     if (wells.size && site && schedules.size > 0 && stateTests.size > 0) {
@@ -317,6 +318,7 @@ class EditSchedule extends React.Component {
       const siteActivityReport = schedule.delete('test_ids')
         .delete('gauged_well_ids')
         .set('date', formattedDate)
+
 
       return (
         <div className="sample-schedule">
@@ -415,8 +417,8 @@ class EditSchedule extends React.Component {
 * REDUX MAP TO PROPS
 *****************************************************************************/
 
-const mapStateToProps = store => ({
-  wells: store.get('wells'),
+const mapStateToProps = (store, ownProps) => ({
+  wells: store.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
   tests: store.get('tests'),
   schedules: store.get('schedules'),
   scheduleWellTests: store.get('scheduleWellTests'),

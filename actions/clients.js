@@ -2,6 +2,7 @@
 import {
   RECEIVE_CLIENT,
   RECEIVE_CLIENTS,
+  REMOVE_CLIENT,
   SET_CREATING_CLIENT,
   SET_CREATING_CLIENT_ERROR,
   CLEAR_CREATING_CLIENT_ERROR,
@@ -23,6 +24,11 @@ export const receiveClient = client => ({
 export const receiveClients = clients => ({
   type: RECEIVE_CLIENTS,
   clients,
+})
+
+export const removeClient = id => ({
+  type: REMOVE_CLIENT,
+  id,
 })
 
 export const setEditingClient = editing => ({
@@ -122,3 +128,8 @@ export const editClient = (id, client) =>
       return Promise.reject()
     })
   }
+
+
+export const deleteClient = id =>
+  dispatch => API.delete(`/clients/${id}`)
+    .then(() => dispatch(removeClient(id)))

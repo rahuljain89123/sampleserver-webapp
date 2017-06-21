@@ -44,7 +44,6 @@ import {
   fetchSubstances,
   fetchSubstanceGroups,
 } from 'actions/substances'
-import { fetchSamples } from 'actions/samples'
 import {
   fetchGroupedSampleValues,
   fetchSampleDates,
@@ -82,7 +81,6 @@ class IsochemicalContours extends React.Component {
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
     this.props.fetchWells({ site_id: this.props.site.get('id') }).then(this.setSelectedWells)
-    this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
 
     this.props.dispatch(registerField(FORM_NAME, 'zeroWells', 'FieldArray'))
@@ -120,10 +118,10 @@ class IsochemicalContours extends React.Component {
     }
   }
 
-  processClickEvent (xpos, ypos, evt) {
+  processClickEvent (xpos, ypos, evt, scale) {
     const { siteMapWells, zeroWells } = this.props
     if (evt.button === 2) { return contouringFn.addZeroWell(xpos, ypos, this, FORM_NAME) }
-    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, zeroWells, this, FORM_NAME)
+    contouringFn.processClick(xpos, ypos, siteMapWells, this.toggleWell, scale, zeroWells, this, FORM_NAME)
   }
 
   onSubmit (formParams) {
@@ -190,6 +188,20 @@ class IsochemicalContours extends React.Component {
     )
   }
 
+  /**
+   * Returns true if there are no selected wells on the contour map with a non-zero value
+   */
+  renderZeroError () {
+    // Don't render the error if we haven't pulled any sample values
+    if (!this.props.groupedSampleValues.size) { return false; }
+
+    return this.props.siteMapWells.filter(smw =>
+      smw.get('site_map_id') === parseInt(this.props.siteMapId) &&
+      this.props.selectedWells.get(smw.get('well_id')) &&
+      !!this.props.groupedSampleValues.get(smw.get('well_id').toString()).get('substance_sum')
+    ).size === 0
+  }
+
   render () {
     const {
       handleSubmit,
@@ -237,7 +249,17 @@ class IsochemicalContours extends React.Component {
     const scaleOptions = ['Linear', 'Logarithmic'].map((opt) =>
       ({value : opt, label: opt }))
 
-    const shouldDisableButton = !this.props.groupedSampleValues.size || this.props.submittingReport
+    let errorDisplay = null
+
+    if (this.renderZeroError()) {
+      errorDisplay = (
+        <div className="alert alert-danger fade show" role="alert">
+          Cannot create contours with all 0 values
+        </div>
+      )
+    }
+
+    const shouldDisableButton = !this.props.groupedSampleValues.size  || this.renderZeroError() || this.props.submittingReport
 
     let siteMapComponent = null
 
@@ -326,7 +348,7 @@ class IsochemicalContours extends React.Component {
         />
 
         <div className='centered-btn'>
-          <Button disabled={shouldDisableButton} color="primary" className="download-report-btn btn-lg btn-block">
+          <Button  disabled={shouldDisableButton} color="primary" className="download-report-btn btn-lg btn-block">
             Generate Report
           </Button>
         </div>
@@ -349,6 +371,7 @@ class IsochemicalContours extends React.Component {
       <div className='site-map'>
       <div className='inner-sidebar contouring-sidebar'>
         <div className='sidebar-content'>
+          {errorDisplay}
           {sidebarContent}
         </div>
       </div>
@@ -368,9 +391,8 @@ const mapStateToProps = (state, ownProps) => ({
   siteMapWells: state.get('siteMapWells'),
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
-  wells: state.get('wells'),
-  samples: state.get('samples'),
-  sampleDates: state.get('sampleDates'),
+  wells: state.get('wells').filter(well => well.get('site_id') === ownProps.site.get('id')),
+  sampleDates: state.get('sampleDates').filter(date => date.get('site_id') === ownProps.site.get('id')),
   groupedSampleValues: state.get('groupedSampleValues'),
   submittingReport: state.get('submittingReport'),
 
@@ -387,7 +409,6 @@ const mapDispatchToProps = dispatch => ({
 
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
-  fetchSamples: filters => dispatch(fetchSamples(filters)),
   fetchGroupedSampleValues: params => dispatch(fetchGroupedSampleValues(params)),
   fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),

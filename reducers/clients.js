@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import {
   RECEIVE_CLIENT,
   RECEIVE_CLIENTS,
+  REMOVE_CLIENT,
   SET_CREATING_CLIENT,
   SET_CREATING_CLIENT_ERROR,
   CLEAR_CREATING_CLIENT_ERROR,
@@ -22,6 +23,8 @@ export const clients = (state = Immutable.Map(), action) => {
       tempState = tempState.set(client.id, Immutable.fromJS(client))
     })
     return tempState
+  case REMOVE_CLIENT:
+    return state.delete(action.id)
   default:
     return state
   }
