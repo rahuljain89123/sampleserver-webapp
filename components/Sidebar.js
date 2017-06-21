@@ -27,6 +27,7 @@ import {
 import SiteNav from 'components/Sites/App/SiteNav'
 import { fetchSite } from 'actions/sites'
 
+import { CLIENT_MANAGER_ROLE_ID, TECHNICIAN_ROLE_ID } from 'constants/database/RoleIds'
 
 class Sidebar extends React.Component {
   constructor (props) {
@@ -74,7 +75,8 @@ class Sidebar extends React.Component {
     let showManageTeam = true
 
     if (this.props.user) {
-      showManageTeam = !this.props.user.get('role_id') === 6 && !this.props.user.get('role_id') === 7
+      showManageTeam = !this.props.user.get('role_id') === CLIENT_MANAGER_ROLE_ID &&
+        !this.props.user.get('role_id') === TECHNICIAN_ROLE_ID
 
       nameSpan = (<span className="name">{this.props.user.get('name')}</span>)
       profileImgSrc = this.props.user.get('photo_url') ? this.props.user.get('photo_url') : '/static/img/blank-avatar.png'
