@@ -28,6 +28,7 @@ import { fetchWells } from 'actions/wells'
 import { fetchTests } from 'actions/tests'
 import {
   fetchScheduleWellTests,
+  clearScheduleWellTests,
   createScheduleWellTest,
   editScheduleWellTest,
   deleteScheduleWellTest,
@@ -55,10 +56,6 @@ class EditSchedule extends React.Component {
     this.editSchedule = this.editSchedule.bind(this)
   }
 
-  componentWillMount () {
-    this.props.fetchWells({ site_id: this.props.site.get('id') })
-  }
-
   componentDidMount () {
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
@@ -76,6 +73,7 @@ class EditSchedule extends React.Component {
         },
       }])
     })
+    this.props.clearScheduleWellTests()
     this.props.fetchScheduleWellTests({ schedule_id: this.state.scheduleId })
     this.props.setHeaderInfo('Edit Schedule')
   }
@@ -429,6 +427,7 @@ const mapDispatchToProps = dispatch => ({
   fetchTests: filters => dispatch(fetchTests(filters)),
   fetchSchedule: filters => dispatch(fetchSchedule(filters)),
   editSchedule: (id, schedule) => dispatch(editSchedule(id, schedule)),
+  clearScheduleWellTests: () => dispatch(clearScheduleWellTests()),
   fetchScheduleWellTests: filters => dispatch(fetchScheduleWellTests(filters)),
   createScheduleWellTest: schedulewelltest => dispatch(createScheduleWellTest(schedulewelltest)),
   editScheduleWellTest: (id, schedulewelltest) => dispatch(editScheduleWellTest(id, schedulewelltest)),

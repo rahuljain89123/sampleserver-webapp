@@ -4,6 +4,7 @@ import qs from 'qs'
 import {
   RECEIVE_SCHEDULE_WELL_TEST,
   RECEIVE_SCHEDULE_WELL_TESTS,
+  CLEAR_SCHEDULE_WELL_TESTS,
   SET_CREATING_SCHEDULE_WELL_TEST,
   SET_CREATING_SCHEDULE_WELL_TEST_ERROR,
   CLEAR_CREATING_SCHEDULE_WELL_TEST_ERROR,
@@ -24,6 +25,10 @@ export const receiveScheduleWellTest = schedulewelltest => ({
 export const receiveScheduleWellTests = schedulewelltests => ({
   type: RECEIVE_SCHEDULE_WELL_TESTS,
   schedulewelltests,
+})
+
+export const clearScheduleWellTests = () => ({
+  type: CLEAR_SCHEDULE_WELL_TESTS,
 })
 
 export const fetchScheduleWellTest = id =>

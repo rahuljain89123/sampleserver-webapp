@@ -36,8 +36,6 @@ class SchedulesList extends React.Component {
     let schedulesTable = undefined
     let schedules = undefined
 
-
-
     schedules = this.props.schedules.valueSeq().sort((a,b) => moment(a.get('date')).isBefore(moment(b.get('date'))) ? -1 : 1).map((schedule) => {
       return (
         <tbody key={schedule.get('id')}>

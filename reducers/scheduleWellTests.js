@@ -4,6 +4,7 @@ import Immutable from 'immutable'
 import {
   RECEIVE_SCHEDULE_WELL_TEST,
   RECEIVE_SCHEDULE_WELL_TESTS,
+  CLEAR_SCHEDULE_WELL_TESTS,
   SET_CREATING_SCHEDULE_WELL_TESTS,
   SET_CREATING_SCHEDULE_WELL_TESTS_ERROR,
   CLEAR_CREATING_SCHEDULE_WELL_TESTS_ERROR,
@@ -26,6 +27,10 @@ export const scheduleWellTests = (state = Immutable.Map(), action) => {
     return tempState
   case REMOVE_SCHEDULE_WELL_TEST:
     return state.delete(action.id)
+
+  case CLEAR_SCHEDULE_WELL_TESTS:
+    return Immutable.Map()
+    
   default:
     return state
   }
