@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Button, Table, Alert } from 'reactstrap'
 import filestack from 'filestack-js'
 import timeago from 'timeago.js'
+import moment from 'moment'
 
 import {
   fetchUploads,
@@ -55,7 +56,7 @@ class LabDataUpload extends React.Component {
       .filter(upload => upload.get('company_id') === this.props.site.get('company_id'))
       .filter(upload => upload.get('site_id') === this.props.site.get('id'))
       .filter(upload => upload.get('upload_type') === 'lab_data')
-      .sort((a, b) => a.get('id') - b.get('id'))
+      .sort((a, b) => moment(a.get('created_at')).isAfter(moment(b.get('created_at'))) ? -1 : 1)
       .entrySeq()
 
     let uploadsTable = null

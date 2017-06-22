@@ -203,8 +203,12 @@ class AnalyticalBoxmapsForm extends React.Component {
         <a href='#' onClick={(e) => this.removeSubstance(id)}> X </a>
       </li>)
     })
-
     const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.length)
+
+    let substancesLabel = null
+
+    if (siteSubstances.size || showSubstancesDropdown) { substancesLabel =  <label htmlFor="">Substances</label> }
+
     let boxmapsPreview = null
     let boxmapsButton = null
     if (this.props.siteMapId) {
@@ -261,7 +265,7 @@ class AnalyticalBoxmapsForm extends React.Component {
           component={SelectFormGroup}
         />
 
-        <label htmlFor="">Substances</label>
+        {substancesLabel}
         <ul className="substances-list">
           {siteSubstances}
         </ul>
