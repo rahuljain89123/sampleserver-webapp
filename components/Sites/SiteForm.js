@@ -43,7 +43,7 @@ class SiteForm extends React.Component {
 
 
       clientField = <Field
-        props={{ error: errors.client_id, label: 'Client', placeholder: 'Choose a client...' }}
+        props={{ error: errors.client_id, label: 'Client*', placeholder: 'Choose a client...' }}
         name='client_id'
         id='client_id'
         component={SelectFormGroup}
@@ -57,7 +57,7 @@ class SiteForm extends React.Component {
         {clientField}
 
         <Field
-          props={{ error: errors.title, label: 'Site Name'}}
+          props={{ error: errors.title, label: 'Site Name*'}}
           name='title'
           id='title'
           component={IndividualFormGroup}
@@ -81,7 +81,7 @@ class SiteForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.city, label: 'City'}}
+          props={{ error: errors.city, label: 'City*'}}
           name='city'
           id='city'
           component={IndividualFormGroup}
@@ -89,7 +89,7 @@ class SiteForm extends React.Component {
         />
 
         <Field
-          props={{ error: errors.state_id, label: 'State', placeholder: 'Choose a state...' }}
+          props={{ error: errors.state_id, label: 'State*', placeholder: 'Choose a state...' }}
           name='state_id'
           id='state_id'
           showLabel={true}

@@ -32,9 +32,7 @@ class NewSite extends React.Component {
         iconName: 'add_circle_outline',
       }],
     )
-    this.props.fetchClients().then(() => {
-      console.log(this.props.clients.toJS())
-    })
+    this.props.fetchClients()
   }
 
   onSubmitSiteForm (siteParams) {
