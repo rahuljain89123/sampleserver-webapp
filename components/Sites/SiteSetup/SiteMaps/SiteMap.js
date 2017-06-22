@@ -32,9 +32,7 @@ class SiteMap extends React.Component {
     this.addSiteMapWell = this.addSiteMapWell.bind(this)
     this.createSiteMapWell = this.createSiteMapWell.bind(this)
     this._handleKeyDown = this._handleKeyDown.bind(this)
-    this.props.setHeaderInfo(
-      'Edit Sitemap',
-    )
+
   }
 
   componentDidMount () {
@@ -42,6 +40,7 @@ class SiteMap extends React.Component {
     this.props.fetchSiteMapWells({ site_map_id: this.props.siteMapId })
     this.props.fetchWells({ site_id: this.props.site.get('id') })
     document.addEventListener("keydown", this._handleKeyDown);
+
   }
 
   componentWillUnmount () {
