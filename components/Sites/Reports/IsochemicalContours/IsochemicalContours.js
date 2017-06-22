@@ -173,7 +173,7 @@ class IsochemicalContours extends React.Component {
     } = this.props
 
     return contouringFn.substanceIdInDate(substanceId, sampleDates, date_collected, date_collected_range_end) &&
-      ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
+      ((substanceIds && !substanceIds.includes(substanceId)) || !substanceIds)
   }
 
   drawWellMarker (well, ctx, loc) {
