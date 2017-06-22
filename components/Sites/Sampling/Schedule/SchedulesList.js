@@ -36,17 +36,9 @@ class SchedulesList extends React.Component {
     let schedulesTable = undefined
     let schedules = undefined
 
-    if (this.props.schedules.size > 0 && this.props.site) {
-      schedules = this.props.schedules.valueSeq().map((schedule) => {
-        return <li key={schedule.get('id')}>
-          <Link to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/${schedule.get('id')}`}> {moment(schedule.get('date')).utc().format('YYYY-MM-DD')} </Link>
-        </li>
-      })
-    } else {
-      schedules = <span> No schedules yet. <Link to={`/app/sites/${this.props.site.get('id')}/sampling/sample-schedule/new`}>Create one</Link> </span>
-    }
 
-    schedules = this.props.schedules.valueSeq().sort((a,b) => moment(a.date).isBefore(moment(b.date)) ? -1 : 1).map((schedule) => {
+
+    schedules = this.props.schedules.valueSeq().sort((a,b) => moment(a.get('date')).isBefore(moment(b.get('date'))) ? -1 : 1).map((schedule) => {
       return (
         <tbody key={schedule.get('id')}>
           <tr>
