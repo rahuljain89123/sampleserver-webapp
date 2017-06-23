@@ -18,7 +18,7 @@ import {
 } from 'actions/sites'
 import { flashMessage, setHeaderInfo } from 'actions/global'
 
-import SiteForm from './SiteForm'
+import SiteForm from 'Sites/SiteInfo/SiteForm'
 
 class EditSite extends React.Component {
   constructor (props) {

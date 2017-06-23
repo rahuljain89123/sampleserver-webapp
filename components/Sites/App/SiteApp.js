@@ -40,7 +40,8 @@ class SiteApp extends React.Component {
     const site = this.props.sites.get(siteId)
     if (!site) { return null }
     else if (!this.props.location.pathname.includes('complete-site') && (!site.get('state_id') || !site.get('city'))) {
-      this.props.push(`/complete-site/${site.get('id')}`)
+      
+      this.props.replace(`/complete-site/${site.get('id')}`)
     }
 
     return (
