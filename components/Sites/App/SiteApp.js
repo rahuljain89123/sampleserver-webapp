@@ -24,7 +24,6 @@ import SiteDataImport from 'Sites/App/SiteDataImport'
 import SiteReports from 'Sites/App/SiteReports'
 
 import { fetchSite } from 'actions/sites'
-import { flashMessage } from 'actions/global'
 
 class SiteApp extends React.Component {
 
@@ -40,9 +39,8 @@ class SiteApp extends React.Component {
 
     const site = this.props.sites.get(siteId)
     if (!site) { return null }
-    else if (!this.props.location.pathname.includes('edit-site') && (!site.get('state_id') || !site.get('city'))) {
-      this.props.flashMessage('warning', `Please set up ${site.get('title')} by filling out all required fields.`)
-      this.props.push(`/app/sites/${site.get('id')}/setup/edit-site`)
+    else if (!this.props.location.pathname.includes('complete-site') && (!site.get('state_id') || !site.get('city'))) {
+      this.props.replace(`/complete-site/${site.get('id')}`)
     }
 
     return (
@@ -105,7 +103,6 @@ const mapStateToProps = store => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchSite: id => dispatch(fetchSite(id)),
-  flashMessage: (type, message) => dispatch(flashMessage(type, message))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteApp)

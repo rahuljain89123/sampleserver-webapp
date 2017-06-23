@@ -19,6 +19,7 @@ var config = {
       SharedComponents: path.resolve(__dirname, 'components/SharedComponents/'),
       Clients: path.resolve(__dirname, 'components/Clients/'),
       Companies: path.resolve(__dirname, 'components/Companies/'),
+      Wells: path.resolve(__dirname, 'components/Wells/'),
       Labs: path.resolve(__dirname, 'components/Labs/'),
       Sites: path.resolve(__dirname, 'components/Sites/')
     }

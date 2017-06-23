@@ -13,7 +13,7 @@ import {
   setCreatingSite,
 } from 'actions/sites'
 import { fetchClients } from 'actions/clients'
-import SiteForm from './SiteForm'
+import SiteForm from 'Sites/SiteInfo/SiteForm'
 
 class NewSite extends React.Component {
   constructor (props) {

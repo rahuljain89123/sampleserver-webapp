@@ -8,7 +8,7 @@ import ClientSites from 'Clients/ClientSites'
 import Client from 'Clients/Client'
 import NewClient from 'Clients/NewClient'
 
-import NewSite from 'Sites/NewSite'
+import NewSite from 'Sites/SiteInfo/NewSite'
 
 import SiteApp from 'Sites/App/SiteApp'
 import TeamCompanyUsers from 'Companies/TeamCompanyUsers'
