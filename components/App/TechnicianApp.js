@@ -5,7 +5,7 @@ import PrivateRoute from 'components/Auth'
 
 import ClientSites from 'Clients/ClientSites'
 import SiteApp from 'Sites/App/SiteApp'
-import NewSite from 'Sites/NewSite'
+import NewSite from 'Sites/SiteInfo/NewSite'
 
 const TechnicianApp = () => (
     <div className="client-app container-fluid">

@@ -2,7 +2,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import EditSite from 'Sites/EditSite'
+import EditSite from 'Sites/SiteInfo/EditSite'
 
 import { fetchSite } from 'actions/sites'
 import { flashMessage } from 'actions/global'
