@@ -7,6 +7,7 @@ import Signin from 'components/Users/Signin'
 import Forgot from 'components/Users/Forgot'
 import AcceptInvite from 'components/Users/AcceptInvite'
 import CompleteProfile from 'components/Users/CompleteProfile'
+import CompleteSite from 'Sites/SiteInfo/CompleteSite'
 import PrivateRoute from 'components/Auth'
 
 import { currentLab, safeGet } from 'normalizers'
@@ -30,6 +31,7 @@ class UniversalViews extends React.Component {
         <Route exact path="/" component={Signin} />
         <Route exact path="/forgot" component={Forgot} />
         <Route exact path="/accept-invite" component={AcceptInvite} />
+        <PrivateRoute exact path="/complete-site/:id" component={CompleteSite} />
         <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
       </div>
     )

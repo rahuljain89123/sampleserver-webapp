@@ -23,7 +23,6 @@ import SiteForm from './SiteForm'
 class EditSite extends React.Component {
   constructor (props) {
     super(props)
-
     this.onSubmitSiteForm = this.onSubmitSiteForm.bind(this)
   }
 
@@ -51,12 +50,13 @@ class EditSite extends React.Component {
       editingSite,
       editingSiteError,
       clearEditingSiteError,
+      removeNavbarPadding
     } = this.props
 
     if (!site) { return null }
 
     return (
-      <div className="edit-site has-navbar">
+      <div className={`edit-site ${removeNavbarPadding ? '' : 'has-navbar'}`}>
         <div className="border-bottom">
         </div>
         <Row>
