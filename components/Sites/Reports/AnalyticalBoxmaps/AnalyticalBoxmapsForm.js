@@ -69,7 +69,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
       .then(() => {
         if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {
-          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first() ? this.props.siteMaps.first().get('id') : null))
+          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first().size ? this.props.siteMaps.first().get('id') : null))
         }
       })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
@@ -323,9 +323,14 @@ class AnalyticalBoxmapsForm extends React.Component {
     const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
     let sidebarContent = null
 
-    if (currentSiteMap) {
-
+    if (currentSiteMap && this.props.wells && this.props.wells.size) {
       sidebarContent = boxmapsForm
+    } else if (!this.props.wells || !this.props.wells.size) {
+      sidebarContent = (
+        <span>
+          <Link to={`/app/sites/${this.props.site.get('id')}/setup/wells`}>Add wells to your site</Link> before using this page.
+        </span>
+      )
     } else {
       sidebarContent = (
         <span>
