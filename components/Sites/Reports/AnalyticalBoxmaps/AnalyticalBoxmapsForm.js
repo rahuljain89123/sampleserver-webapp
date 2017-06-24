@@ -62,7 +62,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.processClickEvent = this.processClickEvent.bind(this)
     this.swapIframe = this.swapIframe.bind(this)
 
-    this.state = { boxmapsUrl: null, iframeUrl: null }
+    this.state = { boxmapsUrl: null, iframeUrl: null, scale: 1 }
   }
 
   componentDidMount () {
@@ -81,7 +81,6 @@ class AnalyticalBoxmapsForm extends React.Component {
     if (this.props.date_collected && this.props.siteMapId) {
       this.swapIframe()
     }
-
   }
 
   componentWillReceiveProps (nextProps) {
@@ -155,6 +154,16 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.setState({ iframeUrl: myiFrameUrl })
   }
 
+  scaleBy (increment) {
+    if (this.state.scale + increment < 0.2) { return } //don't decrement scale below 0
+    this.setState((prevState) => {
+      const newScale = prevState.scale + increment
+      return {
+        scale: newScale,
+      }
+    })
+  }
+
   render () {
     const {
       site,
@@ -212,10 +221,36 @@ class AnalyticalBoxmapsForm extends React.Component {
     let boxmapsPreview = null
     let boxmapsButton = null
     if (this.props.siteMapId) {
+      const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+      const boxmapStyle = {
+        height: '100%',
+        width: '100%',
+      }
+      const iframeStyle = {
+        height: currentSiteMap.get('height') / this.state.scale,
+        width: currentSiteMap.get('width') / this.state.scale,
+        zoom: this.state.scale,
+        MozTransform: `scale(${this.state.scale})`,
+        MozTransformOrigin: `${0}px ${0}px`,
+        OTransform: `scale(${this.state.scale})`,
+        OTransformOrigin: `${0}px ${0}px`,
+        WebkitTransform: `scale(${this.state.scale})`,
+        WebkitTransformOrigin: `${0}px ${0}px`,
+        position: 'absolute',
+      }
       if (this.state.iframeUrl) {
         boxmapsButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
         boxmapsPreview = (
-          <iframe src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" />
+          <div className="boxmap-iframe-wrapper">
+            <div className="zoom-controls">
+              <i className="material-icons" onClick={(e) => this.scaleBy(0.2)}>add</i>
+              <div className="zoom-level">{parseInt(this.state.scale * 100)}%</div>
+              <i className="material-icons" onClick={(e) => this.scaleBy(-0.2)}>remove</i>
+            </div>
+            <div className="iframe-wrapper" style={boxmapStyle}>
+              <iframe ref="myIframe" src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" style={iframeStyle} />
+            </div>
+          </div>
         )
       } else {
         const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
