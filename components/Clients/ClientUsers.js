@@ -30,6 +30,7 @@ import UserForm from 'SharedComponents/Team/UserForm'
 import { fetchClient } from 'actions/clients'
 import { createUser, fetchUsers } from 'actions/users'
 import { flashMessage } from 'actions/global'
+import { currentCompany } from 'normalizers'
 
 import { msgFromError } from 'helpers/util'
 
@@ -72,6 +73,10 @@ class ClientUsers extends React.Component {
       role_id: CLIENT_MANAGER_ROLE_ID,
       clients: {
         add: [this.props.client.get('id')],
+        remove: [],
+      },
+      companies: {
+        add: [this.props.company.get('id')],
         remove: [],
       },
     }
@@ -149,6 +154,7 @@ const mapStateToProps = (store, props) => {
     clientId,
     users,
     role,
+    company: currentCompany(store),
     client,
   }
 }

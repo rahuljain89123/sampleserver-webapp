@@ -142,13 +142,5 @@ const mapDispatchToProps = dispatch => ({
     dispatch(deleteWellImage(wellId, wellImageId)),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
-// <div className="d-flex">
-//   <Button
-//     onClick={() => this.onDelete()}
-//     className="ml-auto"
-//     role="button"
-//     color="danger"
-//   >Delete Well</Button>
-// </div>
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditWell)

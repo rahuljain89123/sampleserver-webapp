@@ -29,6 +29,9 @@ class NewWell extends React.Component {
   onSubmitWellForm (wellParams) {
     const siteId = this.props.site.get('id')
     wellParams = wellParams.set('site_id', siteId)
+    if (wellParams.get('top_of_casing')) {
+      wellParams = wellParams.update('top_of_casing', toc => parseFloat(toc))
+    }
 
     this.props.createWell(wellParams)
       .then((wellId) => {

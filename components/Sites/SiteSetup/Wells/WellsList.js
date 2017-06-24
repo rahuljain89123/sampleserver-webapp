@@ -110,7 +110,7 @@ class WellsList extends React.Component {
                   </Link>
                 </td>
                 <td>
-                  {well.get('top_of_casing')}
+                  {well.get('top_of_casing').toFixed(2)}
                 </td>
                 <td className="text-align-right">
                   <Link className="edit-link" to={`/app/sites/${this.props.site.get('id')}/setup/wells/${well.get('id')}`}>
