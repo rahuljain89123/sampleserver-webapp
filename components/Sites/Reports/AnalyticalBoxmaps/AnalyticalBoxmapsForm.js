@@ -35,6 +35,11 @@ import {
   fetchSubstances,
   fetchSubstanceGroups,
 } from 'actions/substances'
+
+import {
+  fetchWells,
+} from 'actions/wells'
+
 import { fetchSiteMaps } from 'actions/siteMaps'
 import { fetchSamples } from 'actions/samples'
 import { fetchSampleDates } from 'actions/sampleValues'
@@ -78,6 +83,7 @@ class AnalyticalBoxmapsForm extends React.Component {
 
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
+    this.props.fetchWells({ site_id: this.props.site.get('id') })
     if (this.props.date_collected && this.props.siteMapId) {
       this.swapIframe()
     }
@@ -360,6 +366,7 @@ const selector = formValueSelector(FORM_NAME)
 const mapStateToProps = (state, ownProps) => ({
   substances: state.get('substances'),
   substanceGroups: state.get('substanceGroups'),
+  wells: state.get('wells'),
   criterias: state.get('criterias'),
   sampleDates: state.get('sampleDates').filter(sampleDate => sampleDate.get('site_id') === ownProps.site.get('id')),
   siteMaps: state.get('siteMaps').filter(siteMap => siteMap.get('site_id') === ownProps.site.get('id')),
@@ -376,6 +383,7 @@ const mapDispatchToProps = (dispatch) => ({
   createAnalyticalBoxmap: (boxmapsParams) => dispatch(createAnalyticalBoxmap(boxmapsParams)),
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
+  fetchWells: (filters) => dispatch(fetchWells(filters)),
   fetchSiteMaps: filters => dispatch(fetchSiteMaps(filters)),
   fetchSamples: filters => dispatch(fetchSamples(filters)),
   fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
