@@ -227,8 +227,8 @@ class AnalyticalBoxmapsForm extends React.Component {
         width: '100%',
       }
       const iframeStyle = {
-        height: currentSiteMap.get('height') / this.state.scale,
-        width: currentSiteMap.get('width') / this.state.scale,
+        height: (currentSiteMap.get('height') * currentSiteMap.get('scale')) / this.state.scale,
+        width: (currentSiteMap.get('width') * currentSiteMap.get('scale')) / this.state.scale,
         zoom: this.state.scale,
         MozTransform: `scale(${this.state.scale})`,
         MozTransformOrigin: `${0}px ${0}px`,
