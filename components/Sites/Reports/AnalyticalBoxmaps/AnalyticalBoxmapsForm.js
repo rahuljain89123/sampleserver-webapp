@@ -226,41 +226,43 @@ class AnalyticalBoxmapsForm extends React.Component {
         height: '100%',
         width: '100%',
       }
-      const iframeStyle = {
-        height: (currentSiteMap.get('height') * currentSiteMap.get('scale')) / this.state.scale,
-        width: (currentSiteMap.get('width') * currentSiteMap.get('scale')) / this.state.scale,
-        zoom: this.state.scale,
-        MozTransform: `scale(${this.state.scale})`,
-        MozTransformOrigin: `${0}px ${0}px`,
-        OTransform: `scale(${this.state.scale})`,
-        OTransformOrigin: `${0}px ${0}px`,
-        WebkitTransform: `scale(${this.state.scale})`,
-        WebkitTransformOrigin: `${0}px ${0}px`,
-        position: 'absolute',
-      }
-      if (this.state.iframeUrl) {
-        boxmapsButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
-        boxmapsPreview = (
-          <div className="boxmap-iframe-wrapper">
-            <div className="zoom-controls">
-              <i className="material-icons" onClick={(e) => this.scaleBy(0.2)}>add</i>
-              <div className="zoom-level">{parseInt(this.state.scale * 100)}%</div>
-              <i className="material-icons" onClick={(e) => this.scaleBy(-0.2)}>remove</i>
+      if (currentSiteMap) {
+        const iframeStyle = {
+          height: (currentSiteMap.get('height') * currentSiteMap.get('scale')) / this.state.scale,
+          width: (currentSiteMap.get('width') * currentSiteMap.get('scale')) / this.state.scale,
+          zoom: this.state.scale,
+          MozTransform: `scale(${this.state.scale})`,
+          MozTransformOrigin: `${0}px ${0}px`,
+          OTransform: `scale(${this.state.scale})`,
+          OTransformOrigin: `${0}px ${0}px`,
+          WebkitTransform: `scale(${this.state.scale})`,
+          WebkitTransformOrigin: `${0}px ${0}px`,
+          position: 'absolute',
+        }
+        if (this.state.iframeUrl) {
+          boxmapsButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
+          boxmapsPreview = (
+            <div className="boxmap-iframe-wrapper">
+              <div className="zoom-controls">
+                <i className="material-icons" onClick={(e) => this.scaleBy(0.2)}>add</i>
+                <div className="zoom-level">{parseInt(this.state.scale * 100)}%</div>
+                <i className="material-icons" onClick={(e) => this.scaleBy(-0.2)}>remove</i>
+              </div>
+              <div className="iframe-wrapper" style={boxmapStyle}>
+                <iframe ref="myIframe" src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" style={iframeStyle} />
+              </div>
             </div>
-            <div className="iframe-wrapper" style={boxmapStyle}>
-              <iframe ref="myIframe" src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" style={iframeStyle} />
-            </div>
-          </div>
-        )
-      } else {
-        const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
-        if (currentSiteMap) {
-          boxmapsPreview = <SiteMapRenderer
-            imageUrl={currentSiteMap.get('url')}
+          )
+        } else {
+          const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
+          if (currentSiteMap) {
+            boxmapsPreview = <SiteMapRenderer
+              imageUrl={currentSiteMap.get('url')}
 
-            onClick={this.processClickEvent}
-            drawWellMarker={this.drawWellMarker}
-            />
+              onClick={this.processClickEvent}
+              drawWellMarker={this.drawWellMarker}
+              />
+          }
         }
       }
     }
