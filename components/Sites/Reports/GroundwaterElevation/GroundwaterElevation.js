@@ -304,8 +304,14 @@ class GroundwaterElevation extends React.Component {
 
     // Create sidebar content, if the site doesn't have wells yet, give the user a link to add them.
     let sidebarContent = null
-    if (this.props.siteMaps.size) {
+    if (this.props.siteMaps.size && this.props.wells && this.props.wells.size) {
       sidebarContent = contouringForm
+    } else if (!this.props.wells || !this.props.wells.size) {
+      sidebarContent = (
+        <span>
+          <Link to={`/app/sites/${this.props.site.get('id')}/setup/wells`}>Add wells to your site</Link> before using this page.
+        </span>
+      )
     } else {
       sidebarContent = (
         <span>

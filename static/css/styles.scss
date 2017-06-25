@@ -656,7 +656,7 @@ section {
   }
 }
 
-.site-map-image {
+.site-map-image, .boxmap-iframe-wrapper {
     // border: 1px solid rgba(0, 0, 0, 0.125);
     // border-radius: 2px;
     position: relative;
@@ -668,6 +668,9 @@ section {
         background: #FFFFFF;
         box-shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
         border-radius: 3px;
+        -webkit-user-select: none; /* Chrome/Safari */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
     }
     .material-icons {
         font-size: 22px;
@@ -1439,9 +1442,20 @@ form.contouring-form {
     }
 }
 .site-reports {
+    .boxmap-iframe-wrapper {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+    .iframe-wrapper {
+        height: 100%;
+        width: 100%;
+        overflow: scroll;
+        position: absolute;
+    }
     .boxmaps-preview {
         border: none;
-        height: 99%;
+        height: 100%;
         width: 100%;
         padding: 0;
         margin: 0;
