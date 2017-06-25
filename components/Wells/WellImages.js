@@ -44,7 +44,6 @@ class WellImages extends React.Component {
 
   handleDelete (image, e) {
     e.preventDefault()
-
     this.props.onDelete(this.props.wellId, image.get('id'))
   }
 
