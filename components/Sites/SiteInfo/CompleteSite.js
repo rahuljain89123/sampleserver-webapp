@@ -18,12 +18,16 @@ class CompleteSite extends React.Component {
 
     if (!site) { return null }
 
+    // debugger
     return (
       <div className="row justify-content-center">
         <div className="col-4">
           <div className="standalone-form">
-            <h2 className="text-center">Edit Site</h2>
-            <EditSite push={this.props.push} site={site} removeNavbarPadding={true}/>
+            <h2 className="text-center">Site Details</h2>
+            <div className="alert alert-warning fade show" role="alert">
+              Please fill out site information so we can tailor our reports/tests to this specific site.
+            </div>
+            <EditSite push={this.props.push} site={site} isCompleteSiteForm={true}/>
           </div>
         </div>
       </div>
