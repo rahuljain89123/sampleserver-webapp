@@ -57,6 +57,7 @@ class EditSchedule extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.fetchTests()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
 

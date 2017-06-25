@@ -54,6 +54,7 @@ class CompanyUsers extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.fetchUsers({ companies: this.state.companyId })
 
     if (!this.state.company) {
@@ -99,10 +100,17 @@ class CompanyUsers extends React.Component {
       this.clearError()
       this.setState({ invitingUser: false })
       this.props.flashMessage('success', 'User invited successfully.')
+      window.analytics.track('user invited', {
+        user: user,
+      })
     })
     .catch((error) => {
       this.props.flashMessage('danger', msgFromError(error))
       this.setState({ error: msgFromError(error) })
+      window.analytics.track('user invite error', {
+        user: user,
+        error: error,
+      })
     })
   }
 

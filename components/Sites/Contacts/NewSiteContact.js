@@ -25,6 +25,7 @@ class NewSiteContact extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.setHeaderInfo('New Contact')
   }
 
@@ -36,6 +37,7 @@ class NewSiteContact extends React.Component {
       .then((contactId) => {
         this.props.flashMessage('success', 'Contact created successfully')
         this.props.push(`/app/sites/${siteId}/contacts`)
+        window.analytics.track('contact created')
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }

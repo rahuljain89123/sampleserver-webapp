@@ -35,6 +35,7 @@ class LabUsers extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.fetchUsers({ lab_id: this.props.lab.get('id') })
     this.props.setHeaderInfo('Manage Team')
   }
@@ -51,8 +52,19 @@ class LabUsers extends React.Component {
     }
 
     this.props.createUser(user)
-      .then(() => this.props.flashMessage('success', 'User invited successfully.'))
-      .catch((e) => this.props.flashMessage('danger', msgFromError(e)))
+      .then(() => {
+        this.props.flashMessage('success', 'User invited successfully.')
+        window.analytics.track('user invited', {
+          user: user,
+        })
+      })
+      .catch((e) => {
+        this.props.flashMessage('danger', msgFromError(e))
+        window.analytics.track('user invite error', {
+          user: user,
+          error: e,
+        })
+      })
   }
 
   render () {

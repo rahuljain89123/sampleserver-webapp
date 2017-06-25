@@ -24,6 +24,7 @@ class NewSite extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.setHeaderInfo(
       'New Site',
       [{
@@ -47,6 +48,9 @@ class NewSite extends React.Component {
   onSuccess () {
     this.props.flashMessage('success', 'Site created successfully')
     this.props.push('/app')
+    window.analytics.track('site created', {
+      site: site,
+    })
   }
 
   render () {

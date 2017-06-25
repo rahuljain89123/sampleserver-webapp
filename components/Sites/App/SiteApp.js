@@ -31,6 +31,9 @@ class SiteApp extends React.Component {
     const siteId = parseInt(this.props.match.params.id, 10)
     if (!this.props.sites.get(siteId) && siteId) {
       this.props.fetchSite(siteId)
+    } else {
+      const site = this.props.sites.get(siteId)
+      window.analytics.track('visited site', site.toJS())
     }
   }
 
@@ -41,6 +44,7 @@ class SiteApp extends React.Component {
     if (!site) { return null }
     else if (!this.props.location.pathname.includes('complete-site') && (!site.get('state_id') || !site.get('city'))) {
       this.props.replace(`/complete-site/${site.get('id')}`)
+      window.analytics.track('promped to complete site', site.toJS())
     }
 
     return (

@@ -27,6 +27,7 @@ class EditSite extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.setHeaderInfo(
       'Edit Site',
       [{
@@ -40,7 +41,10 @@ class EditSite extends React.Component {
     siteParams = siteParams.update('state_id', (v) => parseInt(v))
 
     this.props.editSite(this.props.site.get('id'), siteParams)
-      .then(() => this.props.flashMessage('success', 'Site updated successfully'))
+      .then(() => {
+        this.props.flashMessage('success', 'Site updated successfully')
+        window.analytics.track('updated site')
+      })
       .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 

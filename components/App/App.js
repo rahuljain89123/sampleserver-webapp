@@ -38,6 +38,7 @@ class App extends React.Component {
   componentWillReceiveProps (nextProps) {
     if (!nextProps.roles.size && nextProps.user) {
       this.props.fetchRoles()
+      window.analytics.identify(nextProps.user.get('id'), nextProps.user.toJS())
     }
   }
 

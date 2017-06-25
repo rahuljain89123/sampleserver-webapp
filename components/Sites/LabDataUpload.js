@@ -17,9 +17,8 @@ import { setHeaderInfo } from 'actions/global'
 import { currentLab } from 'normalizers'
 
 class LabDataUpload extends React.Component {
-
-
   componentDidMount () {
+    window.analytics.page()
     if (this.props.uploadingError) { this.props.clearUploadingError() }
     this.props.fetchUploads()
 
@@ -34,17 +33,27 @@ class LabDataUpload extends React.Component {
             site_id: this.props.site.get('id'),
             upload_type: 'lab_data',
           },
-        }
-      }]
+        },
+      }],
     )
   }
 
   onSend (upload) {
     this.props.patchUpload(upload.get('id'), { sent: true })
+    window.analytics.track('sent upload', {
+      lab_id: this.props.lab.get('id'),
+      upload_id: upload.get('id'),
+      upload_url: upload.get('url'),
+    })
   }
 
   removeItem (upload) {
     this.props.deleteUpload(upload.get('id'))
+    window.analytics.track('deleted upload', {
+      lab_id: this.props.lab.get('id'),
+      upload_id: upload.get('id'),
+      upload_url: upload.get('url'),
+    })
   }
 
   clearError () {

@@ -39,7 +39,6 @@ class Sidebar extends React.Component {
     }
   }
 
-
   toggleSidebar () {
     this.setState({
       open: !this.state.open,
@@ -59,6 +58,7 @@ class Sidebar extends React.Component {
         this.props.reset()
         this.props.fetchCurrentLab()
         this.props.push('/')
+        window.analytics.track('signed out')
       })
   }
 

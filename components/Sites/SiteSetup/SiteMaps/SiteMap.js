@@ -94,6 +94,7 @@ class SiteMap extends React.Component {
     .then(() => {
       this.props.flashMessage('success', 'Well Marker successfully saved.')
       this.props.setAddingSiteMapWell(null)
+      window.analytics.track('well marker added')
     })
     .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
@@ -106,6 +107,7 @@ class SiteMap extends React.Component {
     this.props.deleteSiteMapWell(siteMapWellId)
     .then(() => this.props.flashMessage('success', 'Well Marker successfully deleted.'))
     .catch(() => this.props.flashMessage('STANDARD_ERROR'))
+    window.analytics.track('well marker deleted')
   }
 
   /**

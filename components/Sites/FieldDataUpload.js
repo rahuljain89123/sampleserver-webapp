@@ -27,6 +27,7 @@ const FILESTACK_OPTIONS = {
 
 class FieldDataUpload extends React.Component {
   componentDidMount () {
+    window.analytics.page()
     if (this.props.uploadingError) { this.props.clearUploadingError() }
     this.props.fetchUploads()
 
@@ -48,10 +49,20 @@ class FieldDataUpload extends React.Component {
 
   onSend (upload) {
     this.props.patchUpload(upload.get('id'), { sent: true })
+    window.analytics.track('sent upload', {
+      lab_id: this.props.lab.get('id'),
+      upload_id: upload.get('id'),
+      upload_url: upload.get('url'),
+    })
   }
 
   removeItem (upload) {
     this.props.deleteUpload(upload.get('id'))
+    window.analytics.track('deleted upload', {
+      lab_id: this.props.lab.get('id'),
+      upload_id: upload.get('id'),
+      upload_url: upload.get('url'),
+    })
   }
 
   clearError () {

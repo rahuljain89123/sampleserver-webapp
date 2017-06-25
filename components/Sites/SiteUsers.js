@@ -54,6 +54,7 @@ class SiteUsers extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.fetchUsers({ sites: this.state.siteId })
 
     if (!this.state.site) {
@@ -95,8 +96,7 @@ class SiteUsers extends React.Component {
 
   onSubmit (e) {
     e.preventDefault()
-
-    this.props.createUser({
+    const user = {
       email: this.state.email,
       lab_id: this.state.labId,
       role_id: TECHNICIAN_ROLE,
@@ -104,8 +104,12 @@ class SiteUsers extends React.Component {
         add: [this.state.siteId],
         remove: [],
       },
+    }
+    this.props.createUser(user).then(() => {
+      window.analytics.track('invited user', {
+        user: user,
+      })
     })
-
     this.setState({
       email: '',
     })

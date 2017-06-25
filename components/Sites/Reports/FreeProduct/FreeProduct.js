@@ -76,6 +76,7 @@ class FreeProduct extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
       .then(() => this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first().get('id'))))
 

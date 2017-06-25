@@ -35,6 +35,7 @@ class WellsList extends React.Component {
   }
 
   componentDidMount () {
+    window.analytics.page()
     if (this.props.uploadingError) { this.props.clearUploadingError() }
 
     this.props.fetchUploads()
@@ -60,7 +61,7 @@ class WellsList extends React.Component {
 
   onUpload (res) {
     const file = res.filesUploaded[0]
-    this.props.createUpload({
+    const wellUpload = {
       filename: file.filename,
       url: file.url,
       lab_id: this.props.lab.get('id'),
@@ -68,12 +69,14 @@ class WellsList extends React.Component {
       client_id: this.props.site.get('client_id'),
       site_id: this.props.site.get('id'),
       upload_type: 'well_data',
-    }).then(() => {
+    }
+    this.props.createUpload(wellUpload).then(() => {
       this.props.fetchWells({
         site_id: this.props.site.get('id'),
-        per_page: 100
+        per_page: 100,
       })
       this.props.flashMessage('success', 'Successfully updated wells.')
+      window.analytics.track('well bulk upload', wellUpload)
     })
   }
 
