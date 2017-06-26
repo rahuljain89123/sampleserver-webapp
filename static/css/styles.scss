@@ -1097,7 +1097,7 @@ form {
         }
     }
     .form-control {
-        padding: 1rem 1.5rem;
+        padding: 18px 20px;
         // display: inline-block;
         vertical-align: middle;
         // width: 50%;
@@ -1123,6 +1123,40 @@ form {
         padding-left: 0;
         margin-top: 20px;
         margin-bottom: 30px;
+    }
+    .Select {
+        /* select: */
+        background: #FFFFFF;
+        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.10);
+        border-radius: 3px;
+        .Select-control {
+            height: 55px;
+            /* Planet Gazorpazorp: */
+            font-family: GothamHTF;
+            font-size: 14px;
+            color: #282B2F;
+            letter-spacing: 0.4px;
+            border: 1px solid rgba(166,174,182,0.80);
+        }
+        .Select-input {
+            height: 53px;
+        }
+    }
+    .Select-placeholder, .Select--single > .Select-control .Select-value {
+        line-height: 53px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .has-value.Select--single > .Select-control .Select-value .Select-value-label, .has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label {
+        color: #282B2F;
+    }
+    .Select-option {
+        background-color: #fff;
+        color: #282B2F;
+        cursor: pointer;
+        display: block;
+        padding: 10px 20px;
+        font-size: 14px;
     }
 }
 form.user-form {

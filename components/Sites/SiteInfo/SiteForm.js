@@ -132,15 +132,6 @@ class SiteForm extends React.Component {
           type='text'
         />
 
-        { !isCompleteSiteForm && <Field
-            props={{ error: errors.start_sampling_on, label: 'Start Sampling On'}}
-            name='start_sampling_on'
-            id='start_sampling_on'
-            component={IndividualFormGroup}
-            type='text'
-          />
-        }
-
         <FormButton
           role="button"
           color="primary"
