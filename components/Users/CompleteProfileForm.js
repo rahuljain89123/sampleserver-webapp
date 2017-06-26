@@ -30,6 +30,10 @@ class CompleteProfileForm extends React.Component {
     }
   }
 
+  componentDidMount () {
+
+  }
+
   componentWillMount () {
     if (this.props.editingUserError) {
       this.props.clearEditingUserError()
@@ -67,6 +71,7 @@ class CompleteProfileForm extends React.Component {
     .then(() => {
       this.props.flashMessage('success', 'Profile updated')
       this.props.push('/app')
+      window.analytics.track('profile updated')
     })
     .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }

@@ -33,11 +33,19 @@ class App extends React.Component {
     this.props.fetchCurrentLab()
     this.props.fetchCurrentUser()
     this.props.fetchCompanies()
+    window.analytics.page()
   }
 
   componentWillReceiveProps (nextProps) {
     if (!nextProps.roles.size && nextProps.user) {
       this.props.fetchRoles()
+      window.analytics.identify(nextProps.user.get('id'), nextProps.user.toJS())
+    }
+  }
+
+  componentDidUpdate (prevProps) {
+    if(this.props.location.pathname !== prevProps.location.pathname) {
+      window.analytics.page()
     }
   }
 

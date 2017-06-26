@@ -9,6 +9,7 @@ import { setHeaderInfo } from 'actions/global'
 
 class LabDataList extends React.Component {
   componentDidMount () {
+
     this.props.fetchUploads({ site_id: this.props.site.get('id') })
     this.props.setHeaderInfo(
       'Lab Data',

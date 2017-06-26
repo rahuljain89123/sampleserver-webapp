@@ -33,6 +33,7 @@ class ClientSites extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.fetchClients().then(() =>
       this.props.clients.forEach(client => this.props.fetchSites({ client_id: client.get('id'), per_page: 150 }))
     )

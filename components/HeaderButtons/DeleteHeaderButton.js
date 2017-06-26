@@ -35,6 +35,9 @@ class DeleteSiteHeaderButton extends React.Component {
       .then(() => {
         this.props.flashMessage('success', this.props.successMessage)
         this.props.push(this.props.redirectPath)
+        window.analytics.track('deleted object', {
+          deleteMethodName: this.props.deleteMethodName,
+        })
       })
       .catch(() => {
         this.props.flashMessage('STANDARD_ERROR')

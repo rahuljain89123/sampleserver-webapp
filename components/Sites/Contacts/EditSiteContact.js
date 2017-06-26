@@ -18,62 +18,65 @@ import ContactForm from './ContactForm'
 
 
 class EditSiteContact extends React.Component {
-    constructor (props) {
-      super(props)
-      this.onSubmitContactForm = this.onSubmitContactForm.bind(this)
-    }
+  constructor (props) {
+    super(props)
+    this.onSubmitContactForm = this.onSubmitContactForm.bind(this)
+  }
 
-    componentDidMount () {
-      this.props.fetchContact(this.props.contactId)
+  componentDidMount () {
 
-      this.props.setHeaderInfo('Edit Contact', [{
-        component: 'DeleteHeaderButton',
-        props: {
-          deleteMethodName: 'deleteContact',
-          deleteId: this.props.contactId,
-          successMessage: 'Contact deleted',
-          redirectPath: `/app/sites/${this.props.site.get('id')}/contacts`,
-          buttonText: 'Delete Contact'
-        }
-      }])
-    }
+    this.props.fetchContact(this.props.contactId)
 
-    onSubmitContactForm (contactParams) {
-      this.props.editContact(this.props.contactId, contactParams)
-        .then(() => {
-          this.props.flashMessage('success', 'Contact updated successfully')
-          this.props.push(`/app/sites/${this.props.site.get('id')}/contacts`)
-        })
-        .catch(() => this.props.flashMessage('STANDARD_ERROR'))
-    }
+    this.props.setHeaderInfo('Edit Contact', [{
+      component: 'DeleteHeaderButton',
+      props: {
+        deleteMethodName: 'deleteContact',
+        deleteId: this.props.contactId,
+        successMessage: 'Contact deleted',
+        redirectPath: `/app/sites/${this.props.site.get('id')}/contacts`,
+        buttonText: 'Delete Contact',
+      },
+    }])
+  }
 
-    onDelete () {
-      this.props.deleteContact(this.props.contactId)
-        .then(() => {
-          this.props.flashMessage('success', 'Contact deleted successfully')
-          this.props.push(`/app/sites/${this.props.site.get('id')}/contacts`)
-        })
-    }
+  onSubmitContactForm (contactParams) {
+    this.props.editContact(this.props.contactId, contactParams)
+      .then(() => {
+        this.props.flashMessage('success', 'Contact updated successfully')
+        this.props.push(`/app/sites/${this.props.site.get('id')}/contacts`)
+        window.analytics.track('contact updated')
+      })
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
+  }
 
-    render () {
-        const contact = this.props.contacts.get(this.props.contactId)
+  onDelete () {
+    this.props.deleteContact(this.props.contactId)
+      .then(() => {
+        this.props.flashMessage('success', 'Contact deleted successfully')
+        this.props.push(`/app/sites/${this.props.site.get('id')}/contacts`)
+        window.analytics.track('contact deleted')
+      })
+  }
 
-        if (!contact) { return null }
+  render () {
+    const contact = this.props.contacts.get(this.props.contactId)
 
-        return (
-            <Row>
-                <Col sm={6}>
-                    <ContactForm
-                        site={this.props.site}
-                        initialValues={contact}
-                        formError={this.props.editingContactError}
-                        clearFormError={this.props.clearEditingContactError}
-                        submitForm={this.onSubmitContactForm}
-                    />
-                </Col>
-            </Row>
-        )
-    }
+    if (!contact) { return null }
+
+    return (
+      <Row className="has-navbar">
+        <Col sm={6}>
+          <ContactForm
+            site={this.props.site}
+            initialValues={contact}
+            formError={this.props.editingContactError}
+            clearFormError={this.props.clearEditingContactError}
+            submitForm={this.onSubmitContactForm}
+          />
+        </Col>
+      </Row>
+    )
+  }
 }
 
 const mapStateToProps = (store, props) => ({

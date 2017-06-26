@@ -35,6 +35,7 @@ class EditWell extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.fetchWell(this.props.wellId)
     this.props.fetchWellImages(this.props.wellId)
 
@@ -45,8 +46,8 @@ class EditWell extends React.Component {
         deleteId: this.props.wellId,
         successMessage: 'Well deleted',
         redirectPath: `/app/sites/${this.props.site.get('id')}/setup/wells`,
-        buttonText: 'Delete Well'
-      }
+        buttonText: 'Delete Well',
+      },
     }])
   }
 
@@ -55,6 +56,9 @@ class EditWell extends React.Component {
       .then(() => {
         this.props.flashMessage('success', 'Well Updated Successfully')
         this.props.push(`/app/sites/${this.props.site.get('id')}/setup/wells`)
+        window.analytics.track('well updated', {
+          well_id: this.props.wellId,
+        })
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
@@ -73,16 +77,18 @@ class EditWell extends React.Component {
 
   onDeleteWellImage (wellId, wellImageId) {
     this.props.deleteWellImage(wellId, wellImageId)
-      .then(
+      .then(() => {
         this.props.flashMessage(
           'success',
           'Well Image Deleted Successfully',
         )
-      )
+        window.analytics.track('well image uploaded', {
+          well_image_id: wellImageId,
+        })
+      })
   }
 
   render () {
-
     const {
       wellId,
       editingWellError,

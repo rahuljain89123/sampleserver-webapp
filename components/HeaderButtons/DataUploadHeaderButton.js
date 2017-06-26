@@ -30,13 +30,12 @@ class DataUploadHeaderButton extends React.Component {
     res.filesUploaded.map(file => {
       const params = this.props.uploadParams
       const fileParams = { filename: file.filename, url: file.url }
+      window.analytics.track('file uploaded', fileParams)
       return this.props.createUpload(Object.assign({}, params, fileParams))
     })
   }
 
   render () {
-    // {button.get('iconName') ? <i className={`material-icons ${button.get('className')}`}>{button.get('iconName')}</i> : ''}
-
     return (
       <button className="btn btn-default" onClick={() => this.openFilePicker()}>
         <i className='material-icons'>add_circle_outline</i>
@@ -51,13 +50,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(null, mapDispatchToProps)(DataUploadHeaderButton)
-
-
-// .catch(e => {
-//   e.response.json().then(error => {
-//     console.log(error)
-//     this.setState({
-//       error: error.message
-//     })
-//   })
-// })

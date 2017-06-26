@@ -17,6 +17,7 @@ class NewSiteMap extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.setHeaderInfo(
       'New Sitemap',
     )
@@ -29,6 +30,9 @@ class NewSiteMap extends React.Component {
     this.props.createSiteMap(siteMapParams).then((siteMapId) => {
       this.props.flashMessage('success', 'Sitemap successfully uploaded')
       this.props.push(`/app/sites/${siteId}/setup/site-maps/${siteMapId}`)
+      window.analytics.track('site map created', {
+        sitemap_id: siteMapId,
+      })
     })
     .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }

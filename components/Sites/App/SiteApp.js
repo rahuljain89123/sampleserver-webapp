@@ -45,6 +45,10 @@ class SiteApp extends React.Component {
       (!site.get('state_id') || !site.get('city'))
     ) {
       this.props.replace(`/complete-site/${site.get('id')}`)
+      window.analytics.track('promped to complete site', site.toJS())
+    } else {
+      const site = this.props.sites.get(siteId)
+      window.analytics.track('visited site', site.toJS())
     }
   }
 

@@ -27,6 +27,7 @@ class EditSite extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.setHeaderInfo(
       'Edit Site',
       [{
@@ -44,6 +45,7 @@ class EditSite extends React.Component {
     this.props.editSite(this.props.site.get('id'), siteParams)
       .then(() => {
         this.props.flashMessage('success', 'Site updated successfully')
+        window.analytics.track('updated site')
         if (this.props.isCompleteSiteForm) {
           this.props.push(`/app/sites/${this.props.site.get('id')}/setup/edit-site`)
         }

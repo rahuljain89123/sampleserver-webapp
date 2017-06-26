@@ -118,6 +118,7 @@ class QAQCForm extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.fetchWells({ site_id: this.props.site.get('id') })
     this.props.fetchTests()
     this.props.setHeaderInfo('QA/QC Preferences+')

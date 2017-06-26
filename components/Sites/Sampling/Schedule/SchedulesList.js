@@ -19,6 +19,7 @@ import { msgFromError } from 'util'
 
 class SchedulesList extends React.Component {
   componentDidMount () {
+
     this.props.fetchTests()
     this.props.fetchSchedules({site_id: this.props.site.get('id')})
 

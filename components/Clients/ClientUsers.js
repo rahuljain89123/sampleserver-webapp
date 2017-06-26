@@ -51,6 +51,7 @@ class ClientUsers extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.fetchUsers({ clients: this.props.clientId })
     this.props.fetchClient(this.props.clientId)
   }
@@ -88,10 +89,17 @@ class ClientUsers extends React.Component {
         this.props.flashMessage('success', 'User invited successfully.')
         // Need to fetch client to update client's user_ids
         this.props.fetchClient(this.props.clientId)
+        window.analytics.track('user invited', {
+          user: user,
+        })
       })
       .catch(e => {
         this.props.flashMessage('danger', msgFromError(e))
         this.setState({ error: msgFromError(e) })
+        window.analytics.track('user invite error', {
+          user: user,
+          error: e,
+        })
       })
   }
 

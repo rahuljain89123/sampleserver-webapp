@@ -9,13 +9,12 @@ import SiteApp from 'Sites/App/SiteApp'
 import NewSite from 'Sites/SiteInfo/NewSite'
 
 const ClientApp = () => (
-    <div className="client-app container-fluid">
-        <PrivateRoute exact path="/app" component={ClientSites} />
-        <PrivateRoute path="/app/sites/:id" component={SiteApp} />
-        <PrivateRoute exact path="/app/sites/new"component={NewSite} />
-        <PrivateRoute path="/app/clients/:id" component={Client} />
-
-    </div>
+  <div className="client-app container-fluid">
+    <PrivateRoute exact path="/app" component={ClientSites} />
+    <PrivateRoute path="/app/sites/:id" component={SiteApp} />
+    <PrivateRoute exact path="/app/sites/new"component={NewSite} />
+    <PrivateRoute path="/app/clients/:id" component={Client} />
+  </div>
 )
 
 export default ClientApp

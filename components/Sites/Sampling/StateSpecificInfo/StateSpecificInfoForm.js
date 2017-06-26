@@ -63,6 +63,7 @@ class StateSpecificInfoForm extends React.Component {
     this.onSubmit = this.onSubmit.bind(this)
   }
   componentDidMount () {
+
     if (!this.props.siteData) {
       this.props.fetchSiteDatas({ site_id: this.props.site.get('id') })
     }

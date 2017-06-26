@@ -46,6 +46,7 @@ class ClientSiteUsers extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.fetchUsers({ sites: this.props.site.get('id') })
     this.props.setHeaderInfo(
       `${this.props.roles.get(TECHNICIAN_ROLE).get('description')}s`
@@ -81,10 +82,17 @@ class ClientSiteUsers extends React.Component {
         this.setState({ invitingUser: false })
         this.props.flashMessage('success', 'User added successfully')
         this.props.fetchSite(this.props.site.get('id'))
+        window.analytics.track('user invited', {
+          user: user,
+        })
       })
       .catch(e => {
         this.props.flashMessage('danger', msgFromError(e))
         this.setState({ error: msgFromError(e) })
+        window.analytics.track('user invite error', {
+          user: user,
+          error: e,
+        })
       })
   }
 

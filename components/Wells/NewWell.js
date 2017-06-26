@@ -23,6 +23,7 @@ class NewWell extends React.Component {
   }
 
   componentDidMount () {
+
     this.props.setHeaderInfo('New Well')
   }
 
@@ -37,6 +38,9 @@ class NewWell extends React.Component {
       .then((wellId) => {
         this.props.flashMessage('success', 'Well created successfully')
         this.props.push(`/app/sites/${siteId}/setup/wells`)
+        window.analytics.track('well created', {
+          well_id: wellId,
+        })
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
