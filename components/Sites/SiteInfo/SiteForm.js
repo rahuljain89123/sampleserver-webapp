@@ -8,6 +8,7 @@ import {
 import { Field, reduxForm } from 'redux-form/immutable'
 import IndividualFormGroup from 'SharedComponents/ReduxFormHelpers/IndividualFormGroup'
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
+import DatePickerFormGroup from 'SharedComponents/ReduxFormHelpers/DatePickerFormGroup'
 import FormButton from 'SharedComponents/ReduxFormHelpers/FormButton'
 
 import STATES from 'helpers/states'
@@ -131,6 +132,15 @@ class SiteForm extends React.Component {
           component={IndividualFormGroup}
           type='text'
         />
+
+        { !isCompleteSiteForm && <Field
+          props={{ error: errors.start_sampling_on, label: 'Start Sampling On'}}
+          name='start_sampling_on'
+          id='start_sampling_on'
+          component={DatePickerFormGroup}
+          type='text'
+          />
+        }
 
         <FormButton
           role="button"

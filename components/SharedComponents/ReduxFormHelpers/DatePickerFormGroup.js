@@ -1,8 +1,9 @@
+
+import React from 'react'
 import {
   FormGroup,
-  FormFeedback,
-  Input,
   Label,
+  Col,
 } from 'reactstrap'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
@@ -28,20 +29,24 @@ class DatePickerFormGroup extends React.Component {
 
   render () {
     const {  state: { value }, handleChange } = this
-    const { id, label, error } = this.props
+    const { name, id, label, error } = this.props
 
-    return (<FormGroup>
-      <Label for={id}> {label} </Label>
-      <DatePicker
-        dateFormat="YYYY-MM-DD"
-        state={error ? 'danger' : ''}
-        name="date"
-        id="date"
-        selected={value}
-        onChange={handleChange.bind(this)}
-        className="form-control"
-      />
-    </FormGroup>)
+    return (
+      <FormGroup row>
+        <Label sm={2} for={id}> {label} </Label>
+        <Col sm={9}>
+          <DatePicker
+            dateFormat="YYYY-MM-DD"
+            state={error ? 'danger' : ''}
+            name={name}
+            id={id}
+            selected={value}
+            onChange={handleChange.bind(this)}
+            className="form-control"
+          />
+        </Col>
+      </FormGroup>
+    )
   }
 }
 
