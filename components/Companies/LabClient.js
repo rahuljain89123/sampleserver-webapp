@@ -3,9 +3,10 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Route, Switch, NavLink } from 'react-router-dom'
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    Nav,
+  Breadcrumb,
+  BreadcrumbItem,
+  Nav,
+  NavItem,
 } from 'reactstrap'
 
 
@@ -17,112 +18,105 @@ import LabClientContacts from './LabClientContacts'
 
 
 class LabClient extends React.Component {
-    constructor (props) {
-        super(props)
+  constructor (props) {
+    super(props)
 
-        const companyId = parseInt(props.match.params.id, 10)
-        const company = props.companies.get(companyId)
+    const companyId = parseInt(props.match.params.id, 10)
+    const company = props.companies.get(companyId)
 
-        this.state = {
-            companyId,
-            company,
-        }
+    this.state = {
+      companyId,
+      company,
+    }
+  }
+
+  componentDidMount () {
+    if (!this.state.company) {
+      this.props.fetchCompany(this.state.companyId)
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({
+      company: nextProps.companies.get(this.state.companyId),
+    })
+  }
+
+  onClick (e) {
+    e.preventDefault()
+    this.props.push(e.target.getAttribute('href'))
+  }
+
+  render () {
+    const company = this.state.company
+
+    if (!company) {
+      return null
     }
 
-    componentDidMount () {
-        if (!this.state.company) {
-            this.props.fetchCompany(this.state.companyId)
-        }
-    }
+    return (
+      <div className="lab-client">
+        <Nav tabs style={{ marginBottom: 30 }}>
+          <NavItem>
+            <NavLink
+              exact
+              to={`/app/clients/${company.get('id')}`}
+              className="nav-link"
+              activeClassName="active"
+            >Contacts</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              exact
+              to={`/app/clients/${company.get('id')}/uploads`}
+              className="nav-link"
+              activeClassName="active"
+            >Uploads</NavLink>
+          </NavItem>
+          {company.get('is_deletable') ? (
+            <NavItem>
+              <NavLink
+                exact
+                to={`/app/clients/${company.get('id')}/settings`}
+                className="nav-link"
+                activeClassName="active"
+              >Settings</NavLink>
+            </NavItem>
+          ) : null}
+        </Nav>
 
-    componentWillReceiveProps (nextProps) {
-        this.setState({
-            company: nextProps.companies.get(this.state.companyId),
-        })
-    }
-
-    onClick (e) {
-        e.preventDefault()
-        this.props.push(e.target.getAttribute('href'))
-    }
-
-    render () {
-        const company = this.state.company
-
-        if (!company) {
-            return null
-        }
-
-        return (
-            <div>
-                <Breadcrumb tag="nav" style={{ marginBottom: 20 }}>
-                    <BreadcrumbItem
-                        tag="a"
-                        href="/app"
-                        onClick={e => this.onClick(e)}
-                    >
-                        Clients
-                    </BreadcrumbItem>
-                    <BreadcrumbItem className="active">
-                        {company.get('title')}
-                    </BreadcrumbItem>
-                </Breadcrumb>
-
-                <Nav pills style={{ marginBottom: 50 }}>
-                    <NavLink
-                        exact
-                        to={`/app/clients/${company.get('id')}`}
-                        className="nav-link"
-                        activeClassName="active"
-                    >Contacts</NavLink>
-                    <NavLink
-                        exact
-                        to={`/app/clients/${company.get('id')}/uploads`}
-                        className="nav-link"
-                        activeClassName="active"
-                    >Uploads</NavLink>
-                    {company.get('is_deletable') ? (
-                        <NavLink
-                            exact
-                            to={`/app/clients/${company.get('id')}/settings`}
-                            className="nav-link"
-                            activeClassName="active"
-                        >Settings</NavLink>
-                    ) : null}
-                </Nav>
-
-                <Switch>
-                    <Route
-                        exact
-                        path="/app/clients/:id"
-                        render={() => <LabClientContacts company={company} />}
-                    />
-                    <Route
-                        exact
-                        path="/app/clients/:id/uploads"
-                        render={() => (
-                            <CompanyUploads company={company} />
-                        )}
-                    />
-                    <Route
-                        exact
-                        path="/app/clients/:id/settings"
-                        render={props => (
-                            <CompanySettings company={company} {...props} />
-                        )}
-                    />
-                </Switch>
-            </div>
-        )
-    }
+        <Switch>
+          <Route
+            exact
+            path="/app/clients/:id"
+            render={() => <LabClientContacts company={company} />}
+          />
+          <Route
+            exact
+            path="/app/clients/:id/uploads"
+            render={() => (
+              <CompanyUploads company={company} />
+            )}
+          />
+          <Route
+            exact
+            path="/app/clients/:id/settings"
+            render={props => (
+              <CompanySettings company={company} {...props} />
+            )}
+          />
+        </Switch>
+      </div>
+    )
+  }
 }
 
 const mapStateToProps = store => ({
-    companies: store.get('companies'),
+  companies: store.get('companies'),
 })
 
 const mapDispatchToProps = dispatch => ({
-    fetchCompany: id => dispatch(fetchCompany(id)),
+  fetchCompany: id => dispatch(fetchCompany(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LabClient)

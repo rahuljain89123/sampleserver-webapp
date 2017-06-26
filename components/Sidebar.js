@@ -134,6 +134,26 @@ class Sidebar extends React.Component {
                 component={SiteNav}
               />
               <Route
+                path="/app/clients/:id"
+                component={() => (
+                  <nav className="nav nav-pills flex-column">
+                    <NavLink
+                      exact
+                      to={`/app/`}
+                      className="nav-link nav-parent"
+                      activeClassName="active"
+                    ><i className="fa fa-chevron-left" aria-hidden="true"></i> Dashboard</NavLink>
+                    { showManageTeam && <NavLink
+                        exact
+                        to={`/app/team`}
+                        className="nav-link nav-parent"
+                        activeClassName="active"
+                      >Manage Team</NavLink>
+                    }
+                  </nav>
+                )}
+              />
+              <Route
                 path="/app"
                 component={() => (
                   <nav className="nav nav-pills flex-column">

@@ -27,7 +27,7 @@ class LabClientContacts extends React.Component {
     componentDidMount () {
         this.props.fetchCompany(this.props.company.get('id'))
         this.props.fetchUsers({ companies: this.props.company.get('id') })
-        this.props.setHeaderInfo('Contacts')
+        this.props.setHeaderInfo(`${this.props.company.get('title')} / Contacts`)
     }
 
     componentWillReceiveProps (nextProps) {

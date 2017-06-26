@@ -10,7 +10,7 @@ import { flashMessage, setHeaderInfo } from 'actions/global'
 
 class CompanySettings extends React.Component {
   componentDidMount () {
-    this.props.setHeaderInfo('Settings')
+    this.props.setHeaderInfo(`${this.props.company.get('title')} / Settings`)
   }
 
   deleteClient () {
