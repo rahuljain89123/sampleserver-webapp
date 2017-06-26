@@ -25,7 +25,7 @@ class NewSiteContact extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.setHeaderInfo('New Contact')
   }
 

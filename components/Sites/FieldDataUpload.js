@@ -27,7 +27,7 @@ const FILESTACK_OPTIONS = {
 
 class FieldDataUpload extends React.Component {
   componentDidMount () {
-    window.analytics.page()
+
     if (this.props.uploadingError) { this.props.clearUploadingError() }
     this.props.fetchUploads()
 

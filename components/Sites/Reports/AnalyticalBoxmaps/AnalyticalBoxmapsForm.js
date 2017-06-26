@@ -71,7 +71,7 @@ class AnalyticalBoxmapsForm extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
       .then(() => {
         if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {

@@ -26,7 +26,7 @@ class LabClients extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchCompanies()
     this.props.setHeaderInfo('Clients', [{
       text: 'New Client',

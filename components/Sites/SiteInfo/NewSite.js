@@ -24,7 +24,7 @@ class NewSite extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.setHeaderInfo(
       'New Site',
       [{

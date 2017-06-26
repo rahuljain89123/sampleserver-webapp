@@ -31,7 +31,7 @@ class CompleteProfileForm extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
   }
 
   componentWillMount () {

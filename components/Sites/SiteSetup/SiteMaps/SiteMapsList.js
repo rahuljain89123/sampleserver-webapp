@@ -44,7 +44,7 @@ class SiteMapsList extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
     this.props.setHeaderInfo(
       'Sitemaps',

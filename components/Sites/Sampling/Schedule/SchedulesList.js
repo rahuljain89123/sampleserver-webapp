@@ -19,7 +19,7 @@ import { msgFromError } from 'util'
 
 class SchedulesList extends React.Component {
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchTests()
     this.props.fetchSchedules({site_id: this.props.site.get('id')})
 

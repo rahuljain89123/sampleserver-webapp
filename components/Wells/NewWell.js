@@ -23,7 +23,7 @@ class NewWell extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.setHeaderInfo('New Well')
   }
 

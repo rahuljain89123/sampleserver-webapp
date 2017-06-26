@@ -24,7 +24,7 @@ class EditSiteContact extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchContact(this.props.contactId)
 
     this.props.setHeaderInfo('Edit Contact', [{

@@ -54,7 +54,7 @@ class CompanyUsers extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchUsers({ companies: this.state.companyId })
 
     if (!this.state.company) {

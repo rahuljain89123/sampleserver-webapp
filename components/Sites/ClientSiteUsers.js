@@ -46,7 +46,7 @@ class ClientSiteUsers extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchUsers({ sites: this.props.site.get('id') })
     this.props.setHeaderInfo(
       `${this.props.roles.get(TECHNICIAN_ROLE).get('description')}s`

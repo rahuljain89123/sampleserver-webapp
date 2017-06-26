@@ -11,7 +11,7 @@ import NewLabClientForm from './NewLabClientForm'
 
 class NewLabClient extends React.Component {
   componentDidMount () {
-    window.analytics.page()
+
   }
 
   render () {

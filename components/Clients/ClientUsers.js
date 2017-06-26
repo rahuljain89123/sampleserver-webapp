@@ -51,7 +51,7 @@ class ClientUsers extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchUsers({ clients: this.props.clientId })
     this.props.fetchClient(this.props.clientId)
   }

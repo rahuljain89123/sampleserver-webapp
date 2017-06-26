@@ -27,7 +27,7 @@ class EditSite extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.setHeaderInfo(
       'Edit Site',
       [{

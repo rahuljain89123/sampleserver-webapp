@@ -33,7 +33,7 @@ class ClientSites extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchClients().then(() =>
       this.props.clients.forEach(client => this.props.fetchSites({ client_id: client.get('id'), per_page: 150 }))
     )

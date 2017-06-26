@@ -11,7 +11,7 @@ import { flashMessage, setHeaderInfo } from 'actions/global'
 
 class ContactsList extends React.Component {
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchContacts({ site_id: this.props.site.get('id') })
     this.props.setHeaderInfo('Contacts', [{
     text: 'New Contact',

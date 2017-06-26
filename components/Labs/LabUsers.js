@@ -35,7 +35,7 @@ class LabUsers extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchUsers({ lab_id: this.props.lab.get('id') })
     this.props.setHeaderInfo('Manage Team')
   }

@@ -35,7 +35,7 @@ class EditWell extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchWell(this.props.wellId)
     this.props.fetchWellImages(this.props.wellId)
 

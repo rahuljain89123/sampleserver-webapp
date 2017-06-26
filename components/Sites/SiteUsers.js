@@ -54,7 +54,7 @@ class SiteUsers extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.fetchUsers({ sites: this.state.siteId })
 
     if (!this.state.site) {

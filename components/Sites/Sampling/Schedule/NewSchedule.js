@@ -41,7 +41,7 @@ class NewSchedule extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     if (this.props.creatingScheduleError) {
       this.props.clearCreatingScheduleError()
     }

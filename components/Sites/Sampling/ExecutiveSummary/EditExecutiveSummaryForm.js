@@ -21,7 +21,7 @@ class EditExecutiveSummaryForm extends React.Component {
   }
 
   componentDidMount () {
-    window.analytics.page()
+
     this.props.setHeaderInfo(
       'Executive Summary+',
     )
