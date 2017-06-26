@@ -43,7 +43,7 @@ class WellForm extends React.Component {
     return (
       <Form onSubmit={handleSubmit(submitForm)}>
         <Field
-          props={{ error: errors.title, label: 'Well/Sample ID'}}
+          props={{ error: errors.title, label: 'Well/Sample ID*'}}
           name='title'
           id='title'
           component={IndividualFormGroup}

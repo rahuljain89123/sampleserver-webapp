@@ -13,6 +13,7 @@ import {
 const FILESTACK_OPTIONS = {
     accept: 'image/*',
     fromSources: ['local_file_system', 'dropbox'],
+    maxFiles: 5,
     transformOptions: {
       maxDimensions: [1280, 1280]
     },
@@ -44,7 +45,6 @@ class WellImages extends React.Component {
 
   handleDelete (image, e) {
     e.preventDefault()
-
     this.props.onDelete(this.props.wellId, image.get('id'))
   }
 
@@ -62,7 +62,11 @@ class WellImages extends React.Component {
               className="img-thumbnail" />
             <a
               href='#'
-              onClick={(e) => this.handleDelete(image, e)}>
+              onClick={(e) => {
+                if (confirm('Delete this image?')) {
+                  this.handleDelete(image, e)
+                }
+              }}>
               Delete
             </a>
         </div>

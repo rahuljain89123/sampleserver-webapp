@@ -87,20 +87,20 @@ class SiteMapForm extends React.Component {
     let image = null
 
     if (url) {
-      image = <img src={url} height='400'  />
+      image = <img src={url} height='400' className="img-thumbnail" />
     }
 
     return (<Form onSubmit={handleSubmit(onSubmit)}>
       <Field
         name='title'
         id='title'
-        label='Sitemap Title'
+        label='Sitemap Title*'
         component={IndividualFormGroup}
         type='text'
       />
       <div className="preview-image">{image}</div>
       <div className="img-actions row">
-        <Label sm={2}>Choose Sitemap Image</Label>
+        <Label sm={2}>Sitemap Image*</Label>
         <div className="col-sm-9">
           <a onClick={this.pickImage} className="btn btn-default">
             <i className="fa fa-plus-square" aria-hidden="true" /> Choose Image

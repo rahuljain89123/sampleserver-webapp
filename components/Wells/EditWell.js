@@ -65,14 +65,14 @@ class EditWell extends React.Component {
 
   onUploadWellImages (wellImages) {
     this.props.uploadWellImages(this.props.wellId, wellImages)
-      .then(this.props.fetchWellImages(this.props.wellId))
-      .then(() => {
-        this.props.flashMessage(
-          'success',
-          'Well Image Uploaded Successfully',
-        )
-        window.analytics.track('well image uploaded', wellImages)
-      })
+      // .then(this.props.fetchWellImages(this.props.wellId))
+      // .then(
+      //   this.props.flashMessage(
+      //     'success',
+      //     'Well Image Uploaded Successfully',
+      //   )
+      // )
+      .then(() => window.location.reload())
   }
 
   onDeleteWellImage (wellId, wellImageId) {

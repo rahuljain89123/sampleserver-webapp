@@ -22,9 +22,8 @@ const SelectFormGroup = (field) => (
         options={field.options}
         placeholder={field.placeholder}
       />
-
+      <FormFeedback> {field.error} </FormFeedback>
     </div>
-    <FormFeedback> {field.error} </FormFeedback>
   </FormGroup>
 )
 

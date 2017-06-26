@@ -22,6 +22,7 @@ class SiteForm extends React.Component {
   }
 
   render () {
+    const { isCompleteSiteForm } = this.props
     const error = this.props.siteError
     const generalError = error && error.msg ? error.msg : null
     const errors = error && error.key ? {
@@ -64,13 +65,14 @@ class SiteForm extends React.Component {
           type='text'
         />
 
-        <Field
-          props={{ error: errors.notes, label: 'Notes'}}
-          name='notes'
-          id='notes'
-          component={IndividualFormGroup}
-          type='textarea'
-        />
+        { !isCompleteSiteForm && <Field
+            props={{ error: errors.notes, label: 'Notes'}}
+            name='notes'
+            id='notes'
+            component={IndividualFormGroup}
+            type='textarea'
+          />
+        }
 
         <Field
           props={{ error: errors.address, label: 'Address'}}
@@ -130,19 +132,14 @@ class SiteForm extends React.Component {
           type='text'
         />
 
-        <Field
-          props={{ error: errors.start_sampling_on, label: 'Start Sampling On'}}
-          name='start_sampling_on'
-          id='start_sampling_on'
-          component={IndividualFormGroup}
-          type='text'
-        />
-
         <FormButton
-            role="button"
-            color="primary"
-            disabled={this.props.submittingForm}
-        >Save Site</FormButton>
+          role="button"
+          color="primary"
+          disabled={this.props.submittingForm}
+        >
+          Save Site
+          { isCompleteSiteForm && <i className='material-icons'>chevron_right</i> }
+        </FormButton>
       </Form>
     )
   }

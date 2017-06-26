@@ -40,10 +40,15 @@ class EditSite extends React.Component {
   onSubmitSiteForm (siteParams) {
     siteParams = siteParams.update('state_id', (v) => parseInt(v))
 
+    if (!siteParams.get('city')) { siteParams = siteParams.set('city', null) }
+
     this.props.editSite(this.props.site.get('id'), siteParams)
       .then(() => {
         this.props.flashMessage('success', 'Site updated successfully')
         window.analytics.track('updated site')
+        if (this.props.isCompleteSiteForm) {
+          this.props.push(`/app/sites/${this.props.site.get('id')}/setup/edit-site`)
+        }
       })
       .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
@@ -54,13 +59,13 @@ class EditSite extends React.Component {
       editingSite,
       editingSiteError,
       clearEditingSiteError,
-      removeNavbarPadding
+      isCompleteSiteForm,
     } = this.props
 
     if (!site) { return null }
 
     return (
-      <div className={`edit-site ${removeNavbarPadding ? '' : 'has-navbar'}`}>
+      <div className={`edit-site ${isCompleteSiteForm ? '' : 'has-navbar'}`}>
         <div className="border-bottom">
         </div>
         <Row>
@@ -70,6 +75,7 @@ class EditSite extends React.Component {
               siteError={editingSiteError}
               clearSiteError={clearEditingSiteError}
               submittingForm={editingSite}
+              isCompleteSiteForm={isCompleteSiteForm}
               submitForm={this.onSubmitSiteForm}
             />
           </Col>
