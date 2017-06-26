@@ -21,7 +21,7 @@ class CompleteSite extends React.Component {
     // debugger
     return (
       <div className="row justify-content-center">
-        <div className="col-4">
+        <div className="col-sm-10 col-md-6">
           <div className="standalone-form">
             <h2 className="text-center">Site Details</h2>
             <div className="alert alert-warning fade show" role="alert">
