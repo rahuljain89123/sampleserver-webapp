@@ -33,7 +33,7 @@ class CompanyUploads extends React.Component {
     this.props.fetchUploads()
 
     this.props.setHeaderInfo(
-    'Uploads',
+    `${this.props.company.get('title')} / Uploads`,
     [{
       component: 'DataUploadHeaderButton',
       props: {
