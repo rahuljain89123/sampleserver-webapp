@@ -144,7 +144,15 @@ class IsochemicalContours extends React.Component {
     }
 
     this.props.createContour(params)
-      .then((url) => download(url, 'isochemical-contour-report.pdf', 'application/pdf'))
+      .then((resp) => {
+        console.log(resp)
+        const x = new window.XMLHttpRequest()
+        x.open('GET', `/backend${resp.path}`, true)
+        x.responseType = 'blob'
+        x.onload = function(e) { download(x.response, resp.filename, 'application/pdf') }
+        x.send()
+        this.props.flashMessage('success', 'Report Generated')
+      })
       .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 

@@ -110,9 +110,14 @@ class AnalyticalBoxmapsForm extends React.Component {
       .set('substance_ids', this.props.site.get('substance_ids'))
 
     this.props.createAnalyticalBoxmap(formParams)
-      .then((fileBlob) => {
+      .then((resp) => {
+        console.log(resp)
+        const x = new window.XMLHttpRequest()
+        x.open('GET', `/backend${resp.path}`, true)
+        x.responseType = 'blob'
+        x.onload = function(e) { download(x.response, resp.filename, 'application/pdf') }
+        x.send()
         this.props.flashMessage('success', 'Report Generated')
-        download(fileBlob, 'boxmaps-report.pdf', 'application/pdf')
       })
       .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }

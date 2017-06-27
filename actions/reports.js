@@ -26,7 +26,7 @@ export const createContour = contourParams =>
       .then((res) => {
         dispatch(setSubmittingReport(false))
         dispatch(hideLoading())
-        return Promise.resolve(res.src)
+        return Promise.resolve(res)
       })
       .catch(() => {
         dispatch(setSubmittingReport(false))
