@@ -646,17 +646,16 @@ section {
   a {
     padding: 15px;
   }
-}
-
-.img-and-canvas-overlay {
-  position: relative;
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .img-and-canvas-overlay {
+    position: relative;
+    canvas {
+        cursor: crosshair;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
   }
 }
-
 .site-map-image, .boxmap-iframe-wrapper {
     // border: 1px solid rgba(0, 0, 0, 0.125);
     // border-radius: 2px;
