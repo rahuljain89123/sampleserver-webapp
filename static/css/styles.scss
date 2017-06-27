@@ -1113,7 +1113,7 @@ form {
         max-width: 100%;
     }
     textarea {
-        height: 66px;
+        height: 100px;
     }
     .form-group {
         margin-bottom: 28px;
@@ -1140,6 +1140,9 @@ form {
         }
         .Select-input {
             height: 53px;
+        }
+        .Select-input > input {
+            padding: 18px 10px;
         }
     }
     .Select-placeholder, .Select--single > .Select-control .Select-value {
