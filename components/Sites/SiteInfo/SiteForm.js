@@ -66,15 +66,6 @@ class SiteForm extends React.Component {
           type='text'
         />
 
-        { !isCompleteSiteForm && <Field
-            props={{ error: errors.notes, label: 'Notes'}}
-            name='notes'
-            id='notes'
-            component={IndividualFormGroup}
-            type='textarea'
-          />
-        }
-
         <Field
           props={{ error: errors.address, label: 'Address'}}
           name='address'
@@ -139,7 +130,16 @@ class SiteForm extends React.Component {
           id='start_sampling_on'
           component={DatePickerFormGroup}
           type='text'
-          />
+        />
+        }
+
+        { !isCompleteSiteForm && <Field
+          props={{ error: errors.notes, label: 'Notes'}}
+          name='notes'
+          id='notes'
+          component={IndividualFormGroup}
+          type='textarea'
+        />
         }
 
         <FormButton
