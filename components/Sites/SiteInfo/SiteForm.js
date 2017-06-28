@@ -108,38 +108,40 @@ class SiteForm extends React.Component {
           type='text'
         />
 
-        <Field
-          props={{ error: errors.latitude, label: 'Latitude'}}
-          name='latitude'
-          id='latitude'
-          component={IndividualFormGroup}
-          type='text'
-        />
-
-        <Field
-          props={{ error: errors.longitude, label: 'Longitude'}}
-          name='longitude'
-          id='longitude'
-          component={IndividualFormGroup}
-          type='text'
-        />
-
         { !isCompleteSiteForm && <Field
-          props={{ error: errors.start_sampling_on, label: 'Start Sampling On'}}
-          name='start_sampling_on'
-          id='start_sampling_on'
-          component={DatePickerFormGroup}
-          type='text'
-        />
+            props={{ error: errors.latitude, label: 'Latitude'}}
+            name='latitude'
+            id='latitude'
+            component={IndividualFormGroup}
+            type='text'
+          />
         }
 
         { !isCompleteSiteForm && <Field
-          props={{ error: errors.notes, label: 'Notes'}}
-          name='notes'
-          id='notes'
-          component={IndividualFormGroup}
-          type='textarea'
-        />
+            props={{ error: errors.longitude, label: 'Longitude'}}
+            name='longitude'
+            id='longitude'
+            component={IndividualFormGroup}
+            type='text'
+          />
+        }
+
+        { !isCompleteSiteForm && <Field
+            props={{ error: errors.start_sampling_on, label: 'Start Sampling On'}}
+            name='start_sampling_on'
+            id='start_sampling_on'
+            component={DatePickerFormGroup}
+            type='text'
+          />
+        }
+
+        { !isCompleteSiteForm && <Field
+            props={{ error: errors.notes, label: 'Notes'}}
+            name='notes'
+            id='notes'
+            component={IndividualFormGroup}
+            type='textarea'
+          />
         }
 
         <FormButton
