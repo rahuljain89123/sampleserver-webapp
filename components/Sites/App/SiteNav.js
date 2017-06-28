@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import PrivateRoute from 'components/Auth'
 import { fetchSite } from 'actions/sites'
+import { fetchClients } from 'actions/clients'
 
 import {
   NavLink,
@@ -33,9 +34,17 @@ class SiteNav extends React.Component {
     if (!this.props.sites.get(this.state.siteId)) {
       this.props.fetchSite(this.state.siteId)
     }
+    if (!this.props.clients.size) {
+      this.props.fetchClients()
+    }
   }
 
   getAppTitle () {
+    if (this.props.clients.size && this.props.sites.size) {
+      const site = this.props.sites.get(this.state.siteId)
+      const client = this.props.clients.get(site.get('client_id'))
+      return client.get('name')
+    }
     if (this.props.company) {
       return this.props.company.get('title')
     }
@@ -204,11 +213,13 @@ class SiteNav extends React.Component {
 
 const mapStateToProps = store => ({
   sites: store.get('sites'),
+  clients: store.get('clients'),
   company: currentCompany(store),
 })
 
 const mapDispatchToProps = dispatch => ({
   fetchSite: id => dispatch(fetchSite(id)),
+  fetchClients: () => dispatch(fetchClients()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteNav)

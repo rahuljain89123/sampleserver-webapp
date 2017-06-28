@@ -88,17 +88,3 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)
-// =======
-// import AdminApp from './AdminApp'
-//
-// const App = () => (
-//     <div>
-//       <PrivateRoute path="/app" component={AdminApp} authorized={['Admin']} />
-//       <PrivateRoute path="/app" component={LabApp} authorized={['LabAdmin', 'LabAssociate']} />
-//       <PrivateRoute path="/app" component={CompanyApp} authorized={['CompanyAdmin', 'CompanyAssociate']} />
-//       <PrivateRoute path="/app" component={ClientApp} authorized={['ClientManager']} />
-//     </div>
-// )
-//
-// export default App
-// >>>>>>> c7478154317d376cfaa089781d62f9987838cc73

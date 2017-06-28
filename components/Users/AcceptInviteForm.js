@@ -16,7 +16,7 @@ import {
     acceptInvite,
     signin,
     clearAcceptInviteError,
-} from '../../actions/users'
+} from 'actions/users'
 import { msgFromError } from 'helpers/util'
 
 
@@ -37,7 +37,14 @@ class AcceptInviteForm extends React.Component {
     }
 
     componentDidMount () {
-        this.props.fetchUsers({ 'invite_code': this.props.code })
+        this.props.fetchUsers({ 'invite_code': this.props.code }).then(() => {
+            if (!this.props.users.first()) {
+                this.props.push('/')
+            } else if (this.props.users.first().get('active')) {
+                this.props.push('/')
+            }
+        })
+
     }
 
     componentWillReceiveProps (nextProps) {

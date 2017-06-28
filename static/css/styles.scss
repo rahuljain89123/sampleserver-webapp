@@ -591,7 +591,6 @@ section {
         display: block;
         &:hover {
             color: #158586;
-            // text-decoration: underline;
         }
     }
 }
@@ -605,7 +604,6 @@ section {
     display: flex;
     justify-content: space-around;
     align-items: stretch;
-    // justify-content: space-around;
     box-sizing: initial;
     margin: 0 -30px;
 
@@ -617,12 +615,6 @@ section {
         .sidebar-content {
             padding: 20px;
         }
-        h2 {
-
-        }
-    }
-    .site-map-content {
-        width: 100%;
     }
     .well {
         padding: 10px;
@@ -640,55 +632,70 @@ section {
     .remove-well-marker {
         float: right;
     }
-}
-
-.site-map-image {
-  a {
-    padding: 15px;
-  }
-  .img-and-canvas-overlay {
-    position: relative;
-    canvas {
-        cursor: crosshair;
-        position: absolute;
-        top: 0;
-        left: 0;
+    .site-map-image {
+      a {
+        padding: 15px;
+      }
+      .img-and-canvas-overlay {
+        position: relative;
+        canvas {
+            cursor: move; /* fallback if grab cursor is unsupported */
+            cursor: grab;
+            cursor: -moz-grab;
+            cursor: -webkit-grab;
+            position: absolute;
+            top: 0;
+            left: 0;
+            &:active {
+                cursor: grabbing;
+                cursor: -moz-grabbing;
+                cursor: -webkit-grabbing;
+            }
+        }
+      }
     }
-  }
-}
-.site-map-image, .boxmap-iframe-wrapper {
-    // border: 1px solid rgba(0, 0, 0, 0.125);
-    // border-radius: 2px;
-    position: relative;
-    .zoom-controls {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        z-index: 1;
-        background: #FFFFFF;
-        box-shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
-        border-radius: 3px;
-        -webkit-user-select: none; /* Chrome/Safari */
-        -moz-user-select: none; /* Firefox */
-        -ms-user-select: none; /* IE10+ */
+    .site-map-content {
+        width: 100%;
+        &.site-map-wells {
+              .img-and-canvas-overlay {
+                canvas {
+                    cursor: crosshair;
+                }
+            }
+        }
     }
-    .material-icons {
-        font-size: 22px;
-        border: 1px solid rgba(86,91,96,0.20);
-        letter-spacing: 0;
-        color: #575C61;
-        border-radius: 50%;
-        cursor: pointer;
-        margin: 20px;
-        padding: 3px;
-    }
-    .zoom-level {
-        opacity: 0.7;
-        font-family: GothamHTF-Medium;
-        font-size: 12px;
-        color: #575C61;
-        letter-spacing: 0;
-        text-align: center;
+    .site-map-image, .boxmap-iframe-wrapper {
+        position: relative;
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 1;
+            background: #FFFFFF;
+            box-shadow: 0 1px 4px 0 rgba(0,0,0,0.30);
+            border-radius: 3px;
+            -webkit-user-select: none; /* Chrome/Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+ */
+        }
+        .material-icons {
+            font-size: 22px;
+            border: 1px solid rgba(86,91,96,0.20);
+            letter-spacing: 0;
+            color: #575C61;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 20px;
+            padding: 3px;
+        }
+        .zoom-level {
+            opacity: 0.7;
+            font-family: GothamHTF-Medium;
+            font-size: 12px;
+            color: #575C61;
+            letter-spacing: 0;
+            text-align: center;
+        }
     }
 }
 #root {
@@ -1175,10 +1182,14 @@ form.contouring-form {
 }
 
 .analytical-boxmaps, form.contouring-form {
-  .form-control {
-    width: 100%;
-    padding: 0.5rem 0rem 0.5rem 0.5rem;
-  }
+    .form-group {
+        box-sizing: border-box;
+    }
+    .form-control {
+        width: 100%;
+        box-sizing: border-box;
+        // margin: 0 -15px;
+    }
 }
 
 .contouring-sidebar {
