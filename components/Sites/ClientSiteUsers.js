@@ -53,7 +53,8 @@ class ClientSiteUsers extends React.Component {
     )
   }
 
-  onInviteUser () {
+  onInviteUser (e) {
+    e.preventDefault()
     this.setState({ invitingUser: true })
   }
 
@@ -114,8 +115,13 @@ class ClientSiteUsers extends React.Component {
       )
     }
 
-    return (
-      <div className="client-site-users has-navbar">
+    let techniciansTable = null
+    let techniciansNav =  null
+    if (!filteredUsers.size) {
+      techniciansTable = (<div>No technicians yet. <a href='#' onClick={this.onInviteUser}>Add Technician.</a></div>)
+    } else {
+      techniciansTable = <UsersTable users={filteredUsers} />
+      techniciansNav = (<div>
         <div className="nav-item action">
           <a className="nav-link invite-users" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite Technican</a>
         </div>
@@ -127,7 +133,13 @@ class ClientSiteUsers extends React.Component {
             </p>
           </Col>
         </Row>
-        <UsersTable users={filteredUsers} />
+      </div>)
+    }
+
+    return (
+      <div className="client-site-users has-navbar">
+        { techniciansNav }
+        { techniciansTable }
         <Modal isOpen={this.state.invitingUser} toggle={this.hideModal}>
           <ModalHeader toggle={this.hideModal}>Invite Technican</ModalHeader>
           <ModalBody>
