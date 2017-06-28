@@ -16,7 +16,7 @@ const IndividualFormGroup = (field) => (
     color={field.error ? 'danger' : ''}
     className={field.type === 'checkbox' ? 'pl-4' : ''}>
     { field.type !== 'checkbox' && <Label sm={2} for={field.id}> {field.label} </Label> }
-    <Col sm={9}>
+    <Col sm={field.gridWidth ? field.gridWidth : 9}>
       <Input
         {...field.input}
         type={field.type}

@@ -358,7 +358,7 @@ class AnalyticalBoxmapsForm extends React.Component {
             {sidebarContent}
           </div>
         </div>
-        <div className='site-map-content'>
+        <div className='site-map-content boxmaps'>
           {boxmapsPreview}
         </div>
       </div>

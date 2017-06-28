@@ -203,7 +203,7 @@ class SiteMap extends React.Component {
           </div>
         </div>
 
-        <div className="site-map-content">
+        <div className="site-map-content site-map-wells">
 
           <SiteMapImage
             imageUrl={siteMap.get('url')}

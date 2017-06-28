@@ -297,6 +297,8 @@ class GroundwaterElevation extends React.Component {
           name='title_wildcard'
           id='title_wildcard'
           type='text'
+          className='form-control'
+          gridWidth={12}
           component={IndividualFormGroup}
         />
 
