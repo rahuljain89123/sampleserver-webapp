@@ -90,7 +90,8 @@ class WellsList extends React.Component {
 
     const wells = this.props.wells
       .sort((a,b) => compareAlphaNumeric(a.get('title'), b.get('title')))
-
+      .valueSeq()
+      
     let wellsList = null
     let errorDisplay = null
 
