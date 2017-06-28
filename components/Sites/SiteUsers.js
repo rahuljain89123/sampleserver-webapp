@@ -25,7 +25,7 @@ import { createUser, fetchUsers } from '../../actions/users'
 
 const TECHNICIAN_ROLE = 7
 
-
+/* PART OF THE DEFUNCT ADMIN APP. */
 class SiteUsers extends React.Component {
   constructor (props) {
     super(props)

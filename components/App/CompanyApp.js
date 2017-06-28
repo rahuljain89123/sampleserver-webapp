@@ -1,5 +1,6 @@
 
 import React from 'react'
+import { Switch } from 'react-router-dom'
 
 import PrivateRoute from 'components/Auth'
 
@@ -17,10 +18,12 @@ const CompanyApp = () => (
   <div className="company-app container-fluid">
     <PrivateRoute exact path="/app" component={ClientSites} />
     <PrivateRoute path="/app/team" component={TeamCompanyUsers} />
-    <PrivateRoute path="/app/sites/:id" component={SiteApp} />
+    <Switch>
+      <PrivateRoute exact path="/app/sites/new"component={NewSite} />
+      <PrivateRoute path="/app/sites/:id" component={SiteApp} />
+    </Switch>
     <PrivateRoute path="/app/clients/:id" component={Client} />
     <PrivateRoute exact path="/app/clients/new" component={NewClient} />
-    <PrivateRoute exact path="/app/sites/new"component={NewSite} />
   </div>
 )
 
