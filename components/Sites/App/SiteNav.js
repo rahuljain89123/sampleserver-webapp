@@ -131,6 +131,12 @@ class SiteNav extends React.Component {
                   className="nav-link"
                   activeClassName="active"
                 >Edit Site Maps</NavLink>
+                <NavLink
+                  exact
+                  to={`/app/sites/${site.get('id')}/setup/executive-summary`}
+                  className="nav-link"
+                  activeClassName="active"
+                >Executive Summary+</NavLink>
               </nav>
             )}
           />
@@ -155,12 +161,7 @@ class SiteNav extends React.Component {
                   className="nav-link"
                   activeClassName="active"
                 >QA/QC Preferences</NavLink>
-                <NavLink
-                  exact
-                  to={`/app/sites/${site.get('id')}/sampling/executive-summary`}
-                  className="nav-link"
-                  activeClassName="active"
-                >Executive Summary+</NavLink>
+
                 {site.get('state_id') === 35 && <NavLink
                   exact
                   to={`/app/sites/${site.get('id')}/sampling/state-specific-info`}

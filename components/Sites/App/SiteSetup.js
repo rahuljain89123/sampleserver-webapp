@@ -5,6 +5,8 @@ import {
 } from 'react-router-dom'
 import { connect } from 'react-redux'
 import PrivateRoute from 'components/Auth'
+import EditExecutiveSummaryForm from 'components/Sites/Sampling/ExecutiveSummary/EditExecutiveSummaryForm'
+
 import EditSite from 'Sites/SiteInfo/EditSite'
 import WellsList from 'Sites/SiteSetup/Wells/WellsList'
 import EditWell from 'Wells/EditWell'
@@ -34,6 +36,11 @@ class SiteSetup extends React.Component {
               {...props}
             />
           )}
+        />
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/setup/executive-summary`}
+          component={props => <EditExecutiveSummaryForm site={site} {...props} />}
         />
         <Switch>
           <PrivateRoute
