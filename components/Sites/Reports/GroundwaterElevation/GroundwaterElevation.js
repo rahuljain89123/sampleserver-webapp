@@ -166,16 +166,6 @@ class GroundwaterElevation extends React.Component {
     ))
   }
 
-  shouldShowSubstanceId (substanceId) {
-    const {
-      date_collected,
-      date_collected_range_end,
-      sampleDates,
-      substanceIds,
-    } = this.props
-    return contouringFn.substanceIdInDate(substanceId, sampleDates, date_collected, date_collected_range_end) &&
-      ((substanceIds && !substanceIds.includes(substanceId.toString())) || !substanceIds)
-  }
 
   drawWellMarker (well, ctx, loc) {
     contouringFn.drawWellMarker(

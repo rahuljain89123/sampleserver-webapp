@@ -10,6 +10,10 @@ import {
   NavLink,
   Row,
   Col,
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
 } from 'reactstrap'
 
 import UsersTable from 'SharedComponents/Team/UsersTable'
@@ -29,13 +33,15 @@ class LabUsers extends React.Component {
     const activeRole = roles.size ? roles.first().get('id') : 100
     this.state = {
       activeRole,
+      invitingUser: false,
     }
 
     this.onSubmit = this.onSubmit.bind(this)
+    this.onInviteUser = this.onInviteUser.bind(this)
+    this.hideModal = this.hideModal.bind(this)
   }
 
   componentDidMount () {
-
     this.props.fetchUsers({ lab_id: this.props.lab.get('id') })
     this.props.setHeaderInfo('Manage Team')
   }
@@ -43,6 +49,15 @@ class LabUsers extends React.Component {
   onToggle (activeRole) {
     this.setState({ activeRole })
   }
+
+  onInviteUser () {
+    this.setState({ invitingUser: true })
+  }
+
+  hideModal () {
+    this.setState({ invitingUser: false })
+  }
+
 
   onSubmit (userParams) {
     const user = {
@@ -76,9 +91,11 @@ class LabUsers extends React.Component {
       .entrySeq()
     const roles = this.props.roles.entrySeq()
 
+
+
     return (
-      <div>
-        <Nav tabs>
+      <div className="lab-users">
+        <Nav tabs className="user-role-tabs">
           {roles.map(([id, role]) => (
             <NavItem key={role.get('id')}>
               <NavLink
@@ -92,6 +109,9 @@ class LabUsers extends React.Component {
               </NavLink>
             </NavItem>
           ))}
+          <div className="nav-item action">
+            <a className="nav-link" onClick={this.onInviteUser}><i className="material-icons">person_add</i> Invite {currentRole.get('description')}</a>
+          </div>
         </Nav>
         <TabContent activeTab={activeRole} style={{ marginTop: 20 }}>
           <TabPane tabId={2}>
@@ -117,11 +137,15 @@ class LabUsers extends React.Component {
           </TabPane>
         </TabContent>
         <UsersTable users={users} />
-        <Row>
-          <UserForm
-            currentRole={currentRole}
-            onSubmit={this.onSubmit} />
-        </Row>
+
+        <Modal isOpen={this.state.invitingUser} toggle={this.hideModal}>
+          <ModalHeader toggle={this.hideModal}>Invite {currentRole.get('description')}</ModalHeader>
+          <ModalBody>
+            <UserForm
+              currentRole={currentRole}
+              onSubmit={this.onSubmit} />
+          </ModalBody>
+        </Modal>
       </div>
     )
   }

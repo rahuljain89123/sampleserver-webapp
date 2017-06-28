@@ -17,6 +17,7 @@ import {
   setEditingSite,
 } from 'actions/sites'
 import { flashMessage, setHeaderInfo } from 'actions/global'
+import { fetchClients } from 'actions/clients'
 
 import SiteForm from 'Sites/SiteInfo/SiteForm'
 
@@ -27,14 +28,15 @@ class EditSite extends React.Component {
   }
 
   componentDidMount () {
-
     this.props.setHeaderInfo(
       'Edit Site',
       [{
         component: 'DeleteSiteHeaderButton',
         props: { siteId: this.props.site.get('id') },
-      }],
+      }]
     )
+
+    this.props.fetchClients()
   }
 
   onSubmitSiteForm (siteParams) {
@@ -60,6 +62,7 @@ class EditSite extends React.Component {
       editingSiteError,
       clearEditingSiteError,
       isCompleteSiteForm,
+      clients,
     } = this.props
 
     if (!site) { return null }
@@ -71,6 +74,7 @@ class EditSite extends React.Component {
         <Row>
           <Col sm={12}>
             <SiteForm
+              clientOptions={clients}
               initialValues={site}
               siteError={editingSiteError}
               clearSiteError={clearEditingSiteError}
@@ -90,6 +94,7 @@ class EditSite extends React.Component {
 const mapStateToProps = (state, props) => ({
   editingSite: state.get('editingSite'),
   editingSiteError: state.get('editingSiteError'),
+  clients: state.get('clients'),
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -97,6 +102,7 @@ const mapDispatchToProps = dispatch => ({
   editSite: (siteId, siteParams) => dispatch(editSite(siteId, siteParams)),
   setEditingSite: (editing) => dispatch(setEditingSite(editing)),
   clearEditingSiteError: () => dispatch(clearEditingSiteError()),
+  fetchClients: () => dispatch(fetchClients()),
   setHeaderInfo: (title, buttons) => dispatch(setHeaderInfo(title, buttons)),
 })
 

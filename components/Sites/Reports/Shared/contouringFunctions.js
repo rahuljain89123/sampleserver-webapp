@@ -63,6 +63,7 @@ export const startDateOptions = (dates, end_date) => {
   const filteredDates = end_date ?
     dates : dates.filter(date => moment(end_date).isAfter(moment(date.get('date_collected'))))
   return filteredDates.valueSeq()
+    .sort((a, b) => moment(a.get('date_collected')).isBefore(moment(b.get('date_collected'))) ? -1 : 1)
     .map((date, i) => ({value: date.get('date_collected'), label: date.get('date_collected')}))
     .toJS()
 }
@@ -70,9 +71,8 @@ export const startDateOptions = (dates, end_date) => {
 export const endDateOptions = (dates, start_date) => {
   if (!start_date) { return [] }
 
-  return dates.filter(date =>
-    moment(start_date).isBefore(moment(date.get('date_collected')))
-  )
+  return dates.filter(date => moment(start_date).isBefore(moment(date.get('date_collected'))))
+    .sort((a, b) => moment(a.get('date_collected')).isBefore(moment(b.get('date_collected'))) ? -1 : 1)
     .valueSeq()
     .map((date, i) => ({value: date.get('date_collected'), label: date.get('date_collected')}))
     .toJS()
@@ -112,11 +112,9 @@ var countDecimals = function (value) {
 export const drawWellMarker = (well, ctx, loc, props, checkedImage, uncheckedImage, getValue) => {
   const { x, y, scale } = loc
   const { date, wells, groupedSampleValues, selectedWells } = props
-  // const gsvWell = groupedSampleValues.get(well.get('well_id').toString())
-  //
-  // const val = groupedSampleValues.size ?
-  //   (gsvWell ? gsvWell.get('substance_sum') : 0) :
-  //   wells.getIn([well.get('well_id'), 'title'])
+
+  if (!selectedWells) { return }
+
   let val = null
   if (well.get('well_id') === -1) {
     val = 0
