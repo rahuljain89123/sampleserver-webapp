@@ -142,7 +142,7 @@ class ClientSites extends React.Component {
                       </div>
                       <div className="site-details">
                         <div className="site-metadata">
-                          {site.get('city')}, {site.get('state')}
+                          {site.get('city')}{site.get('city') ? ',' : ''} {site.get('state')}
                         </div>
                         <a className="edit-link" href={`/app/sites/${siteId}/setup/edit-site`}>
                           Edit</a>
