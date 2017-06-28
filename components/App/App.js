@@ -15,6 +15,7 @@ import { fetchCurrentUser, signout, reset } from 'actions/users'
 import { fetchCurrentLab } from 'actions/labs'
 import { fetchRoles } from 'actions/roles'
 import { fetchCompanies } from 'actions/companies'
+import { flashMessage } from 'actions/global'
 import {
   currentUser,
   currentUserRole,
@@ -32,6 +33,10 @@ class App extends React.Component {
   componentDidMount () {
     this.props.fetchCurrentLab()
     this.props.fetchCurrentUser()
+      .catch(() => {
+        this.props.flashMessage('danger', 'You must be logged in to view that page.')
+        this.props.push('/')
+      })
     this.props.fetchCompanies()
     window.analytics.page()
   }
@@ -71,14 +76,12 @@ const mapStateToProps = store => ({
   roles: store.get('roles'),
   flash: store.get('flash'),
   user: currentUser(store),
-  labTitle: safeGet(currentLab(store), 'title', 'SampleServe'),
-  userEmail: safeGet(currentUser(store), 'email', ''),
-  roleDescription: safeGet(currentUserRole(store), 'description', ''),
   company: currentCompany(store),
   sites: store.get('sites'),
 })
 
 const mapDispatchToProps = dispatch => ({
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   fetchCurrentUser: () => dispatch(fetchCurrentUser()),
   fetchCurrentLab: () => dispatch(fetchCurrentLab()),
   fetchCompanies: () => dispatch(fetchCompanies()),
