@@ -60,6 +60,8 @@ import {
   UNCHECKED
 } from 'Sites/Reports/Shared/assets'
 
+import { REPORTS_SUBSTANCE_IDS_TO_HIDE } from 'constants/database/substanceIds'
+
 const WELL_MARKER_HEIGHT = 25
 const WELL_MARKER_WIDTH = 100
 
@@ -180,6 +182,8 @@ class IsochemicalContours extends React.Component {
       sampleDates,
       substanceIds,
     } = this.props
+
+    if (REPORTS_SUBSTANCE_IDS_TO_HIDE.includes(substanceId)) { return false }
 
     return contouringFn.substanceIdInDate(substanceId, sampleDates, date_collected, date_collected_range_end) &&
       ((substanceIds && !substanceIds.includes(substanceId)) || !substanceIds)

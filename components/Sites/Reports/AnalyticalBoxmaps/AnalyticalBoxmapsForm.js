@@ -46,6 +46,7 @@ import { fetchSampleDates } from 'actions/sampleValues'
 import { fetchCriterias } from 'actions/criterias'
 import { editSite } from 'actions/sites'
 
+import { REPORTS_SUBSTANCE_IDS_TO_HIDE } from 'constants/database/substanceIds'
 const FORM_NAME = 'AnalyticalBoxmapsForm'
 
 function encodeQueryData (data) {
@@ -141,6 +142,8 @@ class AnalyticalBoxmapsForm extends React.Component {
 
   shouldShowSubstanceId (substanceId) {
     const substanceIds = this.props.site.get('substance_ids')
+
+    if (REPORTS_SUBSTANCE_IDS_TO_HIDE.includes(substanceId)) { return false }
 
     return (!substanceIds.includes(substanceId) && this.substanceIdInDateRange(substanceId))
   }
