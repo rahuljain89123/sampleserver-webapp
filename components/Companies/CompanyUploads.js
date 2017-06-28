@@ -13,7 +13,7 @@ import {
   deleteUpload,
 } from 'actions/uploads'
 
-import { setHeaderInfo } from 'actions/global'
+import { setHeaderInfo, flashMessage } from 'actions/global'
 import { currentLab } from '../../normalizers'
 
 import {
@@ -50,7 +50,9 @@ class CompanyUploads extends React.Component {
   }
 
   onSend (upload) {
-    this.props.patchUpload(upload.get('id'), { sent: true })
+    this.props.patchUpload(upload.get('id'), { sent: true }).then(() => {
+      this.props.flashMessage('success', 'Successfully resent the upload.')
+    })
   }
 
   removeItem (upload) {
@@ -156,6 +158,7 @@ const mapStateToProps = store => ({
 })
 
 const mapDispatchToProps = dispatch => ({
+  flashMessage: (type, message) => dispatch(flashMessage(type, message)),
   fetchUploads: () => dispatch(fetchUploads()),
   createUpload: upload => dispatch(createUpload(upload)),
   patchUpload: (id, upload) => dispatch(patchUpload(id, upload)),
