@@ -39,18 +39,20 @@ class ClientSites extends React.Component {
     )
     this.props.setHeaderInfo(
       'Dashboard',
-      [{
-        text: 'Client',
-        onClick: '/app/clients/new',
-        iconName: 'add_circle_outline',
-        minimumUserRole: CLIENT_MANAGER_ROLE_ID,
-      },
-      {
-        text: 'Site',
-        onClick: '/app/sites/new',
-        iconName: 'add_circle_outline',
-        minimumUserRole: CLIENT_MANAGER_ROLE_ID,
-      }],
+      [
+        {
+          text: 'Site',
+          onClick: '/app/sites/new',
+          iconName: 'add_circle_outline',
+          minimumUserRole: CLIENT_MANAGER_ROLE_ID,
+        },
+        {
+          text: 'Client',
+          onClick: '/app/clients/new',
+          iconName: 'add_circle_outline',
+          minimumUserRole: CLIENT_MANAGER_ROLE_ID,
+        },
+      ],
     )
   }
 

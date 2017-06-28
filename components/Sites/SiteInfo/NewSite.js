@@ -45,7 +45,7 @@ class NewSite extends React.Component {
       .catch(() => this.props.flashMessage('danger', 'Sorry, there was an error.'))
   }
 
-  onSuccess () {
+  onSuccess (site) {
     this.props.flashMessage('success', 'Site created successfully')
     this.props.push('/app')
     window.analytics.track('site created', {

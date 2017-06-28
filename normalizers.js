@@ -67,6 +67,11 @@ export const currentCompany = (store, defaultValue = null) => {
   return company
 }
 
+/**
+ * returns true if the user is currently logged in
+ */
+export const loggedIn = () => !!JSON.parse(window.localStorage.getItem('currentUser'))
+
 export const safeGet = (object, key, defaultValue) => {
   if (!object) return defaultValue
 

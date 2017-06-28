@@ -26,11 +26,23 @@ class UniversalViews extends React.Component {
   }
 
   render () {
+    const { flash } = this.props
+    let flashAlert = null
+
+    if (flash) {
+      flashAlert = (
+        <div className={`flash alert alert alert-${flash.get('type')} fade show`} role="alert">
+          {flash.get('message')}
+        </div>
+      )
+    }
+
     return (
       <div className="container-fluid">
+        {flashAlert}
         <Route exact path="/" component={Signin} />
         <Route exact path="/forgot" component={Forgot} />
-        <Route exact path="/accept-invite" component={AcceptInvite} />
+        <Route exact path="/accept-invite" component={props => <AcceptInvite lab={this.props.lab} {...props} />} />
         <PrivateRoute exact path="/complete-site/:id" component={CompleteSite} />
         <PrivateRoute exact path="/complete-profile" component={CompleteProfile} />
       </div>
@@ -39,7 +51,9 @@ class UniversalViews extends React.Component {
 }
 
 const mapStateToProps = store => ({
-  labTitle: safeGet(currentLab(store), 'title', NBSPACE),
+  flash: store.get('flash'),
+  labs: store.get('labs'),
+  lab: currentLab(store),
   currentUser: store.get('currentUser'),
 })
 
