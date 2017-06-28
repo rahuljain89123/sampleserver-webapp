@@ -8,7 +8,6 @@ import PrivateRoute from 'components/Auth'
 import SchedulesList from 'components/Sites/Sampling/Schedule/SchedulesList'
 import NewSchedule from 'components/Sites/Sampling/Schedule/NewSchedule'
 import EditSchedule from 'components/Sites/Sampling/Schedule/EditSchedule'
-import EditExecutiveSummaryForm from 'components/Sites/Sampling/ExecutiveSummary/EditExecutiveSummaryForm'
 import QAQCForm from 'components/Sites/Sampling/QAQCPreferences/QAQCForm'
 import StateSpecificInfoForm from 'components/Sites/Sampling/StateSpecificInfo/StateSpecificInfoForm'
 import { fetchSite } from 'actions/sites'
@@ -22,11 +21,6 @@ class Sampling extends React.Component {
 
     return (
       <div className="sampling has-navbar">
-        <PrivateRoute
-          exact
-          path={`/app/sites/${site.get('id')}/sampling/executive-summary`}
-          component={props => <EditExecutiveSummaryForm site={site} {...props} />}
-        />
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/sampling/sample-schedule`}

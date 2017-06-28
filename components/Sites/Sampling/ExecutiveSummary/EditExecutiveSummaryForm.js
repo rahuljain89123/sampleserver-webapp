@@ -48,7 +48,7 @@ class EditExecutiveSummaryForm extends React.Component {
     const { handleSubmit } = this.props
 
     return (
-      <div>
+      <div className='has-navbar'>
         <Row>
           <Col sm={8}>
             <Form onSubmit={handleSubmit(this.submitForm.bind(this))}>
