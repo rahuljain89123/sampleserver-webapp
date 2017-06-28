@@ -22,6 +22,7 @@ import {
   currentLab,
   safeGet,
   currentCompany,
+  loggedIn,
 } from 'normalizers'
 
 
@@ -45,6 +46,11 @@ class App extends React.Component {
     if (!nextProps.roles.size && nextProps.user) {
       this.props.fetchRoles()
       window.analytics.identify(nextProps.user.get('id'), nextProps.user.toJS())
+    }
+
+    if (!loggedIn()) {
+      this.props.flashMessage('danger', 'You must be logged in to view that page.')
+      this.props.push('/')
     }
   }
 
