@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Row, Col } from 'reactstrap'
-import { NavLink, Switch } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 import PrivateRoute from 'components/Auth'
 

@@ -1,6 +1,6 @@
 
 import React from 'react'
-
+import { Switch } from 'react-router-dom'
 import PrivateRoute from 'components/Auth'
 
 import Client from 'Clients/Client'
