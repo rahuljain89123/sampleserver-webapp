@@ -69,14 +69,13 @@ export const createUpload = upload =>
   }
 
 export const patchUpload = (id, upload) =>
-  dispatch => {
+  dispatch =>
     API.patch(`/uploads/${id}`, upload)
     .then(json => {
       dispatch(receiveUpload(json))
       return Promise.resolve(json.id)
     })
     .catch(e => Promise.reject())
-  }
 
 
 export const deleteUpload = id =>

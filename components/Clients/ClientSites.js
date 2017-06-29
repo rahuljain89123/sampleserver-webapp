@@ -136,7 +136,7 @@ class ClientSites extends React.Component {
                       <div className="site-title">
                         <i className="material-icons">layers</i>
                         <a
-                          href={`/app/sites/${siteId}/reports/analytical-boxmaps`}
+                          href={`/app/sites/${siteId}/reports/analytical-tables`}
                           onClick={e => this.onClick(e)}
                         >
                           {site.get('title')}

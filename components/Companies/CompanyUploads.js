@@ -27,6 +27,12 @@ const FILESTACK_OPTIONS = {
 }
 
 class CompanyUploads extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.onSend = this.onSend.bind(this)
+  }
+
   componentDidMount () {
     if (this.props.uploadingError) { this.props.clearUploadingError() }
 
@@ -34,24 +40,28 @@ class CompanyUploads extends React.Component {
 
     this.props.setHeaderInfo(
     `${this.props.company.get('title')} / Uploads`,
-    [{
-      component: 'DataUploadHeaderButton',
-      props: {
-      uploadParams: {
-        lab_id: this.props.lab.get('id'),
-        company_id: this.props.company.get('id'),
-        upload_type: 'lab_data',
-        dry_run: 'true',
-        lab_upload: 'true',
-      },
-      }
-    }]
+      [{
+        component: 'DataUploadHeaderButton',
+        props: {
+          uploadParams: {
+            lab_id: this.props.lab.get('id'),
+            company_id: this.props.company.get('id'),
+            upload_type: 'lab_data',
+            dry_run: 'true',
+            lab_upload: 'true',
+          },
+        },
+      }],
     )
   }
 
   onSend (upload) {
-    this.props.patchUpload(upload.get('id'), { sent: true }).then(() => {
+    this.props.patchUpload(upload.get('id'), { sent: true })
+    .then((id) => {
       this.props.flashMessage('success', 'Successfully resent the upload.')
+    })
+    .catch((e) => {
+      this.props.flashMessage('error', e)
     })
   }
 

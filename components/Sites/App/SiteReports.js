@@ -6,6 +6,7 @@ import {
 import { connect } from 'react-redux'
 
 import PrivateRoute from 'components/Auth'
+import AnalyticalTables from 'Sites/Reports/AnalyticalTables/AnalyticalTables'
 import AnalyticalBoxmapsForm from 'Sites/Reports/AnalyticalBoxmaps/AnalyticalBoxmapsForm'
 import IsochemicalContours from 'Sites/Reports/IsochemicalContours/IsochemicalContours'
 import GroundwaterElevation from 'Sites/Reports/GroundwaterElevation/GroundwaterElevation'
@@ -21,6 +22,11 @@ class SiteReports extends React.Component {
 
     return (
       <div className="site-reports">
+        <PrivateRoute
+          exact
+          path={`/app/sites/${site.get('id')}/reports/analytical-tables`}
+          component={props => <AnalyticalTables site={site} {...props} />}
+        />
         <PrivateRoute
           exact
           path={`/app/sites/${site.get('id')}/reports/analytical-boxmaps`}

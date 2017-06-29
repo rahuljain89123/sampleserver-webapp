@@ -42,8 +42,8 @@ class FieldDataUpload extends React.Component {
             site_id: this.props.site.get('id'),
             upload_type: 'field_data',
           },
-        }
-      }]
+        },
+      }],
     )
   }
 

@@ -18,7 +18,7 @@ import {
   Button,
 } from 'reactstrap'
 import {
-  createAnalyticalBoxmap,
+  createAnalyticalTables,
 } from 'actions/reports'
 import {
   flashMessage,
@@ -28,7 +28,6 @@ import Select from 'react-select-plus';
 import 'react-select-plus/dist/react-select-plus.css';
 
 import SelectFormGroup from 'SharedComponents/ReduxFormHelpers/SelectFormGroup'
-import SiteMapRenderer from 'SharedComponents/SiteMapRenderer'
 import * as contouringFn from 'Sites/Reports/Shared/contouringFunctions'
 
 import {
@@ -47,7 +46,7 @@ import { fetchCriterias } from 'actions/criterias'
 import { editSite } from 'actions/sites'
 
 import { REPORTS_SUBSTANCE_IDS_TO_HIDE } from 'constants/database/substanceIds'
-const FORM_NAME = 'AnalyticalBoxmapsForm'
+const FORM_NAME = 'AnalyticalTables'
 
 function encodeQueryData (data) {
   const ret = []
@@ -61,38 +60,28 @@ function encodeData(data) {
     [key, data[key]].map(encodeURIComponent).join('=')).join('&')
 }
 
-class AnalyticalBoxmapsForm extends React.Component {
+class AnalyticalTables extends React.Component {
   constructor (props) {
     super(props)
     this.onSubmit = this.onSubmit.bind(this)
-    this.processClickEvent = this.processClickEvent.bind(this)
     this.swapIframe = this.swapIframe.bind(this)
-
-    this.state = { boxmapsUrl: null, iframeUrl: null, scale: 1 }
+    this.state = {}
   }
 
   componentDidMount () {
-
-    this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
-      .then(() => {
-        if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {
-          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first() ? this.props.siteMaps.first().get('id') : null))
-        }
-      })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })
     this.props.fetchSampleDates(this.props.site.get('id'))
     this.props.fetchCriterias({ state_id: this.props.site.get('state_id'), active: true })
-
     this.props.fetchSubstances()
     this.props.fetchSubstanceGroups()
     this.props.fetchWells({ site_id: this.props.site.get('id') })
-    if (this.props.date_collected && this.props.siteMapId) {
+    if (this.props.date_collected) {
       this.swapIframe()
     }
   }
 
   componentWillReceiveProps (nextProps) {
-    const hasNecessaryProps = nextProps.siteMapId && nextProps.date_collected
+    const hasNecessaryProps = nextProps.date_collected
 
     const dateChanged = nextProps.date_collected !== this.props.date_collected ||
       nextProps.date_collected_range_end !== this.props.date_collected_range_end
@@ -110,7 +99,7 @@ class AnalyticalBoxmapsForm extends React.Component {
       .update('sitemap_id', (id) => parseInt(id))
       .set('substance_ids', this.props.site.get('substance_ids'))
 
-    this.props.createAnalyticalBoxmap(formParams)
+    this.props.createAnalyticalTables(formParams)
       .then((resp) => {
         console.log(resp)
         const x = new window.XMLHttpRequest()
@@ -148,15 +137,10 @@ class AnalyticalBoxmapsForm extends React.Component {
     return (!substanceIds.includes(substanceId) && this.substanceIdInDateRange(substanceId))
   }
 
-  processClickEvent (xpos, ypos) {
-    return false
-  }
-
   swapIframe (props) {
     if (!props) { props = this.props }
     const params = {
       site_id: parseInt(props.site.get('id')),
-      sitemap_id: parseInt(props.siteMapId),
       date_collected: props.date_collected,
       criteria_id: props.criteria_id ? parseInt(props.criteria_id) : -1,
       substance_ids: props.site.get('substance_ids'),
@@ -164,25 +148,13 @@ class AnalyticalBoxmapsForm extends React.Component {
     if (props.date_collected_range_end) {
       params.date_collected_range_end = props.date_collected_range_end
     }
-
-    const myiFrameUrl = `/api/v1/reports/preview-analytical-boxmap?${encodeQueryData(params)}`
+    const myiFrameUrl = `/api/v1/reports/preview-analytical-tables?${encodeQueryData(params)}`
     this.setState({ iframeUrl: myiFrameUrl })
-  }
-
-  scaleBy (increment) {
-    if (this.state.scale + increment < 0.2) { return } //don't decrement scale below 0
-    this.setState((prevState) => {
-      const newScale = prevState.scale + increment
-      return {
-        scale: newScale,
-      }
-    })
   }
 
   render () {
     const {
       site,
-      siteMaps,
       substances,
       sampleDates,
       substanceGroups,
@@ -191,22 +163,23 @@ class AnalyticalBoxmapsForm extends React.Component {
       handleSubmit,
     } =  this.props
 
-    const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
-      ({ value: siteMap.get('id'), label: siteMap.get('title') })).toJS()
+    let substancesLabel = null
+    let analyticalTablePreview = null
+    let downloadReportButton = null
+    let analyticalTablesForm = null
+    let sidebarContent = null
 
+    // Fill the form details
     const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
-    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
-
+    const endDateOptions = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
     const criteriaOptions = criterias.valueSeq().map((criteria) =>
       ({ value: criteria.get('id'), label: criteria.get('title') })).toJS()
-
     const groupedSubstances = substanceGroups.map((substanceGroup) =>
       substances.filter((substance) =>
         (substance.get('substance_group_id') === substanceGroup.get('id') &&
         this.shouldShowSubstanceId(substance.get('id')))
       )
     ).filter(substances => substances.size)
-
     const groupedSubstanceOptions = groupedSubstances.map((substances, substanceGroupId) =>
       ({
         label: substanceGroups.get(substanceGroupId).get('title'),
@@ -219,7 +192,6 @@ class AnalyticalBoxmapsForm extends React.Component {
       }))
       .valueSeq()
       .toJS()
-
     const siteSubstances = site.get('substance_ids').map((id) => {
       if (!substances.size) { return null }
       return (<li key={id}>
@@ -228,70 +200,21 @@ class AnalyticalBoxmapsForm extends React.Component {
       </li>)
     })
     const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.length)
+    if (siteSubstances.size || showSubstancesDropdown) { substancesLabel = <label htmlFor="">Substances</label> }
 
-    let substancesLabel = null
-
-    if (siteSubstances.size || showSubstancesDropdown) { substancesLabel =  <label htmlFor="">Substances</label> }
-
-    let boxmapsPreview = null
-    let boxmapsButton = null
-    if (this.props.siteMapId) {
-      const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
-      const boxmapStyle = {
-        height: '100%',
-        width: '100%',
-      }
-      if (currentSiteMap) {
-        const iframeStyle = {
-          height: (currentSiteMap.get('height') * currentSiteMap.get('scale')) / this.state.scale,
-          width: (currentSiteMap.get('width') * currentSiteMap.get('scale')) / this.state.scale,
-          zoom: this.state.scale,
-          MozTransform: `scale(${this.state.scale})`,
-          MozTransformOrigin: `${0}px ${0}px`,
-          OTransform: `scale(${this.state.scale})`,
-          OTransformOrigin: `${0}px ${0}px`,
-          WebkitTransform: `scale(${this.state.scale})`,
-          WebkitTransformOrigin: `${0}px ${0}px`,
-          position: 'absolute',
-        }
-        if (this.state.iframeUrl) {
-          boxmapsButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
-          boxmapsPreview = (
-            <div className="boxmap-iframe-wrapper">
-              <div className="zoom-controls">
-                <i className="material-icons" onClick={(e) => this.scaleBy(0.2)}>add</i>
-                <div className="zoom-level">{parseInt(this.state.scale * 100)}%</div>
-                <i className="material-icons" onClick={(e) => this.scaleBy(-0.2)}>remove</i>
-              </div>
-              <div className="iframe-wrapper" style={boxmapStyle}>
-                <iframe ref="myIframe" src={this.state.iframeUrl} className="boxmaps-preview" frameBorder="0" style={iframeStyle} />
-              </div>
-            </div>
-          )
-        } else {
-          const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
-          if (currentSiteMap) {
-            boxmapsPreview = <SiteMapRenderer
-              imageUrl={currentSiteMap.get('url')}
-
-              onClick={this.processClickEvent}
-              drawWellMarker={this.drawWellMarker}
-              />
-          }
-        }
-      }
+    // Create the iframe preview and button
+    if (this.state.iframeUrl) {
+      downloadReportButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
+      analyticalTablePreview = (
+        <div className="iframe-wrapper">
+          <iframe ref="myIframe" src={this.state.iframeUrl} className="analytical-tables-preview" frameBorder="0" />
+        </div>
+      )
     }
 
-    let boxmapsForm = null
-    boxmapsForm = (
+    // Create the form
+    analyticalTablesForm = (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
-        <Field
-          props={{label: 'Site Map', placeholder: 'Select Site Map', location: 'sidebar'}}
-          name='sitemap_id'
-          id='sitemap_id'
-          options={siteMapOptions}
-          component={SelectFormGroup}
-        />
 
         <Field
           props={{label: 'Start Date', placeholder: 'Select start date', location: 'sidebar'}}
@@ -330,46 +253,37 @@ class AnalyticalBoxmapsForm extends React.Component {
             />
           </div>
         }
-
-        { boxmapsButton }
+        { downloadReportButton }
       </Form>
     )
 
-    const currentSiteMap = this.props.siteMaps.get(parseInt(this.props.siteMapId))
-    let sidebarContent = null
-
-    if (currentSiteMap && this.props.wells && this.props.wells.size) {
-      sidebarContent = boxmapsForm
-    } else if (!this.props.wells || !this.props.wells.size) {
+    // Create sidebar content
+    if (this.props.wells && this.props.wells.size) {
+      sidebarContent = analyticalTablesForm
+    } else {
       sidebarContent = (
         <span>
           <Link to={`/app/sites/${this.props.site.get('id')}/setup/wells`}>Add wells to your site</Link> before using this page.
         </span>
       )
-    } else {
-      sidebarContent = (
-        <span>
-          <Link to={`/app/sites/${this.props.site.get('id')}/setup/site-maps/new`}>Upload a sitemap</Link> and place wells before using this feature.
-        </span>
-      )
     }
 
     return (
-      <div className='site-map analytical-boxmaps'>
+      <div className='analytical-tables'>
         <div className='inner-sidebar'>
           <div className='sidebar-content'>
             {sidebarContent}
           </div>
         </div>
-        <div className='site-map-content boxmaps'>
-          {boxmapsPreview}
+        <div className='fixed-content'>
+          {analyticalTablePreview}
         </div>
       </div>
     )
   }
 }
 
-AnalyticalBoxmapsForm = reduxForm({form: FORM_NAME, destroyOnUnmount: false })(AnalyticalBoxmapsForm)
+AnalyticalTables = reduxForm({form: FORM_NAME, destroyOnUnmount: false })(AnalyticalTables)
 
 const selector = formValueSelector(FORM_NAME)
 const mapStateToProps = (state, ownProps) => ({
@@ -389,7 +303,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
-  createAnalyticalBoxmap: (boxmapsParams) => dispatch(createAnalyticalBoxmap(boxmapsParams)),
+  createAnalyticalTables: (analyticalTableParams) => dispatch(createAnalyticalTables(analyticalTableParams)),
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchWells: (filters) => dispatch(fetchWells(filters)),
@@ -401,4 +315,4 @@ const mapDispatchToProps = (dispatch) => ({
   editSite: (id, siteParams) => dispatch(editSite(id, siteParams))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnalyticalBoxmapsForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AnalyticalTables)

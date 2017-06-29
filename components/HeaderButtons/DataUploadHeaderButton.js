@@ -1,7 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { createUpload } from 'actions/uploads'
+import {
+  createUpload,
+  clearUploadingError,
+} from 'actions/uploads'
 
 import {
   FILESTACK_API_KEY,
@@ -27,6 +30,8 @@ class DataUploadHeaderButton extends React.Component {
   }
 
   onUpload (res) {
+    if (this.props.uploadingError) { this.props.clearUploadingError() }
+
     res.filesUploaded.map(file => {
       const params = this.props.uploadParams
       const fileParams = { filename: file.filename, url: file.url }
@@ -45,8 +50,13 @@ class DataUploadHeaderButton extends React.Component {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  createUpload: upload => dispatch(createUpload(upload)),
+const mapStateToProps = store => ({
+  uploadingError: store.get('uploadingError'),
 })
 
-export default connect(null, mapDispatchToProps)(DataUploadHeaderButton)
+const mapDispatchToProps = dispatch => ({
+  createUpload: upload => dispatch(createUpload(upload)),
+  clearUploadingError: () => dispatch(clearUploadingError()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataUploadHeaderButton)
