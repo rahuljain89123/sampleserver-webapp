@@ -28,7 +28,6 @@ class UniversalViews extends React.Component {
   render () {
     const { flash } = this.props
     let flashAlert = null
-
     if (flash) {
       flashAlert = (
         <div className={`flash alert alert alert-${flash.get('type')} fade show`} role="alert">
@@ -52,9 +51,7 @@ class UniversalViews extends React.Component {
 
 const mapStateToProps = store => ({
   flash: store.get('flash'),
-  labs: store.get('labs'),
   lab: currentLab(store),
-  currentUser: store.get('currentUser'),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -19,7 +19,7 @@ import {
 } from 'actions/users'
 import { flashMessage } from 'actions/global'
 import { msgFromError } from 'helpers/util'
-import { currentUser } from 'normalizers'
+import { currentUser, loggedIn } from 'normalizers'
 
 class AcceptInviteForm extends React.Component {
   constructor (props) {
@@ -38,28 +38,30 @@ class AcceptInviteForm extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchUsers({ 'invite_code': this.props.code }).then(() => {
-      if (!this.props.users.first()) {
-        this.props.push('/')
-      } else if (this.props.users.first().get('active')) {
-        this.props.push('/')
-      }
-    })
-
+    // don't fetch users if we already have the user
+    if (this.getUser(this.props.users)) {
+      return
+    }
+    this.props.fetchUsers({ 'invite_code': this.props.code })
+      .then((users) => {
+        if ((!users.length || users[0].active)) {
+          this.props.flashMessage('danger', 'This invite code is either invalid or has been used')
+          this.props.push('/')
+        }
+      })
   }
 
   componentWillReceiveProps (nextProps) {
-    if (nextProps.currentUser) {
+    if (nextProps.currentUser && !nextProps.acceptedInvite) {
       this.props.flashMessage('danger', 'Please log out to accept this invitation.')
       this.props.push('/app')
     }
-
-    if (!this.state.user) {
-      this.setState({
-        user: nextProps.users.filter(user => user.get('invite_code') === this.props.code).first(),
-      })
-    }
   }
+
+  getUser (users) {
+    return users.filter(user => user.get('invite_code') === this.props.code).first()
+  }
+
   onChange (e) {
     if (this.props.acceptInviteError) {
       this.props.clearAcceptInviteError()
@@ -73,9 +75,9 @@ class AcceptInviteForm extends React.Component {
   onSubmit (e) {
     e.preventDefault()
 
-    this.props.acceptInvite(this.state.user.get('id'), this.state.password)
+    this.props.acceptInvite(this.getUser(this.props.users).get('id'), this.state.password)
       .then(() => {
-        this.props.signin(this.state.user.get('email'), this.state.password)
+        this.props.signin(this.getUser(this.props.users).get('email'), this.state.password)
           .then(id => {
             if (!this.props.users.get(id).get('name') ||
               !this.props.users.get(id).get('phone')
@@ -89,7 +91,8 @@ class AcceptInviteForm extends React.Component {
   }
 
   render () {
-    const email = this.state.user ? this.state.user.get('email') : ''
+    const user = this.getUser(this.props.users)
+    const email = user ? user.get('email') : ''
     const error = this.props.acceptInviteError
     const generalError = error && error.msg ? error.msg : null
     const errors = error && error.key ? {
@@ -134,6 +137,7 @@ const mapStateToProps = store => ({
   users: store.get('users'),
   acceptInviteError: store.get('acceptInviteError'),
   acceptingInvite: store.get('acceptingInvite'),
+  acceptedInvite: store.get('acceptedInvite'),
   currentUser: currentUser(store),
 })
 

@@ -16,6 +16,7 @@ import {
   SET_EDITING_USER_ERROR,
   CLEAR_EDITING_USER_ERROR,
   SET_ACCEPTING_INVITE,
+  SET_ACCEPTED_INVITE,
   SET_ACCEPT_INVITE_ERROR,
   CLEAR_ACCEPT_INVITE_ERROR,
   RESET,
@@ -95,6 +96,11 @@ export const setAcceptingInvite = accepting => ({
   accepting,
 })
 
+export const setAcceptedInvite = accepted => ({
+  type: SET_ACCEPTED_INVITE,
+  accepted
+})
+
 export const setAcceptInviteError = error => ({
   type: SET_ACCEPT_INVITE_ERROR,
   error,
@@ -148,7 +154,10 @@ export const fetchUser = id =>
 export const fetchUsers = (filters = {}) =>
   dispatch =>
     API.get(`/users/?${qs.stringify(filters)}`)
-    .then(users => dispatch(receiveUsers(users)))
+    .then(users => {
+      dispatch(receiveUsers(users))
+      return Promise.resolve(users)
+    })
 
 export const createUser = user =>
   dispatch => {
@@ -264,6 +273,7 @@ export const acceptInvite = (id, password) =>
     })
     .then(json => {
       dispatch(setAcceptingInvite(false))
+      dispatch(setAcceptedInvite(true))
       return dispatch(receiveUser(json))
     })
     .catch(e => {
