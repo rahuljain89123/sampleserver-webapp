@@ -22,6 +22,9 @@ class UniversalViews extends React.Component {
   componentDidMount () {
     this.props.fetchCurrentLab()
     this.props.fetchCurrentUser()
+      .catch(e => {
+        console.log(`Unable to fetchCurrentUser: ${e}`)
+      })
     this.props.fetchCompanies()
   }
 

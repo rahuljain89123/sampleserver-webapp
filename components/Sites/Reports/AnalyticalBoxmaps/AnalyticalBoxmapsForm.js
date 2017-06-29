@@ -76,7 +76,7 @@ class AnalyticalBoxmapsForm extends React.Component {
     this.props.fetchSiteMaps({ site_id: this.props.site.get('id') })
       .then(() => {
         if (!this.props.siteMapId || !this.props.siteMaps.get(parseInt(this.props.siteMapId))) {
-          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first().size ? this.props.siteMaps.first().get('id') : null))
+          this.props.dispatch(change(FORM_NAME, 'sitemap_id', this.props.siteMaps.first() ? this.props.siteMaps.first().get('id') : null))
         }
       })
     this.props.fetchSamples({ site_id: this.props.site.get('id') })

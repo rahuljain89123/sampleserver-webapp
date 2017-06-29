@@ -134,10 +134,10 @@ export const fetchCurrentUser = () =>
       window.localStorage.setItem('currentUser', JSON.stringify(user.id))
       return Promise.resolve(user.id)
     })
-    .catch(() => {
+    .catch(error => {
       dispatch(setCurrentUser(null))
       window.localStorage.setItem('currentUser', JSON.stringify(null))
-      return Promise.reject()
+      return Promise.reject(error)
     })
 
 export const fetchUser = id =>
