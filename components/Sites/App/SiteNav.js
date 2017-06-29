@@ -78,6 +78,11 @@ class SiteNav extends React.Component {
             component={() => (
               <nav className="nav nav-pills nav-children flex-column">
                 <NavLink
+                  to={`/app/sites/${site.get('id')}/reports/analytical-tables`}
+                  className="nav-link"
+                  activeClassName="active"
+                >Analytical Tables</NavLink>
+                <NavLink
                   to={`/app/sites/${site.get('id')}/reports/analytical-boxmaps`}
                   className="nav-link"
                   activeClassName="active"
