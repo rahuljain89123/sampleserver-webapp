@@ -58,7 +58,7 @@ class CompanyUploads extends React.Component {
   onSend (upload) {
     this.props.patchUpload(upload.get('id'), { sent: true })
     .then((id) => {
-      this.props.flashMessage('success', 'Successfully resent the upload.')
+      this.props.flashMessage('success', 'Successfully sent the upload.')
     })
     .catch((e) => {
       this.props.flashMessage('error', e)
