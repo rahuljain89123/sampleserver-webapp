@@ -31,6 +31,7 @@ import {
     signinProcessing,
 
     acceptingInvite,
+    acceptedInvite,
     acceptInviteError,
 
     resetError,
@@ -175,6 +176,7 @@ const appReducer = combineReducers({
     signinProcessing,
 
     acceptingInvite,
+    acceptedInvite,
     acceptInviteError,
 
     resetError,

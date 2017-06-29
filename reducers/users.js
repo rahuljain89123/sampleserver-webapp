@@ -15,6 +15,7 @@ import {
     SET_EDITING_USER_ERROR,
     CLEAR_EDITING_USER_ERROR,
     SET_ACCEPTING_INVITE,
+    SET_ACCEPTED_INVITE,
     SET_ACCEPT_INVITE_ERROR,
     CLEAR_ACCEPT_INVITE_ERROR,
     SET_RESETTING,
@@ -113,6 +114,15 @@ export const acceptingInvite = (state = false, action) => {
     default:
         return state
     }
+}
+
+export const acceptedInvite = (state = false, action) => {
+  switch (action.type) {
+    case SET_ACCEPTED_INVITE:
+      return action.accepted
+    default:
+      return state
+  }
 }
 
 export const acceptInviteError = (state = null, action) => {
