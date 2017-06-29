@@ -34,12 +34,31 @@ export const createContour = contourParams =>
         return Promise.reject()
       })
   }
+
 export const createAnalyticalBoxmap = boxmapsParams =>
   dispatch => {
     dispatch(setSubmittingReport(true))
     dispatch(showLoading())
 
     return API.post('/reports/preview-analytical-boxmap', boxmapsParams)
+      .then(res => {
+        dispatch(setSubmittingReport(false))
+        dispatch(hideLoading())
+        return Promise.resolve(res)
+      })
+      .catch(() => {
+        dispatch(setSubmittingReport(false))
+        dispatch(hideLoading())
+        return Promise.reject()
+      })
+  }
+
+export const createAnalyticalTables = boxmapsParams =>
+  dispatch => {
+    dispatch(setSubmittingReport(true))
+    dispatch(showLoading())
+
+    return API.post('/reports/preview-analytical-tables', boxmapsParams)
       .then(res => {
         dispatch(setSubmittingReport(false))
         dispatch(hideLoading())

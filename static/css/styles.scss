@@ -606,6 +606,9 @@ section {
     align-items: stretch;
     box-sizing: initial;
     margin: 0 -30px;
+    height: 100%;
+    width: 100%;
+
     .inner-sidebar {
         background: #FFFFFF;
         box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
@@ -613,6 +616,18 @@ section {
         z-index: 1;
         .sidebar-content {
             padding: 20px;
+        }
+    }
+    .fixed-content {
+        position: relative;
+        width: 100%;
+    }
+    .iframe-wrapper {
+        position: absolute;
+
+        iframe {
+            overflow: scroll;
+            position: absolute;
         }
     }
     .well {
@@ -627,9 +642,6 @@ section {
         justify-content: flex-end;
         flex-direction: column;
         margin-top: 10px;
-    }
-    .analytical-table-content {
-        width: 100%;
     }
 }
 .site-map {

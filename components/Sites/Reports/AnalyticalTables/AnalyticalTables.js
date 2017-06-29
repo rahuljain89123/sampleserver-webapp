@@ -18,6 +18,9 @@ import {
   Button,
 } from 'reactstrap'
 import {
+  createAnalyticalTables,
+} from 'actions/reports'
+import {
   flashMessage,
 } from 'actions/global'
 
@@ -96,17 +99,17 @@ class AnalyticalTables extends React.Component {
       .update('sitemap_id', (id) => parseInt(id))
       .set('substance_ids', this.props.site.get('substance_ids'))
 
-    // this.props.createAnalyticalBoxmap(formParams)
-    //   .then((resp) => {
-    //     console.log(resp)
-    //     const x = new window.XMLHttpRequest()
-    //     x.open('GET', `/backend${resp.path}`, true)
-    //     x.responseType = 'blob'
-    //     x.onload = function(e) { download(x.response, resp.filename, 'application/pdf') }
-    //     x.send()
-    //     this.props.flashMessage('success', 'Report Generated')
-    //   })
-    //   .catch(() => this.props.flashMessage('STANDARD_ERROR'))
+    this.props.createAnalyticalTables(formParams)
+      .then((resp) => {
+        console.log(resp)
+        const x = new window.XMLHttpRequest()
+        x.open('GET', `/backend${resp.path}`, true)
+        x.responseType = 'blob'
+        x.onload = function(e) { download(x.response, resp.filename, 'application/pdf') }
+        x.send()
+        this.props.flashMessage('success', 'Report Generated')
+      })
+      .catch(() => this.props.flashMessage('STANDARD_ERROR'))
   }
 
   addSubstance(value) {
@@ -199,6 +202,16 @@ class AnalyticalTables extends React.Component {
     const showSubstancesDropdown = (siteSubstances.size < 13 && !!groupedSubstanceOptions.length)
     if (siteSubstances.size || showSubstancesDropdown) { substancesLabel = <label htmlFor="">Substances</label> }
 
+    // Create the iframe preview and button
+    if (this.state.iframeUrl) {
+      downloadReportButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
+      analyticalTablePreview = (
+        <div className="iframe-wrapper">
+          <iframe ref="myIframe" src={this.state.iframeUrl} className="analytical-tables-preview" frameBorder="0" />
+        </div>
+      )
+    }
+
     // Create the form
     analyticalTablesForm = (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
@@ -255,18 +268,6 @@ class AnalyticalTables extends React.Component {
       )
     }
 
-    // Create the iframe content
-    if (this.state.iframeUrl) {
-      downloadReportButton = <Button color="primary" className="download-report-btn btn-lg btn-block"> Download Report </Button>
-      analyticalTablePreview = (
-        <div className="analytical-tables-iframe-wrapper">
-          <div className="iframe-wrapper">
-            <iframe ref="myIframe" src={this.state.iframeUrl} className="analytical-tables-preview" frameBorder="0" />
-          </div>
-        </div>
-      )
-    }
-
     return (
       <div className='analytical-tables'>
         <div className='inner-sidebar'>
@@ -274,7 +275,7 @@ class AnalyticalTables extends React.Component {
             {sidebarContent}
           </div>
         </div>
-        <div className='analytical-table-content tables'>
+        <div className='fixed-content'>
           {analyticalTablePreview}
         </div>
       </div>
@@ -302,7 +303,7 @@ const mapStateToProps = (state, ownProps) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   flashMessage: (type, message) => dispatch(flashMessage(type, message)),
-  // createAnalyticalBoxmap: (boxmapsParams) => dispatch(createAnalyticalBoxmap(boxmapsParams)),
+  createAnalyticalTables: (analyticalTableParams) => dispatch(createAnalyticalTables(analyticalTableParams)),
   fetchSubstances: () => dispatch(fetchSubstances()),
   fetchSubstanceGroups: () => dispatch(fetchSubstanceGroups()),
   fetchWells: (filters) => dispatch(fetchWells(filters)),
