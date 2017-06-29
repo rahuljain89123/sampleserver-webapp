@@ -600,6 +600,38 @@ section {
     background: #FFFFFF;
     overflow-y: auto;
 }
+.analytical-tables {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    box-sizing: initial;
+    margin: 0 -30px;
+    .inner-sidebar {
+        background: #FFFFFF;
+        box-shadow: 0 2px 4px 0 rgba(0,0,0,0.20);
+        position: relative;
+        z-index: 1;
+        .sidebar-content {
+            padding: 20px;
+        }
+    }
+    .well {
+        padding: 10px;
+        margin: 5px 0;
+        list-style: none;
+        border: 1px solid rgba(86, 91, 96, 0.2);
+        border-radius: 8px;
+    }
+    .well-names {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .analytical-table-content {
+        width: 100%;
+    }
+}
 .site-map {
     display: flex;
     justify-content: space-around;
@@ -1181,7 +1213,7 @@ form.contouring-form {
   }
 }
 
-.analytical-boxmaps, form.contouring-form {
+.analytical-boxmaps, form.contouring-form, .analytical-tables {
     .form-group {
         box-sizing: border-box;
     }
@@ -1497,7 +1529,7 @@ form.contouring-form {
     }
 }
 .site-reports {
-    .boxmap-iframe-wrapper {
+    .boxmap-iframe-wrapper, .analytical-tables-iframe-wrapper {
         height: 100%;
         width: 100%;
         overflow: hidden;
@@ -1508,7 +1540,7 @@ form.contouring-form {
         overflow: scroll;
         position: absolute;
     }
-    .boxmaps-preview {
+    .boxmaps-preview, .analytical-tables-preview {
         border: none;
         height: 100%;
         width: 100%;
@@ -1531,6 +1563,7 @@ form.contouring-form {
         }
     }
 }
+
 .qa-qc-form {
 
 }
