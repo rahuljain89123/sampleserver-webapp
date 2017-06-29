@@ -46,6 +46,7 @@ import {
 } from 'actions/substances'
 import {
   fetchGroupedSampleValues,
+  clearGroupedSampleValues,
   fetchSampleDates,
 } from 'actions/sampleValues'
 
@@ -99,7 +100,7 @@ class IsochemicalContours extends React.Component {
       this.props.fetchSiteMapWells({site_map_id: nextProps.siteMapId })
     }
 
-    const hasNecessaryProps = nextProps.substanceIds && nextProps.siteMapId && nextProps.date_collected
+    const hasNecessaryProps = nextProps.substanceIds && nextProps.substanceIds.size && nextProps.siteMapId && nextProps.date_collected
     const substanceIdsChanged = nextProps.substanceIds && !nextProps.substanceIds.equals(this.props.substanceIds)
     const dateChanged = nextProps.date_collected !== this.props.date_collected ||
       nextProps.date_collected_range_end !== this.props.date_collected_range_end
@@ -118,6 +119,8 @@ class IsochemicalContours extends React.Component {
       }
 
       this.props.fetchGroupedSampleValues(params)
+    } else if (!hasNecessaryProps) {
+      this.props.clearGroupedSampleValues()
     }
   }
 
@@ -232,7 +235,7 @@ class IsochemicalContours extends React.Component {
       ({ value: siteMap.get('id'), label: siteMap.get('title') })).toJS()
 
     const startDateOptions = contouringFn.startDateOptions(sampleDates, date_collected_range_end)
-    const endDateOptions   = contouringFn.endDateOptions(sampleDates, date_collected)
+    const endDateOptions   = contouringFn.endDateOptions(sampleDates, date_collected, date_collected_range_end)
 
     const groupedSubstances = this.props.substanceGroups.map((substanceGroup) =>
       this.props.substances.filter((substance) => (
@@ -431,6 +434,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
   fetchGroupedSampleValues: params => dispatch(fetchGroupedSampleValues(params)),
+  clearGroupedSampleValues: () => dispatch(clearGroupedSampleValues()),
   fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   fetchSubstances: (filters) => dispatch(fetchSubstances(filters)),

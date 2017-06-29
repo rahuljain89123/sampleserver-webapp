@@ -45,6 +45,7 @@ import {
 } from 'actions/substances'
 import {
   fetchGroupedSampleValues,
+  clearGroupedSampleValues,
   fetchSampleDates,
 } from 'actions/sampleValues'
 
@@ -98,7 +99,7 @@ class GroundwaterElevation extends React.Component {
       nextProps.date_collected_range_end !== this.props.date_collected_range_end
     const siteMapAdded = !this.props.siteMapId
 
-      if (hasNecessaryProps && (dateChanged || siteMapAdded)) {
+    if (hasNecessaryProps && (dateChanged || siteMapAdded)) {
       let params = {
         date_collected: nextProps.date_collected,
         sitemap_id: parseInt(nextProps.siteMapId),
@@ -111,6 +112,8 @@ class GroundwaterElevation extends React.Component {
       }
 
       this.props.fetchGroupedSampleValues(params)
+    } else if (!hasNecessaryProps) {
+      this.props.clearGroupedSampleValues()
     }
   }
 
@@ -202,13 +205,16 @@ class GroundwaterElevation extends React.Component {
     const {
       handleSubmit,
       siteMaps,
+      sampleDates,
+      date_collected,
+      date_collected_range_end,
     } = this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
       ({ value: siteMap.get('id'), label: siteMap.get('title') })).toJS()
 
-    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
-    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
+    const startDateOptions = contouringFn.startDateOptions(sampleDates, date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(sampleDates, date_collected, date_collected_range_end)
 
     const booleanOptions = [
       { value: 'true', label: 'ON' },
@@ -363,6 +369,7 @@ const mapDispatchToProps = dispatch => ({
   fetchSiteMaps: (filters) => dispatch(fetchSiteMaps(filters)),
   fetchSiteMap: (id) => dispatch(fetchSiteMap(id)),
   fetchGroupedSampleValues: params => dispatch(fetchGroupedSampleValues(params)),
+  clearGroupedSampleValues: () => dispatch(clearGroupedSampleValues()),
   fetchSampleDates: siteId => dispatch(fetchSampleDates(siteId)),
   fetchSiteMapWells: (filters) => dispatch(fetchSiteMapWells(filters)),
   fetchSubstances: (filters) => dispatch(fetchSubstances(filters)),

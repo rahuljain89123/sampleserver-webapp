@@ -189,13 +189,15 @@ class AnalyticalBoxmapsForm extends React.Component {
       dates,
       criterias,
       handleSubmit,
+      date_collected,
+      date_collected_range_end,
     } =  this.props
 
     const siteMapOptions = siteMaps.valueSeq().map((siteMap) =>
       ({ value: siteMap.get('id'), label: siteMap.get('title') })).toJS()
 
-    const startDateOptions = contouringFn.startDateOptions(this.props.sampleDates, this.props.date_collected_range_end)
-    const endDateOptions   = contouringFn.endDateOptions(this.props.sampleDates, this.props.date_collected)
+    const startDateOptions = contouringFn.startDateOptions(sampleDates, date_collected_range_end)
+    const endDateOptions   = contouringFn.endDateOptions(sampleDates, date_collected, date_collected_range_end)
 
     const criteriaOptions = criterias.valueSeq().map((criteria) =>
       ({ value: criteria.get('id'), label: criteria.get('title') })).toJS()
