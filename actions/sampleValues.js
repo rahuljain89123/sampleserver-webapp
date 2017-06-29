@@ -1,5 +1,6 @@
 import {
   RECEIVE_GROUPED_SAMPLE_VALUES,
+  CLEAR_GROUPED_SAMPLE_VALUES,
   RECEIVE_SAMPLE_DATES,
 } from 'constants/SampleActionTypes'
 import API from 'API'
@@ -11,6 +12,10 @@ import API from 'API'
 export const receiveGroupedSampleValues = groupedSampleValues => ({
   type: RECEIVE_GROUPED_SAMPLE_VALUES,
   groupedSampleValues,
+})
+
+export const clearGroupedSampleValues = () => ({
+  type: CLEAR_GROUPED_SAMPLE_VALUES,
 })
 
 export const receiveSampleDates = (sampleDates) => ({
