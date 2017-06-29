@@ -16,6 +16,7 @@ import {
   SET_EDITING_USER_ERROR,
   CLEAR_EDITING_USER_ERROR,
   SET_ACCEPTING_INVITE,
+  SET_ACCEPTED_INVITE,
   SET_ACCEPT_INVITE_ERROR,
   CLEAR_ACCEPT_INVITE_ERROR,
   RESET,
@@ -93,6 +94,11 @@ export const clearEditingUserError = () => ({
 export const setAcceptingInvite = accepting => ({
   type: SET_ACCEPTING_INVITE,
   accepting,
+})
+
+export const setAcceptedInvite = accepted => ({
+  type: SET_ACCEPTED_INVITE,
+  accepted
 })
 
 export const setAcceptInviteError = error => ({
@@ -267,6 +273,7 @@ export const acceptInvite = (id, password) =>
     })
     .then(json => {
       dispatch(setAcceptingInvite(false))
+      dispatch(setAcceptedInvite(true))
       return dispatch(receiveUser(json))
     })
     .catch(e => {
