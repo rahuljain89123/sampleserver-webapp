@@ -38,11 +38,10 @@ class AcceptInviteForm extends React.Component {
   }
 
   componentDidMount () {
-    this.props.fetchUsers({ 'invite_code': this.props.code }).then(() => {
-      const user = this.props.users.filter(user => user.get('invite_code') === this.props.code).first()
-      if (!user || user.get('active')) { this.props.push('/') }
-    })
-
+    this.props.fetchUsers({ 'invite_code': this.props.code })
+      .then((users) => {
+        if (!users.length || users[0].active) { this.props.push('/') }
+      })
   }
 
   componentWillReceiveProps (nextProps) {
@@ -57,6 +56,7 @@ class AcceptInviteForm extends React.Component {
       })
     }
   }
+
   onChange (e) {
     if (this.props.acceptInviteError) {
       this.props.clearAcceptInviteError()

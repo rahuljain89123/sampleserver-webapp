@@ -148,7 +148,10 @@ export const fetchUser = id =>
 export const fetchUsers = (filters = {}) =>
   dispatch =>
     API.get(`/users/?${qs.stringify(filters)}`)
-    .then(users => dispatch(receiveUsers(users)))
+    .then(users => {
+      dispatch(receiveUsers(users))
+      return Promise.resolve(users)
+    })
 
 export const createUser = user =>
   dispatch => {
