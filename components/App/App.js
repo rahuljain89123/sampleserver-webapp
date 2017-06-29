@@ -48,7 +48,8 @@ class App extends React.Component {
       window.analytics.identify(nextProps.user.get('id'), nextProps.user.toJS())
     }
 
-    if (nextProps.user && !loggedIn()) {
+    if (!loggedIn()) {
+      if (!nextProps.user) { return }
       this.props.flashMessage('danger', 'You must be logged in to view that page.')
       this.props.push('/')
     }
