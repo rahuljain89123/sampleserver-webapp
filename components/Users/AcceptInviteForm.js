@@ -40,6 +40,7 @@ class AcceptInviteForm extends React.Component {
   componentDidMount () {
     this.props.fetchUsers({ 'invite_code': this.props.code }).then(() => {
       if (!this.props.users.first()) {
+        debugger;
         this.props.push('/')
       } else if (this.props.users.first().get('active')) {
         this.props.push('/')
