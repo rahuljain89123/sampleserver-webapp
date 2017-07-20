@@ -1301,7 +1301,7 @@ form.contouring-form {
         font-size: 14px;
         color: #A9AAAC;
         letter-spacing: 0.5px;
-        a {
+        a:not(.btn) {
             opacity: 0.9;
             font-family: GothamHTF;
             font-size: 14px;

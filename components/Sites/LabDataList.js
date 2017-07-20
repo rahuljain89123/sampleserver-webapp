@@ -17,17 +17,19 @@ class LabDataList extends React.Component {
   }
 
   render () {
+
     const uploads = this.props.uploads
       .filter(upload => upload.get('site_id') === this.props.site.get('id'))
       .filter(upload => upload.get('upload_type') === 'lab_data')
       .filter(upload => upload.get('sent') === true)
       .sort((a, b) => a.get('id') - b.get('id'))
       .entrySeq()
+    console.log(this.props.site.toJS(), this.props.uploads.toJS(), uploads.size)
 
     if (uploads.size > 0) {
       return (
         <div className="lab-data-list has-navbar">
-          <Table size="sm" style={{ marginTop: 30, marginBottom: 60 }}>
+          <Table size="sm">
             <thead>
               <tr>
                 <th>Filename</th>
